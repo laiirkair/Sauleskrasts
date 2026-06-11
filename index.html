@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saules Krasts — Sunrise Coast Camping</title>
+<meta name="description" content="Piecas koka mājiņas pie Baltijas jūras Ragaciemā.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<style>
+:root{--sand:#F5EDD6;--sand-light:#FAF5E9;--navy:#1C2E4A;--navy-dark:#0F1D30;--gold:#C8882A;--gold-light:#E8A84A;--sea:#5A8FA3;--moss:#5E8A60;--coral:#C84A3A;--white:#FAFAF8;--text:#2C3540;--text-light:#5A6570;--shadow:0 4px 24px rgba(28,46,74,.10);--shadow-lg:0 12px 48px rgba(28,46,74,.16)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--sand-light);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0.85rem 2.5rem;background:rgba(250,250,248,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,0.12);transition:padding .3s}
+.nav-logo img{height:44px;width:auto;display:block;object-fit:contain}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;color:var(--navy);font-size:0.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold)!important;color:white!important;padding:.5rem 1.2rem;border-radius:30px;font-weight:600!important}
+.nav-cta:hover{background:var(--navy)!important}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{background:none;border:1px solid rgba(28,46,74,.2);color:var(--navy);font-size:0.7rem;font-weight:600;padding:.25rem .5rem;border-radius:4px;cursor:pointer;transition:all .2s;letter-spacing:.05em}
+.lang-btn:hover,.lang-btn.active{background:var(--navy);color:white;border-color:var(--navy)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:all .3s}
+.hero{position:relative;height:100vh;min-height:580px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:var(--navy-dark)}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,18,28,.78) 0%,rgba(10,18,28,.18) 55%,transparent 100%)}
+.hero-content{position:relative;z-index:5;width:100%;max-width:860px;padding:0 2.5rem 5rem}
+.hero-eyebrow{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.32em;color:var(--gold-light);margin-bottom:.8rem}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6.5vw,5.5rem);font-weight:300;color:white;line-height:1.06;margin-bottom:1.1rem}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-sub{color:rgba(255,255,255,.78);font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;margin-bottom:1.8rem;max-width:480px;line-height:1.7}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.9rem;background:var(--gold);color:white;border:none;border-radius:40px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(200,136,42,.35)}
+.btn-primary:hover{background:white;color:var(--navy);transform:translateY(-2px)}
+.btn-outline{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.9rem;background:transparent;color:white;border:1.5px solid rgba(255,255,255,.45);border-radius:40px;font-family:'Inter',sans-serif;font-size:.88rem;cursor:pointer;text-decoration:none;transition:all .25s}
+.btn-outline:hover{border-color:white;background:rgba(255,255,255,.08)}
+.hero-scroll{position:absolute;bottom:1.8rem;right:2.5rem;z-index:5;display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(255,255,255,.55);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.55));animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
+.section-header{text-align:center;padding:0 2rem;margin-bottom:3rem}
+.section-eyebrow{font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:.35em;color:var(--gold);margin-bottom:.7rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.8vw,3rem);font-weight:300;color:var(--navy);line-height:1.2}
+.section-title em{font-style:italic;color:var(--gold)}
+#cabins{background:var(--sand-light);padding:6rem 0 4rem}
+.cabin-photo-zone{position:relative;max-width:1200px;margin:0 auto 2.5rem;padding:0 2rem}
+.cabin-photo-wrapper{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg)}
+.cabin-main-photo{width:100%;display:block;max-height:520px;object-fit:cover}
+.cabin-hotspots{position:absolute;inset:0}
+.cabin-hotspot{position:absolute;cursor:pointer}
+.cabin-hotspot[data-cabin="1"]{left:3%;top:12%;width:17%;height:72%}
+.cabin-hotspot[data-cabin="2"]{left:21%;top:12%;width:17%;height:72%}
+.cabin-hotspot[data-cabin="3"]{left:39%;top:12%;width:17%;height:72%}
+.cabin-hotspot[data-cabin="4"]{left:57%;top:12%;width:17%;height:72%}
+.cabin-hotspot[data-cabin="5"]{left:75%;top:12%;width:22%;height:72%}
+.cabin-hotspot-inner{width:100%;height:100%;border:2px solid transparent;border-radius:8px;background:transparent;transition:all .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:.5rem;position:relative}
+.cabin-hotspot:hover .cabin-hotspot-inner,.cabin-hotspot.active .cabin-hotspot-inner{border-color:var(--gold);background:rgba(200,136,42,.13);box-shadow:0 0 0 3px rgba(200,136,42,.22)}
+.hotspot-badge{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.3);opacity:.6;transition:all .25s}
+.cabin-hotspot:hover .hotspot-badge,.cabin-hotspot.active .hotspot-badge{opacity:1;background:var(--gold);color:white;transform:translateX(-50%) scale(1.12)}
+.hotspot-label{opacity:0;background:rgba(10,18,28,.88);color:white;font-size:.72rem;font-weight:600;padding:.3rem .6rem;border-radius:4px;text-align:center;transition:opacity .2s;white-space:nowrap;backdrop-filter:blur(4px)}
+.cabin-hotspot:hover .hotspot-label,.cabin-hotspot.active .hotspot-label{opacity:1}
+.cabins-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.4rem;max-width:1200px;margin:0 auto;padding:0 2rem}
+.cabin-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;cursor:pointer;border:2px solid transparent}
+.cabin-card:hover,.cabin-card.highlighted{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:var(--gold)}
+.cabin-card-header{background:var(--navy);padding:1.1rem 1.3rem;display:flex;justify-content:space-between;align-items:center}
+.cabin-number{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:rgba(255,255,255,.18);line-height:1}
+.cabin-type-badge{font-family:'Bebas Neue',sans-serif;font-size:.72rem;letter-spacing:.14em;padding:.28rem .75rem;border-radius:20px;border:1px solid}
+.badge-lux{background:rgba(200,136,42,.2);border-color:var(--gold);color:#E8C87A}
+.badge-double{background:rgba(90,143,163,.2);border-color:var(--sea);color:#A8CADC}
+.badge-family{background:rgba(94,138,96,.2);border-color:var(--moss);color:#8DC490}
+.badge-pets{font-size:.65rem;background:rgba(255,220,100,.15);border-color:#D4A020;color:#C8901A;margin-left:.3rem}
+.cabin-card-body{padding:1.3rem}
+.cabin-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--navy);margin-bottom:.25rem}
+.cabin-tagline{font-size:.78rem;color:var(--text-light);margin-bottom:.9rem;font-style:italic}
+.cabin-features{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-bottom:1rem}
+.cabin-features li{font-size:.8rem;color:var(--text);display:flex;align-items:center;gap:.45rem}
+.cabin-features li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.cabin-card-footer{padding:.9rem 1.3rem;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;align-items:center}
+.cabin-price{display:flex;flex-direction:column}
+.price-from{font-size:.68rem;color:var(--text-light);text-transform:uppercase;letter-spacing:.1em}
+.price-value{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;color:var(--navy);line-height:1}
+.price-unit{font-size:.68rem;color:var(--text-light)}
+.cabin-book-btn{padding:.55rem 1.1rem;background:var(--gold);color:white;border:none;border-radius:24px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
+.cabin-book-btn:hover{background:var(--navy);transform:translateY(-1px)}
+.info-strip{background:var(--sand);padding:3.5rem 0}
+.info-grid{max-width:1100px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.info-item{text-align:center;padding:1.3rem}
+.info-icon{font-size:1.9rem;margin-bottom:.7rem;display:block}
+.info-item h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--navy);margin-bottom:.35rem;font-weight:600}
+.info-item p{font-size:.8rem;color:var(--text-light);line-height:1.6}
+.price-section{background:white;padding:5rem 0}
+.price-table{max-width:920px;margin:2rem auto 0;padding:0 2rem;overflow-x:auto}
+.price-table table{width:100%;border-collapse:collapse;font-size:.86rem}
+.price-table th{background:var(--navy);color:white;padding:.85rem 1rem;text-align:left;font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:.1em}
+.price-table td{padding:.75rem 1rem;border-bottom:1px solid rgba(0,0,0,.06);color:var(--text)}
+.price-table tr:nth-child(even) td{background:var(--sand-light)}
+.price-table tr:hover td{background:rgba(200,136,42,.07)}
+.price-highlight{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--navy)}
+#booking{background:var(--navy);padding:6rem 0}
+#booking .section-eyebrow{color:var(--gold-light)}
+#booking .section-title{color:white}
+#booking .section-title em{color:var(--gold-light)}
+.booking-container{max-width:1120px;margin:0 auto;padding:0 2rem}
+.booking-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:2.2rem;margin-top:2.2rem}
+.calendar-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:1.7rem}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem}
+.cal-month{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:white;font-weight:400;min-width:180px;text-align:center}
+.cal-nav-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:.85rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.cal-nav-btn:hover{background:var(--gold);border-color:var(--gold)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-weekday{text-align:center;font-size:.67rem;font-weight:600;letter-spacing:.07em;color:rgba(255,255,255,.38);padding:.35rem 0;text-transform:uppercase}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:all .2s;border:1px solid transparent;min-height:42px;position:relative}
+.cal-day:hover:not(.cal-day--empty):not(.cal-day--past){background:rgba(200,136,42,.2);border-color:var(--gold)}
+.cal-day--empty{cursor:default}
+.cal-day--past{opacity:.22;cursor:not-allowed}
+.cal-day--today{border-color:rgba(255,255,255,.3)!important}
+.cal-day--selected{background:var(--gold)!important;border-color:var(--gold)!important}
+.cal-day--selected .day-num{color:white;font-weight:700}
+.day-num{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.82);line-height:1}
+.day-dots{display:flex;gap:2px;margin-top:2px;flex-wrap:wrap;justify-content:center;max-width:32px}
+.day-dot{width:4px;height:4px;border-radius:50%}
+.day-dot--free{background:var(--moss)}
+.day-dot--booked{background:var(--coral)}
+.cal-legend{display:flex;gap:1rem;margin-top:1.1rem;flex-wrap:wrap}
+.cal-legend-item{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:rgba(255,255,255,.55)}
+.cal-legend-dot{width:7px;height:7px;border-radius:50%}
+.form-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:1.7rem;overflow-y:auto;max-height:85vh}
+.form-box h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:white;font-weight:400;margin-bottom:.2rem}
+.form-subtitle{font-size:.77rem;color:rgba(255,255,255,.45);margin-bottom:1.3rem}
+.cabin-selector{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.1rem}
+.cabin-option{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;border-radius:7px;border:1.5px solid rgba(255,255,255,.11);cursor:pointer;transition:all .2s;background:transparent;width:100%;text-align:left}
+.cabin-option:hover:not(.cabin-option--unavailable){border-color:var(--gold);background:rgba(200,136,42,.1)}
+.cabin-option--selected{border-color:var(--gold)!important;background:rgba(200,136,42,.18)!important}
+.cabin-option--unavailable{opacity:.3;cursor:not-allowed}
+.cabin-option-name{font-size:.84rem;font-weight:600;color:white}
+.cabin-option-meta{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:1px}
+.cabin-option-right{display:flex;align-items:center;gap:.5rem}
+.cabin-option-price{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold-light)}
+.status-pill{font-size:.67rem;padding:.18rem .55rem;border-radius:20px;font-weight:600}
+.status-free{background:rgba(94,138,96,.25);color:#8DC490}
+.status-busy{background:rgba(200,74,58,.25);color:#E8806E}
+.form-section-title{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin:1rem 0 .5rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.08)}
+.form-fields{display:flex;flex-direction:column;gap:.7rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.form-group{display:flex;flex-direction:column;gap:.28rem}
+.form-label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.48)}
+.form-input,.form-select,.form-textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:.6rem .85rem;color:white;font-family:'Inter',sans-serif;font-size:.875rem;transition:border-color .2s;width:100%}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.1)}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.28)}
+.form-select option{background:var(--navy-dark);color:white}
+.form-textarea{resize:vertical;min-height:60px}
+.extras-grid{display:flex;flex-direction:column;gap:.4rem}
+.extra-item{display:flex;align-items:center;justify-content:space-between;padding:.55rem .85rem;border-radius:7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);transition:border-color .2s}
+.extra-item:hover{border-color:rgba(200,136,42,.4)}
+.extra-item.active{border-color:var(--gold);background:rgba(200,136,42,.1)}
+.extra-left{display:flex;align-items:center;gap:.7rem}
+.extra-checkbox{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;flex-shrink:0}
+.extra-name{font-size:.82rem;color:white}
+.extra-desc{font-size:.68rem;color:rgba(255,255,255,.4)}
+.extra-price{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--gold-light)}
+.extra-qty{display:flex;align-items:center;gap:.3rem}
+.qty-btn{background:rgba(255,255,255,.12);border:none;color:white;width:22px;height:22px;border-radius:4px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.qty-btn:hover{background:var(--gold)}
+.qty-val{font-size:.82rem;color:white;min-width:16px;text-align:center}
+.bedlinen-note{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:.3rem;padding:.4rem .7rem;background:rgba(200,136,42,.1);border-radius:5px;border-left:2px solid var(--gold)}
+.price-summary{background:rgba(200,136,42,.12);border:1px solid rgba(200,136,42,.3);border-radius:8px;padding:1rem;margin-top:.8rem}
+.price-summary-title{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem}
+.price-summary-row{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.7);padding:.2rem 0}
+.price-summary-total{display:flex;justify-content:space-between;font-weight:700;color:white;margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(200,136,42,.3);font-size:.95rem}
+.date-display{background:rgba(200,136,42,.15);border:1px solid rgba(200,136,42,.28);border-radius:6px;padding:.6rem .85rem;color:var(--gold-light);font-size:.82rem;margin-bottom:.9rem;display:none}
+.date-display.visible{display:block}
+.form-submit{width:100%;padding:.85rem;background:var(--gold);color:white;border:none;border-radius:7px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:.5rem;letter-spacing:.04em}
+.form-submit:hover:not(:disabled){background:var(--gold-light);transform:translateY(-1px)}
+.form-submit:disabled{opacity:.45;cursor:not-allowed}
+.booking-success{background:rgba(94,138,96,.15);border:1px solid rgba(94,138,96,.4);border-radius:8px;padding:2rem;text-align:center;color:white;display:none}
+.booking-success.visible{display:block}
+.booking-success h3{font-family:'Cormorant Garamond',serif;font-size:1.7rem;margin-bottom:.7rem;color:#8DC490}
+.booking-error{background:rgba(200,74,58,.15);border:1px solid rgba(200,74,58,.4);border-radius:6px;padding:.75rem 1rem;color:#E8806E;font-size:.82rem;margin-bottom:.9rem;display:none}
+.booking-error.visible{display:block}
+#contact{background:var(--sand-light);padding:5.5rem 0}
+.contact-inner{max-width:680px;margin:0 auto;padding:0 2rem;text-align:center}
+.contact-methods{display:flex;justify-content:center;gap:1.2rem;margin-top:2.2rem;flex-wrap:wrap}
+.contact-btn{display:inline-flex;align-items:center;gap:.55rem;padding:.8rem 1.7rem;border-radius:40px;font-size:.86rem;font-weight:600;text-decoration:none;transition:all .25s;cursor:pointer;border:none}
+.contact-btn--call{background:var(--navy);color:white}
+.contact-btn--call:hover{background:var(--navy-dark);transform:translateY(-2px)}
+.contact-btn--wa{background:#25D366;color:white}
+.contact-btn--wa:hover{background:#1da851;transform:translateY(-2px)}
+.contact-btn--email{background:var(--gold);color:white}
+.contact-btn--email:hover{background:var(--gold-light);transform:translateY(-2px)}
+.contact-address{margin-top:2rem;font-size:.88rem;color:var(--text-light);line-height:1.9}
+footer{background:var(--navy-dark);padding:2.2rem 0}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem}
+.footer-logo img{height:34px;width:auto;opacity:.8;object-fit:contain}
+.footer-links{display:flex;gap:1.4rem;list-style:none}
+.footer-links a{color:rgba(255,255,255,.4);font-size:.78rem;text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--gold-light)}
+.footer-copy{color:rgba(255,255,255,.28);font-size:.73rem}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:900px){.booking-layout{grid-template-columns:1fr}.form-box{max-height:none}}
+@media(max-width:768px){
+  .nav-links{display:none}.nav-hamburger{display:flex}
+  nav.mobile-open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);padding:1.3rem 2rem;gap:1rem;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+  .hero-content{padding:0 1.4rem 4rem}
+  nav{padding:.8rem 1.4rem}
+  .form-row{grid-template-columns:1fr}
+  .cabin-hotspots{display:none}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<nav id="main-nav">
+  <div class="nav-logo"><img src="logo.jpeg" alt="Saules Krasts"></div>
+  <ul class="nav-links">
+    <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
+    <li><a href="#prices" data-i18n="nav_prices">Cenas</a></li>
+    <li><a href="#booking" data-i18n="nav_book">Rezervēt</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
+    <li><div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('lv')">LV</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('lt')">LT</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div></li>
+    <li><a href="#booking" class="nav-cta" data-i18n="nav_cta">Rezervēt tagad</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-toggle"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"><img src="attēls1.png" alt="Saules Krasts" class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Baltijas jūra</p>
+    <h1 class="hero-title" data-i18n="hero_title">Pamosties pie <em>jūras</em><br>rīta saulītē</h1>
+    <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas tieši pie Baltijas jūras krasta. Klusums, priedes un svaigs jūras gaiss.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary" data-i18n="hero_cta1">🌅 Rezervēt mājiņu</a>
+      <a href="#cabins" class="btn-outline" data-i18n="hero_cta2">Apskatīt mājiņas</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span data-i18n="scroll">Ritināt</span></div>
+</section>
+
+<section id="cabins">
+  <div class="section-header">
+    <p class="section-eyebrow" data-i18n="cabins_eyebrow">Mūsu mājiņas</p>
+    <h2 class="section-title" data-i18n="cabins_title">Piecas mājas, <em>viena jūra</em></h2>
+    <p style="margin-top:.7rem;color:var(--text-light);font-size:.88rem;max-width:480px;margin-left:auto;margin-right:auto" data-i18n="cabins_hint">Uzvelciet peli uz mājiņas — tā izceļas. Noklikšķiniet, lai rezervētu.</p>
+  </div>
+  <div class="cabin-photo-zone">
+    <div class="cabin-photo-wrapper">
+      <img src="attēls1.png" alt="Saules Krasts mājiņas" class="cabin-main-photo">
+      <div class="cabin-hotspots">
+        <div class="cabin-hotspot" data-cabin="1" onclick="selectCabinAndBook(1)" onmouseenter="highlightCabin(1)" onmouseleave="clearHighlight()">
+          <div class="cabin-hotspot-inner"><div class="hotspot-badge">1</div><div class="hotspot-label" data-i18n="cabin1_short">Nr.1 · Ģimenes</div></div>
+        </div>
+        <div class="cabin-hotspot" data-cabin="2" onclick="selectCabinAndBook(2)" onmouseenter="highlightCabin(2)" onmouseleave="clearHighlight()">
+          <div class="cabin-hotspot-inner"><div class="hotspot-badge">2</div><div class="hotspot-label" data-i18n="cabin2_short">Nr.2 · Ģimenes</div></div>
+        </div>
+        <div class="cabin-hotspot" data-cabin="3" onclick="selectCabinAndBook(3)" onmouseenter="highlightCabin(3)" onmouseleave="clearHighlight()">
+          <div class="cabin-hotspot-inner"><div class="hotspot-badge">3</div><div class="hotspot-label" data-i18n="cabin3_short">Nr.3 · Divvietīgā</div></div>
+        </div>
+        <div class="cabin-hotspot" data-cabin="4" onclick="selectCabinAndBook(4)" onmouseenter="highlightCabin(4)" onmouseleave="clearHighlight()">
+          <div class="cabin-hotspot-inner"><div class="hotspot-badge">4</div><div class="hotspot-label" data-i18n="cabin4_short">Nr.4 · Divvietīgā</div></div>
+        </div>
+        <div class="cabin-hotspot" data-cabin="5" onclick="selectCabinAndBook(5)" onmouseenter="highlightCabin(5)" onmouseleave="clearHighlight()">
+          <div class="cabin-hotspot-inner"><div class="hotspot-badge">5</div><div class="hotspot-label" data-i18n="cabin5_short">Nr.5 · LUX ⭐</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cabins-grid">
+    <div class="cabin-card" id="card-1" onclick="selectCabinAndBook(1)">
+      <div class="cabin-card-header"><div class="cabin-number">01</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-family" data-i18n="type_family">Ģimenes</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
+      <div class="cabin-card-body">
+        <div class="cabin-name" data-i18n="cabin1_name">Mājiņa Nr. 1</div>
+        <div class="cabin-tagline" data-i18n="cabin1_tag">Klusa un ērta — priežu ēnā</div>
+        <ul class="cabin-features">
+          <li data-i18n="c1f1">4 vietas · 13 m²</li>
+          <li data-i18n="c1f2">Divguļamā 145×200 + divstāvīgā 90×200</li>
+          <li data-i18n="c1f3">Saulesnecaurlaidīgās žalūzijas</li>
+          <li data-i18n="c1f4">Tējkanna</li>
+          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+        </ul>
+      </div>
+      <div class="cabin-card-footer">
+        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">65<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
+        <button class="cabin-book-btn" onclick="selectCabinAndBook(1);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
+      </div>
+    </div>
+    <div class="cabin-card" id="card-2" onclick="selectCabinAndBook(2)">
+      <div class="cabin-card-header"><div class="cabin-number">02</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-family" data-i18n="type_family">Ģimenes</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
+      <div class="cabin-card-body">
+        <div class="cabin-name" data-i18n="cabin2_name">Mājiņa Nr. 2</div>
+        <div class="cabin-tagline" data-i18n="cabin2_tag">Ģimenes prieks ar tumšajām žalūzijām</div>
+        <ul class="cabin-features">
+          <li data-i18n="c1f1">4 vietas · 13 m²</li>
+          <li data-i18n="c1f2">Divguļamā 145×200 + divstāvīgā 90×200</li>
+          <li data-i18n="c2f3">Tumšās žalūzijas</li>
+          <li data-i18n="c1f4">Tējkanna</li>
+          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+        </ul>
+      </div>
+      <div class="cabin-card-footer">
+        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">65<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
+        <button class="cabin-book-btn" onclick="selectCabinAndBook(2);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
+      </div>
+    </div>
+    <div class="cabin-card" id="card-3" onclick="selectCabinAndBook(3)">
+      <div class="cabin-card-header"><div class="cabin-number">03</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-double" data-i18n="type_double">Divvietīgā</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
+      <div class="cabin-card-body">
+        <div class="cabin-name" data-i18n="cabin3_name">Mājiņa Nr. 3</div>
+        <div class="cabin-tagline" data-i18n="cabin3_tag">Divi, kuriem patīk sava telpa</div>
+        <ul class="cabin-features">
+          <li data-i18n="c3f1">2 vietas · 13 m²</li>
+          <li data-i18n="c3f2">Divas atsevišķas gultas 90×200</li>
+          <li data-i18n="c2f3">Tumšās žalūzijas</li>
+          <li data-i18n="c1f4">Tējkanna</li>
+          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+        </ul>
+      </div>
+      <div class="cabin-card-footer">
+        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">55<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
+        <button class="cabin-book-btn" onclick="selectCabinAndBook(3);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
+      </div>
+    </div>
+    <div class="cabin-card" id="card-4" onclick="selectCabinAndBook(4)">
+      <div class="cabin-card-header"><div class="cabin-number">04</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-double" data-i18n="type_double">Divvietīgā</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
+      <div class="cabin-card-body">
+        <div class="cabin-name" data-i18n="cabin4_name">Mājiņa Nr. 4</div>
+        <div class="cabin-tagline" data-i18n="cabin4_tag">Tuvāk jūras skaņai</div>
+        <ul class="cabin-features">
+          <li data-i18n="c3f1">2 vietas · 13 m²</li>
+          <li data-i18n="c3f2">Divas atsevišķas gultas 90×200</li>
+          <li data-i18n="c2f3">Tumšās žalūzijas</li>
+          <li data-i18n="c1f4">Tējkanna</li>
+          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+        </ul>
+      </div>
+      <div class="cabin-card-footer">
+        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">55<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
+        <button class="cabin-book-btn" onclick="selectCabinAndBook(4);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
+      </div>
+    </div>
+    <div class="cabin-card" id="card-5" onclick="selectCabinAndBook(5)">
+      <div class="cabin-card-header" style="background:linear-gradient(135deg,#1C2E4A,#263d5e)"><div class="cabin-number" style="color:rgba(200,136,42,.38)">05</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-lux" data-i18n="type_lux">⭐ LUX</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
+      <div class="cabin-card-body">
+        <div class="cabin-name">Mājiņa Nr. 5 · <em style="color:var(--gold);font-family:'Cormorant Garamond',serif" data-i18n="type_lux2">LUX</em></div>
+        <div class="cabin-tagline" data-i18n="cabin5_tag">Tieši pie jūras. Tieši kā sapnī.</div>
+        <ul class="cabin-features">
+          <li data-i18n="c5f1">2 vietas · 13 m² · vistuvāk jūrai</li>
+          <li data-i18n="c5f2">Lielā gulta 160×200</li>
+          <li data-i18n="c5f3">Saulesnecaurlaidīgās žalūzijas</li>
+          <li data-i18n="c5f4">Ledusskapis</li>
+          <li data-i18n="c5f5">Kafijas aparāts</li>
+          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+        </ul>
+      </div>
+      <div class="cabin-card-footer" style="background:rgba(200,136,42,.05)">
+        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value" style="color:var(--gold)">75<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
+        <button class="cabin-book-btn" style="background:var(--gold)" onclick="selectCabinAndBook(5);event.stopPropagation()" data-i18n="book_lux">Rezervēt LUX</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="info-strip">
+  <div class="info-grid">
+    <div class="info-item"><span class="info-icon">🌊</span><h4 data-i18n="info1h">Tieši pie jūras</h4><p data-i18n="info1p">Nr. 5 — pa soļiem līdz smiltīm un viļņiem.</p></div>
+    <div class="info-item"><span class="info-icon">🌲</span><h4 data-i18n="info2h">Priežu mežā</h4><p data-i18n="info2p">Dabisks ēnojums, svaigs gaiss, dziedošie putni.</p></div>
+    <div class="info-item"><span class="info-icon">🚿</span><h4 data-i18n="info3h">Dušas un tualetes</h4><p data-i18n="info3p">Kopīgs sanitārais mezgls — tīrs un ērts.</p></div>
+    <div class="info-item"><span class="info-icon">🐾</span><h4 data-i18n="info4h">Mājdzīvnieki laipni gaidīti</h4><p data-i18n="info4p">Nelieli suņi un kaķi ir laipni gaidīti.</p></div>
+    <div class="info-item"><span class="info-icon">🅿️</span><h4 data-i18n="info5h">Bezmaksas stāvvieta</h4><p data-i18n="info5p">Vieta katrai mājiņai blakus.</p></div>
+  </div>
+</div>
+
+<section id="prices" class="price-section">
+  <div class="section-header">
+    <p class="section-eyebrow" data-i18n="prices_eyebrow">Cenas</p>
+    <h2 class="section-title" data-i18n="prices_title">Godīgas cenas, <em>vienkārši</em></h2>
+  </div>
+  <div class="price-table">
+    <table>
+      <thead><tr>
+        <th data-i18n="pt_cabin">Mājiņa</th><th data-i18n="pt_type">Tips</th>
+        <th data-i18n="pt_low">Zemā sezona</th><th data-i18n="pt_high">Augstā sezona</th><th data-i18n="pt_guests">Vietas</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>Nr. 1</strong></td><td data-i18n="type_family">Ģimenes</td><td class="price-highlight">65 €</td><td class="price-highlight">85 €</td><td>4</td></tr>
+        <tr><td><strong>Nr. 2</strong></td><td data-i18n="type_family">Ģimenes</td><td class="price-highlight">65 €</td><td class="price-highlight">85 €</td><td>4</td></tr>
+        <tr><td><strong>Nr. 3</strong></td><td data-i18n="type_double">Divvietīgā</td><td class="price-highlight">55 €</td><td class="price-highlight">70 €</td><td>2</td></tr>
+        <tr><td><strong>Nr. 4</strong></td><td data-i18n="type_double">Divvietīgā</td><td class="price-highlight">55 €</td><td class="price-highlight">70 €</td><td>2</td></tr>
+        <tr style="background:rgba(200,136,42,.06)"><td><strong>Nr. 5 ⭐</strong></td><td data-i18n="type_lux">⭐ LUX</td><td class="price-highlight" style="color:var(--gold)">75 €</td><td class="price-highlight" style="color:var(--gold)">95 €</td><td>2</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:1.2rem;background:rgba(200,136,42,.07);border-left:3px solid var(--gold);border-radius:4px;padding:.8rem 1rem;font-size:.8rem;color:var(--text)">
+      <strong>+</strong> <span data-i18n="bedlinen_note">Gultasveļa: 5 €/persona/nakts</span> &nbsp;·&nbsp;
+      <span data-i18n="extras_note">Papildus: grils, ogles, saulessargs, atpūtas krēsls — pieejami rezervācijā</span>
+    </div>
+  </div>
+</section>
+
+<section id="booking">
+  <div class="booking-container">
+    <div class="section-header" style="text-align:left;margin-bottom:0;padding:0">
+      <p class="section-eyebrow" data-i18n="book_eyebrow">Rezervācija</p>
+      <h2 class="section-title" data-i18n="book_title">Izvēlieties dienas,<br><em>mēs parūpēsimies par pārējo</em></h2>
+    </div>
+    <div class="booking-layout">
+      <div class="calendar-box">
+        <div class="cal-header">
+          <button class="cal-nav-btn" onclick="changeMonth(-1)">&#8592;</button>
+          <div class="cal-month" id="cal-month-label"></div>
+          <button class="cal-nav-btn" onclick="changeMonth(1)">&#8594;</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div class="cal-legend">
+          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--moss)"></div><span data-i18n="leg_free">Brīva</span></div>
+          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--coral)"></div><span data-i18n="leg_busy">Aizņemta</span></div>
+          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--gold)"></div><span data-i18n="leg_sel">Izvēlēts</span></div>
+        </div>
+      </div>
+      <div class="form-box" id="form-box">
+        <h3 data-i18n="form_title">Rezervācijas forma</h3>
+        <p class="form-subtitle" data-i18n="form_sub">Aizpildiet — apstiprināsim 24h laikā</p>
+        <div class="booking-error" id="booking-error"></div>
+        <div class="booking-success" id="booking-success">
+          <h3 data-i18n="success_title">Pieteikums saņemts!</h3>
+          <p id="success-msg"></p><br>
+          <button class="cabin-book-btn" onclick="resetForm()" style="background:var(--moss)" data-i18n="new_booking">Jauna rezervācija</button>
+        </div>
+        <div id="form-content">
+          <div class="date-display" id="date-display">📅 <span id="date-display-text"></span></div>
+          <div>
+            <div class="form-section-title" data-i18n="choose_cabin">Izvēlieties mājiņu</div>
+            <div class="cabin-selector" id="cabin-selector"></div>
+          </div>
+          <div class="form-fields">
+            <div class="form-section-title" data-i18n="dates_section">Datumi</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label" data-i18n="checkin">Ierašanās</label><input type="date" class="form-input" id="f-checkin"></div>
+              <div class="form-group"><label class="form-label" data-i18n="checkout">Izbraukšana</label><input type="date" class="form-input" id="f-checkout"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="guests_label">Viesu skaits</label>
+              <select class="form-select" id="f-guests" onchange="recalcPrice()">
+                <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+              </select>
+            </div>
+            <div class="form-section-title" data-i18n="contact_section">Kontaktinformācija</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label" data-i18n="name_label">Vārds *</label><input type="text" class="form-input" id="f-name" placeholder="Jānis Bērziņš"></div>
+              <div class="form-group"><label class="form-label" data-i18n="phone_label">Tālrunis *</label><input type="tel" class="form-input" id="f-phone" placeholder="+371 29000000"></div>
+            </div>
+            <div class="form-group"><label class="form-label" data-i18n="email_label">E-pasts *</label><input type="email" class="form-input" id="f-email" placeholder="vards@email.com"></div>
+            <div class="form-section-title" data-i18n="extras_section">Papildus pakalpojumi</div>
+            <div class="extras-grid" id="extras-grid"></div>
+            <div class="bedlinen-note" data-i18n="bedlinen_info">🛏 Gultasveļa: 5 €/persona/nakts</div>
+            <div class="form-group" style="margin-top:.3rem">
+              <label class="form-label" data-i18n="notes_label">Piezīmes</label>
+              <textarea class="form-textarea" id="f-notes" placeholder="Īpaši pieprasījumi..."></textarea>
+            </div>
+            <div class="price-summary" id="price-summary" style="display:none">
+              <div class="price-summary-title" data-i18n="summary_title">Izmaksu aprēķins</div>
+              <div id="summary-rows"></div>
+              <div class="price-summary-total"><span data-i18n="total">Kopā</span><span id="summary-total">0 €</span></div>
+            </div>
+            <button class="form-submit" id="form-submit" onclick="submitBooking()"><span data-i18n="submit_btn">Nosūtīt rezervācijas pieteikumu</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-header">
+      <p class="section-eyebrow" data-i18n="contact_eyebrow">Kontakti</p>
+      <h2 class="section-title" data-i18n="contact_title">Jautājumi? <em>Sazinieties!</em></h2>
+    </div>
+    <p style="margin-top:1rem;color:var(--text-light);font-size:.9rem;line-height:1.9" data-i18n="contact_addr">Ragaciems, Engures novads, Latvija<br>Atbildam ātrāk WhatsApp</p>
+    <div class="contact-methods">
+      <a href="tel:+37129265047" class="contact-btn contact-btn--call" data-i18n="call_btn">📞 +371 29265047</a>
+      <a href="https://wa.me/37129265047" target="_blank" class="contact-btn contact-btn--wa" data-i18n="wa_btn">💬 WhatsApp</a>
+      <a href="mailto:antra.sila@gmail.com" class="contact-btn contact-btn--email" data-i18n="email_btn">✉️ E-pasts</a>
+    </div>
+    <p class="contact-address" data-i18n="checkin_info"><strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="logo.jpeg" alt="Saules Krasts"></div>
+    <ul class="footer-links">
+      <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
+      <li><a href="#prices" data-i18n="nav_prices">Cenas</a></li>
+      <li><a href="#booking" data-i18n="nav_book">Rezervēt</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Saules Krasts · Ragaciems · antra.sila@gmail.com</p>
+  </div>
+</footer>
+<script>
+// ============================================================
+// TRANSLATIONS (LV / EN / LT / RU)
+// ============================================================
+const TR = {
+lv:{
+  nav_cabins:"Mājiņas",nav_prices:"Cenas",nav_book:"Rezervēt",nav_contact:"Kontakti",nav_cta:"Rezervēt tagad",
+  hero_eyebrow:"Ragaciems · Baltijas jūra",
+  hero_title:"Pamosties pie <em>jūras</em><br>rīta saulītē",
+  hero_sub:"Piecas koka mājiņas tieši pie Baltijas jūras krasta. Klusums, priedes un svaigs jūras gaiss.",
+  hero_cta1:"🌅 Rezervēt mājiņu",hero_cta2:"Apskatīt mājiņas",scroll:"Ritināt",
+  cabins_eyebrow:"Mūsu mājiņas",cabins_title:"Piecas mājas, <em>viena jūra</em>",
+  cabins_hint:"Uzvelciet peli uz mājiņas — tā izceļas. Noklikšķiniet, lai rezervētu.",
+  type_family:"Ģimenes",type_double:"Divvietīgā",type_lux:"⭐ LUX",type_lux2:"LUX",
+  cabin1_short:"Nr.1 · Ģimenes",cabin2_short:"Nr.2 · Ģimenes",cabin3_short:"Nr.3 · Divvietīgā",
+  cabin4_short:"Nr.4 · Divvietīgā",cabin5_short:"Nr.5 · LUX ⭐",
+  cabin1_name:"Mājiņa Nr. 1",cabin1_tag:"Klusa un ērta — priežu ēnā",
+  cabin2_name:"Mājiņa Nr. 2",cabin2_tag:"Ģimenes prieks ar tumšajām žalūzijām",
+  cabin3_name:"Mājiņa Nr. 3",cabin3_tag:"Divi, kuriem patīk sava telpa",
+  cabin4_name:"Mājiņa Nr. 4",cabin4_tag:"Tuvāk jūras skaņai",
+  cabin5_tag:"Tieši pie jūras. Tieši kā sapnī.",
+  c1f1:"4 vietas · 13 m²",c1f2:"Divguļamā 145×200 + divstāvīgā 90×200",
+  c1f3:"Saulesnecaurlaidīgās žalūzijas",c1f4:"Tējkanna",c2f3:"Tumšās žalūzijas",
+  c3f1:"2 vietas · 13 m²",c3f2:"Divas atsevišķas gultas 90×200",
+  c5f1:"2 vietas · 13 m² · vistuvāk jūrai",c5f2:"Lielā gulta 160×200",
+  c5f3:"Saulesnecaurlaidīgās žalūzijas",c5f4:"Ledusskapis",c5f5:"Kafijas aparāts",
+  c_terrace:"Terase · Lietussargs ar galdu un krēsliem",
+  from:"no",per_night:"naktī",book_btn:"Rezervēt",book_lux:"Rezervēt LUX",
+  info1h:"Tieši pie jūras",info1p:"Nr. 5 — pa soļiem līdz smiltīm un viļņiem.",
+  info2h:"Priežu mežā",info2p:"Dabisks ēnojums, svaigs gaiss, dziedošie putni.",
+  info3h:"Dušas un tualetes",info3p:"Kopīgs sanitārais mezgls — tīrs un ērts.",
+  info4h:"Mājdzīvnieki laipni gaidīti",info4p:"Nelieli suņi un kaķi ir laipni gaidīti.",
+  info5h:"Bezmaksas stāvvieta",info5p:"Vieta katrai mājiņai blakus.",
+  prices_eyebrow:"Cenas",prices_title:"Godīgas cenas, <em>vienkārši</em>",
+  pt_cabin:"Mājiņa",pt_type:"Tips",pt_low:"Zemā sezona (sept.–maijs)",pt_high:"Augstā sezona (jūn.–aug.)",pt_guests:"Vietas",
+  bedlinen_note:"Gultasveļa: +5 €/persona/nakts",
+  extras_note:"Papildus: grils, ogles, saulessargs, atpūtas krēsls — pieejami rezervācijā",
+  book_eyebrow:"Rezervācija",
+  book_title:"Izvēlieties dienas,<br><em>mēs parūpēsimies par pārējo</em>",
+  leg_free:"Brīva",leg_busy:"Aizņemta",leg_sel:"Izvēlēts",
+  form_title:"Rezervācijas forma",form_sub:"Aizpildiet — apstiprināsim 24h laikā",
+  choose_cabin:"Izvēlieties mājiņu",dates_section:"Datumi",
+  checkin:"Ierašanās",checkout:"Izbraukšana",guests_label:"Viesu skaits",
+  contact_section:"Kontaktinformācija",name_label:"Vārds, Uzvārds *",
+  phone_label:"Tālrunis *",email_label:"E-pasts *",
+  extras_section:"Papildus pakalpojumi",
+  bedlinen_info:"🛏 Gultasveļa pieskaitīta automātiski: 5 €/persona/nakts",
+  notes_label:"Piezīmes",
+  summary_title:"Izmaksu aprēķins",total:"Kopā",submit_btn:"Nosūtīt rezervācijas pieteikumu",
+  success_title:"✅ Pieteikums saņemts!",new_booking:"Jauna rezervācija",
+  contact_eyebrow:"Kontakti",contact_title:"Jautājumi? <em>Sazinieties!</em>",
+  contact_addr:"Ragaciems, Engures novads, Latvija<br>Atbildam ātrāk WhatsApp 🟢",
+  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ E-pasts",
+  checkin_info:"<strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00",
+  e_grill:"Grila īre",e_grill_desc:"Ogļu grils ar restēm",e_grill_price:"5 €/nakts",
+  e_coal:"Ogles 10 L",e_coal_desc:"Kvalitatīvas ogles grilam",e_coal_price:"10 €",
+  e_umbrella:"Pludmales saulessargs",e_umbrella_desc:"Liels saulessargs ar statīvu",e_umbrella_price:"5 €/nakts",
+  e_chair:"Piepūšamais atpūtas krēsls",e_chair_desc:"170×85 cm ar kāju palikni",e_chair_price:"10 €/nakts",
+  nights:"naktis",cabin_price:"Mājiņa",bedlinen_sum:"Gultasveļa",
+  err_no_cabin:"Lūdzu izvēlieties mājiņu.",err_no_name:"Ievadiet vārdu un uzvārdu.",
+  err_no_email:"Ievadiet derīgu e-pastu.",err_no_phone:"Ievadiet tālruņa numuru.",
+  err_no_dates:"Ievadiet ierašanās un izbraukšanas datumus.",
+  err_dates:"Izbraukšanai jābūt pēc ierašanās.",err_fail:"Kļūda. Sazinieties: +371 29265047",
+  months:["Janvāris","Februāris","Marts","Aprīlis","Maijs","Jūnijs","Jūlijs","Augusts","Septembris","Oktobris","Novembris","Decembris"],
+  wdays:["Pr","Ot","Tr","Ce","Pk","Se","Sv"],
+  free_cabin:"Pieejama",booked_cabin:"Aizņemta"
+},
+en:{
+  nav_cabins:"Cabins",nav_prices:"Prices",nav_book:"Book",nav_contact:"Contact",nav_cta:"Book now",
+  hero_eyebrow:"Ragaciems · Baltic Sea",hero_title:"Wake up by the <em>sea</em><br>at sunrise",
+  hero_sub:"Five wooden cabins right on the Baltic Sea shore. Silence, pines and fresh sea air.",
+  hero_cta1:"🌅 Book a cabin",hero_cta2:"View cabins",scroll:"Scroll",
+  cabins_eyebrow:"Our cabins",cabins_title:"Five homes, <em>one sea</em>",
+  cabins_hint:"Hover over a cabin in the photo to highlight it. Click to book.",
+  type_family:"Family",type_double:"Twin",type_lux:"⭐ LUX",type_lux2:"LUX",
+  cabin1_short:"No.1 · Family",cabin2_short:"No.2 · Family",cabin3_short:"No.3 · Twin",
+  cabin4_short:"No.4 · Twin",cabin5_short:"No.5 · LUX ⭐",
+  cabin1_name:"Cabin No. 1",cabin1_tag:"Quiet and cosy — among the pines",
+  cabin2_name:"Cabin No. 2",cabin2_tag:"Family comfort with blackout blinds",
+  cabin3_name:"Cabin No. 3",cabin3_tag:"For two who enjoy their own space",
+  cabin4_name:"Cabin No. 4",cabin4_tag:"Closer to the sound of the sea",
+  cabin5_tag:"Right by the sea. Just like a dream.",
+  c1f1:"4 guests · 13 m²",c1f2:"Double bed 145×200 + bunk bed 90×200",
+  c1f3:"Blackout blinds (sun-blocking)",c1f4:"Kettle",c2f3:"Blackout blinds",
+  c3f1:"2 guests · 13 m²",c3f2:"Two single beds 90×200",
+  c5f1:"2 guests · 13 m² · closest to the sea",c5f2:"King bed 160×200",
+  c5f3:"Blackout blinds (sun-blocking)",c5f4:"Mini fridge",c5f5:"Coffee machine",
+  c_terrace:"Terrace · Large umbrella with table & chairs",
+  from:"from",per_night:"/ night",book_btn:"Book",book_lux:"Book LUX",
+  info1h:"Right by the sea",info1p:"Cabin No. 5 — steps away from the sand.",
+  info2h:"In the pine forest",info2p:"Natural shade, fresh air, birdsong at dawn.",
+  info3h:"Showers & toilets",info3p:"Shared sanitary block — clean and maintained.",
+  info4h:"Pets welcome",info4p:"Small dogs and cats are warmly welcome.",
+  info5h:"Free parking",info5p:"Dedicated spot next to each cabin.",
+  prices_eyebrow:"Prices",prices_title:"Honest prices, <em>simply</em>",
+  pt_cabin:"Cabin",pt_type:"Type",pt_low:"Low season (Sep–May)",pt_high:"High season (Jun–Aug)",pt_guests:"Guests",
+  bedlinen_note:"Bed linen: +€5/person/night",
+  extras_note:"Add-ons: grill, charcoal, beach umbrella, lounger — available when booking",
+  book_eyebrow:"Booking",book_title:"Choose your dates,<br><em>we'll take care of the rest</em>",
+  leg_free:"Available",leg_busy:"Booked",leg_sel:"Selected",
+  form_title:"Booking form",form_sub:"Fill in — we confirm within 24h",
+  choose_cabin:"Choose a cabin",dates_section:"Dates",
+  checkin:"Check-in",checkout:"Check-out",guests_label:"Number of guests",
+  contact_section:"Contact information",name_label:"Full name *",
+  phone_label:"Phone *",email_label:"Email *",
+  extras_section:"Add-on services",
+  bedlinen_info:"🛏 Bed linen added automatically: €5/person/night",
+  notes_label:"Notes",
+  summary_title:"Cost estimate",total:"Total",submit_btn:"Send booking request",
+  success_title:"✅ Request received!",new_booking:"New booking",
+  contact_eyebrow:"Contact",contact_title:"Questions? <em>Get in touch!</em>",
+  contact_addr:"Ragaciems, Engure District, Latvia<br>We respond faster on WhatsApp 🟢",
+  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ Email",
+  checkin_info:"<strong>Check-in:</strong> from 14:00 · <strong>Check-out:</strong> by 11:00",
+  e_grill:"Grill hire",e_grill_desc:"Charcoal grill with grate",e_grill_price:"€5/night",
+  e_coal:"Charcoal 10 L",e_coal_desc:"Quality charcoal",e_coal_price:"€10",
+  e_umbrella:"Beach umbrella",e_umbrella_desc:"Large umbrella with stand",e_umbrella_price:"€5/night",
+  e_chair:"Inflatable lounger",e_chair_desc:"170×85 cm with footrest",e_chair_price:"€10/night",
+  nights:"nights",cabin_price:"Cabin",bedlinen_sum:"Bed linen",
+  err_no_cabin:"Please select a cabin.",err_no_name:"Enter your full name.",
+  err_no_email:"Enter a valid email.",err_no_phone:"Enter your phone number.",
+  err_no_dates:"Enter check-in and check-out dates.",
+  err_dates:"Check-out must be after check-in.",err_fail:"Error. Contact us: +371 29265047",
+  months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  wdays:["Mo","Tu","We","Th","Fr","Sa","Su"],
+  free_cabin:"Available",booked_cabin:"Booked"
+},
+lt:{
+  nav_cabins:"Nameliai",nav_prices:"Kainos",nav_book:"Rezervuoti",nav_contact:"Kontaktai",nav_cta:"Rezervuoti dabar",
+  hero_eyebrow:"Ragaciems · Baltijos jūra",hero_title:"Pabuskite prie <em>jūros</em><br>saulėtekio metu",
+  hero_sub:"Penki mediniai nameliai tiesiai prie Baltijos jūros kranto. Tyla, pušys ir grynas jūros oras.",
+  hero_cta1:"🌅 Rezervuoti namelį",hero_cta2:"Peržiūrėti namelius",scroll:"Slinkti",
+  cabins_eyebrow:"Mūsų nameliai",cabins_title:"Penki namai, <em>viena jūra</em>",
+  cabins_hint:"Užveskite pelę ant namelio — jis išsiskiria. Spustelėkite, kad rezervuotumėte.",
+  type_family:"Šeimai",type_double:"Dvivietis",type_lux:"⭐ LUX",type_lux2:"LUX",
+  cabin1_short:"Nr.1 · Šeimai",cabin2_short:"Nr.2 · Šeimai",cabin3_short:"Nr.3 · Dvivietis",
+  cabin4_short:"Nr.4 · Dvivietis",cabin5_short:"Nr.5 · LUX ⭐",
+  cabin1_name:"Namelis Nr. 1",cabin1_tag:"Ramus ir jaukus — tarp pušų",
+  cabin2_name:"Namelis Nr. 2",cabin2_tag:"Šeimos komfortas su tamsėjančiais žaliuziais",
+  cabin3_name:"Namelis Nr. 3",cabin3_tag:"Dviem, kurie mėgsta savo erdvę",
+  cabin4_name:"Namelis Nr. 4",cabin4_tag:"Arčiau jūros garsų",
+  cabin5_tag:"Tiesiai prie jūros. Kaip sapne.",
+  c1f1:"4 vietos · 13 m²",c1f2:"Dvigulė 145×200 + dviaukštė 90×200",
+  c1f3:"Saulę sulaikantys žaliuziai",c1f4:"Virdulys",c2f3:"Tamsėjantys žaliuziai",
+  c3f1:"2 vietos · 13 m²",c3f2:"Dvi atskiros lovos 90×200",
+  c5f1:"2 vietos · 13 m² · arčiausiai jūros",c5f2:"Didelė lova 160×200",
+  c5f3:"Saulę sulaikantys žaliuziai",c5f4:"Šaldytuvas",c5f5:"Kavos aparatas",
+  c_terrace:"Terasa · Didelis skėtis su stalu ir kėdėmis",
+  from:"nuo",per_night:"naktis",book_btn:"Rezervuoti",book_lux:"Rezervuoti LUX",
+  info1h:"Tiesiai prie jūros",info1p:"Nr. 5 — žingsniai iki smėlio ir bangų.",
+  info2h:"Pušyne",info2p:"Natūralus šešėlis, grynas oras, paukščių giesmė.",
+  info3h:"Dušai ir tualetai",info3p:"Bendras sanitarinis mazgas — švarus ir tvarkingas.",
+  info4h:"Gyvūnai laukiami",info4p:"Maži šunys ir katės yra laukiami.",
+  info5h:"Nemokama parkavimo aikštelė",info5p:"Vieta šalia kiekvieno namelio.",
+  prices_eyebrow:"Kainos",prices_title:"Sąžiningos kainos, <em>paprastai</em>",
+  pt_cabin:"Namelis",pt_type:"Tipas",pt_low:"Žemasis sezonas (rugs.–geg.)",pt_high:"Aukštasis sezonas (bir.–rugp.)",pt_guests:"Vietos",
+  bedlinen_note:"Patalynė: +5 €/asmuo/naktis",
+  extras_note:"Papildomai: grilis, anglys, skėtis, gultas — galima pasirinkti rezervuojant",
+  book_eyebrow:"Rezervacija",book_title:"Pasirinkite dienas,<br><em>mes pasirūpinsime likusiu</em>",
+  leg_free:"Laisvas",leg_busy:"Užimtas",leg_sel:"Pasirinktas",
+  form_title:"Rezervacijos forma",form_sub:"Užpildykite — patvirtinsime per 24 val.",
+  choose_cabin:"Pasirinkite namelį",dates_section:"Datos",
+  checkin:"Atvykimas",checkout:"Išvykimas",guests_label:"Svečių skaičius",
+  contact_section:"Kontaktinė informacija",name_label:"Vardas, Pavardė *",
+  phone_label:"Telefonas *",email_label:"El. paštas *",
+  extras_section:"Papildomos paslaugos",
+  bedlinen_info:"🛏 Patalynė skaičiuojama automatiškai: 5 €/asmuo/naktis",
+  notes_label:"Pastabos",
+  summary_title:"Kainos skaičiavimas",total:"Iš viso",submit_btn:"Siųsti rezervacijos užklausą",
+  success_title:"✅ Užklausa gauta!",new_booking:"Nauja rezervacija",
+  contact_eyebrow:"Kontaktai",contact_title:"Klausimai? <em>Susisiekite!</em>",
+  contact_addr:"Ragaciems, Engurės rajonas, Latvija<br>Greičiau atsakome WhatsApp 🟢",
+  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ El. paštas",
+  checkin_info:"<strong>Atvykimas:</strong> nuo 14:00 · <strong>Išvykimas:</strong> iki 11:00",
+  e_grill:"Grilio nuoma",e_grill_desc:"Anglių grilis su grotelėmis",e_grill_price:"5 €/naktis",
+  e_coal:"Anglys 10 L",e_coal_desc:"Kokybingos anglys grilui",e_coal_price:"10 €",
+  e_umbrella:"Paplūdimio skėtis",e_umbrella_desc:"Didelis skėtis su stovu",e_umbrella_price:"5 €/naktis",
+  e_chair:"Pripučiamas gultas",e_chair_desc:"170×85 cm su kojų atrama",e_chair_price:"10 €/naktis",
+  nights:"naktys",cabin_price:"Namelis",bedlinen_sum:"Patalynė",
+  err_no_cabin:"Pasirinkite namelį.",err_no_name:"Įveskite vardą ir pavardę.",
+  err_no_email:"Įveskite galiojantį el. paštą.",err_no_phone:"Įveskite telefono numerį.",
+  err_no_dates:"Įveskite atvykimo ir išvykimo datas.",
+  err_dates:"Išvykimas turi būti po atvykimo.",err_fail:"Klaida. Susisiekite: +371 29265047",
+  months:["Sausis","Vasaris","Kovas","Balandis","Gegužė","Birželis","Liepa","Rugpjūtis","Rugsėjis","Spalis","Lapkritis","Gruodis"],
+  wdays:["Pr","An","Tr","Kt","Pn","Še","Sk"],
+  free_cabin:"Laisvas",booked_cabin:"Užimtas"
+},
+ru:{
+  nav_cabins:"Домики",nav_prices:"Цены",nav_book:"Бронь",nav_contact:"Контакты",nav_cta:"Забронировать",
+  hero_eyebrow:"Рагациемс · Балтийское море",hero_title:"Просыпайтесь у <em>моря</em><br>на рассвете",
+  hero_sub:"Пять деревянных домиков прямо на берегу Балтийского моря. Тишина, сосны и свежий морской воздух.",
+  hero_cta1:"🌅 Забронировать домик",hero_cta2:"Посмотреть домики",scroll:"Листать",
+  cabins_eyebrow:"Наши домики",cabins_title:"Пять домов, <em>одно море</em>",
+  cabins_hint:"Наведите на домик на фото — он выделится. Нажмите для бронирования.",
+  type_family:"Семейный",type_double:"Двухместный",type_lux:"⭐ LUX",type_lux2:"LUX",
+  cabin1_short:"№1 · Семейный",cabin2_short:"№2 · Семейный",cabin3_short:"№3 · Двухместный",
+  cabin4_short:"№4 · Двухместный",cabin5_short:"№5 · LUX ⭐",
+  cabin1_name:"Домик № 1",cabin1_tag:"Тихий и уютный — среди сосен",
+  cabin2_name:"Домик № 2",cabin2_tag:"Семейный уют с тёмными жалюзи",
+  cabin3_name:"Домик № 3",cabin3_tag:"Для двоих, кто ценит своё пространство",
+  cabin4_name:"Домик № 4",cabin4_tag:"Ближе к шуму волн",
+  cabin5_tag:"Прямо у моря. Как в мечте.",
+  c1f1:"4 места · 13 м²",c1f2:"Двуспальная 145×200 + двухъярусная 90×200",
+  c1f3:"Светонепроницаемые жалюзи",c1f4:"Чайник",c2f3:"Тёмные жалюзи",
+  c3f1:"2 места · 13 м²",c3f2:"Две отдельные кровати 90×200",
+  c5f1:"2 места · 13 м² · ближайший к морю",c5f2:"Большая кровать 160×200",
+  c5f3:"Светонепроницаемые жалюзи",c5f4:"Холодильник",c5f5:"Кофемашина",
+  c_terrace:"Терраса · Большой зонт со столиком и стульями",
+  from:"от",per_night:"/ ночь",book_btn:"Забронировать",book_lux:"Забронировать LUX",
+  info1h:"Прямо у моря",info1p:"Домик № 5 — несколько шагов до песка.",
+  info2h:"В сосновом лесу",info2p:"Натуральная тень, свежий воздух, птичье пение.",
+  info3h:"Душ и туалеты",info3p:"Общий санузел на территории — чистый и ухоженный.",
+  info4h:"Животные приветствуются",info4p:"Небольшие собаки и кошки — добро пожаловать.",
+  info5h:"Бесплатная парковка",info5p:"Место рядом с каждым домиком.",
+  prices_eyebrow:"Цены",prices_title:"Честные цены, <em>просто</em>",
+  pt_cabin:"Домик",pt_type:"Тип",pt_low:"Низкий сезон (сент.–май)",pt_high:"Высокий сезон (июнь–авг.)",pt_guests:"Мест",
+  bedlinen_note:"Постельное бельё: +5 €/человек/ночь",
+  extras_note:"Дополнительно: гриль, угли, зонт, шезлонг — выбор при бронировании",
+  book_eyebrow:"Бронирование",book_title:"Выберите даты,<br><em>мы позаботимся об остальном</em>",
+  leg_free:"Свободен",leg_busy:"Занят",leg_sel:"Выбрано",
+  form_title:"Форма бронирования",form_sub:"Заполните — подтвердим в течение 24ч",
+  choose_cabin:"Выберите домик",dates_section:"Даты",
+  checkin:"Заезд",checkout:"Выезд",guests_label:"Количество гостей",
+  contact_section:"Контактная информация",name_label:"Имя, Фамилия *",
+  phone_label:"Телефон *",email_label:"Эл. почта *",
+  extras_section:"Дополнительные услуги",
+  bedlinen_info:"🛏 Бельё добавляется автоматически: 5 €/человек/ночь",
+  notes_label:"Примечания",
+  summary_title:"Расчёт стоимости",total:"Итого",submit_btn:"Отправить заявку на бронирование",
+  success_title:"✅ Заявка получена!",new_booking:"Новое бронирование",
+  contact_eyebrow:"Контакты",contact_title:"Вопросы? <em>Свяжитесь!</em>",
+  contact_addr:"Рагациемс, Энгурский край, Латвия<br>Быстрее отвечаем в WhatsApp 🟢",
+  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ Эл. почта",
+  checkin_info:"<strong>Заезд:</strong> с 14:00 · <strong>Выезд:</strong> до 11:00",
+  e_grill:"Аренда гриля",e_grill_desc:"Угольный гриль с решёткой",e_grill_price:"5 €/ночь",
+  e_coal:"Уголь 10 л",e_coal_desc:"Качественный уголь для гриля",e_coal_price:"10 €",
+  e_umbrella:"Пляжный зонт",e_umbrella_desc:"Большой зонт со стойкой",e_umbrella_price:"5 €/ночь",
+  e_chair:"Надувной шезлонг",e_chair_desc:"170×85 см с подставкой для ног",e_chair_price:"10 €/ночь",
+  nights:"ночей",cabin_price:"Домик",bedlinen_sum:"Бельё",
+  err_no_cabin:"Выберите домик.",err_no_name:"Введите имя и фамилию.",
+  err_no_email:"Введите корректный адрес.",err_no_phone:"Введите номер телефона.",
+  err_no_dates:"Введите даты заезда и выезда.",
+  err_dates:"Дата выезда должна быть позже заезда.",err_fail:"Ошибка. Свяжитесь: +371 29265047",
+  months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+  wdays:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],
+  free_cabin:"Свободен",booked_cabin:"Занят"
+}
+};
+
+// ============================================================
+// LANGUAGE ENGINE
+// ============================================================
+let LANG = 'lv';
+
+function detectLang(){
+  const c=(navigator.language||'lv').toLowerCase().slice(0,2);
+  return {lv:'lv',en:'en',lt:'lt',ru:'ru'}[c]||'lv';
+}
+
+function t(k){ return (TR[LANG]&&TR[LANG][k])||(TR.lv[k])||k; }
+
+function setLang(lang){
+  LANG=lang;
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const v=t(el.getAttribute('data-i18n'));
+    if(v.includes('<'))el.innerHTML=v; else el.textContent=v;
+  });
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('active',b.textContent.toLowerCase()===lang);
+  });
+  renderCalendar(); renderCabinSelector(); renderExtras(); recalcPrice();
+}
+
+// ============================================================
+// SUPABASE SETUP
+// ============================================================
+// ⚙️ Replace these with your actual Supabase project values:
+const SB_URL  = 'https://YOUR_PROJECT.supabase.co';
+const SB_KEY  = 'YOUR_ANON_KEY';
+// Required SQL (run once in Supabase SQL editor):
+/*
+CREATE TABLE bookings (
+  id            BIGSERIAL PRIMARY KEY,
+  cabin_id      INT NOT NULL,
+  checkin_date  DATE NOT NULL,
+  checkout_date DATE NOT NULL,
+  guest_name    TEXT NOT NULL,
+  guest_email   TEXT NOT NULL,
+  guest_phone   TEXT NOT NULL,
+  guest_count   INT DEFAULT 2,
+  notes         TEXT,
+  extras        JSONB,
+  total_price   NUMERIC,
+  status        TEXT DEFAULT 'pending',
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+);
+*/
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+// ⚙️ EmailJS — replace with your IDs from emailjs.com dashboard:
+const EJS_SVC     = 'YOUR_SERVICE_ID';
+const EJS_TMPL_C  = 'YOUR_TEMPLATE_CLIENT';   // sends to guest
+const EJS_TMPL_O  = 'YOUR_TEMPLATE_OWNER';    // sends to antra.sila@gmail.com
+emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
+
+// ============================================================
+// CABIN DATA
+// ============================================================
+const CABINS=[
+  {id:1,maxG:4,pL:65,pH:85},
+  {id:2,maxG:4,pL:65,pH:85},
+  {id:3,maxG:2,pL:55,pH:70},
+  {id:4,maxG:2,pL:55,pH:70},
+  {id:5,maxG:2,pL:75,pH:95}
+];
+
+const EXTRAS=[
+  {id:'grill',   perN:true,  price:5},
+  {id:'coal',    perN:false, price:10},
+  {id:'umbrella',perN:true,  price:5},
+  {id:'chair',   perN:true,  price:10},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let ST={year:new Date().getFullYear(),month:new Date().getMonth(),
+  selDate:null,selCabin:null,bookings:[],extras:{grill:0,coal:0,umbrella:0,chair:0}};
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded',()=>{
+  LANG=detectLang(); setLang(LANG); loadBookings(); renderExtras();
+  document.getElementById('nav-toggle').addEventListener('click',()=>{
+    document.getElementById('main-nav').classList.toggle('mobile-open');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.addEventListener('click',()=>document.getElementById('main-nav').classList.remove('mobile-open'));
+  });
+  document.getElementById('f-checkin').addEventListener('change',function(){if(this.value)selectDate(this.value);});
+  document.getElementById('f-checkout').addEventListener('change',recalcPrice);
+});
+
+// ============================================================
+// SUPABASE
+// ============================================================
+async function loadBookings(){
+  try{
+    const today=new Date().toISOString().split('T')[0];
+    const{data,error}=await sb.from('bookings').select('cabin_id,checkin_date,checkout_date')
+      .gte('checkout_date',today).neq('status','cancelled');
+    if(error)throw error;
+    ST.bookings=data||[];
+  }catch(e){ console.warn('Supabase not configured:',e.message); ST.bookings=[]; }
+  renderCalendar(); renderCabinSelector();
+}
+
+// ============================================================
+// AVAILABILITY
+// ============================================================
+function isBusy(cabinId,ds){
+  return ST.bookings.some(b=>b.cabin_id===cabinId&&b.checkin_date<=ds&&b.checkout_date>ds);
+}
+function isHigh(ds){ if(!ds)return false; const m=new Date(ds).getMonth(); return m>=5&&m<=7; }
+function price(cabinId,ds){ const c=CABINS.find(x=>x.id===cabinId); return c?(isHigh(ds)?c.pH:c.pL):0; }
+
+// ============================================================
+// CALENDAR
+// ============================================================
+function changeMonth(d){ ST.month+=d; if(ST.month>11){ST.month=0;ST.year++;} if(ST.month<0){ST.month=11;ST.year--;} renderCalendar(); }
+
+function renderCalendar(){
+  const {year:y,month:m}=ST;
+  document.getElementById('cal-month-label').textContent=`${t('months')[m]} ${y}`;
+  const grid=document.getElementById('cal-grid');
+  const today=new Date(); today.setHours(0,0,0,0);
+  let fdow=new Date(y,m,1).getDay(); fdow=fdow===0?6:fdow-1;
+  const dim=new Date(y,m+1,0).getDate();
+  let html=t('wdays').map(d=>`<div class="cal-weekday">${d}</div>`).join('');
+  for(let i=0;i<fdow;i++) html+=`<div class="cal-day cal-day--empty"></div>`;
+  for(let day=1;day<=dim;day++){
+    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const d=new Date(y,m,day);
+    const past=d<today, sel=ST.selDate===ds, tod=d.getTime()===today.getTime();
+    let dots=''; CABINS.forEach(c=>{ dots+=`<div class="day-dot ${isBusy(c.id,ds)?'day-dot--booked':'day-dot--free'}"></div>`; });
+    const cls=['cal-day',past?'cal-day--past':'',sel?'cal-day--selected':'',tod&&!sel?'cal-day--today':''].filter(Boolean).join(' ');
+    html+=`<div class="${cls}" ${!past?`onclick="selectDate('${ds}')"`:''}><div class="day-num">${day}</div>${!past?`<div class="day-dots">${dots}</div>`:''}</div>`;
+  }
+  grid.innerHTML=html;
+}
+
+// ============================================================
+// SELECT DATE / CABIN
+// ============================================================
+function selectDate(ds){
+  ST.selDate=ds; renderCalendar(); renderCabinSelector();
+  const dd=document.getElementById('date-display');
+  document.getElementById('date-display-text').textContent=
+    new Date(ds+'T00:00:00').toLocaleDateString(
+      LANG==='ru'?'ru-RU':LANG==='lt'?'lt-LT':LANG==='en'?'en-GB':'lv-LV',
+      {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  dd.classList.add('visible');
+  document.getElementById('f-checkin').value=ds;
+  const nx=new Date(ds); nx.setDate(nx.getDate()+1);
+  document.getElementById('f-checkout').value=nx.toISOString().split('T')[0];
+  recalcPrice();
+}
+
+function selectCabinAndBook(id){
+  ST.selCabin=id; highlightCabin(id);
+  document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>{ renderCabinSelector(); recalcPrice(); },300);
+}
+
+function selectCabin(id){ ST.selCabin=id; renderCabinSelector(); recalcPrice(); }
+
+function renderCabinSelector(){
+  const con=document.getElementById('cabin-selector');
+  let html='';
+  CABINS.forEach(c=>{
+    const unavail=ST.selDate&&isBusy(c.id,ST.selDate);
+    const sel=ST.selCabin===c.id;
+    const p=price(c.id,ST.selDate);
+    const typeKey=c.id<=2?'type_family':c.id<=4?'type_double':'type_lux';
+    const cls=['cabin-option',unavail?'cabin-option--unavailable':'',sel&&!unavail?'cabin-option--selected':''].filter(Boolean).join(' ');
+    html+=`<button class="${cls}" type="button" ${unavail?'disabled':`onclick="selectCabin(${c.id})"`}>
+      <div><div class="cabin-option-name">${t('cabin'+c.id+'_name')}</div>
+      <div class="cabin-option-meta">${t(typeKey)} · ${c.maxG} ${t('guests_label').replace(' *','')}</div></div>
+      <div class="cabin-option-right">
+        <div class="cabin-option-price">${p}€</div>
+        <span class="status-pill ${unavail?'status-busy':'status-free'}">${unavail?t('booked_cabin'):t('free_cabin')}</span>
+      </div></button>`;
+  });
+  con.innerHTML=html;
+}
+
+// ============================================================
+// EXTRAS
+// ============================================================
+function renderExtras(){
+  const g=document.getElementById('extras-grid');
+  let html='';
+  EXTRAS.forEach(ex=>{
+    const q=ST.extras[ex.id]||0, active=q>0;
+    html+=`<div class="extra-item ${active?'active':''}" id="er-${ex.id}">
+      <div class="extra-left">
+        <input type="checkbox" class="extra-checkbox" id="ex-${ex.id}" ${active?'checked':''} onchange="toggleExtra('${ex.id}',this.checked)">
+        <div><div class="extra-name">${t('e_'+ex.id)}</div><div class="extra-desc">${t('e_'+ex.id+'_desc')}</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <div class="extra-price">${t('e_'+ex.id+'_price')}</div>
+        ${!ex.perN?`<div class="extra-qty"><button class="qty-btn" type="button" onclick="chgQ('${ex.id}',-1)">−</button><span class="qty-val" id="qv-${ex.id}">${q}</span><button class="qty-btn" type="button" onclick="chgQ('${ex.id}',1)">+</button></div>`:''}
+      </div></div>`;
+  });
+  g.innerHTML=html;
+}
+
+function toggleExtra(id,checked){
+  ST.extras[id]=checked?1:0;
+  document.getElementById('er-'+id)?.classList.toggle('active',checked);
+  const qv=document.getElementById('qv-'+id); if(qv)qv.textContent=ST.extras[id];
+  recalcPrice();
+}
+
+function chgQ(id,d){
+  ST.extras[id]=Math.max(0,(ST.extras[id]||0)+d);
+  const cb=document.getElementById('ex-'+id); if(cb)cb.checked=ST.extras[id]>0;
+  const qv=document.getElementById('qv-'+id); if(qv)qv.textContent=ST.extras[id];
+  document.getElementById('er-'+id)?.classList.toggle('active',ST.extras[id]>0);
+  recalcPrice();
+}
+
+// ============================================================
+// PRICE CALCULATOR
+// ============================================================
+function recalcPrice(){
+  const ci=document.getElementById('f-checkin').value;
+  const co=document.getElementById('f-checkout').value;
+  const g=parseInt(document.getElementById('f-guests').value)||2;
+  const ps=document.getElementById('price-summary');
+  if(!ST.selCabin||!ci||!co||ci>=co){ps.style.display='none';return;}
+  const nights=Math.round((new Date(co)-new Date(ci))/(864e5));
+  if(nights<=0){ps.style.display='none';return;}
+  const cp=price(ST.selCabin,ci);
+  let total=cp*nights, rows='';
+  rows+=`<div class="price-summary-row"><span>${t('cabin_price')} (${nights} ${t('nights')} × ${cp}€)</span><span>${cp*nights}€</span></div>`;
+  const bl=5*g*nights; total+=bl;
+  rows+=`<div class="price-summary-row"><span>${t('bedlinen_sum')} (${g}× ${nights}× 5€)</span><span>${bl}€</span></div>`;
+  EXTRAS.forEach(ex=>{
+    const q=ST.extras[ex.id]||0;
+    if(q>0){const c=ex.perN?ex.price*nights*q:ex.price*q; total+=c;
+      rows+=`<div class="price-summary-row"><span>${t('e_'+ex.id)}${ex.perN?' ('+nights+' '+t('nights')+')':''}</span><span>${c}€</span></div>`;}
+  });
+  document.getElementById('summary-rows').innerHTML=rows;
+  document.getElementById('summary-total').textContent=total+'€';
+  ps.style.display='block';
+}
+
+// ============================================================
+// HOTSPOT
+// ============================================================
+function highlightCabin(id){
+  document.querySelectorAll('.cabin-hotspot').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.cabin-card').forEach(e=>e.classList.remove('highlighted'));
+  document.querySelector(`.cabin-hotspot[data-cabin="${id}"]`)?.classList.add('active');
+  document.getElementById('card-'+id)?.classList.add('highlighted');
+}
+function clearHighlight(){ document.querySelectorAll('.cabin-hotspot').forEach(e=>e.classList.remove('active')); }
+
+// ============================================================
+// SUBMIT
+// ============================================================
+async function submitBooking(){
+  const name=document.getElementById('f-name').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const phone=document.getElementById('f-phone').value.trim();
+  const ci=document.getElementById('f-checkin').value;
+  const co=document.getElementById('f-checkout').value;
+  const g=parseInt(document.getElementById('f-guests').value)||2;
+  const notes=document.getElementById('f-notes').value.trim();
+  const errEl=document.getElementById('booking-error');
+  const showErr=m=>{errEl.textContent='❌ '+m;errEl.classList.add('visible');};
+  errEl.classList.remove('visible');
+  if(!ST.selCabin)return showErr(t('err_no_cabin'));
+  if(!name)return showErr(t('err_no_name'));
+  if(!email||!email.includes('@'))return showErr(t('err_no_email'));
+  if(!phone)return showErr(t('err_no_phone'));
+  if(!ci||!co)return showErr(t('err_no_dates'));
+  if(ci>=co)return showErr(t('err_dates'));
+  const btn=document.getElementById('form-submit');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
+  const nights=Math.round((new Date(co)-new Date(ci))/(864e5));
+  const cp=price(ST.selCabin,ci);
+  let total=cp*nights+5*g*nights;
+  const extObj={};
+  EXTRAS.forEach(ex=>{ const q=ST.extras[ex.id]||0; if(q>0){extObj[ex.id]=q; total+=ex.perN?ex.price*nights*q:ex.price*q;} });
+  const cname=t('cabin'+ST.selCabin+'_name');
+  try{
+    const{error:dbE}=await sb.from('bookings').insert([{
+      cabin_id:ST.selCabin,checkin_date:ci,checkout_date:co,
+      guest_name:name,guest_email:email,guest_phone:phone,
+      guest_count:g,notes:notes,extras:extObj,total_price:total,status:'pending'
+    }]);
+    if(dbE)throw dbE;
+    await emailjs.send(EJS_SVC,EJS_TMPL_C,{
+      to_name:name,to_email:email,cabin_name:cname,
+      checkin_date:ci,checkout_date:co,guest_count:g,
+      total_price:total+'€',notes:notes||'—',phone:phone
+    });
+    await emailjs.send(EJS_SVC,EJS_TMPL_O,{
+      to_email:'antra.sila@gmail.com',guest_name:name,guest_email:email,guest_phone:phone,
+      cabin_name:cname,checkin_date:ci,checkout_date:co,guest_count:g,
+      total_price:total+'€',extras:JSON.stringify(extObj),notes:notes||'—'
+    });
+    await loadBookings();
+    document.getElementById('form-content').style.display='none';
+    const suc=document.getElementById('booking-success');
+    suc.classList.add('visible');
+    document.getElementById('success-msg').textContent=`${name} — ${cname}, ${ci} → ${co}. ${t('total')}: ${total}€`;
+  }catch(err){
+    console.error(err); showErr(t('err_fail'));
+    btn.disabled=false; btn.innerHTML=`<span>${t('submit_btn')}</span>`;
+  }
+}
+
+function resetForm(){
+  ST.selDate=null;ST.selCabin=null;ST.extras={grill:0,coal:0,umbrella:0,chair:0};
+  document.getElementById('form-content').style.display='';
+  document.getElementById('booking-success').classList.remove('visible');
+  document.getElementById('date-display').classList.remove('visible');
+  ['f-name','f-email','f-phone','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-checkin').value='';
+  document.getElementById('f-checkout').value='';
+  document.getElementById('f-guests').value='2';
+  document.getElementById('price-summary').style.display='none';
+  const btn=document.getElementById('form-submit');
+  btn.disabled=false; btn.innerHTML=`<span>${t('submit_btn')}</span>`;
+  renderCalendar(); renderCabinSelector(); renderExtras();
+}
+</script>
+</body>
+</html>
