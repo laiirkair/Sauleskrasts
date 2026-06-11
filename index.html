@@ -60,11 +60,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-hotspot[data-cabin="4"]{left:57%;top:12%;width:17%;height:72%}
 .cabin-hotspot[data-cabin="5"]{left:75%;top:12%;width:22%;height:72%}
 .cabin-hotspot-inner{width:100%;height:100%;border:2px solid transparent;border-radius:8px;background:transparent;transition:all .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:.5rem;position:relative}
-.cabin-hotspot:hover .cabin-hotspot-inner,.cabin-hotspot.active .cabin-hotspot-inner{border-color:var(--gold);background:rgba(200,136,42,.13);box-shadow:0 0 0 3px rgba(200,136,42,.22)}
-.hotspot-badge{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.3);opacity:.6;transition:all .25s}
+.cabin-hotspot:hover .cabin-hotspot-inner,.cabin-hotspot.active .cabin-hotspot-inner{border-color:rgba(200,136,42,.8);background:rgba(10,18,28,.32);box-shadow:0 0 0 2px rgba(200,136,42,.35)}
+.hotspot-badge{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:30px;height:30px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.35);opacity:.7;transition:all .25s}
 .cabin-hotspot:hover .hotspot-badge,.cabin-hotspot.active .hotspot-badge{opacity:1;background:var(--gold);color:white;transform:translateX(-50%) scale(1.12)}
-.hotspot-label{opacity:0;background:rgba(10,18,28,.88);color:white;font-size:.72rem;font-weight:600;padding:.3rem .6rem;border-radius:4px;text-align:center;transition:opacity .2s;white-space:nowrap;backdrop-filter:blur(4px)}
-.cabin-hotspot:hover .hotspot-label,.cabin-hotspot.active .hotspot-label{opacity:1}
+/* Hover preview card */
+.hotspot-preview{position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(8px);width:170px;background:rgba(10,18,28,.92);backdrop-filter:blur(12px);border:1px solid rgba(200,136,42,.4);border-radius:10px;padding:.75rem .85rem;pointer-events:none;opacity:0;transition:all .22s;margin-bottom:8px;z-index:20}
+.cabin-hotspot:hover .hotspot-preview{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all}
+.hotspot-preview-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:white;font-weight:600;margin-bottom:.18rem}
+.hotspot-preview-sub{font-size:.7rem;color:rgba(255,255,255,.55);margin-bottom:.55rem}
+.hotspot-preview-price{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold-light);margin-bottom:.6rem}
+.hotspot-preview-btn{display:block;width:100%;padding:.38rem .6rem;background:var(--gold);color:white;border:none;border-radius:6px;font-size:.75rem;font-weight:700;cursor:pointer;text-align:center;transition:background .2s;letter-spacing:.04em}
+.hotspot-preview-btn:hover{background:var(--gold-light)}
+.hotspot-label{display:none}
 .cabins-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.4rem;max-width:1200px;margin:0 auto;padding:0 2rem}
 .cabin-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;cursor:pointer;border:2px solid transparent}
 .cabin-card:hover,.cabin-card.highlighted{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:var(--gold)}
@@ -107,7 +114,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 #booking .section-title{color:white}
 #booking .section-title em{color:var(--gold-light)}
 .booking-container{max-width:1120px;margin:0 auto;padding:0 2rem}
-.booking-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:2.2rem;margin-top:2.2rem}
+.booking-layout{display:grid;grid-template-columns:1fr;gap:2.2rem;margin-top:2.2rem;max-width:620px}
 .calendar-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:1.7rem}
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem}
 .cal-month{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:white;font-weight:400;min-width:180px;text-align:center}
@@ -130,7 +137,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cal-legend{display:flex;gap:1rem;margin-top:1.1rem;flex-wrap:wrap}
 .cal-legend-item{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:rgba(255,255,255,.55)}
 .cal-legend-dot{width:7px;height:7px;border-radius:50%}
-.form-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:1.7rem;overflow-y:auto;max-height:85vh}
+.form-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:1.7rem}
 .form-box h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:white;font-weight:400;margin-bottom:.2rem}
 .form-subtitle{font-size:.77rem;color:rgba(255,255,255,.45);margin-bottom:1.3rem}
 .cabin-selector{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.1rem}
@@ -204,6 +211,8 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:900px){.booking-layout{grid-template-columns:1fr}.form-box{max-height:none}}
+/* Desktop: hide calendar box in booking; show on mobile only */
+.calendar-box{display:none}
 @media(max-width:768px){
   .nav-links{display:none}.nav-hamburger{display:flex}
   nav.mobile-open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);padding:1.3rem 2rem;gap:1rem;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 8px 24px rgba(0,0,0,.1)}
@@ -212,6 +221,10 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   .form-row{grid-template-columns:1fr}
   .cabin-hotspots{display:none}
   .footer-inner{flex-direction:column;align-items:flex-start}
+  /* Show calendar only on mobile */
+  .calendar-box{display:block}
+  /* Stack booking layout on mobile */
+  .booking-layout{grid-template-columns:1fr}
 }
 
 /* ===== CABIN MODAL ===== */
@@ -337,20 +350,60 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
     <div class="cabin-photo-wrapper">
       <img src="attēls1.png" alt="Saules Krasts mājiņas" class="cabin-main-photo">
       <div class="cabin-hotspots">
-        <div class="cabin-hotspot" data-cabin="1" onclick="selectCabinAndBook(1)" onmouseenter="highlightCabin(1)" onmouseleave="clearHighlight()">
-          <div class="cabin-hotspot-inner"><div class="hotspot-badge">1</div><div class="hotspot-label" data-i18n="cabin1_short">Nr.1 · Ģimenes</div></div>
+        <div class="cabin-hotspot" data-cabin="1">
+          <div class="cabin-hotspot-inner">
+            <div class="hotspot-badge">1</div>
+            <div class="hotspot-preview">
+              <div class="hotspot-preview-title" data-i18n="cabin1_name">Mājiņa Nr. 1</div>
+              <div class="hotspot-preview-sub" data-i18n="type_family">Ģimenes · 4 vietas</div>
+              <div class="hotspot-preview-price" id="hsp1">65€</div>
+              <button class="hotspot-preview-btn" onclick="openCabinModal(1)" data-i18n="book_btn">Rezervēt</button>
+            </div>
+          </div>
         </div>
-        <div class="cabin-hotspot" data-cabin="2" onclick="selectCabinAndBook(2)" onmouseenter="highlightCabin(2)" onmouseleave="clearHighlight()">
-          <div class="cabin-hotspot-inner"><div class="hotspot-badge">2</div><div class="hotspot-label" data-i18n="cabin2_short">Nr.2 · Ģimenes</div></div>
+        <div class="cabin-hotspot" data-cabin="2">
+          <div class="cabin-hotspot-inner">
+            <div class="hotspot-badge">2</div>
+            <div class="hotspot-preview">
+              <div class="hotspot-preview-title" data-i18n="cabin2_name">Mājiņa Nr. 2</div>
+              <div class="hotspot-preview-sub" data-i18n="type_family">Ģimenes · 4 vietas</div>
+              <div class="hotspot-preview-price" id="hsp2">65€</div>
+              <button class="hotspot-preview-btn" onclick="openCabinModal(2)" data-i18n="book_btn">Rezervēt</button>
+            </div>
+          </div>
         </div>
-        <div class="cabin-hotspot" data-cabin="3" onclick="selectCabinAndBook(3)" onmouseenter="highlightCabin(3)" onmouseleave="clearHighlight()">
-          <div class="cabin-hotspot-inner"><div class="hotspot-badge">3</div><div class="hotspot-label" data-i18n="cabin3_short">Nr.3 · Divvietīgā</div></div>
+        <div class="cabin-hotspot" data-cabin="3">
+          <div class="cabin-hotspot-inner">
+            <div class="hotspot-badge">3</div>
+            <div class="hotspot-preview">
+              <div class="hotspot-preview-title" data-i18n="cabin3_name">Mājiņa Nr. 3</div>
+              <div class="hotspot-preview-sub" data-i18n="type_double">Divvietīgā · 2 vietas</div>
+              <div class="hotspot-preview-price" id="hsp3">55€</div>
+              <button class="hotspot-preview-btn" onclick="openCabinModal(3)" data-i18n="book_btn">Rezervēt</button>
+            </div>
+          </div>
         </div>
-        <div class="cabin-hotspot" data-cabin="4" onclick="selectCabinAndBook(4)" onmouseenter="highlightCabin(4)" onmouseleave="clearHighlight()">
-          <div class="cabin-hotspot-inner"><div class="hotspot-badge">4</div><div class="hotspot-label" data-i18n="cabin4_short">Nr.4 · Divvietīgā</div></div>
+        <div class="cabin-hotspot" data-cabin="4">
+          <div class="cabin-hotspot-inner">
+            <div class="hotspot-badge">4</div>
+            <div class="hotspot-preview">
+              <div class="hotspot-preview-title" data-i18n="cabin4_name">Mājiņa Nr. 4</div>
+              <div class="hotspot-preview-sub" data-i18n="type_double">Divvietīgā · 2 vietas</div>
+              <div class="hotspot-preview-price" id="hsp4">55€</div>
+              <button class="hotspot-preview-btn" onclick="openCabinModal(4)" data-i18n="book_btn">Rezervēt</button>
+            </div>
+          </div>
         </div>
-        <div class="cabin-hotspot" data-cabin="5" onclick="selectCabinAndBook(5)" onmouseenter="highlightCabin(5)" onmouseleave="clearHighlight()">
-          <div class="cabin-hotspot-inner"><div class="hotspot-badge">5</div><div class="hotspot-label" data-i18n="cabin5_short">Nr.5 · LUX ⭐</div></div>
+        <div class="cabin-hotspot" data-cabin="5">
+          <div class="cabin-hotspot-inner">
+            <div class="hotspot-badge">5</div>
+            <div class="hotspot-preview">
+              <div class="hotspot-preview-title">Mājiņa Nr. 5 ⭐</div>
+              <div class="hotspot-preview-sub" data-i18n="type_lux">LUX · 2 vietas</div>
+              <div class="hotspot-preview-price" id="hsp5">75€</div>
+              <button class="hotspot-preview-btn" onclick="openCabinModal(5)" data-i18n="book_lux">Rezervēt LUX</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -367,6 +420,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
           <li data-i18n="c1f3">Saulesnecaurlaidīgās žalūzijas</li>
           <li data-i18n="c1f4">Tējkanna</li>
           <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
         </ul>
       </div>
       <div class="cabin-card-footer">
@@ -385,6 +439,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
           <li data-i18n="c2f3">Tumšās žalūzijas</li>
           <li data-i18n="c1f4">Tējkanna</li>
           <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
         </ul>
       </div>
       <div class="cabin-card-footer">
@@ -403,6 +458,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
           <li data-i18n="c2f3">Tumšās žalūzijas</li>
           <li data-i18n="c1f4">Tējkanna</li>
           <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
         </ul>
       </div>
       <div class="cabin-card-footer">
@@ -421,6 +477,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
           <li data-i18n="c2f3">Tumšās žalūzijas</li>
           <li data-i18n="c1f4">Tējkanna</li>
           <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
         </ul>
       </div>
       <div class="cabin-card-footer">
@@ -440,6 +497,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
           <li data-i18n="c5f4">Ledusskapis</li>
           <li data-i18n="c5f5">Kafijas aparāts</li>
           <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
+          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
         </ul>
       </div>
       <div class="cabin-card-footer" style="background:rgba(200,136,42,.05)">
@@ -606,10 +664,25 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
         </div>
         <div class="modal-divider"></div>
 
+        <!-- BEDLINEN (default ON, opt-out) -->
+        <div class="modal-section-title" data-i18n="bedlinen_section">Gultasveļa</div>
+        <div class="modal-extra-item active" id="mex-bedlinen" style="border-color:var(--gold);background:rgba(200,136,42,.07)">
+          <div class="modal-extra-left">
+            <input type="checkbox" class="modal-extra-cb" id="mcb-bedlinen" checked onchange="mToggleBedlinen(this.checked)">
+            <div>
+              <div class="modal-extra-name" data-i18n="bedlinen_name">🛏 Gultasveļa</div>
+              <div class="modal-extra-desc" data-i18n="bedlinen_contents">Sega ar pārvalku · palags · spilvens ar spilvendrānu</div>
+            </div>
+          </div>
+          <div class="modal-extra-right">
+            <div class="modal-extra-price" data-i18n="bedlinen_price_label">5 €/pers./nakts</div>
+            <span id="mbl-included" style="font-size:.72rem;background:rgba(94,138,96,.15);color:var(--moss);padding:.2rem .55rem;border-radius:20px;font-weight:600" data-i18n="included_label">Iekļauts</span>
+          </div>
+        </div>
+
         <!-- EXTRAS -->
-        <div class="modal-section-title" data-i18n="extras_section">Papildus pakalpojumi</div>
+        <div class="modal-section-title" style="margin-top:1rem" data-i18n="extras_section">Papildus pakalpojumi</div>
         <div class="modal-extras" id="modal-extras-grid"></div>
-        <div class="modal-bedlinen-note" id="modal-bedlinen-note" data-i18n="bedlinen_info">🛏 Gultasveļa: 5 €/persona/nakts</div>
 
         <div style="height:1.2rem"></div>
 
@@ -747,6 +820,13 @@ lv:{
   err_dates:"Izbraukšanai jābūt pēc ierašanās.",err_fail:"Kļūda. Sazinieties: +371 29265047",
   months:["Janvāris","Februāris","Marts","Aprīlis","Maijs","Jūnijs","Jūlijs","Augusts","Septembris","Oktobris","Novembris","Decembris"],
   wdays:["Pr","Ot","Tr","Ce","Pk","Se","Sv"],
+  bedlinen_section:'Gultasveļa (iekļauta standartā)',
+  bedlinen_name:'🛏 Gultasveļa',
+  bedlinen_contents:'Sega ar pārvalku · palags · spilvens ar spilvendrānu',
+  bedlinen_price_label:'5 €/pers./nakts',
+  included_label:'Iekļauts',
+  excluded_label:'Noņemts',
+  bedlinen_card_note:'🛏 Gultasveļa iekļauta',
   free_cabin:"Pieejama",booked_cabin:"Aizņemta",
   features_title:"Iekārtojums",prices_title_short:"Cenas",
   max_guests:"Maks. vietu",persons:"pers.",
@@ -811,6 +891,13 @@ en:{
   err_dates:"Check-out must be after check-in.",err_fail:"Error. Contact us: +371 29265047",
   months:["January","February","March","April","May","June","July","August","September","October","November","December"],
   wdays:["Mo","Tu","We","Th","Fr","Sa","Su"],
+  bedlinen_section:'Bed linen (included by default)',
+  bedlinen_name:'🛏 Bed linen',
+  bedlinen_contents:'Duvet with cover · fitted sheet · pillow with pillowcase',
+  bedlinen_price_label:'5/pers./night',
+  included_label:'Included',
+  excluded_label:'Removed',
+  bedlinen_card_note:'🛏 Bed linen included',
   free_cabin:"Available",booked_cabin:"Booked",
   features_title:"Features",prices_title_short:"Prices",
   max_guests:"Max guests",persons:"pers.",
@@ -875,6 +962,13 @@ lt:{
   err_dates:"Išvykimas turi būti po atvykimo.",err_fail:"Klaida. Susisiekite: +371 29265047",
   months:["Sausis","Vasaris","Kovas","Balandis","Gegužė","Birželis","Liepa","Rugpjūtis","Rugsėjis","Spalis","Lapkritis","Gruodis"],
   wdays:["Pr","An","Tr","Kt","Pn","Še","Sk"],
+  bedlinen_section:'Patalynė (įtraukta standartiškai)',
+  bedlinen_name:'🛏 Patalynė',
+  bedlinen_contents:'Antklodė su užvalkalu · paklodė · pagalvė su užvalkalu',
+  bedlinen_price_label:'5 €/asm./naktis',
+  included_label:'Įtraukta',
+  excluded_label:'Pašalinta',
+  bedlinen_card_note:'🛏 Patalynė įtraukta',
   free_cabin:"Laisvas",booked_cabin:"Užimtas",
   features_title:"Įranga",prices_title_short:"Kainos",
   max_guests:"Maks. svečių",persons:"asm.",
@@ -939,6 +1033,13 @@ ru:{
   err_dates:"Дата выезда должна быть позже заезда.",err_fail:"Ошибка. Свяжитесь: +371 29265047",
   months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
   wdays:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],
+  bedlinen_section:'Постельное бельё (включено)',
+  bedlinen_name:'🛏 Постельное бельё',
+  bedlinen_contents:'Одеяло с пододеяльником · простыня · подушка с наволочкой',
+  bedlinen_price_label:'5 €/чел./ночь',
+  included_label:'Включено',
+  excluded_label:'Убрано',
+  bedlinen_card_note:'🛏 Бельё включено',
   free_cabin:"Свободен",booked_cabin:"Занят",
   features_title:"Оснащение",prices_title_short:"Цены",
   max_guests:"Макс. мест",persons:"чел.",
@@ -1021,11 +1122,13 @@ const CABINS=[
 ];
 
 const EXTRAS=[
-  {id:'grill',   perN:true,  price:5},
-  {id:'coal',    perN:false, price:10},
-  {id:'umbrella',perN:true,  price:5},
-  {id:'chair',   perN:true,  price:10},
+  {id:'grill',    perN:true,  price:5},
+  {id:'coal',     perN:false, price:10},
+  {id:'umbrella', perN:true,  price:5},
+  {id:'chair',    perN:true,  price:10},
 ];
+// Bedlinen is always included by default; guest can opt out
+const BEDLINEN_PRICE = 5; // per person per night
 
 // ============================================================
 // STATE
@@ -1300,7 +1403,8 @@ const CABIN_DETAILS = {
 // ============================================================
 let MST = {
   cabinId: null,
-  extras: { grill: 0, coal: 0, umbrella: 0, chair: 0 }
+  extras: { grill: 0, coal: 0, umbrella: 0, chair: 0 },
+  bedlinen: true   // included by default, guest may opt out
 };
 
 const MAX_QTY = 2;
@@ -1311,6 +1415,7 @@ const MAX_QTY = 2;
 function openCabinModal(cabinId) {
   MST.cabinId = cabinId;
   MST.extras = { grill: 0, coal: 0, umbrella: 0, chair: 0 };
+  MST.bedlinen = true;
 
   const cabin = CABINS.find(c => c.id === cabinId);
   const details = CABIN_DETAILS[cabinId];
@@ -1444,8 +1549,10 @@ function modalRecalc() {
   const cp = price(MST.cabinId, ci);
   let total = cp * nights, rows = '';
   rows += `<div class="modal-summary-row"><span>${t('cabin_price')} (${nights} ${t('nights')} × ${cp}€)</span><span>${cp * nights}€</span></div>`;
-  const bl = 5 * g * nights; total += bl;
-  rows += `<div class="modal-summary-row"><span>${t('bedlinen_sum')} (${g}× ${nights}× 5€)</span><span>${bl}€</span></div>`;
+  if (MST.bedlinen) {
+    const bl = BEDLINEN_PRICE * g * nights; total += bl;
+    rows += `<div class="modal-summary-row"><span>${t('bedlinen_name')} (${g}× ${nights}× ${BEDLINEN_PRICE}€)</span><span>${bl}€</span></div>`;
+  }
   EXTRAS.forEach(ex => {
     const q = MST.extras[ex.id] || 0;
     if (q > 0) {
@@ -1483,7 +1590,7 @@ async function submitModalBooking() {
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
   const nights = Math.round((new Date(co) - new Date(ci)) / 864e5);
   const cp = price(MST.cabinId, ci);
-  let total = cp * nights + 5 * g * nights;
+  let total = cp * nights + (MST.bedlinen ? BEDLINEN_PRICE * g * nights : 0);
   const extObj = {};
   EXTRAS.forEach(ex => { const q = MST.extras[ex.id] || 0; if (q > 0) { extObj[ex.id] = q; total += ex.perN ? ex.price * nights * q : ex.price * q; } });
   const cname = t('cabin' + MST.cabinId + '_name');
@@ -1507,11 +1614,29 @@ async function submitModalBooking() {
   }
 }
 
+function mToggleBedlinen(checked) {
+  MST.bedlinen = checked;
+  const row = document.getElementById('mex-bedlinen');
+  const pill = document.getElementById('mbl-included');
+  if (row) row.classList.toggle('active', checked);
+  if (pill) {
+    pill.style.background = checked ? 'rgba(94,138,96,.15)' : 'rgba(200,74,58,.12)';
+    pill.style.color = checked ? 'var(--moss)' : 'var(--coral)';
+    pill.textContent = checked ? t('included_label') : t('excluded_label');
+  }
+  modalRecalc();
+}
+
 function resetModalForm() {
   ['m-name', 'm-email', 'm-phone', 'm-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   const ci = document.getElementById('m-checkin'); if (ci) ci.value = '';
   const co = document.getElementById('m-checkout'); if (co) co.value = '';
   const sumEl = document.getElementById('modal-summary'); if (sumEl) sumEl.style.display = 'none';
+  MST.bedlinen = true;
+  const blCb = document.getElementById('mcb-bedlinen'); if (blCb) blCb.checked = true;
+  const blRow = document.getElementById('mex-bedlinen'); if (blRow) blRow.classList.add('active');
+  const blPill = document.getElementById('mbl-included');
+  if (blPill) { blPill.style.background='rgba(94,138,96,.15)'; blPill.style.color='var(--moss)'; blPill.textContent=t('included_label'); }
   const btn = document.getElementById('modal-submit-btn');
   if (btn) { btn.disabled = false; btn.innerHTML = `<span>${t('submit_btn')}</span>`; }
   const formArea = document.getElementById('modal-form-area');
