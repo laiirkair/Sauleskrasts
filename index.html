@@ -114,17 +114,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-card.highlighted{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,136,42,.2),var(--shadow-lg)}
 .cabin-card.selected{border-color:var(--moss);box-shadow:0 0 0 3px rgba(94,138,96,.25),var(--shadow-lg)}
 
-/* Big visible checkbox in top-left */
-.cabin-select-check{position:absolute;top:.9rem;left:.9rem;z-index:5;width:36px;height:36px;border-radius:50%;background:white;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:transparent;transition:all .2s;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
-.cabin-select-check:hover{transform:scale(1.08);border-color:var(--moss)}
+/* Visible checkbox in top-right of card (clearer than left) */
+.cabin-select-check{position:absolute;top:.7rem;right:.7rem;z-index:5;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:rgba(28,46,74,.3);transition:all .2s;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);font-family:'Inter',sans-serif}
+.cabin-select-check:hover,.cabin-select-check:focus{transform:scale(1.08);border-color:var(--moss);color:var(--moss);outline:none}
+.cabin-select-check:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .cabin-card.selected .cabin-select-check{background:var(--moss);border-color:white;color:white}
 
-/* "Select multiple" label hint that pulses on first cabin */
-.select-hint-arrow{position:absolute;top:1rem;left:3.2rem;z-index:5;background:var(--moss);color:white;font-size:.7rem;padding:.3rem .65rem;border-radius:20px;font-weight:600;letter-spacing:.03em;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .3s;display:flex;align-items:center;gap:.3rem}
-.cabin-card:hover .select-hint-arrow{opacity:1}
-.cabin-card.selected .select-hint-arrow{display:none}
+/* Hint tooltip ABOVE the checkbox on hover */
+.select-hint-arrow{position:absolute;top:-32px;right:0;background:var(--moss);color:white;font-size:.72rem;padding:.35rem .7rem;border-radius:6px;font-weight:600;letter-spacing:.02em;white-space:nowrap;pointer-events:none;opacity:0;transition:all .25s;transform:translateY(8px)}
+.select-hint-arrow::after{content:'';position:absolute;top:100%;right:14px;border:5px solid transparent;border-top-color:var(--moss)}
+.cabin-card:hover .cabin-select-check .select-hint-arrow{opacity:1;transform:translateY(0)}
+.cabin-card.selected .cabin-select-check .select-hint-arrow{display:none}
 
-.cabin-card-header{background:var(--navy);padding:1.1rem 1.3rem 1.1rem 3.2rem;display:flex;justify-content:space-between;align-items:center}
+.cabin-card-header{background:var(--navy);padding:1.1rem 4rem 1.1rem 1.3rem;display:flex;justify-content:space-between;align-items:center}
 .cabin-number{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:rgba(255,255,255,.18);line-height:1}
 .cabin-type-badge{font-family:'Bebas Neue',sans-serif;font-size:.72rem;letter-spacing:.14em;padding:.28rem .75rem;border-radius:20px;border:1px solid}
 .badge-lux{background:rgba(200,136,42,.2);border-color:var(--gold);color:#E8C87A}
@@ -191,6 +193,8 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .cal-weekday{text-align:center;font-size:.7rem;font-weight:600;letter-spacing:.07em;color:var(--text-light);padding:.4rem 0;text-transform:uppercase}
 .cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:.35rem;border-radius:8px;background:white;border:1px solid rgba(0,0,0,.05);position:relative;transition:all .2s}
+.cal-day[role="button"]{cursor:pointer}
+.cal-day[role="button"]:focus{outline:2px solid var(--gold);outline-offset:2px}
 .cal-day--empty{background:transparent;border:none}
 .cal-day--past{opacity:.35;background:var(--sand-light)}
 .cal-day--today{border-color:var(--gold);border-width:1.5px}
@@ -363,9 +367,10 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   </button>
 </nav>
 
+<main>
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"><img src="attēls1.png" alt="Saules Krasts" class="hero-img"></div>
+  <div class="hero-bg"><img src="attēls1.png" alt="Saules Krasts mājiņas pie jūras" class="hero-img" loading="eager"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Baltijas jūra</p>
@@ -391,7 +396,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   <!-- Cabin photo with hotspots -->
   <div class="cabin-photo-zone">
     <div class="cabin-photo-wrapper">
-      <img src="attēls1.png" alt="Saules Krasts mājiņas" class="cabin-main-photo">
+      <img src="attēls1.png" alt="Saules Krasts piecu mājiņu fotoattēls" class="cabin-main-photo" loading="lazy">
       <div class="cabin-hotspots">
         <div class="cabin-hotspot" data-cabin="1"><div class="cabin-hotspot-inner"><div class="hotspot-badge">1</div></div></div>
         <div class="cabin-hotspot" data-cabin="2"><div class="cabin-hotspot-inner"><div class="hotspot-badge">2</div></div></div>
@@ -473,9 +478,9 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 </section>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="cabin-modal">
+<div class="modal-overlay" id="cabin-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <button class="modal-close" onclick="closeModal()" aria-label="Close booking dialog">✕</button>
     <div class="modal-hero">
       <div class="modal-num" id="modal-num"></div>
       <div class="modal-hero-inner">
@@ -572,6 +577,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 </div>
 
 <!-- FOOTER -->
+</main>
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img src="logo.jpeg" alt="Saules Krasts"></div>
@@ -585,7 +591,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 
 <script>
 // ⚙️  SUPABASE SETUP — replace with your project values
-const SB_URL = 'https://kkpwxygfihxyzhrfvqim.supabase.co/rest/v1/';
+const SB_URL = 'https://kkpwxygfihxyzhrfvqim.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrcHd4eWdmaWh4eXpocmZ2cWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTA3MjksImV4cCI6MjA5Njc2NjcyOX0.6DSU-vtKHs20GKVxZaMATRhMh1KStzO4v_IqKWwmzv0';
 /*  Required SQL (run once in Supabase SQL editor):
 CREATE TABLE bookings (
@@ -686,14 +692,14 @@ lv: {
   contact_eyebrow:"Kontakti", contact_title:"Jautājumi? <em>Sazinieties!</em>",
   contact_addr:"Ragaciems, Engures novads, Latvija<br>Atbildam ātrāk WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ E-pasts",
-  checkin_info:"<strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00",,
+  checkin_info:"<strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00",
   multi_empty_title:"Izvēlieties vienu vai vairākas mājiņas",
   multi_empty_hint:"Atzīmējiet izvēles laukus, lai rezervētu vairākas vienlaikus",
   multi_add_more_hint:"Atzīmējiet vēl, vai turpiniet ar šo vienu",
   multi_ready_hint:"Visas tiks rezervētas vienā formā",
   multi_book_disabled:"Vispirms atzīmējiet mājiņu",
   select_hint:"Atzīmēt vairākas",
-  select_btn_tooltip:"Atzīmējiet, lai rezervētu kopā ar citām"
+  select_btn_tooltip:"Atzīmējiet, lai rezervētu kopā ar citām",
   err_no_cabin:"Lūdzu izvēlieties vismaz vienu mājiņu.",
   err_no_name:"Ievadiet vārdu un uzvārdu.",
   err_no_email:"Ievadiet derīgu e-pastu.",
@@ -701,6 +707,7 @@ lv: {
   err_no_dates:"Ievadiet ierašanās un izbraukšanas datumus.",
   err_dates:"Izbraukšanai jābūt pēc ierašanās.",
   err_fail:"Kļūda. Lūdzu sazinieties: +371 29265047",
+  err_conflict:"⚠️ Izvēlētajā periodā jau ir rezervācija mājiņai: {cabins}. Lūdzu izvēlieties citu datumu.",
   nav_availability:"Pieejamība",
   avail_eyebrow:"Brīvās dienas",
   avail_title:"Pieejamība <em>vienā skatā</em>",
@@ -771,14 +778,14 @@ en: {
   contact_eyebrow:"Contact", contact_title:"Questions? <em>Get in touch!</em>",
   contact_addr:"Ragaciems, Engure District, Latvia<br>We respond faster on WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ Email",
-  checkin_info:"<strong>Check-in:</strong> from 14:00 · <strong>Check-out:</strong> by 11:00",,
+  checkin_info:"<strong>Check-in:</strong> from 14:00 · <strong>Check-out:</strong> by 11:00",
   multi_empty_title:"Select one or more cabins",
   multi_empty_hint:"Tick the checkbox to book multiple cabins together",
   multi_add_more_hint:"Select more, or continue with this one",
   multi_ready_hint:"All will be booked in a single form",
   multi_book_disabled:"First select a cabin",
   select_hint:"Tick to select multiple",
-  select_btn_tooltip:"Tick to book together with others"
+  select_btn_tooltip:"Tick to book together with others",
   err_no_cabin:"Please select at least one cabin.",
   err_no_name:"Enter your full name.",
   err_no_email:"Enter a valid email.",
@@ -786,6 +793,7 @@ en: {
   err_no_dates:"Enter check-in and check-out dates.",
   err_dates:"Check-out must be after check-in.",
   err_fail:"Error. Please contact us: +371 29265047",
+  err_conflict:"⚠️ Selected period overlaps with existing booking for: {cabins}. Please choose different dates.",
   nav_availability:"Availability",
   avail_eyebrow:"Available days",
   avail_title:"Availability <em>at a glance</em>",
@@ -856,14 +864,14 @@ lt: {
   contact_eyebrow:"Kontaktai", contact_title:"Klausimai? <em>Susisiekite!</em>",
   contact_addr:"Ragaciems, Engurės rajonas, Latvija<br>Greičiau atsakome WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ El. paštas",
-  checkin_info:"<strong>Atvykimas:</strong> nuo 14:00 · <strong>Išvykimas:</strong> iki 11:00",,
+  checkin_info:"<strong>Atvykimas:</strong> nuo 14:00 · <strong>Išvykimas:</strong> iki 11:00",
   multi_empty_title:"Pasirinkite vieną ar kelis namelius",
   multi_empty_hint:"Pažymėkite langelį, kad rezervuotumėte kelis kartu",
   multi_add_more_hint:"Pasirinkite daugiau arba tęskite su šiuo",
   multi_ready_hint:"Visi bus rezervuoti vienoje formoje",
   multi_book_disabled:"Pirma pasirinkite namelį",
   select_hint:"Pažymėti kelis",
-  select_btn_tooltip:"Pažymėkite, kad rezervuotumėte kartu su kitais"
+  select_btn_tooltip:"Pažymėkite, kad rezervuotumėte kartu su kitais",
   err_no_cabin:"Pasirinkite bent vieną namelį.",
   err_no_name:"Įveskite vardą ir pavardę.",
   err_no_email:"Įveskite galiojantį el. paštą.",
@@ -871,6 +879,7 @@ lt: {
   err_no_dates:"Įveskite atvykimo ir išvykimo datas.",
   err_dates:"Išvykimas turi būti po atvykimo.",
   err_fail:"Klaida. Susisiekite: +371 29265047",
+  err_conflict:"⚠️ Pasirinktas laikotarpis jau užimtas nameliui: {cabins}. Pasirinkite kitas datas.",
   nav_availability:"Prieinamumas",
   avail_eyebrow:"Laisvos dienos",
   avail_title:"Prieinamumas <em>vienu žvilgsniu</em>",
@@ -941,14 +950,14 @@ ru: {
   contact_eyebrow:"Контакты", contact_title:"Вопросы? <em>Свяжитесь!</em>",
   contact_addr:"Рагациемс, Энгурский край, Латвия<br>Быстрее отвечаем в WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ Эл. почта",
-  checkin_info:"<strong>Заезд:</strong> с 14:00 · <strong>Выезд:</strong> до 11:00",,
+  checkin_info:"<strong>Заезд:</strong> с 14:00 · <strong>Выезд:</strong> до 11:00",
   multi_empty_title:"Выберите один или несколько домиков",
   multi_empty_hint:"Отметьте галочку, чтобы забронировать несколько вместе",
   multi_add_more_hint:"Выберите ещё или продолжите с этим",
   multi_ready_hint:"Все будут забронированы одной формой",
   multi_book_disabled:"Сначала выберите домик",
   select_hint:"Отметить несколько",
-  select_btn_tooltip:"Отметьте, чтобы забронировать с другими"
+  select_btn_tooltip:"Отметьте, чтобы забронировать с другими",
   err_no_cabin:"Выберите хотя бы один домик.",
   err_no_name:"Введите имя и фамилию.",
   err_no_email:"Введите корректный адрес.",
@@ -956,6 +965,7 @@ ru: {
   err_no_dates:"Введите даты заезда и выезда.",
   err_dates:"Дата выезда должна быть позже заезда.",
   err_fail:"Ошибка. Свяжитесь: +371 29265047",
+  err_conflict:"⚠️ Выбранный период уже забронирован для домика: {cabins}. Выберите другие даты.",
   nav_availability:"Доступность",
   avail_eyebrow:"Свободные дни",
   avail_title:"Доступность <em>одним взглядом</em>",
@@ -1073,8 +1083,10 @@ function renderCabinCards(){
     const priceColor = c.type==='lux' ? 'style="color:var(--gold)"' : '';
     return `
       <div class="cabin-card ${isSel?'selected':''}" id="card-${c.id}" onmouseenter="showHotspotBanner(${c.id})" onmouseleave="hideHotspotBanner()">
-        <div class="cabin-select-check" onclick="toggleCabinSelection(${c.id});event.stopPropagation()" title="${t('select_btn')}">${isSel?'✓':''}</div>
-        ${!isSel?`<div class="select-hint-arrow">← ${t('select_hint')}</div>`:''}
+        <div class="cabin-select-check" onclick="toggleCabinSelection(${c.id});event.stopPropagation()" title="${t('select_btn_tooltip')}" role="checkbox" aria-checked="${isSel}" tabindex="0">
+          ${isSel?'✓':'☐'}
+          ${!isSel?`<span class="select-hint-arrow">${t('select_hint')}</span>`:''}
+        </div>
         <div class="cabin-card-header" style="${headerStyle}">
           <div class="cabin-number">${String(c.id).padStart(2,'0')}</div>
           <div style="display:flex;gap:.3rem;align-items:center">
@@ -1094,11 +1106,8 @@ function renderCabinCards(){
             <span class="price-value" ${priceColor}>${c.price}<small style="font-size:.65rem;font-family:Inter">€</small></span>
             <span class="price-unit">${t('per_night')}</span>
           </div>
-          <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;justify-content:flex-end">
-            <button class="cabin-toggle-select" onclick="toggleCabinSelection(${c.id});event.stopPropagation()" title="${t('select_btn_tooltip')}">
-              ${isSel?'✓ '+t('selected_btn'):'+ '+t('select_btn')}
-            </button>
-            <button class="cabin-book-btn" onclick="openCabinModal(${c.id});event.stopPropagation()">${t('book_btn')}</button>
+          <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:flex-end">
+            <button class="cabin-book-btn" onclick="openCabinModal(${c.id});event.stopPropagation()">${t('book_btn')} →</button>
           </div>
         </div>
       </div>
@@ -1175,6 +1184,12 @@ function initPerCabinState(ids){
 function openModal(){
   document.getElementById('cabin-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
+  // Prevent past dates
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('m-checkin').min = today;
+  document.getElementById('m-checkout').min = today;
+  // Auto-focus check-in date for fast keyboard use
+  setTimeout(() => document.getElementById('m-checkin')?.focus(), 350);
 }
 function closeModal(){
   document.getElementById('cabin-modal').classList.remove('open');
@@ -1463,6 +1478,20 @@ async function submitModalBooking(){
   if (!ci || !co) return showErr(t('err_no_dates'));
   if (ci >= co) return showErr(t('err_dates'));
 
+  // Check availability conflict for any selected cabin
+  const conflictCabins = ST.modalCabins.filter(cabinId => {
+    return ST.bookings.some(b =>
+      b.cabin_id === cabinId &&
+      b.status !== 'cancelled' &&
+      // overlap: bookingStart < newCheckout AND bookingEnd > newCheckin
+      b.checkin_date < co && b.checkout_date > ci
+    );
+  });
+  if (conflictCabins.length > 0) {
+    const names = conflictCabins.map(id => t('cabin'+id+'_name')).join(', ');
+    return showErr(t('err_conflict', {cabins: names}));
+  }
+
   const btn = document.getElementById('modal-submit-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>';
@@ -1629,13 +1658,36 @@ function renderCalendar(){
       (isFull && !isPast)?'cal-day--full':''
     ].filter(Boolean).join(' ');
 
-    html += `<div class="${cls}">
+    html += `<div class="${cls}" ${!isPast && !isFull ? `onclick="selectDateFromCalendar('${ymd}')" role="button" tabindex="0" aria-label="${ymd}, ${availCount} ${t('cabins_available')}"` : ''}>
       <div class="day-num">${day}</div>
       ${!isPast ? `<div class="day-dots">${dots}</div>` : ''}
       ${!isPast ? `<div class="cal-day-tooltip">${tooltipRows}</div>` : ''}
     </div>`;
   }
   grid.innerHTML = html;
+}
+
+function selectDateFromCalendar(ymd){
+  // Find cabins available on this date
+  const availableCabins = CABINS.filter(c => !isCabinBookedOn(c.id, ymd));
+  if (availableCabins.length === 0) return;
+
+  // Open modal with the first available cabin pre-selected
+  // and dates pre-filled
+  const cabinId = availableCabins[0].id;
+  openCabinModal(cabinId);
+
+  // Pre-fill dates: this day as check-in, next day as check-out
+  setTimeout(() => {
+    const checkin = document.getElementById('m-checkin');
+    const checkout = document.getElementById('m-checkout');
+    checkin.value = ymd;
+    const next = new Date(ymd);
+    next.setDate(next.getDate() + 1);
+    checkout.value = next.toISOString().split('T')[0];
+    checkout.min = next.toISOString().split('T')[0];
+    recalcModalTotal();
+  }, 100);
 }
 window.addEventListener('DOMContentLoaded', () => {
   LANG = detectLang();
@@ -1654,14 +1706,32 @@ window.addEventListener('DOMContentLoaded', () => {
     a.addEventListener('click', () => document.getElementById('main-nav').classList.remove('mobile-open'));
   });
 
-  // Date recalc
-  ['m-checkin','m-checkout'].forEach(id => {
-    document.getElementById(id).addEventListener('change', recalcModalTotal);
+  // Date recalc + chained min for checkout
+  document.getElementById('m-checkin').addEventListener('change', (e) => {
+    const ci = e.target.value;
+    if (ci) {
+      // Checkout must be at least day after check-in
+      const next = new Date(ci);
+      next.setDate(next.getDate() + 1);
+      document.getElementById('m-checkout').min = next.toISOString().split('T')[0];
+      // If checkout is now invalid, suggest next day
+      const co = document.getElementById('m-checkout');
+      if (!co.value || co.value <= ci) co.value = next.toISOString().split('T')[0];
+    }
+    recalcModalTotal();
   });
+  document.getElementById('m-checkout').addEventListener('change', recalcModalTotal);
 
   // ESC closes modal
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal();
+    // Space/Enter on checkbox
+    if ((e.key === ' ' || e.key === 'Enter') && e.target.classList.contains('cabin-select-check')) {
+      e.preventDefault();
+      const card = e.target.closest('.cabin-card');
+      const id = parseInt(card.id.replace('card-',''));
+      if (id) toggleCabinSelection(id);
+    }
   });
 
   // Click outside modal closes
