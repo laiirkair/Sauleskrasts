@@ -3,55 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saules Krasts — Sunrise Coast Camping</title>
+<title>Saules Krasts — Ragaciems</title>
 <meta name="description" content="Piecas koka mājiņas pie Baltijas jūras Ragaciemā.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <style>
-:root{--sand:#F5EDD6;--sand-light:#FAF5E9;--navy:#1C2E4A;--navy-dark:#0F1D30;--gold:#C8882A;--gold-light:#E8A84A;--sea:#5A8FA3;--moss:#5E8A60;--coral:#C84A3A;--white:#FAFAF8;--text:#2C3540;--text-light:#5A6570;--shadow:0 4px 24px rgba(28,46,74,.10);--shadow-lg:0 12px 48px rgba(28,46,74,.16)}
+:root{
+  --sand:#F5EDD6;--sand-light:#FAF5E9;
+  --navy:#1C2E4A;--navy-dark:#0F1D30;
+  --gold:#C8882A;--gold-light:#E8A84A;
+  --sea:#5A8FA3;--moss:#5E8A60;--coral:#C84A3A;
+  --white:#FAFAF8;--text:#2C3540;--text-light:#5A6570;
+  --shadow:0 4px 24px rgba(28,46,74,.10);
+  --shadow-lg:0 12px 48px rgba(28,46,74,.16);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;color:var(--text);background:var(--sand-light);overflow-x:hidden}
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0.85rem 2.5rem;background:rgba(250,250,248,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,0.12);transition:padding .3s}
+
+/* ─── NAV ─────────────────────────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2.5rem;background:rgba(250,250,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,.12)}
 .nav-logo img{height:44px;width:auto;display:block;object-fit:contain}
-.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
-.nav-links a{text-decoration:none;color:var(--navy);font-size:0.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s}
+.nav-links{display:flex;gap:1.6rem;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;color:var(--navy);font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s}
 .nav-links a:hover{color:var(--gold)}
 .nav-cta{background:var(--gold)!important;color:white!important;padding:.5rem 1.2rem;border-radius:30px;font-weight:600!important}
 .nav-cta:hover{background:var(--navy)!important}
 .lang-switcher{display:flex;gap:4px}
-.lang-btn{background:none;border:1px solid rgba(28,46,74,.2);color:var(--navy);font-size:0.7rem;font-weight:600;padding:.25rem .5rem;border-radius:4px;cursor:pointer;transition:all .2s;letter-spacing:.05em}
+.lang-btn{background:none;border:1px solid rgba(28,46,74,.2);color:var(--navy);font-size:.7rem;font-weight:600;padding:.25rem .5rem;border-radius:4px;cursor:pointer;transition:all .2s}
 .lang-btn:hover,.lang-btn.active{background:var(--navy);color:white;border-color:var(--navy)}
 .nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
-.nav-hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:all .3s}
+.nav-hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:.3s}
+
+/* ─── HERO ────────────────────────────────────────────────────────── */
 .hero{position:relative;height:100vh;min-height:580px;display:flex;align-items:flex-end;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:var(--navy-dark)}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,18,28,.78) 0%,rgba(10,18,28,.18) 55%,transparent 100%)}
 .hero-content{position:relative;z-index:5;width:100%;max-width:860px;padding:0 2.5rem 5rem}
 .hero-eyebrow{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.32em;color:var(--gold-light);margin-bottom:.8rem}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6.5vw,5.5rem);font-weight:300;color:white;line-height:1.06;margin-bottom:1.1rem}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,6vw,5.2rem);font-weight:300;color:white;line-height:1.06;margin-bottom:1.1rem}
 .hero-title em{font-style:italic;color:var(--gold-light)}
 .hero-sub{color:rgba(255,255,255,.78);font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;margin-bottom:1.8rem;max-width:480px;line-height:1.7}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
-.btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.9rem;background:var(--gold);color:white;border:none;border-radius:40px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(200,136,42,.35)}
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.9rem;background:var(--gold);color:white;border:none;border-radius:40px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(200,136,42,.35)}
 .btn-primary:hover{background:white;color:var(--navy);transform:translateY(-2px)}
-.btn-outline{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.9rem;background:transparent;color:white;border:1.5px solid rgba(255,255,255,.45);border-radius:40px;font-family:'Inter',sans-serif;font-size:.88rem;cursor:pointer;text-decoration:none;transition:all .25s}
+.btn-outline{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.9rem;background:transparent;color:white;border:1.5px solid rgba(255,255,255,.45);border-radius:40px;font-family:inherit;font-size:.88rem;cursor:pointer;text-decoration:none;transition:all .25s}
 .btn-outline:hover{border-color:white;background:rgba(255,255,255,.08)}
-.hero-scroll{position:absolute;bottom:1.8rem;right:2.5rem;z-index:5;display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(255,255,255,.55);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase}
-.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.55));animation:scrollPulse 2s ease-in-out infinite}
-@keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ─── SECTION HEADERS ─────────────────────────────────────────────── */
 .section-header{text-align:center;padding:0 2rem;margin-bottom:3rem}
 .section-eyebrow{font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:.35em;color:var(--gold);margin-bottom:.7rem}
 .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.8vw,3rem);font-weight:300;color:var(--navy);line-height:1.2}
 .section-title em{font-style:italic;color:var(--gold)}
+
+/* ─── CABINS ──────────────────────────────────────────────────────── */
 #cabins{background:var(--sand-light);padding:6rem 0 4rem}
-.cabin-photo-zone{position:relative;max-width:1200px;margin:0 auto 2.5rem;padding:0 2rem}
+
+/* Photo with hotspots */
+.cabin-photo-zone{position:relative;max-width:1200px;margin:0 auto 3rem;padding:0 2rem}
 .cabin-photo-wrapper{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg)}
 .cabin-main-photo{width:100%;display:block;max-height:520px;object-fit:cover}
+
+/* Floating info banner (appears at top when hovering hotspot) */
+.cabin-info-banner{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);z-index:150;background:rgba(28,46,74,.97);backdrop-filter:blur(12px);border:1px solid rgba(200,136,42,.4);border-radius:12px;padding:1rem 1.4rem;min-width:280px;max-width:90vw;box-shadow:0 16px 48px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .25s, transform .25s}
+.cabin-info-banner.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all}
+.cabin-info-banner-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:white;margin-bottom:.2rem}
+.cabin-info-banner-sub{font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:.45rem}
+.cabin-info-banner-price{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-light);margin-bottom:.7rem;letter-spacing:.04em}
+.cabin-info-banner-price small{font-size:.65rem;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-left:.4rem}
+.cabin-info-banner-btn{display:block;width:100%;padding:.55rem 1rem;background:var(--gold);color:white;border:none;border-radius:7px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;letter-spacing:.04em;transition:background .2s}
+.cabin-info-banner-btn:hover{background:var(--gold-light)}
+
 .cabin-hotspots{position:absolute;inset:0}
 .cabin-hotspot{position:absolute;cursor:pointer}
 .cabin-hotspot[data-cabin="1"]{left:3%;top:12%;width:17%;height:72%}
@@ -59,23 +85,46 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-hotspot[data-cabin="3"]{left:39%;top:12%;width:17%;height:72%}
 .cabin-hotspot[data-cabin="4"]{left:57%;top:12%;width:17%;height:72%}
 .cabin-hotspot[data-cabin="5"]{left:75%;top:12%;width:22%;height:72%}
-.cabin-hotspot-inner{width:100%;height:100%;border:2px solid transparent;border-radius:8px;background:transparent;transition:all .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:.5rem;position:relative}
-.cabin-hotspot:hover .cabin-hotspot-inner,.cabin-hotspot.active .cabin-hotspot-inner{border-color:rgba(200,136,42,.8);background:rgba(10,18,28,.32);box-shadow:0 0 0 2px rgba(200,136,42,.35)}
-.hotspot-badge{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:30px;height:30px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.35);opacity:.7;transition:all .25s}
-.cabin-hotspot:hover .hotspot-badge,.cabin-hotspot.active .hotspot-badge{opacity:1;background:var(--gold);color:white;transform:translateX(-50%) scale(1.12)}
-/* Hover preview card */
-.hotspot-preview{position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(8px);width:170px;background:rgba(10,18,28,.92);backdrop-filter:blur(12px);border:1px solid rgba(200,136,42,.4);border-radius:10px;padding:.75rem .85rem;pointer-events:none;opacity:0;transition:all .22s;margin-bottom:8px;z-index:20}
-.cabin-hotspot:hover .hotspot-preview{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all}
-.hotspot-preview-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:white;font-weight:600;margin-bottom:.18rem}
-.hotspot-preview-sub{font-size:.7rem;color:rgba(255,255,255,.55);margin-bottom:.55rem}
-.hotspot-preview-price{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold-light);margin-bottom:.6rem}
-.hotspot-preview-btn{display:block;width:100%;padding:.38rem .6rem;background:var(--gold);color:white;border:none;border-radius:6px;font-size:.75rem;font-weight:700;cursor:pointer;text-align:center;transition:background .2s;letter-spacing:.04em}
-.hotspot-preview-btn:hover{background:var(--gold-light)}
-.hotspot-label{display:none}
+.cabin-hotspot-inner{width:100%;height:100%;border:2px solid transparent;border-radius:8px;background:transparent;transition:all .3s;display:flex;align-items:flex-start;justify-content:center;padding:.6rem;position:relative}
+.cabin-hotspot:hover .cabin-hotspot-inner,.cabin-hotspot.active .cabin-hotspot-inner{border-color:var(--gold);background:rgba(200,136,42,.14);box-shadow:0 0 0 3px rgba(200,136,42,.25)}
+.hotspot-badge{width:32px;height:32px;background:rgba(255,255,255,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.35);opacity:.75;transition:all .25s}
+.cabin-hotspot:hover .hotspot-badge,.cabin-hotspot.active .hotspot-badge{opacity:1;background:var(--gold);color:white;transform:scale(1.15)}
+
+/* ─── MULTI-SELECT BAR ────────────────────────────────────────────── */
+.multi-select-bar{max-width:1200px;margin:0 auto 1.5rem;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:white;border:2px dashed rgba(200,136,42,.35);border-radius:14px;transition:all .25s}
+.multi-select-bar.has-selection{background:linear-gradient(135deg, rgba(94,138,96,.08), rgba(200,136,42,.08));border-style:solid;border-color:var(--moss);box-shadow:0 4px 16px rgba(94,138,96,.15)}
+.multi-select-hint{flex:1;display:flex;align-items:center;gap:.7rem;min-width:200px}
+.multi-select-icon{width:36px;height:36px;border-radius:50%;background:rgba(200,136,42,.15);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:all .25s}
+.multi-select-bar.has-selection .multi-select-icon{background:var(--moss);color:white}
+.multi-select-info{font-size:.88rem;color:var(--text)}
+.multi-select-info strong{color:var(--navy);font-weight:700;display:block;font-size:.95rem;margin-bottom:.1rem}
+.multi-select-info small{color:var(--text-light);font-size:.76rem;line-height:1.4}
+.multi-select-bar{margin-left:auto;margin-right:auto}
+.multi-select-bar.max-w{max-width:1200px}
+.multi-select-actions{display:flex;gap:.7rem;align-items:center}
+.btn-multi{padding:.7rem 1.4rem;background:var(--moss);color:white;border:none;border-radius:30px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.02em;box-shadow:0 4px 14px rgba(94,138,96,.3)}
+.btn-multi:hover:not(:disabled){background:var(--navy);transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.btn-multi:disabled{opacity:.4;cursor:not-allowed;background:var(--text-light);box-shadow:none}
+.btn-multi-secondary{padding:.55rem 1rem;background:transparent;color:var(--text-light);border:1px solid rgba(0,0,0,.15);border-radius:30px;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;box-shadow:none}
+.btn-multi-secondary:hover{color:var(--coral);border-color:var(--coral)}
+
 .cabins-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.4rem;max-width:1200px;margin:0 auto;padding:0 2rem}
-.cabin-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;cursor:pointer;border:2px solid transparent}
-.cabin-card:hover,.cabin-card.highlighted{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:var(--gold)}
-.cabin-card-header{background:var(--navy);padding:1.1rem 1.3rem;display:flex;justify-content:space-between;align-items:center}
+.cabin-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;cursor:pointer;border:2px solid transparent;position:relative}
+.cabin-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.cabin-card.highlighted{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,136,42,.2),var(--shadow-lg)}
+.cabin-card.selected{border-color:var(--moss);box-shadow:0 0 0 3px rgba(94,138,96,.25),var(--shadow-lg)}
+
+/* Big visible checkbox in top-left */
+.cabin-select-check{position:absolute;top:.9rem;left:.9rem;z-index:5;width:36px;height:36px;border-radius:50%;background:white;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:transparent;transition:all .2s;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.cabin-select-check:hover{transform:scale(1.08);border-color:var(--moss)}
+.cabin-card.selected .cabin-select-check{background:var(--moss);border-color:white;color:white}
+
+/* "Select multiple" label hint that pulses on first cabin */
+.select-hint-arrow{position:absolute;top:1rem;left:3.2rem;z-index:5;background:var(--moss);color:white;font-size:.7rem;padding:.3rem .65rem;border-radius:20px;font-weight:600;letter-spacing:.03em;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .3s;display:flex;align-items:center;gap:.3rem}
+.cabin-card:hover .select-hint-arrow{opacity:1}
+.cabin-card.selected .select-hint-arrow{display:none}
+
+.cabin-card-header{background:var(--navy);padding:1.1rem 1.3rem 1.1rem 3.2rem;display:flex;justify-content:space-between;align-items:center}
 .cabin-number{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:rgba(255,255,255,.18);line-height:1}
 .cabin-type-badge{font-family:'Bebas Neue',sans-serif;font-size:.72rem;letter-spacing:.14em;padding:.28rem .75rem;border-radius:20px;border:1px solid}
 .badge-lux{background:rgba(200,136,42,.2);border-color:var(--gold);color:#E8C87A}
@@ -85,111 +134,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-card-body{padding:1.3rem}
 .cabin-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--navy);margin-bottom:.25rem}
 .cabin-tagline{font-size:.78rem;color:var(--text-light);margin-bottom:.9rem;font-style:italic}
-.cabin-features{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-bottom:1rem}
-.cabin-features li{font-size:.8rem;color:var(--text);display:flex;align-items:center;gap:.45rem}
-.cabin-features li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.cabin-features{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-bottom:.8rem}
+.cabin-features li{font-size:.8rem;color:var(--text);display:flex;align-items:flex-start;gap:.45rem;line-height:1.4}
+.cabin-features li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.42em}
+.cabin-bedlinen-note{font-size:.74rem;color:var(--text);background:rgba(200,136,42,.08);border-left:2.5px solid var(--gold);border-radius:4px;padding:.5rem .7rem;margin-bottom:.5rem;line-height:1.45}
+.cabin-bedlinen-note strong{color:var(--gold);font-weight:600}
 .cabin-card-footer{padding:.9rem 1.3rem;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;align-items:center}
 .cabin-price{display:flex;flex-direction:column}
 .price-from{font-size:.68rem;color:var(--text-light);text-transform:uppercase;letter-spacing:.1em}
 .price-value{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;color:var(--navy);line-height:1}
 .price-unit{font-size:.68rem;color:var(--text-light)}
-.cabin-book-btn{padding:.55rem 1.1rem;background:var(--gold);color:white;border:none;border-radius:24px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
+.cabin-book-btn{padding:.55rem 1.1rem;background:var(--gold);color:white;border:none;border-radius:24px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}
 .cabin-book-btn:hover{background:var(--navy);transform:translateY(-1px)}
+.cabin-toggle-select{padding:.5rem 1rem;background:transparent;color:var(--moss);border:1.5px solid var(--moss);border-radius:24px;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;margin-right:.4rem;display:inline-flex;align-items:center;gap:.3rem}
+.cabin-toggle-select:hover{background:var(--moss);color:white}
+.cabin-card.selected .cabin-toggle-select{background:var(--moss);color:white;border-color:var(--moss)}
+
+/* ─── INFO STRIP ──────────────────────────────────────────────────── */
 .info-strip{background:var(--sand);padding:3.5rem 0}
 .info-grid{max-width:1100px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
 .info-item{text-align:center;padding:1.3rem}
 .info-icon{font-size:1.9rem;margin-bottom:.7rem;display:block}
 .info-item h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--navy);margin-bottom:.35rem;font-weight:600}
 .info-item p{font-size:.8rem;color:var(--text-light);line-height:1.6}
-.price-section{background:white;padding:5rem 0}
-.price-table{max-width:920px;margin:2rem auto 0;padding:0 2rem;overflow-x:auto}
-.price-table table{width:100%;border-collapse:collapse;font-size:.86rem}
-.price-table th{background:var(--navy);color:white;padding:.85rem 1rem;text-align:left;font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:.1em}
-.price-table td{padding:.75rem 1rem;border-bottom:1px solid rgba(0,0,0,.06);color:var(--text)}
-.price-table tr:nth-child(even) td{background:var(--sand-light)}
-.price-table tr:hover td{background:rgba(200,136,42,.07)}
-.price-highlight{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--navy)}
-#booking{background:var(--navy);padding:6rem 0}
-#booking .section-eyebrow{color:var(--gold-light)}
-#booking .section-title{color:white}
-#booking .section-title em{color:var(--gold-light)}
-.booking-container{max-width:1120px;margin:0 auto;padding:0 2rem}
-.booking-layout{display:grid;grid-template-columns:1fr;gap:2.2rem;margin-top:2.2rem;max-width:620px}
-.calendar-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:1.7rem}
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem}
-.cal-month{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:white;font-weight:400;min-width:180px;text-align:center}
-.cal-nav-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:.85rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
-.cal-nav-btn:hover{background:var(--gold);border-color:var(--gold)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-weekday{text-align:center;font-size:.67rem;font-weight:600;letter-spacing:.07em;color:rgba(255,255,255,.38);padding:.35rem 0;text-transform:uppercase}
-.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:all .2s;border:1px solid transparent;min-height:42px;position:relative}
-.cal-day:hover:not(.cal-day--empty):not(.cal-day--past){background:rgba(200,136,42,.2);border-color:var(--gold)}
-.cal-day--empty{cursor:default}
-.cal-day--past{opacity:.22;cursor:not-allowed}
-.cal-day--today{border-color:rgba(255,255,255,.3)!important}
-.cal-day--selected{background:var(--gold)!important;border-color:var(--gold)!important}
-.cal-day--selected .day-num{color:white;font-weight:700}
-.day-num{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.82);line-height:1}
-.day-dots{display:flex;gap:2px;margin-top:2px;flex-wrap:wrap;justify-content:center;max-width:32px}
-.day-dot{width:4px;height:4px;border-radius:50%}
-.day-dot--free{background:var(--moss)}
-.day-dot--booked{background:var(--coral)}
-.cal-legend{display:flex;gap:1rem;margin-top:1.1rem;flex-wrap:wrap}
-.cal-legend-item{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:rgba(255,255,255,.55)}
-.cal-legend-dot{width:7px;height:7px;border-radius:50%}
-.form-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:1.7rem}
-.form-box h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:white;font-weight:400;margin-bottom:.2rem}
-.form-subtitle{font-size:.77rem;color:rgba(255,255,255,.45);margin-bottom:1.3rem}
-.cabin-selector{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.1rem}
-.cabin-option{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;border-radius:7px;border:1.5px solid rgba(255,255,255,.11);cursor:pointer;transition:all .2s;background:transparent;width:100%;text-align:left}
-.cabin-option:hover:not(.cabin-option--unavailable){border-color:var(--gold);background:rgba(200,136,42,.1)}
-.cabin-option--selected{border-color:var(--gold)!important;background:rgba(200,136,42,.18)!important}
-.cabin-option--unavailable{opacity:.3;cursor:not-allowed}
-.cabin-option-name{font-size:.84rem;font-weight:600;color:white}
-.cabin-option-meta{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:1px}
-.cabin-option-right{display:flex;align-items:center;gap:.5rem}
-.cabin-option-price{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold-light)}
-.status-pill{font-size:.67rem;padding:.18rem .55rem;border-radius:20px;font-weight:600}
-.status-free{background:rgba(94,138,96,.25);color:#8DC490}
-.status-busy{background:rgba(200,74,58,.25);color:#E8806E}
-.form-section-title{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin:1rem 0 .5rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.08)}
-.form-fields{display:flex;flex-direction:column;gap:.7rem}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
-.form-group{display:flex;flex-direction:column;gap:.28rem}
-.form-label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.48)}
-.form-input,.form-select,.form-textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:.6rem .85rem;color:white;font-family:'Inter',sans-serif;font-size:.875rem;transition:border-color .2s;width:100%}
-.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.1)}
-.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.28)}
-.form-select option{background:var(--navy-dark);color:white}
-.form-textarea{resize:vertical;min-height:60px}
-.extras-grid{display:flex;flex-direction:column;gap:.4rem}
-.extra-item{display:flex;align-items:center;justify-content:space-between;padding:.55rem .85rem;border-radius:7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);transition:border-color .2s}
-.extra-item:hover{border-color:rgba(200,136,42,.4)}
-.extra-item.active{border-color:var(--gold);background:rgba(200,136,42,.1)}
-.extra-left{display:flex;align-items:center;gap:.7rem}
-.extra-checkbox{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;flex-shrink:0}
-.extra-name{font-size:.82rem;color:white}
-.extra-desc{font-size:.68rem;color:rgba(255,255,255,.4)}
-.extra-price{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--gold-light)}
-.extra-qty{display:flex;align-items:center;gap:.3rem}
-.qty-btn{background:rgba(255,255,255,.12);border:none;color:white;width:22px;height:22px;border-radius:4px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.qty-btn:hover{background:var(--gold)}
-.qty-val{font-size:.82rem;color:white;min-width:16px;text-align:center}
-.bedlinen-note{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:.3rem;padding:.4rem .7rem;background:rgba(200,136,42,.1);border-radius:5px;border-left:2px solid var(--gold)}
-.price-summary{background:rgba(200,136,42,.12);border:1px solid rgba(200,136,42,.3);border-radius:8px;padding:1rem;margin-top:.8rem}
-.price-summary-title{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem}
-.price-summary-row{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.7);padding:.2rem 0}
-.price-summary-total{display:flex;justify-content:space-between;font-weight:700;color:white;margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(200,136,42,.3);font-size:.95rem}
-.date-display{background:rgba(200,136,42,.15);border:1px solid rgba(200,136,42,.28);border-radius:6px;padding:.6rem .85rem;color:var(--gold-light);font-size:.82rem;margin-bottom:.9rem;display:none}
-.date-display.visible{display:block}
-.form-submit{width:100%;padding:.85rem;background:var(--gold);color:white;border:none;border-radius:7px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:.5rem;letter-spacing:.04em}
-.form-submit:hover:not(:disabled){background:var(--gold-light);transform:translateY(-1px)}
-.form-submit:disabled{opacity:.45;cursor:not-allowed}
-.booking-success{background:rgba(94,138,96,.15);border:1px solid rgba(94,138,96,.4);border-radius:8px;padding:2rem;text-align:center;color:white;display:none}
-.booking-success.visible{display:block}
-.booking-success h3{font-family:'Cormorant Garamond',serif;font-size:1.7rem;margin-bottom:.7rem;color:#8DC490}
-.booking-error{background:rgba(200,74,58,.15);border:1px solid rgba(200,74,58,.4);border-radius:6px;padding:.75rem 1rem;color:#E8806E;font-size:.82rem;margin-bottom:.9rem;display:none}
-.booking-error.visible{display:block}
+
+/* ─── CONTACT ─────────────────────────────────────────────────────── */
 #contact{background:var(--sand-light);padding:5.5rem 0}
 .contact-inner{max-width:680px;margin:0 auto;padding:0 2rem;text-align:center}
 .contact-methods{display:flex;justify-content:center;gap:1.2rem;margin-top:2.2rem;flex-wrap:wrap}
@@ -201,6 +170,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .contact-btn--email{background:var(--gold);color:white}
 .contact-btn--email:hover{background:var(--gold-light);transform:translateY(-2px)}
 .contact-address{margin-top:2rem;font-size:.88rem;color:var(--text-light);line-height:1.9}
+
+/* ─── FOOTER ──────────────────────────────────────────────────────── */
 footer{background:var(--navy-dark);padding:2.2rem 0}
 .footer-inner{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem}
 .footer-logo img{height:34px;width:auto;opacity:.8;object-fit:contain}
@@ -208,422 +179,290 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 .footer-links a{color:rgba(255,255,255,.4);font-size:.78rem;text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--gold-light)}
 .footer-copy{color:rgba(255,255,255,.28);font-size:.73rem}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:900px){.booking-layout{grid-template-columns:1fr}.form-box{max-height:none}}
-/* Desktop: hide calendar box in booking; show on mobile only */
-.calendar-box{display:none}
-@media(max-width:768px){
-  .nav-links{display:none}.nav-hamburger{display:flex}
-  nav.mobile-open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);padding:1.3rem 2rem;gap:1rem;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 8px 24px rgba(0,0,0,.1)}
-  .hero-content{padding:0 1.4rem 4rem}
-  nav{padding:.8rem 1.4rem}
-  .form-row{grid-template-columns:1fr}
-  .cabin-hotspots{display:none}
-  .footer-inner{flex-direction:column;align-items:flex-start}
-  /* Show calendar only on mobile */
-  .calendar-box{display:block}
-  /* Stack booking layout on mobile */
-  .booking-layout{grid-template-columns:1fr}
-}
 
-/* ===== CABIN MODAL ===== */
+/* ─── AVAILABILITY CALENDAR ───────────────────────────────────────── */
+#availability{background:white;padding:5rem 0}
+.calendar-wrap{max-width:920px;margin:0 auto;padding:0 2rem}
+.calendar-box{background:var(--sand-light);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:1.7rem;box-shadow:var(--shadow)}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem;gap:.8rem}
+.cal-month{font-family:'Cormorant Garamond',serif;font-size:1.45rem;color:var(--navy);font-weight:500;min-width:200px;text-align:center;text-transform:capitalize}
+.cal-nav-btn{background:white;border:1px solid rgba(0,0,0,.1);color:var(--navy);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:.9rem;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cal-nav-btn:hover{background:var(--gold);border-color:var(--gold);color:white}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-weekday{text-align:center;font-size:.7rem;font-weight:600;letter-spacing:.07em;color:var(--text-light);padding:.4rem 0;text-transform:uppercase}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:.35rem;border-radius:8px;background:white;border:1px solid rgba(0,0,0,.05);position:relative;transition:all .2s}
+.cal-day--empty{background:transparent;border:none}
+.cal-day--past{opacity:.35;background:var(--sand-light)}
+.cal-day--today{border-color:var(--gold);border-width:1.5px}
+.cal-day--full{background:#fdf0ee;border-color:#f5b8b0}
+.cal-day:not(.cal-day--empty):not(.cal-day--past):hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:var(--gold)}
+.day-num{font-size:.85rem;font-weight:600;color:var(--navy);line-height:1;margin-bottom:.2rem}
+.cal-day--past .day-num{color:var(--text-light)}
+.cal-day--today .day-num{color:var(--gold)}
+.day-dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;max-width:38px}
+.day-dot{width:6px;height:6px;border-radius:50%;cursor:pointer;transition:transform .15s}
+.day-dot:hover{transform:scale(1.4)}
+.day-dot--free{background:var(--moss)}
+.day-dot--booked{background:var(--coral)}
+.cal-legend{display:flex;gap:1.5rem;margin-top:1.3rem;flex-wrap:wrap;justify-content:center;padding-top:1.2rem;border-top:1px solid rgba(0,0,0,.07)}
+.cal-legend-item{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--text-light)}
+.cal-legend-dot{width:9px;height:9px;border-radius:50%}
+.cal-day-tooltip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(28,46,74,.96);color:white;font-size:.72rem;padding:.45rem .65rem;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.cal-day:hover .cal-day-tooltip{opacity:1}
+.cal-day-tooltip-row{display:flex;justify-content:space-between;gap:.6rem;line-height:1.4}
+.cal-day-tooltip-row strong{color:var(--gold-light);font-weight:600}
+
+/* ─── MODAL ───────────────────────────────────────────────────────── */
 .modal-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:1.2rem;background:rgba(8,14,22,.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--white);border-radius:18px;max-width:780px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.38);transform:translateY(24px) scale(.97);transition:transform .28s cubic-bezier(.22,1,.36,1);position:relative}
+.modal{background:var(--white);border-radius:18px;max-width:820px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.38);transform:translateY(24px) scale(.97);transition:transform .28s cubic-bezier(.22,1,.36,1);position:relative}
 .modal-overlay.open .modal{transform:none}
-.modal-close{position:absolute;top:1rem;right:1rem;z-index:10;background:rgba(0,0,0,.09);border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;color:var(--navy)}
+.modal-close{position:absolute;top:1rem;right:1rem;z-index:10;background:rgba(0,0,0,.09);border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--navy);transition:background .2s}
 .modal-close:hover{background:rgba(0,0,0,.18)}
 .modal-hero{background:linear-gradient(135deg,var(--navy) 0%,#263d5e 100%);padding:2rem 2rem 1.5rem;border-radius:18px 18px 0 0;position:relative;overflow:hidden}
 .modal-hero::before{content:'';position:absolute;inset:0;background:url('attēls1.png') center/cover no-repeat;opacity:.18}
 .modal-hero-inner{position:relative;z-index:2}
-.modal-num{font-family:'Bebas Neue',sans-serif;font-size:5rem;color:rgba(255,255,255,.09);position:absolute;top:.2rem;right:1.5rem;line-height:1;z-index:1}
+.modal-num{font-family:'Bebas Neue',sans-serif;font-size:5rem;color:rgba(255,255,255,.1);position:absolute;top:.2rem;right:1.5rem;line-height:1;z-index:1}
 .modal-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.9rem}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:white;margin-bottom:.3rem}
 .modal-tagline{font-size:.88rem;color:rgba(255,255,255,.6);font-style:italic}
 .modal-body{padding:1.6rem 2rem}
 .modal-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:1.4rem}
-.modal-section-title{font-family:'Bebas Neue',sans-serif;font-size:.78rem;letter-spacing:.18em;color:var(--gold);margin-bottom:.7rem}
+.modal-section-title{font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:.18em;color:var(--gold);margin-bottom:.7rem;text-transform:uppercase}
 .modal-features{list-style:none;display:flex;flex-direction:column;gap:.38rem}
 .modal-features li{font-size:.84rem;color:var(--text);display:flex;align-items:flex-start;gap:.5rem;line-height:1.45}
 .modal-features li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.42em}
-.modal-price-box{background:var(--sand);border-radius:12px;padding:1.1rem;text-align:center}
-.modal-price-row{display:flex;align-items:center;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07)}
+.modal-price-box{background:var(--sand);border-radius:12px;padding:1.1rem}
+.modal-price-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(0,0,0,.07)}
 .modal-price-row:last-child{border-bottom:none}
 .modal-price-label{font-size:.78rem;color:var(--text-light)}
-.modal-price-val{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--navy)}
+.modal-price-val{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--navy)}
 .modal-price-val.lux{color:var(--gold)}
 .modal-divider{height:1px;background:rgba(0,0,0,.07);margin:0 0 1.2rem}
 
-/* Modal extras */
-.modal-extras{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.2rem}
-.modal-extra-item{display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-radius:9px;border:1.5px solid rgba(0,0,0,.08);background:white;transition:all .2s;cursor:pointer}
-.modal-extra-item:hover{border-color:var(--gold);background:rgba(200,136,42,.04)}
-.modal-extra-item.active{border-color:var(--gold);background:rgba(200,136,42,.07)}
-.modal-extra-left{display:flex;align-items:center;gap:.75rem}
-.modal-extra-cb{width:17px;height:17px;accent-color:var(--gold);cursor:pointer;flex-shrink:0}
-.modal-extra-name{font-size:.86rem;font-weight:600;color:var(--navy)}
-.modal-extra-desc{font-size:.72rem;color:var(--text-light)}
-.modal-extra-right{display:flex;align-items:center;gap:.6rem}
-.modal-extra-price{font-family:'Bebas Neue',sans-serif;font-size:.98rem;color:var(--gold)}
-.modal-qty{display:flex;align-items:center;gap:.3rem}
-.modal-qty-btn{background:var(--sand);border:1px solid rgba(0,0,0,.1);color:var(--navy);width:24px;height:24px;border-radius:5px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:700}
-.modal-qty-btn:hover{background:var(--gold);color:white;border-color:var(--gold)}
-.modal-qty-val{font-size:.86rem;font-weight:600;color:var(--navy);min-width:18px;text-align:center}
-.modal-qty-max{font-size:.68rem;color:var(--text-light);margin-left:.15rem}
+.modal-bedlinen-info{background:rgba(200,136,42,.08);border-left:3px solid var(--gold);border-radius:4px;padding:.7rem .9rem;margin-bottom:1.2rem;font-size:.82rem;line-height:1.5}
+.modal-bedlinen-info strong{color:var(--gold);font-weight:700}
 
-/* Modal form */
+/* Extras toggle - new layout */
+.modal-extras{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
+.extra-row{display:flex;align-items:center;gap:.85rem;padding:.75rem .9rem;border-radius:10px;border:1.5px solid rgba(0,0,0,.08);background:white;transition:all .2s}
+.extra-row.active{border-color:var(--gold);background:rgba(200,136,42,.06)}
+.extra-cb{width:18px;height:18px;accent-color:var(--gold);cursor:pointer;flex-shrink:0;margin:0}
+.extra-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:.18rem;cursor:pointer}
+.extra-name-row{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.extra-name{font-size:.92rem;font-weight:600;color:var(--navy);line-height:1.25}
+.extra-price{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);letter-spacing:.04em;white-space:nowrap}
+.extra-desc{font-size:.74rem;color:var(--text-light);line-height:1.4}
+.qty-ctrl{display:flex;align-items:center;gap:.3rem;background:var(--sand);border-radius:8px;padding:.25rem;flex-shrink:0}
+.qty-btn{background:white;border:1px solid rgba(0,0,0,.1);color:var(--navy);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:1.05rem;line-height:1;display:flex;align-items:center;justify-content:center;font-weight:700;transition:all .15s}
+.qty-btn:hover:not(:disabled){background:var(--gold);color:white;border-color:var(--gold)}
+.qty-btn:disabled{opacity:.3;cursor:not-allowed}
+.qty-val{font-size:.92rem;font-weight:700;color:var(--navy);min-width:22px;text-align:center}
+
+/* Booking form inside modal */
 .modal-form{background:var(--sand-light);border-radius:12px;padding:1.3rem;margin-bottom:1rem}
 .modal-form-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--navy);margin-bottom:1rem;font-weight:400}
-.modal-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
-.modal-form .form-group{display:flex;flex-direction:column;gap:.28rem}
-.modal-form .form-label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-light)}
-.modal-form .form-input,.modal-form .form-select,.modal-form .form-textarea{background:white;border:1.5px solid rgba(0,0,0,.1);border-radius:7px;padding:.6rem .85rem;color:var(--text);font-family:'Inter',sans-serif;font-size:.875rem;transition:border-color .2s;width:100%}
-.modal-form .form-input:focus,.modal-form .form-select:focus{outline:none;border-color:var(--gold)}
-.modal-form .form-input::placeholder{color:var(--text-light);opacity:.6}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.form-group{display:flex;flex-direction:column;gap:.28rem}
+.form-label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-light)}
+.form-input,.form-select,.form-textarea{background:white;border:1.5px solid rgba(0,0,0,.1);border-radius:7px;padding:.6rem .85rem;color:var(--text);font-family:inherit;font-size:.875rem;transition:border-color .2s;width:100%}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--gold)}
+.form-input::placeholder{color:var(--text-light);opacity:.55}
+.form-textarea{resize:vertical;min-height:60px;font-family:inherit}
 
-.modal-summary{background:white;border:1.5px solid rgba(200,136,42,.28);border-radius:10px;padding:.9rem 1rem;margin-bottom:1rem}
-.modal-summary-title{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
-.modal-summary-row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--text-light);padding:.18rem 0}
-.modal-summary-total{display:flex;justify-content:space-between;font-weight:700;color:var(--navy);margin-top:.5rem;padding-top:.5rem;border-top:1.5px solid rgba(200,136,42,.2);font-size:1rem}
+.modal-summary{background:white;border:1.5px solid rgba(200,136,42,.28);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem}
+.modal-summary-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:.55rem}
+.modal-summary-row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--text);padding:.22rem 0}
+.modal-summary-row.muted{color:var(--text-light);font-size:.76rem}
+.modal-summary-row.removed{color:var(--coral);text-decoration:line-through;opacity:.6}
+.modal-summary-total{display:flex;justify-content:space-between;font-weight:700;color:var(--navy);margin-top:.5rem;padding-top:.5rem;border-top:1.5px solid rgba(200,136,42,.25);font-size:1.05rem}
 
-.modal-submit{width:100%;padding:.9rem;background:var(--gold);color:white;border:none;border-radius:9px;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:.04em}
+.modal-submit{width:100%;padding:.95rem;background:var(--gold);color:white;border:none;border-radius:9px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:.04em}
 .modal-submit:hover:not(:disabled){background:var(--navy);transform:translateY(-1px)}
-.modal-submit:disabled{opacity:.4;cursor:not-allowed}
+.modal-submit:disabled{opacity:.45;cursor:not-allowed}
 .modal-error{background:#fdf0ee;border:1.5px solid #f5b8b0;border-radius:7px;padding:.65rem .9rem;color:var(--coral);font-size:.82rem;margin-bottom:.8rem;display:none}
 .modal-error.visible{display:block}
 .modal-success{background:#f0f8f0;border:1.5px solid #a8d8aa;border-radius:10px;padding:2rem;text-align:center;display:none}
 .modal-success.visible{display:block}
 .modal-success h3{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--moss);margin-bottom:.6rem}
-.modal-bedlinen-note{font-size:.75rem;color:var(--text-light);background:rgba(200,136,42,.08);border-left:2.5px solid var(--gold);border-radius:4px;padding:.4rem .7rem;margin-top:.3rem}
-@media(max-width:640px){
-  .modal{max-height:98vh;border-radius:14px 14px 0 0;margin-top:auto;margin-bottom:0;align-self:flex-end;max-width:100%}
-  .modal-overlay{align-items:flex-end;padding:0}
+
+/* Multi-cabin summary in modal */
+.modal-cabins-list{background:rgba(94,138,96,.08);border:1px solid rgba(94,138,96,.2);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:1rem}
+.modal-cabins-list-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--moss);margin-bottom:.5rem}
+.modal-cabin-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .75rem;background:white;border:1px solid rgba(94,138,96,.3);border-radius:20px;font-size:.78rem;color:var(--navy);margin:.2rem .25rem .2rem 0;font-weight:500}
+.modal-cabin-chip strong{color:var(--moss)}
+
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── RESPONSIVE ──────────────────────────────────────────────────── */
+@media (max-width:768px){
+  nav{padding:.8rem 1.2rem}
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  nav.mobile-open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);padding:1.3rem 2rem;gap:1rem;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+  .hero-content{padding:0 1.4rem 4rem}
+  .form-row{grid-template-columns:1fr}
   .modal-cols{grid-template-columns:1fr}
-  .modal-form .form-row{grid-template-columns:1fr}
-  .modal-hero{border-radius:14px 14px 0 0;padding:1.4rem 1.4rem 1.1rem}
-  .modal-body{padding:1.2rem 1.4rem}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+  .multi-select-bar{flex-direction:column;align-items:stretch}
+  .multi-select-actions{justify-content:stretch}
+  .multi-select-actions .btn-multi{flex:1}
+  .extra-row{padding:.65rem .75rem;gap:.7rem}
+  .extra-name{font-size:.86rem}
+  .extra-price{font-size:.92rem}
+  .extra-desc{font-size:.7rem}
+  /* Mobile: bigger tap targets on hotspots */
+  .hotspot-badge{width:36px;height:36px;font-size:1.2rem;opacity:.95}
+  .cabin-info-banner{top:70px;min-width:260px;max-width:calc(100vw - 2rem)}
+  /* Mobile calendar */
+  .calendar-box{padding:1rem}
+  .cal-month{font-size:1.15rem;min-width:auto}
+  .cal-grid{gap:2px}
+  .cal-day{padding-top:.2rem}
+  .day-num{font-size:.72rem}
+  .day-dots{gap:2px;max-width:32px}
+  .day-dot{width:4px;height:4px}
+  .cal-day-tooltip{font-size:.68rem;padding:.35rem .5rem}
 }
+@media (max-width:640px){
+  .modal{max-height:100vh;border-radius:0;max-width:100%}
+  .modal-overlay{padding:0;align-items:stretch}
+  .modal-hero{border-radius:0;padding:1.4rem 1.3rem 1rem}
+  .modal-body{padding:1.2rem 1.3rem}
+  .modal-num{font-size:4rem;right:1rem}
+  .modal-title{font-size:1.6rem}
+}
+
 </style>
 </head>
 <body>
+
+<!-- Floating hotspot info banner (top of page) -->
+<div class="cabin-info-banner" id="cabin-info-banner"></div>
+
+<!-- NAV -->
 <nav id="main-nav">
   <div class="nav-logo"><img src="logo.jpeg" alt="Saules Krasts"></div>
   <ul class="nav-links">
     <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
-    <li><a href="#prices" data-i18n="nav_prices">Cenas</a></li>
-    <li><a href="#booking" data-i18n="nav_book">Rezervēt</a></li>
+    <li><a href="#availability" data-i18n="nav_availability">Pieejamība</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
-    <li><div class="lang-switcher">
-      <button class="lang-btn active" onclick="setLang('lv')">LV</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('lt')">LT</button>
-      <button class="lang-btn" onclick="setLang('ru')">RU</button>
-    </div></li>
-    <li><a href="#booking" class="nav-cta" data-i18n="nav_cta">Rezervēt tagad</a></li>
+    <li>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="lv" onclick="setLang('lv')">LV</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="lt" onclick="setLang('lt')">LT</button>
+        <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
+      </div>
+    </li>
+    <li><a href="#cabins" class="nav-cta" data-i18n="nav_cta">Rezervēt tagad</a></li>
   </ul>
-  <button class="nav-hamburger" id="nav-toggle"><span></span><span></span><span></span></button>
+  <button class="nav-hamburger" id="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"><img src="attēls1.png" alt="Saules Krasts" class="hero-img"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Baltijas jūra</p>
     <h1 class="hero-title" data-i18n="hero_title">Pamosties pie <em>jūras</em><br>rīta saulītē</h1>
-    <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas tieši pie Baltijas jūras krasta. Klusums, priedes un svaigs jūras gaiss.</p>
+    <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas tieši pie Baltijas jūras krasta.</p>
     <div class="hero-actions">
-      <a href="#booking" class="btn-primary" data-i18n="hero_cta1">🌅 Rezervēt mājiņu</a>
+      <a href="#cabins" class="btn-primary" data-i18n="hero_cta1">🌅 Rezervēt mājiņu</a>
       <a href="#cabins" class="btn-outline" data-i18n="hero_cta2">Apskatīt mājiņas</a>
     </div>
   </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><span data-i18n="scroll">Ritināt</span></div>
 </section>
 
+<!-- CABINS -->
 <section id="cabins">
   <div class="section-header">
     <p class="section-eyebrow" data-i18n="cabins_eyebrow">Mūsu mājiņas</p>
     <h2 class="section-title" data-i18n="cabins_title">Piecas mājas, <em>viena jūra</em></h2>
-    <p style="margin-top:.7rem;color:var(--text-light);font-size:.88rem;max-width:480px;margin-left:auto;margin-right:auto" data-i18n="cabins_hint">Uzvelciet peli uz mājiņas — tā izceļas. Noklikšķiniet, lai rezervētu.</p>
+    <p style="margin-top:.8rem;color:var(--text-light);font-size:.88rem;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.6" data-i18n="cabins_hint">
+      Uzejiet ar peli vai pieskarieties mājiņai, lai redzētu detaļas.
+    </p>
   </div>
+
+  <!-- Cabin photo with hotspots -->
   <div class="cabin-photo-zone">
     <div class="cabin-photo-wrapper">
       <img src="attēls1.png" alt="Saules Krasts mājiņas" class="cabin-main-photo">
       <div class="cabin-hotspots">
-        <div class="cabin-hotspot" data-cabin="1">
-          <div class="cabin-hotspot-inner">
-            <div class="hotspot-badge">1</div>
-            <div class="hotspot-preview">
-              <div class="hotspot-preview-title" data-i18n="cabin1_name">Mājiņa Nr. 1</div>
-              <div class="hotspot-preview-sub" data-i18n="type_family">Ģimenes · 4 vietas</div>
-              <div class="hotspot-preview-price" id="hsp1">65€</div>
-              <button class="hotspot-preview-btn" onclick="openCabinModal(1)" data-i18n="book_btn">Rezervēt</button>
-            </div>
-          </div>
-        </div>
-        <div class="cabin-hotspot" data-cabin="2">
-          <div class="cabin-hotspot-inner">
-            <div class="hotspot-badge">2</div>
-            <div class="hotspot-preview">
-              <div class="hotspot-preview-title" data-i18n="cabin2_name">Mājiņa Nr. 2</div>
-              <div class="hotspot-preview-sub" data-i18n="type_family">Ģimenes · 4 vietas</div>
-              <div class="hotspot-preview-price" id="hsp2">65€</div>
-              <button class="hotspot-preview-btn" onclick="openCabinModal(2)" data-i18n="book_btn">Rezervēt</button>
-            </div>
-          </div>
-        </div>
-        <div class="cabin-hotspot" data-cabin="3">
-          <div class="cabin-hotspot-inner">
-            <div class="hotspot-badge">3</div>
-            <div class="hotspot-preview">
-              <div class="hotspot-preview-title" data-i18n="cabin3_name">Mājiņa Nr. 3</div>
-              <div class="hotspot-preview-sub" data-i18n="type_double">Divvietīgā · 2 vietas</div>
-              <div class="hotspot-preview-price" id="hsp3">55€</div>
-              <button class="hotspot-preview-btn" onclick="openCabinModal(3)" data-i18n="book_btn">Rezervēt</button>
-            </div>
-          </div>
-        </div>
-        <div class="cabin-hotspot" data-cabin="4">
-          <div class="cabin-hotspot-inner">
-            <div class="hotspot-badge">4</div>
-            <div class="hotspot-preview">
-              <div class="hotspot-preview-title" data-i18n="cabin4_name">Mājiņa Nr. 4</div>
-              <div class="hotspot-preview-sub" data-i18n="type_double">Divvietīgā · 2 vietas</div>
-              <div class="hotspot-preview-price" id="hsp4">55€</div>
-              <button class="hotspot-preview-btn" onclick="openCabinModal(4)" data-i18n="book_btn">Rezervēt</button>
-            </div>
-          </div>
-        </div>
-        <div class="cabin-hotspot" data-cabin="5">
-          <div class="cabin-hotspot-inner">
-            <div class="hotspot-badge">5</div>
-            <div class="hotspot-preview">
-              <div class="hotspot-preview-title">Mājiņa Nr. 5 ⭐</div>
-              <div class="hotspot-preview-sub" data-i18n="type_lux">LUX · 2 vietas</div>
-              <div class="hotspot-preview-price" id="hsp5">75€</div>
-              <button class="hotspot-preview-btn" onclick="openCabinModal(5)" data-i18n="book_lux">Rezervēt LUX</button>
-            </div>
-          </div>
-        </div>
+        <div class="cabin-hotspot" data-cabin="1"><div class="cabin-hotspot-inner"><div class="hotspot-badge">1</div></div></div>
+        <div class="cabin-hotspot" data-cabin="2"><div class="cabin-hotspot-inner"><div class="hotspot-badge">2</div></div></div>
+        <div class="cabin-hotspot" data-cabin="3"><div class="cabin-hotspot-inner"><div class="hotspot-badge">3</div></div></div>
+        <div class="cabin-hotspot" data-cabin="4"><div class="cabin-hotspot-inner"><div class="hotspot-badge">4</div></div></div>
+        <div class="cabin-hotspot" data-cabin="5"><div class="cabin-hotspot-inner"><div class="hotspot-badge">5</div></div></div>
       </div>
     </div>
   </div>
-  <div class="cabins-grid">
-    <div class="cabin-card" id="card-1" onclick="selectCabinAndBook(1)">
-      <div class="cabin-card-header"><div class="cabin-number">01</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-family" data-i18n="type_family">Ģimenes</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
-      <div class="cabin-card-body">
-        <div class="cabin-name" data-i18n="cabin1_name">Mājiņa Nr. 1</div>
-        <div class="cabin-tagline" data-i18n="cabin1_tag">Klusa un ērta — priežu ēnā</div>
-        <ul class="cabin-features">
-          <li data-i18n="c1f1">4 vietas · 13 m²</li>
-          <li data-i18n="c1f2">Divguļamā 145×200 + divstāvīgā 90×200</li>
-          <li data-i18n="c1f3">Saulesnecaurlaidīgās žalūzijas</li>
-          <li data-i18n="c1f4">Tējkanna</li>
-          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
-          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
-        </ul>
-      </div>
-      <div class="cabin-card-footer">
-        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">65<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
-        <button class="cabin-book-btn" onclick="selectCabinAndBook(1);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
-      </div>
+
+  <!-- Multi-select bar -->
+  <div class="multi-select-bar" id="multi-select-bar">
+    <div class="multi-select-hint">
+      <div class="multi-select-icon" id="multi-icon">☑</div>
+      <div class="multi-select-info" id="multi-select-info"></div>
     </div>
-    <div class="cabin-card" id="card-2" onclick="selectCabinAndBook(2)">
-      <div class="cabin-card-header"><div class="cabin-number">02</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-family" data-i18n="type_family">Ģimenes</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
-      <div class="cabin-card-body">
-        <div class="cabin-name" data-i18n="cabin2_name">Mājiņa Nr. 2</div>
-        <div class="cabin-tagline" data-i18n="cabin2_tag">Ģimenes prieks ar tumšajām žalūzijām</div>
-        <ul class="cabin-features">
-          <li data-i18n="c1f1">4 vietas · 13 m²</li>
-          <li data-i18n="c1f2">Divguļamā 145×200 + divstāvīgā 90×200</li>
-          <li data-i18n="c2f3">Tumšās žalūzijas</li>
-          <li data-i18n="c1f4">Tējkanna</li>
-          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
-          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
-        </ul>
-      </div>
-      <div class="cabin-card-footer">
-        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">65<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
-        <button class="cabin-book-btn" onclick="selectCabinAndBook(2);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
-      </div>
+    <div class="multi-select-actions">
+      <button class="btn-multi-secondary" id="multi-clear-btn" onclick="clearSelection()"></button>
+      <button class="btn-multi" id="multi-book-btn" onclick="openMultiBookingModal()"></button>
     </div>
-    <div class="cabin-card" id="card-3" onclick="selectCabinAndBook(3)">
-      <div class="cabin-card-header"><div class="cabin-number">03</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-double" data-i18n="type_double">Divvietīgā</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
-      <div class="cabin-card-body">
-        <div class="cabin-name" data-i18n="cabin3_name">Mājiņa Nr. 3</div>
-        <div class="cabin-tagline" data-i18n="cabin3_tag">Divi, kuriem patīk sava telpa</div>
-        <ul class="cabin-features">
-          <li data-i18n="c3f1">2 vietas · 13 m²</li>
-          <li data-i18n="c3f2">Divas atsevišķas gultas 90×200</li>
-          <li data-i18n="c2f3">Tumšās žalūzijas</li>
-          <li data-i18n="c1f4">Tējkanna</li>
-          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
-          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
-        </ul>
+  </div>
+
+  <!-- Cabin cards grid - rendered by JS -->
+  <div class="cabins-grid" id="cabins-grid"></div>
+</section>
+
+<!-- AVAILABILITY CALENDAR -->
+<section id="availability">
+  <div class="section-header">
+    <p class="section-eyebrow" data-i18n="avail_eyebrow">Brīvās dienas</p>
+    <h2 class="section-title" data-i18n="avail_title">Pieejamība <em>vienā skatā</em></h2>
+    <p style="margin-top:.8rem;color:var(--text-light);font-size:.88rem;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.6" data-i18n="avail_hint">
+      Katras dienas 5 punktiņi attēlo 5 mājiņu pieejamību. Zaļš = brīva, sarkans = aizņemta.
+    </p>
+  </div>
+  <div class="calendar-wrap">
+    <div class="calendar-box">
+      <div class="cal-header">
+        <button class="cal-nav-btn" onclick="changeMonth(-1)" aria-label="Previous month">&#8592;</button>
+        <div class="cal-month" id="cal-month-label"></div>
+        <button class="cal-nav-btn" onclick="changeMonth(1)" aria-label="Next month">&#8594;</button>
       </div>
-      <div class="cabin-card-footer">
-        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">55<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
-        <button class="cabin-book-btn" onclick="selectCabinAndBook(3);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
-      </div>
-    </div>
-    <div class="cabin-card" id="card-4" onclick="selectCabinAndBook(4)">
-      <div class="cabin-card-header"><div class="cabin-number">04</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-double" data-i18n="type_double">Divvietīgā</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
-      <div class="cabin-card-body">
-        <div class="cabin-name" data-i18n="cabin4_name">Mājiņa Nr. 4</div>
-        <div class="cabin-tagline" data-i18n="cabin4_tag">Tuvāk jūras skaņai</div>
-        <ul class="cabin-features">
-          <li data-i18n="c3f1">2 vietas · 13 m²</li>
-          <li data-i18n="c3f2">Divas atsevišķas gultas 90×200</li>
-          <li data-i18n="c2f3">Tumšās žalūzijas</li>
-          <li data-i18n="c1f4">Tējkanna</li>
-          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
-          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
-        </ul>
-      </div>
-      <div class="cabin-card-footer">
-        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value">55<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
-        <button class="cabin-book-btn" onclick="selectCabinAndBook(4);event.stopPropagation()" data-i18n="book_btn">Rezervēt</button>
-      </div>
-    </div>
-    <div class="cabin-card" id="card-5" onclick="selectCabinAndBook(5)">
-      <div class="cabin-card-header" style="background:linear-gradient(135deg,#1C2E4A,#263d5e)"><div class="cabin-number" style="color:rgba(200,136,42,.38)">05</div><div style="display:flex;gap:.3rem"><span class="cabin-type-badge badge-lux" data-i18n="type_lux">⭐ LUX</span><span class="cabin-type-badge badge-pets">🐾</span></div></div>
-      <div class="cabin-card-body">
-        <div class="cabin-name">Mājiņa Nr. 5 · <em style="color:var(--gold);font-family:'Cormorant Garamond',serif" data-i18n="type_lux2">LUX</em></div>
-        <div class="cabin-tagline" data-i18n="cabin5_tag">Tieši pie jūras. Tieši kā sapnī.</div>
-        <ul class="cabin-features">
-          <li data-i18n="c5f1">2 vietas · 13 m² · vistuvāk jūrai</li>
-          <li data-i18n="c5f2">Lielā gulta 160×200</li>
-          <li data-i18n="c5f3">Saulesnecaurlaidīgās žalūzijas</li>
-          <li data-i18n="c5f4">Ledusskapis</li>
-          <li data-i18n="c5f5">Kafijas aparāts</li>
-          <li data-i18n="c_terrace">Terase · Lietussargs ar galdu un krēsliem</li>
-          <li style="color:var(--gold);font-weight:500" data-i18n="bedlinen_card_note">🛏 Gultasveļa iekļauta</li>
-        </ul>
-      </div>
-      <div class="cabin-card-footer" style="background:rgba(200,136,42,.05)">
-        <div class="cabin-price"><span class="price-from" data-i18n="from">no</span><span class="price-value" style="color:var(--gold)">75<small style="font-size:.65rem;font-family:Inter">€</small></span><span class="price-unit" data-i18n="per_night">naktī</span></div>
-        <button class="cabin-book-btn" style="background:var(--gold)" onclick="selectCabinAndBook(5);event.stopPropagation()" data-i18n="book_lux">Rezervēt LUX</button>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--moss)"></div><span data-i18n="leg_free">Brīva mājiņa</span></div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--coral)"></div><span data-i18n="leg_booked">Aizņemta</span></div>
+        <div class="cal-legend-item" style="color:var(--text-light)"><span data-i18n="leg_hover">Uzejiet ar peli vai pieskarieties dienai detaļām</span></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- INFO STRIP -->
 <div class="info-strip">
   <div class="info-grid">
-    <div class="info-item"><span class="info-icon">🌊</span><h4 data-i18n="info1h">Tieši pie jūras</h4><p data-i18n="info1p">Nr. 5 — pa soļiem līdz smiltīm un viļņiem.</p></div>
-    <div class="info-item"><span class="info-icon">🌲</span><h4 data-i18n="info2h">Priežu mežā</h4><p data-i18n="info2p">Dabisks ēnojums, svaigs gaiss, dziedošie putni.</p></div>
-    <div class="info-item"><span class="info-icon">🚿</span><h4 data-i18n="info3h">Dušas un tualetes</h4><p data-i18n="info3p">Kopīgs sanitārais mezgls — tīrs un ērts.</p></div>
-    <div class="info-item"><span class="info-icon">🐾</span><h4 data-i18n="info4h">Mājdzīvnieki laipni gaidīti</h4><p data-i18n="info4p">Nelieli suņi un kaķi ir laipni gaidīti.</p></div>
-    <div class="info-item"><span class="info-icon">🅿️</span><h4 data-i18n="info5h">Bezmaksas stāvvieta</h4><p data-i18n="info5p">Vieta katrai mājiņai blakus.</p></div>
+    <div class="info-item"><span class="info-icon">🌊</span><h4 data-i18n="info1h">Tieši pie jūras</h4><p data-i18n="info1p">Nr. 5 — pa soļiem līdz smiltīm.</p></div>
+    <div class="info-item"><span class="info-icon">🌲</span><h4 data-i18n="info2h">Priežu mežā</h4><p data-i18n="info2p">Dabisks ēnojums un svaigs gaiss.</p></div>
+    <div class="info-item"><span class="info-icon">🚿</span><h4 data-i18n="info3h">Dušas un tualetes</h4><p data-i18n="info3p">Kopīgs sanitārais mezgls.</p></div>
+    <div class="info-item"><span class="info-icon">🐾</span><h4 data-i18n="info4h">Mājdzīvnieki gaidīti</h4><p data-i18n="info4p">Nelieli suņi un kaķi.</p></div>
+    <div class="info-item"><span class="info-icon">🅿️</span><h4 data-i18n="info5h">Bezmaksas stāvvieta</h4><p data-i18n="info5p">Vieta katrai mājiņai.</p></div>
   </div>
 </div>
 
-<section id="prices" class="price-section">
-  <div class="section-header">
-    <p class="section-eyebrow" data-i18n="prices_eyebrow">Cenas</p>
-    <h2 class="section-title" data-i18n="prices_title">Godīgas cenas, <em>vienkārši</em></h2>
-  </div>
-  <div class="price-table">
-    <table>
-      <thead><tr>
-        <th data-i18n="pt_cabin">Mājiņa</th><th data-i18n="pt_type">Tips</th>
-        <th data-i18n="pt_low">Zemā sezona</th><th data-i18n="pt_high">Augstā sezona</th><th data-i18n="pt_guests">Vietas</th>
-      </tr></thead>
-      <tbody>
-        <tr><td><strong>Nr. 1</strong></td><td data-i18n="type_family">Ģimenes</td><td class="price-highlight">65 €</td><td class="price-highlight">85 €</td><td>4</td></tr>
-        <tr><td><strong>Nr. 2</strong></td><td data-i18n="type_family">Ģimenes</td><td class="price-highlight">65 €</td><td class="price-highlight">85 €</td><td>4</td></tr>
-        <tr><td><strong>Nr. 3</strong></td><td data-i18n="type_double">Divvietīgā</td><td class="price-highlight">55 €</td><td class="price-highlight">70 €</td><td>2</td></tr>
-        <tr><td><strong>Nr. 4</strong></td><td data-i18n="type_double">Divvietīgā</td><td class="price-highlight">55 €</td><td class="price-highlight">70 €</td><td>2</td></tr>
-        <tr style="background:rgba(200,136,42,.06)"><td><strong>Nr. 5 ⭐</strong></td><td data-i18n="type_lux">⭐ LUX</td><td class="price-highlight" style="color:var(--gold)">75 €</td><td class="price-highlight" style="color:var(--gold)">95 €</td><td>2</td></tr>
-      </tbody>
-    </table>
-    <div style="margin-top:1.2rem;background:rgba(200,136,42,.07);border-left:3px solid var(--gold);border-radius:4px;padding:.8rem 1rem;font-size:.8rem;color:var(--text)">
-      <strong>+</strong> <span data-i18n="bedlinen_note">Gultasveļa: 5 €/persona/nakts</span> &nbsp;·&nbsp;
-      <span data-i18n="extras_note">Papildus: grils, ogles, saulessargs, atpūtas krēsls — pieejami rezervācijā</span>
-    </div>
-  </div>
-</section>
-
-<section id="booking">
-  <div class="booking-container">
-    <div class="section-header" style="text-align:left;margin-bottom:0;padding:0">
-      <p class="section-eyebrow" data-i18n="book_eyebrow">Rezervācija</p>
-      <h2 class="section-title" data-i18n="book_title">Izvēlieties dienas,<br><em>mēs parūpēsimies par pārējo</em></h2>
-    </div>
-    <div class="booking-layout">
-      <div class="calendar-box">
-        <div class="cal-header">
-          <button class="cal-nav-btn" onclick="changeMonth(-1)">&#8592;</button>
-          <div class="cal-month" id="cal-month-label"></div>
-          <button class="cal-nav-btn" onclick="changeMonth(1)">&#8594;</button>
-        </div>
-        <div class="cal-grid" id="cal-grid"></div>
-        <div class="cal-legend">
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--moss)"></div><span data-i18n="leg_free">Brīva</span></div>
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--coral)"></div><span data-i18n="leg_busy">Aizņemta</span></div>
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--gold)"></div><span data-i18n="leg_sel">Izvēlēts</span></div>
-        </div>
-      </div>
-      <div class="form-box" id="form-box">
-        <h3 data-i18n="form_title">Rezervācijas forma</h3>
-        <p class="form-subtitle" data-i18n="form_sub">Aizpildiet — apstiprināsim 24h laikā</p>
-        <div class="booking-error" id="booking-error"></div>
-        <div class="booking-success" id="booking-success">
-          <h3 data-i18n="success_title">Pieteikums saņemts!</h3>
-          <p id="success-msg"></p><br>
-          <button class="cabin-book-btn" onclick="resetForm()" style="background:var(--moss)" data-i18n="new_booking">Jauna rezervācija</button>
-        </div>
-        <div id="form-content">
-          <div class="date-display" id="date-display">📅 <span id="date-display-text"></span></div>
-          <div>
-            <div class="form-section-title" data-i18n="choose_cabin">Izvēlieties mājiņu</div>
-            <div class="cabin-selector" id="cabin-selector"></div>
-          </div>
-          <div class="form-fields">
-            <div class="form-section-title" data-i18n="dates_section">Datumi</div>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label" data-i18n="checkin">Ierašanās</label><input type="date" class="form-input" id="f-checkin"></div>
-              <div class="form-group"><label class="form-label" data-i18n="checkout">Izbraukšana</label><input type="date" class="form-input" id="f-checkout"></div>
-            </div>
-            <div class="form-group">
-              <label class="form-label" data-i18n="guests_label">Viesu skaits</label>
-              <select class="form-select" id="f-guests" onchange="recalcPrice()">
-                <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
-              </select>
-            </div>
-            <div class="form-section-title" data-i18n="contact_section">Kontaktinformācija</div>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label" data-i18n="name_label">Vārds *</label><input type="text" class="form-input" id="f-name" placeholder="Jānis Bērziņš"></div>
-              <div class="form-group"><label class="form-label" data-i18n="phone_label">Tālrunis *</label><input type="tel" class="form-input" id="f-phone" placeholder="+371 29000000"></div>
-            </div>
-            <div class="form-group"><label class="form-label" data-i18n="email_label">E-pasts *</label><input type="email" class="form-input" id="f-email" placeholder="vards@email.com"></div>
-            <div class="form-section-title" data-i18n="extras_section">Papildus pakalpojumi</div>
-            <div class="extras-grid" id="extras-grid"></div>
-            <div class="bedlinen-note" data-i18n="bedlinen_info">🛏 Gultasveļa: 5 €/persona/nakts</div>
-            <div class="form-group" style="margin-top:.3rem">
-              <label class="form-label" data-i18n="notes_label">Piezīmes</label>
-              <textarea class="form-textarea" id="f-notes" placeholder="Īpaši pieprasījumi..."></textarea>
-            </div>
-            <div class="price-summary" id="price-summary" style="display:none">
-              <div class="price-summary-title" data-i18n="summary_title">Izmaksu aprēķins</div>
-              <div id="summary-rows"></div>
-              <div class="price-summary-total"><span data-i18n="total">Kopā</span><span id="summary-total">0 €</span></div>
-            </div>
-            <button class="form-submit" id="form-submit" onclick="submitBooking()"><span data-i18n="submit_btn">Nosūtīt rezervācijas pieteikumu</span></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- CONTACT -->
 <section id="contact">
   <div class="contact-inner">
     <div class="section-header">
       <p class="section-eyebrow" data-i18n="contact_eyebrow">Kontakti</p>
       <h2 class="section-title" data-i18n="contact_title">Jautājumi? <em>Sazinieties!</em></h2>
     </div>
-    <p style="margin-top:1rem;color:var(--text-light);font-size:.9rem;line-height:1.9" data-i18n="contact_addr">Ragaciems, Engures novads, Latvija<br>Atbildam ātrāk WhatsApp</p>
+    <p style="margin-top:1rem;color:var(--text-light);font-size:.9rem;line-height:1.9" data-i18n="contact_addr">Ragaciems, Engures novads, Latvija</p>
     <div class="contact-methods">
       <a href="tel:+37129265047" class="contact-btn contact-btn--call" data-i18n="call_btn">📞 +371 29265047</a>
       <a href="https://wa.me/37129265047" target="_blank" class="contact-btn contact-btn--wa" data-i18n="wa_btn">💬 WhatsApp</a>
@@ -633,12 +472,12 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   </div>
 </section>
 
-<!-- ===== CABIN MODAL ===== -->
-<div class="modal-overlay" id="cabin-modal" onclick="handleModalOverlayClick(event)">
-  <div class="modal" id="modal-box">
-    <button class="modal-close" onclick="closeModal()" aria-label="Aizvērt">✕</button>
-    <div class="modal-hero" id="modal-hero">
-      <div class="modal-num" id="modal-num">01</div>
+<!-- MODAL -->
+<div class="modal-overlay" id="cabin-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-hero">
+      <div class="modal-num" id="modal-num"></div>
       <div class="modal-hero-inner">
         <div class="modal-badges" id="modal-badges"></div>
         <div class="modal-title" id="modal-title"></div>
@@ -648,65 +487,51 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
     <div class="modal-body">
       <div id="modal-success" class="modal-success">
         <h3 data-i18n="success_title">✅ Pieteikums saņemts!</h3>
-        <p id="modal-success-msg" style="color:var(--text-light);margin-bottom:1.2rem"></p>
-        <button class="modal-submit" onclick="closeModal();resetModalForm()" style="background:var(--moss)" data-i18n="new_booking">Jauna rezervācija</button>
+        <p id="modal-success-msg" style="color:var(--text-light);margin:.6rem 0 1.2rem;font-size:.88rem;line-height:1.55"></p>
+        <button class="modal-submit" onclick="closeModal()" style="background:var(--moss)" data-i18n="new_booking">Aizvērt</button>
       </div>
-      <div id="modal-form-area">
-        <div class="modal-cols">
-          <div>
-            <div class="modal-section-title" data-i18n="features_title">Iekārtojums</div>
-            <ul class="modal-features" id="modal-features"></ul>
-          </div>
-          <div>
-            <div class="modal-section-title" data-i18n="prices_title_short">Cenas</div>
-            <div class="modal-price-box" id="modal-price-box"></div>
-          </div>
-        </div>
-        <div class="modal-divider"></div>
 
-        <!-- BEDLINEN (default ON, opt-out) -->
-        <div class="modal-section-title" data-i18n="bedlinen_section">Gultasveļa</div>
-        <div class="modal-extra-item active" id="mex-bedlinen" style="border-color:var(--gold);background:rgba(200,136,42,.07)">
-          <div class="modal-extra-left">
-            <input type="checkbox" class="modal-extra-cb" id="mcb-bedlinen" checked onchange="mToggleBedlinen(this.checked)">
+      <div id="modal-form-area">
+        <!-- Single cabin details (hidden in multi mode) -->
+        <div id="modal-cols-area">
+          <div class="modal-cols">
             <div>
-              <div class="modal-extra-name" data-i18n="bedlinen_name">🛏 Gultasveļa</div>
-              <div class="modal-extra-desc" data-i18n="bedlinen_contents">Sega ar pārvalku · palags · spilvens ar spilvendrānu</div>
+              <div class="modal-section-title" data-i18n="features_title">Iekārtojums</div>
+              <ul class="modal-features" id="modal-features"></ul>
+            </div>
+            <div>
+              <div class="modal-section-title" data-i18n="prices_title_short">Cena</div>
+              <div class="modal-price-box" id="modal-price-box"></div>
             </div>
           </div>
-          <div class="modal-extra-right">
-            <div class="modal-extra-price" data-i18n="bedlinen_price_label">5 €/pers./nakts</div>
-            <span id="mbl-included" style="font-size:.72rem;background:rgba(94,138,96,.15);color:var(--moss);padding:.2rem .55rem;border-radius:20px;font-weight:600" data-i18n="included_label">Iekļauts</span>
-          </div>
+          <div class="modal-divider"></div>
         </div>
 
-        <!-- EXTRAS -->
-        <div class="modal-section-title" style="margin-top:1rem" data-i18n="extras_section">Papildus pakalpojumi</div>
-        <div class="modal-extras" id="modal-extras-grid"></div>
+        <!-- Multi-cabin chips -->
+        <div id="modal-cabins-list-area" style="display:none"></div>
 
-        <div style="height:1.2rem"></div>
+        <!-- Bedlinen toggle -->
+        <div id="modal-bedlinen-area"></div>
 
-        <!-- BOOKING FORM -->
+        <!-- Extras -->
+        <div id="modal-extras-area"></div>
+
+        <!-- Booking form -->
         <div class="modal-form">
-          <div class="modal-form-title" data-i18n="form_title">Rezervācijas forma</div>
+          <div class="modal-form-title" data-i18n="modal_book_title">Rezervēt</div>
           <div class="modal-error" id="modal-error"></div>
           <div style="display:flex;flex-direction:column;gap:.7rem">
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" data-i18n="checkin">Ierašanās</label>
-                <input type="date" class="form-input" id="m-checkin" onchange="modalRecalc()">
+                <input type="date" class="form-input" id="m-checkin">
               </div>
               <div class="form-group">
                 <label class="form-label" data-i18n="checkout">Izbraukšana</label>
-                <input type="date" class="form-input" id="m-checkout" onchange="modalRecalc()">
+                <input type="date" class="form-input" id="m-checkout">
               </div>
             </div>
-            <div class="form-group">
-              <label class="form-label" data-i18n="guests_label">Viesu skaits</label>
-              <select class="form-select" id="m-guests" onchange="modalRecalc()">
-                <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
-              </select>
-            </div>
+            <div id="modal-guests-area"></div>
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" data-i18n="name_label">Vārds, Uzvārds *</label>
@@ -723,16 +548,19 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
             </div>
             <div class="form-group">
               <label class="form-label" data-i18n="notes_label">Piezīmes</label>
-              <textarea class="form-input" id="m-notes" rows="2" placeholder="Īpaši pieprasījumi..."></textarea>
+              <textarea class="form-textarea" id="m-notes" rows="2" data-i18n-ph="notes_ph" placeholder="Īpaši pieprasījumi..."></textarea>
             </div>
           </div>
         </div>
 
-        <!-- PRICE SUMMARY -->
+        <!-- Price summary -->
         <div class="modal-summary" id="modal-summary" style="display:none">
           <div class="modal-summary-title" data-i18n="summary_title">Izmaksu aprēķins</div>
           <div id="modal-summary-rows"></div>
-          <div class="modal-summary-total"><span data-i18n="total">Kopā</span><span id="modal-summary-total">0 €</span></div>
+          <div class="modal-summary-total">
+            <span data-i18n="total">Kopā</span>
+            <span id="modal-summary-total">0€</span>
+          </div>
         </div>
 
         <button class="modal-submit" id="modal-submit-btn" onclick="submitModalBooking()">
@@ -743,923 +571,1121 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img src="logo.jpeg" alt="Saules Krasts"></div>
     <ul class="footer-links">
       <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
-      <li><a href="#prices" data-i18n="nav_prices">Cenas</a></li>
-      <li><a href="#booking" data-i18n="nav_book">Rezervēt</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
     </ul>
     <p class="footer-copy">© 2026 Saules Krasts · Ragaciems · antra.sila@gmail.com</p>
   </div>
 </footer>
+
 <script>
-// ============================================================
-// TRANSLATIONS (LV / EN / LT / RU)
-// ============================================================
+// ⚙️  SUPABASE SETUP — replace with your project values
+const SB_URL = 'https://YOUR_PROJECT.supabase.co';
+const SB_KEY = 'YOUR_ANON_KEY';
+/*  Required SQL (run once in Supabase SQL editor):
+CREATE TABLE bookings (
+  id BIGSERIAL PRIMARY KEY,
+  cabin_id INT NOT NULL,
+  checkin_date DATE NOT NULL,
+  checkout_date DATE NOT NULL,
+  guest_name TEXT NOT NULL,
+  guest_email TEXT NOT NULL,
+  guest_phone TEXT NOT NULL,
+  guest_count INT DEFAULT 2,
+  notes TEXT,
+  extras JSONB,
+  total_price NUMERIC,
+  status TEXT DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+*/
+try {
+  if (SB_URL && !SB_URL.includes('YOUR_')) window.sb = window.supabase.createClient(SB_URL, SB_KEY);
+} catch(e) { console.warn('Supabase not initialized:', e); }
+
+// ⚙️  EmailJS — replace with your IDs from emailjs.com
+const EJS_SVC = 'YOUR_SERVICE_ID';
+const EJS_TMPL_C = 'YOUR_TEMPLATE_CLIENT';
+const EJS_TMPL_O = 'YOUR_TEMPLATE_OWNER';
+try {
+  if (typeof emailjs !== 'undefined') emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
+} catch(e) { console.warn('EmailJS not initialized:', e); }
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   SAULES KRASTS — booking app
+   Architecture:
+   - LANG/TR : i18n (LV / EN / LT / RU + auto-detect)
+   - CABINS  : cabin pricing data (low season only shown publicly)
+   - EXTRAS  : add-on services
+   - ST      : global state (multi-cabin selection, current modal)
+   - openCabinModal / openMultiBookingModal : two booking flows
+═══════════════════════════════════════════════════════════════════ */
+
+// ───── TRANSLATIONS ─────────────────────────────────────────────────
 const TR = {
-lv:{
-  nav_cabins:"Mājiņas",nav_prices:"Cenas",nav_book:"Rezervēt",nav_contact:"Kontakti",nav_cta:"Rezervēt tagad",
+lv: {
+  nav_cabins:"Mājiņas", nav_book:"Rezervēt", nav_contact:"Kontakti", nav_cta:"Rezervēt tagad",
   hero_eyebrow:"Ragaciems · Baltijas jūra",
   hero_title:"Pamosties pie <em>jūras</em><br>rīta saulītē",
   hero_sub:"Piecas koka mājiņas tieši pie Baltijas jūras krasta. Klusums, priedes un svaigs jūras gaiss.",
-  hero_cta1:"🌅 Rezervēt mājiņu",hero_cta2:"Apskatīt mājiņas",scroll:"Ritināt",
-  cabins_eyebrow:"Mūsu mājiņas",cabins_title:"Piecas mājas, <em>viena jūra</em>",
-  cabins_hint:"Uzvelciet peli uz mājiņas — tā izceļas. Noklikšķiniet, lai rezervētu.",
-  type_family:"Ģimenes",type_double:"Divvietīgā",type_lux:"⭐ LUX",type_lux2:"LUX",
-  cabin1_short:"Nr.1 · Ģimenes",cabin2_short:"Nr.2 · Ģimenes",cabin3_short:"Nr.3 · Divvietīgā",
-  cabin4_short:"Nr.4 · Divvietīgā",cabin5_short:"Nr.5 · LUX ⭐",
-  cabin1_name:"Mājiņa Nr. 1",cabin1_tag:"Klusa un ērta — priežu ēnā",
-  cabin2_name:"Mājiņa Nr. 2",cabin2_tag:"Ģimenes prieks ar tumšajām žalūzijām",
-  cabin3_name:"Mājiņa Nr. 3",cabin3_tag:"Divi, kuriem patīk sava telpa",
-  cabin4_name:"Mājiņa Nr. 4",cabin4_tag:"Tuvāk jūras skaņai",
-  cabin5_tag:"Tieši pie jūras. Tieši kā sapnī.",
-  c1f1:"4 vietas · 13 m²",c1f2:"Divguļamā 145×200 + divstāvīgā 90×200",
-  c1f3:"Saulesnecaurlaidīgās žalūzijas",c1f4:"Tējkanna",c2f3:"Tumšās žalūzijas",
-  c3f1:"2 vietas · 13 m²",c3f2:"Divas atsevišķas gultas 90×200",
-  c5f1:"2 vietas · 13 m² · vistuvāk jūrai",c5f2:"Lielā gulta 160×200",
-  c5f3:"Saulesnecaurlaidīgās žalūzijas",c5f4:"Ledusskapis",c5f5:"Kafijas aparāts",
+  hero_cta1:"🌅 Rezervēt mājiņu", hero_cta2:"Apskatīt mājiņas",
+  cabins_eyebrow:"Mūsu mājiņas",
+  cabins_title:"Piecas mājas, <em>viena jūra</em>",
+  cabins_hint:"Uzejiet ar peli vai pieskarieties mājiņai, lai redzētu detaļas. Atzīmējiet vairākas un rezervējiet kopā.",
+  type_family:"Ģimenes", type_double:"Divvietīgā", type_lux:"⭐ LUX",
+  cabin1_name:"Mājiņa Nr. 1", cabin1_tag:"Klusa un ērta — priežu ēnā",
+  cabin2_name:"Mājiņa Nr. 2", cabin2_tag:"Ģimenes prieks ar tumšajām žalūzijām",
+  cabin3_name:"Mājiņa Nr. 3", cabin3_tag:"Divi, kuriem patīk sava telpa",
+  cabin4_name:"Mājiņa Nr. 4", cabin4_tag:"Tuvāk jūras skaņai",
+  cabin5_name:"Mājiņa Nr. 5", cabin5_tag:"Tieši pie jūras. Tieši kā sapnī.",
+  c_4guests:"4 vietas · 13 m²", c_2guests:"2 vietas · 13 m²",
+  c_5guests:"2 vietas · 13 m² · vistuvāk jūrai",
+  c_bed_family:"Divguļamā 145×200 + divstāvīgā 90×200",
+  c_bed_double:"Divas atsevišķas gultas 90×200",
+  c_bed_lux:"Lielā gulta 160×200",
+  c_blinds_sun:"Saulesnecaurlaidīgās žalūzijas",
+  c_blinds_dark:"Tumšās žalūzijas",
+  c_kettle:"Tējkanna", c_fridge:"Ledusskapis", c_coffee:"Kafijas aparāts",
   c_terrace:"Terase · Lietussargs ar galdu un krēsliem",
-  from:"no",per_night:"naktī",book_btn:"Rezervēt",book_lux:"Rezervēt LUX",
-  info1h:"Tieši pie jūras",info1p:"Nr. 5 — pa soļiem līdz smiltīm un viļņiem.",
-  info2h:"Priežu mežā",info2p:"Dabisks ēnojums, svaigs gaiss, dziedošie putni.",
-  info3h:"Dušas un tualetes",info3p:"Kopīgs sanitārais mezgls — tīrs un ērts.",
-  info4h:"Mājdzīvnieki laipni gaidīti",info4p:"Nelieli suņi un kaķi ir laipni gaidīti.",
-  info5h:"Bezmaksas stāvvieta",info5p:"Vieta katrai mājiņai blakus.",
-  prices_eyebrow:"Cenas",prices_title:"Godīgas cenas, <em>vienkārši</em>",
-  pt_cabin:"Mājiņa",pt_type:"Tips",pt_low:"Zemā sezona (sept.–maijs)",pt_high:"Augstā sezona (jūn.–aug.)",pt_guests:"Vietas",
-  bedlinen_note:"Gultasveļa: +5 €/persona/nakts",
-  extras_note:"Papildus: grils, ogles, saulessargs, atpūtas krēsls — pieejami rezervācijā",
-  book_eyebrow:"Rezervācija",
-  book_title:"Izvēlieties dienas,<br><em>mēs parūpēsimies par pārējo</em>",
-  leg_free:"Brīva",leg_busy:"Aizņemta",leg_sel:"Izvēlēts",
-  form_title:"Rezervācijas forma",form_sub:"Aizpildiet — apstiprināsim 24h laikā",
-  choose_cabin:"Izvēlieties mājiņu",dates_section:"Datumi",
-  checkin:"Ierašanās",checkout:"Izbraukšana",guests_label:"Viesu skaits",
-  contact_section:"Kontaktinformācija",name_label:"Vārds, Uzvārds *",
-  phone_label:"Tālrunis *",email_label:"E-pasts *",
+  bedlinen_card:"<strong>Gultasveļa:</strong> 5 €/persona · iekļauta: sega ar pārvalku, palags, spilvens ar pārvalku",
+  from:"no", per_night:"naktī", book_btn:"Rezervēt",
+  info1h:"Tieši pie jūras", info1p:"Nr. 5 — pa soļiem līdz smiltīm un viļņiem.",
+  info2h:"Priežu mežā", info2p:"Dabisks ēnojums, svaigs gaiss, dziedošie putni.",
+  info3h:"Dušas un tualetes", info3p:"Kopīgs sanitārais mezgls — tīrs un ērts.",
+  info4h:"Mājdzīvnieki gaidīti", info4p:"Nelieli suņi un kaķi ir laipni gaidīti.",
+  info5h:"Bezmaksas stāvvieta", info5p:"Vieta katrai mājiņai blakus.",
+  multi_none:"Vēl nav izvēlēta neviena mājiņa", multi_one:"1 mājiņa izvēlēta", multi_many:"{n} mājiņas izvēlētas",
+  multi_book:"Rezervēt izvēlētās ({n}) →", multi_clear:"Notīrīt",
+  select_btn:"Izvēlēties", selected_btn:"Izvēlēta",
+  features_title:"Iekārtojums", prices_title_short:"Cena",
+  price_per_night:"par nakti", max_guests:"Maksimālais viesu skaits", persons:"pers.",
+  cabin_chip_label:"Mājiņa",
+  modal_book_title:"Rezervēt", modal_book_multi_title:"Rezervēt mājiņas",
+  bedlinen_info:"<strong>🛏 Gultasveļa iekļauta standartā</strong> · 5 €/persona/nakts · sega ar pārvalku, palags, spilvens ar pārvalku · variet noņemt zemāk, ja nav nepieciešama",
+  bedlinen_toggle:"Gultasveļa (visām personām, visās naktīs)",
   extras_section:"Papildus pakalpojumi",
-  bedlinen_info:"🛏 Gultasveļa pieskaitīta automātiski: 5 €/persona/nakts",
-  notes_label:"Piezīmes",
-  summary_title:"Izmaksu aprēķins",total:"Kopā",submit_btn:"Nosūtīt rezervācijas pieteikumu",
-  success_title:"✅ Pieteikums saņemts!",new_booking:"Jauna rezervācija",
-  contact_eyebrow:"Kontakti",contact_title:"Jautājumi? <em>Sazinieties!</em>",
+  extras_hint:"Izvēlieties papildus pakalpojumus — katru var pasūtīt līdz 2 vienībām uz mājiņu. Ja būs vajadzīgs vairāk, varēs piereģistrēties uz vietas.",
+  e_grill_name:"Grila īre", e_grill_desc:"Ogļu grils ar restēm",
+  e_coal_name:"Ogles 10 L", e_coal_desc:"Kvalitatīvas ogles grilam (10 L)",
+  e_umbrella_name:"Saulessarga īre", e_umbrella_desc:"Liels pludmales saulessargs",
+  e_chair_name:"Piepūšamais atpūtas krēsls", e_chair_desc:"Piepūšams atpūtas krēsls 170×85 cm ar palikni kājām",
+  checkin:"Ierašanās", checkout:"Izbraukšana", guests_label:"Viesu skaits",
+  name_label:"Vārds, Uzvārds *", phone_label:"Tālrunis *", email_label:"E-pasts *",
+  notes_label:"Piezīmes", notes_ph:"Īpaši pieprasījumi...",
+  summary_title:"Izmaksu aprēķins", total:"Kopā", submit_btn:"Nosūtīt rezervācijas pieteikumu",
+  cabin_price:"Mājiņa", nights:"naktis", bedlinen_line:"Gultasveļa",
+  bedlinen_removed:"Gultasveļa (noņemta)",
+  success_title:"✅ Pieteikums saņemts!", new_booking:"Aizvērt",
+  contact_eyebrow:"Kontakti", contact_title:"Jautājumi? <em>Sazinieties!</em>",
   contact_addr:"Ragaciems, Engures novads, Latvija<br>Atbildam ātrāk WhatsApp 🟢",
-  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ E-pasts",
-  checkin_info:"<strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00",
-  e_grill:"Grila īre",e_grill_desc:"Ogļu grils ar restēm",e_grill_price:"5 €/nakts",
-  e_coal:"Ogles 10 L",e_coal_desc:"Kvalitatīvas ogles grilam",e_coal_price:"10 €",
-  e_umbrella:"Pludmales saulessargs",e_umbrella_desc:"Liels saulessargs ar statīvu",e_umbrella_price:"5 €/nakts",
-  e_chair:"Piepūšamais atpūtas krēsls",e_chair_desc:"170×85 cm ar kāju palikni",e_chair_price:"10 €/nakts",
-  nights:"naktis",cabin_price:"Mājiņa",bedlinen_sum:"Gultasveļa",
-  err_no_cabin:"Lūdzu izvēlieties mājiņu.",err_no_name:"Ievadiet vārdu un uzvārdu.",
-  err_no_email:"Ievadiet derīgu e-pastu.",err_no_phone:"Ievadiet tālruņa numuru.",
+  call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ E-pasts",
+  checkin_info:"<strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00",,
+  multi_empty_title:"Izvēlieties vienu vai vairākas mājiņas",
+  multi_empty_hint:"Atzīmējiet izvēles laukus, lai rezervētu vairākas vienlaikus",
+  multi_add_more_hint:"Atzīmējiet vēl, vai turpiniet ar šo vienu",
+  multi_ready_hint:"Visas tiks rezervētas vienā formā",
+  multi_book_disabled:"Vispirms atzīmējiet mājiņu",
+  select_hint:"Atzīmēt vairākas",
+  select_btn_tooltip:"Atzīmējiet, lai rezervētu kopā ar citām"
+  err_no_cabin:"Lūdzu izvēlieties vismaz vienu mājiņu.",
+  err_no_name:"Ievadiet vārdu un uzvārdu.",
+  err_no_email:"Ievadiet derīgu e-pastu.",
+  err_no_phone:"Ievadiet tālruņa numuru.",
   err_no_dates:"Ievadiet ierašanās un izbraukšanas datumus.",
-  err_dates:"Izbraukšanai jābūt pēc ierašanās.",err_fail:"Kļūda. Sazinieties: +371 29265047",
+  err_dates:"Izbraukšanai jābūt pēc ierašanās.",
+  err_fail:"Kļūda. Lūdzu sazinieties: +371 29265047",
+  nav_availability:"Pieejamība",
+  avail_eyebrow:"Brīvās dienas",
+  avail_title:"Pieejamība <em>vienā skatā</em>",
+  avail_hint:"Katras dienas 5 punktiņi attēlo 5 mājiņu pieejamību. Zaļš = brīva, sarkans = aizņemta.",
+  leg_free:"Brīva mājiņa",
+  leg_booked:"Aizņemta",
+  leg_hover:"Uzejiet ar peli vai pieskarieties dienai",
   months:["Janvāris","Februāris","Marts","Aprīlis","Maijs","Jūnijs","Jūlijs","Augusts","Septembris","Oktobris","Novembris","Decembris"],
-  wdays:["Pr","Ot","Tr","Ce","Pk","Se","Sv"],
-  bedlinen_section:'Gultasveļa (iekļauta standartā)',
-  bedlinen_name:'🛏 Gultasveļa',
-  bedlinen_contents:'Sega ar pārvalku · palags · spilvens ar spilvendrānu',
-  bedlinen_price_label:'5 €/pers./nakts',
-  included_label:'Iekļauts',
-  excluded_label:'Noņemts',
-  bedlinen_card_note:'🛏 Gultasveļa iekļauta',
-  free_cabin:"Pieejama",booked_cabin:"Aizņemta",
-  features_title:"Iekārtojums",prices_title_short:"Cenas",
-  max_guests:"Maks. vietu",persons:"pers.",
-  per_night_label:"par nakti",max_qty_note:"Maksimums 2 uz mājiņu",
-  closest_sea:"Tuvāk jūrai"
+  weekdays:["Pr","Ot","Tr","Ce","Pk","Se","Sv"],
+  cabins_available:"mājiņas brīvas",
+  cabin_label:"Mājiņa",
+  free:"brīva",
+  booked:"aizņemta"
 },
-en:{
-  nav_cabins:"Cabins",nav_prices:"Prices",nav_book:"Book",nav_contact:"Contact",nav_cta:"Book now",
-  hero_eyebrow:"Ragaciems · Baltic Sea",hero_title:"Wake up by the <em>sea</em><br>at sunrise",
+en: {
+  nav_cabins:"Cabins", nav_book:"Book", nav_contact:"Contact", nav_cta:"Book now",
+  hero_eyebrow:"Ragaciems · Baltic Sea",
+  hero_title:"Wake up by the <em>sea</em><br>at sunrise",
   hero_sub:"Five wooden cabins right on the Baltic Sea shore. Silence, pines and fresh sea air.",
-  hero_cta1:"🌅 Book a cabin",hero_cta2:"View cabins",scroll:"Scroll",
-  cabins_eyebrow:"Our cabins",cabins_title:"Five homes, <em>one sea</em>",
-  cabins_hint:"Hover over a cabin in the photo to highlight it. Click to book.",
-  type_family:"Family",type_double:"Twin",type_lux:"⭐ LUX",type_lux2:"LUX",
-  cabin1_short:"No.1 · Family",cabin2_short:"No.2 · Family",cabin3_short:"No.3 · Twin",
-  cabin4_short:"No.4 · Twin",cabin5_short:"No.5 · LUX ⭐",
-  cabin1_name:"Cabin No. 1",cabin1_tag:"Quiet and cosy — among the pines",
-  cabin2_name:"Cabin No. 2",cabin2_tag:"Family comfort with blackout blinds",
-  cabin3_name:"Cabin No. 3",cabin3_tag:"For two who enjoy their own space",
-  cabin4_name:"Cabin No. 4",cabin4_tag:"Closer to the sound of the sea",
-  cabin5_tag:"Right by the sea. Just like a dream.",
-  c1f1:"4 guests · 13 m²",c1f2:"Double bed 145×200 + bunk bed 90×200",
-  c1f3:"Blackout blinds (sun-blocking)",c1f4:"Kettle",c2f3:"Blackout blinds",
-  c3f1:"2 guests · 13 m²",c3f2:"Two single beds 90×200",
-  c5f1:"2 guests · 13 m² · closest to the sea",c5f2:"King bed 160×200",
-  c5f3:"Blackout blinds (sun-blocking)",c5f4:"Mini fridge",c5f5:"Coffee machine",
+  hero_cta1:"🌅 Book a cabin", hero_cta2:"View cabins",
+  cabins_eyebrow:"Our cabins",
+  cabins_title:"Five homes, <em>one sea</em>",
+  cabins_hint:"Hover or tap a cabin to see details. Select several and book them together.",
+  type_family:"Family", type_double:"Twin", type_lux:"⭐ LUX",
+  cabin1_name:"Cabin No. 1", cabin1_tag:"Quiet and cosy — among the pines",
+  cabin2_name:"Cabin No. 2", cabin2_tag:"Family comfort with blackout blinds",
+  cabin3_name:"Cabin No. 3", cabin3_tag:"For two who enjoy their own space",
+  cabin4_name:"Cabin No. 4", cabin4_tag:"Closer to the sound of the sea",
+  cabin5_name:"Cabin No. 5", cabin5_tag:"Right by the sea. Just like a dream.",
+  c_4guests:"4 guests · 13 m²", c_2guests:"2 guests · 13 m²",
+  c_5guests:"2 guests · 13 m² · closest to the sea",
+  c_bed_family:"Double bed 145×200 + bunk bed 90×200",
+  c_bed_double:"Two single beds 90×200",
+  c_bed_lux:"King bed 160×200",
+  c_blinds_sun:"Sun-blocking blinds",
+  c_blinds_dark:"Blackout blinds",
+  c_kettle:"Kettle", c_fridge:"Mini fridge", c_coffee:"Coffee machine",
   c_terrace:"Terrace · Large umbrella with table & chairs",
-  from:"from",per_night:"/ night",book_btn:"Book",book_lux:"Book LUX",
-  info1h:"Right by the sea",info1p:"Cabin No. 5 — steps away from the sand.",
-  info2h:"In the pine forest",info2p:"Natural shade, fresh air, birdsong at dawn.",
-  info3h:"Showers & toilets",info3p:"Shared sanitary block — clean and maintained.",
-  info4h:"Pets welcome",info4p:"Small dogs and cats are warmly welcome.",
-  info5h:"Free parking",info5p:"Dedicated spot next to each cabin.",
-  prices_eyebrow:"Prices",prices_title:"Honest prices, <em>simply</em>",
-  pt_cabin:"Cabin",pt_type:"Type",pt_low:"Low season (Sep–May)",pt_high:"High season (Jun–Aug)",pt_guests:"Guests",
-  bedlinen_note:"Bed linen: +€5/person/night",
-  extras_note:"Add-ons: grill, charcoal, beach umbrella, lounger — available when booking",
-  book_eyebrow:"Booking",book_title:"Choose your dates,<br><em>we'll take care of the rest</em>",
-  leg_free:"Available",leg_busy:"Booked",leg_sel:"Selected",
-  form_title:"Booking form",form_sub:"Fill in — we confirm within 24h",
-  choose_cabin:"Choose a cabin",dates_section:"Dates",
-  checkin:"Check-in",checkout:"Check-out",guests_label:"Number of guests",
-  contact_section:"Contact information",name_label:"Full name *",
-  phone_label:"Phone *",email_label:"Email *",
+  bedlinen_card:"<strong>Bed linen:</strong> €5/person · includes: duvet with cover, fitted sheet, pillow with pillowcase",
+  from:"from", per_night:"/ night", book_btn:"Book",
+  info1h:"Right by the sea", info1p:"Cabin No. 5 — steps from the sand.",
+  info2h:"In the pine forest", info2p:"Natural shade, fresh air, birdsong at dawn.",
+  info3h:"Showers & toilets", info3p:"Shared sanitary block — clean and maintained.",
+  info4h:"Pets welcome", info4p:"Small dogs and cats are warmly welcome.",
+  info5h:"Free parking", info5p:"Dedicated spot next to each cabin.",
+  multi_none:"No cabins selected yet", multi_one:"1 cabin selected", multi_many:"{n} cabins selected",
+  multi_book:"Book selected ({n}) →", multi_clear:"Clear",
+  select_btn:"Select", selected_btn:"Selected",
+  features_title:"Features", prices_title_short:"Price",
+  price_per_night:"per night", max_guests:"Max guests", persons:"pers.",
+  cabin_chip_label:"Cabin",
+  modal_book_title:"Book", modal_book_multi_title:"Book cabins",
+  bedlinen_info:"<strong>🛏 Bed linen included by default</strong> · €5/person/night · duvet with cover, fitted sheet, pillow with pillowcase · you can opt out below",
+  bedlinen_toggle:"Bed linen (all guests, all nights)",
   extras_section:"Add-on services",
-  bedlinen_info:"🛏 Bed linen added automatically: €5/person/night",
-  notes_label:"Notes",
-  summary_title:"Cost estimate",total:"Total",submit_btn:"Send booking request",
-  success_title:"✅ Request received!",new_booking:"New booking",
-  contact_eyebrow:"Contact",contact_title:"Questions? <em>Get in touch!</em>",
+  extras_hint:"Choose extras — up to 2 of each per cabin. If you need more, additional items can be booked on-site.",
+  e_grill_name:"Grill hire", e_grill_desc:"Charcoal grill with grate",
+  e_coal_name:"Charcoal 10 L", e_coal_desc:"Quality charcoal (10 L)",
+  e_umbrella_name:"Beach umbrella", e_umbrella_desc:"Large beach umbrella",
+  e_chair_name:"Inflatable lounger", e_chair_desc:"Inflatable lounger 170×85 cm with footrest",
+  checkin:"Check-in", checkout:"Check-out", guests_label:"Number of guests",
+  name_label:"Full name *", phone_label:"Phone *", email_label:"Email *",
+  notes_label:"Notes", notes_ph:"Special requests...",
+  summary_title:"Cost estimate", total:"Total", submit_btn:"Send booking request",
+  cabin_price:"Cabin", nights:"nights", bedlinen_line:"Bed linen",
+  bedlinen_removed:"Bed linen (removed)",
+  success_title:"✅ Request received!", new_booking:"Close",
+  contact_eyebrow:"Contact", contact_title:"Questions? <em>Get in touch!</em>",
   contact_addr:"Ragaciems, Engure District, Latvia<br>We respond faster on WhatsApp 🟢",
-  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ Email",
-  checkin_info:"<strong>Check-in:</strong> from 14:00 · <strong>Check-out:</strong> by 11:00",
-  e_grill:"Grill hire",e_grill_desc:"Charcoal grill with grate",e_grill_price:"€5/night",
-  e_coal:"Charcoal 10 L",e_coal_desc:"Quality charcoal",e_coal_price:"€10",
-  e_umbrella:"Beach umbrella",e_umbrella_desc:"Large umbrella with stand",e_umbrella_price:"€5/night",
-  e_chair:"Inflatable lounger",e_chair_desc:"170×85 cm with footrest",e_chair_price:"€10/night",
-  nights:"nights",cabin_price:"Cabin",bedlinen_sum:"Bed linen",
-  err_no_cabin:"Please select a cabin.",err_no_name:"Enter your full name.",
-  err_no_email:"Enter a valid email.",err_no_phone:"Enter your phone number.",
+  call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ Email",
+  checkin_info:"<strong>Check-in:</strong> from 14:00 · <strong>Check-out:</strong> by 11:00",,
+  multi_empty_title:"Select one or more cabins",
+  multi_empty_hint:"Tick the checkbox to book multiple cabins together",
+  multi_add_more_hint:"Select more, or continue with this one",
+  multi_ready_hint:"All will be booked in a single form",
+  multi_book_disabled:"First select a cabin",
+  select_hint:"Tick to select multiple",
+  select_btn_tooltip:"Tick to book together with others"
+  err_no_cabin:"Please select at least one cabin.",
+  err_no_name:"Enter your full name.",
+  err_no_email:"Enter a valid email.",
+  err_no_phone:"Enter your phone number.",
   err_no_dates:"Enter check-in and check-out dates.",
-  err_dates:"Check-out must be after check-in.",err_fail:"Error. Contact us: +371 29265047",
+  err_dates:"Check-out must be after check-in.",
+  err_fail:"Error. Please contact us: +371 29265047",
+  nav_availability:"Availability",
+  avail_eyebrow:"Available days",
+  avail_title:"Availability <em>at a glance</em>",
+  avail_hint:"Each day's 5 dots show the availability of 5 cabins. Green = free, red = booked.",
+  leg_free:"Cabin available",
+  leg_booked:"Booked",
+  leg_hover:"Hover or tap a day for details",
   months:["January","February","March","April","May","June","July","August","September","October","November","December"],
-  wdays:["Mo","Tu","We","Th","Fr","Sa","Su"],
-  bedlinen_section:'Bed linen (included by default)',
-  bedlinen_name:'🛏 Bed linen',
-  bedlinen_contents:'Duvet with cover · fitted sheet · pillow with pillowcase',
-  bedlinen_price_label:'5/pers./night',
-  included_label:'Included',
-  excluded_label:'Removed',
-  bedlinen_card_note:'🛏 Bed linen included',
-  free_cabin:"Available",booked_cabin:"Booked",
-  features_title:"Features",prices_title_short:"Prices",
-  max_guests:"Max guests",persons:"pers.",
-  per_night_label:"per night",max_qty_note:"Maximum 2 per cabin",
-  closest_sea:"Closest to sea"
+  weekdays:["Mo","Tu","We","Th","Fr","Sa","Su"],
+  cabins_available:"cabins available",
+  cabin_label:"Cabin",
+  free:"free",
+  booked:"booked"
 },
-lt:{
-  nav_cabins:"Nameliai",nav_prices:"Kainos",nav_book:"Rezervuoti",nav_contact:"Kontaktai",nav_cta:"Rezervuoti dabar",
-  hero_eyebrow:"Ragaciems · Baltijos jūra",hero_title:"Pabuskite prie <em>jūros</em><br>saulėtekio metu",
+lt: {
+  nav_cabins:"Nameliai", nav_book:"Rezervuoti", nav_contact:"Kontaktai", nav_cta:"Rezervuoti dabar",
+  hero_eyebrow:"Ragaciems · Baltijos jūra",
+  hero_title:"Pabuskite prie <em>jūros</em><br>saulėtekio metu",
   hero_sub:"Penki mediniai nameliai tiesiai prie Baltijos jūros kranto. Tyla, pušys ir grynas jūros oras.",
-  hero_cta1:"🌅 Rezervuoti namelį",hero_cta2:"Peržiūrėti namelius",scroll:"Slinkti",
-  cabins_eyebrow:"Mūsų nameliai",cabins_title:"Penki namai, <em>viena jūra</em>",
-  cabins_hint:"Užveskite pelę ant namelio — jis išsiskiria. Spustelėkite, kad rezervuotumėte.",
-  type_family:"Šeimai",type_double:"Dvivietis",type_lux:"⭐ LUX",type_lux2:"LUX",
-  cabin1_short:"Nr.1 · Šeimai",cabin2_short:"Nr.2 · Šeimai",cabin3_short:"Nr.3 · Dvivietis",
-  cabin4_short:"Nr.4 · Dvivietis",cabin5_short:"Nr.5 · LUX ⭐",
-  cabin1_name:"Namelis Nr. 1",cabin1_tag:"Ramus ir jaukus — tarp pušų",
-  cabin2_name:"Namelis Nr. 2",cabin2_tag:"Šeimos komfortas su tamsėjančiais žaliuziais",
-  cabin3_name:"Namelis Nr. 3",cabin3_tag:"Dviem, kurie mėgsta savo erdvę",
-  cabin4_name:"Namelis Nr. 4",cabin4_tag:"Arčiau jūros garsų",
-  cabin5_tag:"Tiesiai prie jūros. Kaip sapne.",
-  c1f1:"4 vietos · 13 m²",c1f2:"Dvigulė 145×200 + dviaukštė 90×200",
-  c1f3:"Saulę sulaikantys žaliuziai",c1f4:"Virdulys",c2f3:"Tamsėjantys žaliuziai",
-  c3f1:"2 vietos · 13 m²",c3f2:"Dvi atskiros lovos 90×200",
-  c5f1:"2 vietos · 13 m² · arčiausiai jūros",c5f2:"Didelė lova 160×200",
-  c5f3:"Saulę sulaikantys žaliuziai",c5f4:"Šaldytuvas",c5f5:"Kavos aparatas",
+  hero_cta1:"🌅 Rezervuoti namelį", hero_cta2:"Peržiūrėti namelius",
+  cabins_eyebrow:"Mūsų nameliai",
+  cabins_title:"Penki namai, <em>viena jūra</em>",
+  cabins_hint:"Užveskite pelę arba palieskite namelį, kad pamatytumėte detales. Pažymėkite kelis ir rezervuokite kartu.",
+  type_family:"Šeimai", type_double:"Dvivietis", type_lux:"⭐ LUX",
+  cabin1_name:"Namelis Nr. 1", cabin1_tag:"Ramus ir jaukus — tarp pušų",
+  cabin2_name:"Namelis Nr. 2", cabin2_tag:"Šeimos komfortas su tamsėjančiais žaliuziais",
+  cabin3_name:"Namelis Nr. 3", cabin3_tag:"Dviem, kurie mėgsta savo erdvę",
+  cabin4_name:"Namelis Nr. 4", cabin4_tag:"Arčiau jūros garsų",
+  cabin5_name:"Namelis Nr. 5", cabin5_tag:"Tiesiai prie jūros. Kaip sapne.",
+  c_4guests:"4 vietos · 13 m²", c_2guests:"2 vietos · 13 m²",
+  c_5guests:"2 vietos · 13 m² · arčiausiai jūros",
+  c_bed_family:"Dvigulė 145×200 + dviaukštė 90×200",
+  c_bed_double:"Dvi atskiros lovos 90×200",
+  c_bed_lux:"Didelė lova 160×200",
+  c_blinds_sun:"Saulę sulaikantys žaliuziai",
+  c_blinds_dark:"Tamsėjantys žaliuziai",
+  c_kettle:"Virdulys", c_fridge:"Šaldytuvas", c_coffee:"Kavos aparatas",
   c_terrace:"Terasa · Didelis skėtis su stalu ir kėdėmis",
-  from:"nuo",per_night:"naktis",book_btn:"Rezervuoti",book_lux:"Rezervuoti LUX",
-  info1h:"Tiesiai prie jūros",info1p:"Nr. 5 — žingsniai iki smėlio ir bangų.",
-  info2h:"Pušyne",info2p:"Natūralus šešėlis, grynas oras, paukščių giesmė.",
-  info3h:"Dušai ir tualetai",info3p:"Bendras sanitarinis mazgas — švarus ir tvarkingas.",
-  info4h:"Gyvūnai laukiami",info4p:"Maži šunys ir katės yra laukiami.",
-  info5h:"Nemokama parkavimo aikštelė",info5p:"Vieta šalia kiekvieno namelio.",
-  prices_eyebrow:"Kainos",prices_title:"Sąžiningos kainos, <em>paprastai</em>",
-  pt_cabin:"Namelis",pt_type:"Tipas",pt_low:"Žemasis sezonas (rugs.–geg.)",pt_high:"Aukštasis sezonas (bir.–rugp.)",pt_guests:"Vietos",
-  bedlinen_note:"Patalynė: +5 €/asmuo/naktis",
-  extras_note:"Papildomai: grilis, anglys, skėtis, gultas — galima pasirinkti rezervuojant",
-  book_eyebrow:"Rezervacija",book_title:"Pasirinkite dienas,<br><em>mes pasirūpinsime likusiu</em>",
-  leg_free:"Laisvas",leg_busy:"Užimtas",leg_sel:"Pasirinktas",
-  form_title:"Rezervacijos forma",form_sub:"Užpildykite — patvirtinsime per 24 val.",
-  choose_cabin:"Pasirinkite namelį",dates_section:"Datos",
-  checkin:"Atvykimas",checkout:"Išvykimas",guests_label:"Svečių skaičius",
-  contact_section:"Kontaktinė informacija",name_label:"Vardas, Pavardė *",
-  phone_label:"Telefonas *",email_label:"El. paštas *",
+  bedlinen_card:"<strong>Patalynė:</strong> 5 €/asmeniui · įtraukta: antklodė su užvalkalu, paklodė, pagalvė su užvalkalu",
+  from:"nuo", per_night:"naktis", book_btn:"Rezervuoti",
+  info1h:"Tiesiai prie jūros", info1p:"Nr. 5 — žingsniai iki smėlio.",
+  info2h:"Pušyne", info2p:"Natūralus šešėlis, grynas oras, paukščių giesmė.",
+  info3h:"Dušai ir tualetai", info3p:"Bendras sanitarinis mazgas — švarus ir tvarkingas.",
+  info4h:"Gyvūnai laukiami", info4p:"Maži šunys ir katės yra laukiami.",
+  info5h:"Nemokama parkavimo aikštelė", info5p:"Vieta šalia kiekvieno namelio.",
+  multi_none:"Dar nepasirinkta nė vieno namelio", multi_one:"Pasirinktas 1 namelis", multi_many:"Pasirinkti {n} nameliai",
+  multi_book:"Rezervuoti pasirinktus ({n}) →", multi_clear:"Išvalyti",
+  select_btn:"Pasirinkti", selected_btn:"Pasirinktas",
+  features_title:"Įranga", prices_title_short:"Kaina",
+  price_per_night:"per naktį", max_guests:"Maks. svečių", persons:"asm.",
+  cabin_chip_label:"Namelis",
+  modal_book_title:"Rezervuoti", modal_book_multi_title:"Rezervuoti namelius",
+  bedlinen_info:"<strong>🛏 Patalynė įtraukta pagal nutylėjimą</strong> · 5 €/asmeniui/naktis · antklodė su užvalkalu, paklodė, pagalvė su užvalkalu · galite atsisakyti žemiau",
+  bedlinen_toggle:"Patalynė (visiems svečiams, visomis naktimis)",
   extras_section:"Papildomos paslaugos",
-  bedlinen_info:"🛏 Patalynė skaičiuojama automatiškai: 5 €/asmuo/naktis",
-  notes_label:"Pastabos",
-  summary_title:"Kainos skaičiavimas",total:"Iš viso",submit_btn:"Siųsti rezervacijos užklausą",
-  success_title:"✅ Užklausa gauta!",new_booking:"Nauja rezervacija",
-  contact_eyebrow:"Kontaktai",contact_title:"Klausimai? <em>Susisiekite!</em>",
+  extras_hint:"Pasirinkite papildomas paslaugas — iki 2 vnt. vienam nameliui. Jei reikės daugiau, galima rezervuoti vietoje.",
+  e_grill_name:"Grilio nuoma", e_grill_desc:"Anglių grilis su grotelėmis",
+  e_coal_name:"Anglys 10 L", e_coal_desc:"Kokybingos anglys (10 L)",
+  e_umbrella_name:"Skėčio nuoma", e_umbrella_desc:"Didelis paplūdimio skėtis",
+  e_chair_name:"Pripučiamas gultas", e_chair_desc:"Pripučiamas gultas 170×85 cm su kojų atrama",
+  checkin:"Atvykimas", checkout:"Išvykimas", guests_label:"Svečių skaičius",
+  name_label:"Vardas, Pavardė *", phone_label:"Telefonas *", email_label:"El. paštas *",
+  notes_label:"Pastabos", notes_ph:"Specialūs pageidavimai...",
+  summary_title:"Kainos skaičiavimas", total:"Iš viso", submit_btn:"Siųsti užklausą",
+  cabin_price:"Namelis", nights:"naktys", bedlinen_line:"Patalynė",
+  bedlinen_removed:"Patalynė (pašalinta)",
+  success_title:"✅ Užklausa gauta!", new_booking:"Uždaryti",
+  contact_eyebrow:"Kontaktai", contact_title:"Klausimai? <em>Susisiekite!</em>",
   contact_addr:"Ragaciems, Engurės rajonas, Latvija<br>Greičiau atsakome WhatsApp 🟢",
-  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ El. paštas",
-  checkin_info:"<strong>Atvykimas:</strong> nuo 14:00 · <strong>Išvykimas:</strong> iki 11:00",
-  e_grill:"Grilio nuoma",e_grill_desc:"Anglių grilis su grotelėmis",e_grill_price:"5 €/naktis",
-  e_coal:"Anglys 10 L",e_coal_desc:"Kokybingos anglys grilui",e_coal_price:"10 €",
-  e_umbrella:"Paplūdimio skėtis",e_umbrella_desc:"Didelis skėtis su stovu",e_umbrella_price:"5 €/naktis",
-  e_chair:"Pripučiamas gultas",e_chair_desc:"170×85 cm su kojų atrama",e_chair_price:"10 €/naktis",
-  nights:"naktys",cabin_price:"Namelis",bedlinen_sum:"Patalynė",
-  err_no_cabin:"Pasirinkite namelį.",err_no_name:"Įveskite vardą ir pavardę.",
-  err_no_email:"Įveskite galiojantį el. paštą.",err_no_phone:"Įveskite telefono numerį.",
+  call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ El. paštas",
+  checkin_info:"<strong>Atvykimas:</strong> nuo 14:00 · <strong>Išvykimas:</strong> iki 11:00",,
+  multi_empty_title:"Pasirinkite vieną ar kelis namelius",
+  multi_empty_hint:"Pažymėkite langelį, kad rezervuotumėte kelis kartu",
+  multi_add_more_hint:"Pasirinkite daugiau arba tęskite su šiuo",
+  multi_ready_hint:"Visi bus rezervuoti vienoje formoje",
+  multi_book_disabled:"Pirma pasirinkite namelį",
+  select_hint:"Pažymėti kelis",
+  select_btn_tooltip:"Pažymėkite, kad rezervuotumėte kartu su kitais"
+  err_no_cabin:"Pasirinkite bent vieną namelį.",
+  err_no_name:"Įveskite vardą ir pavardę.",
+  err_no_email:"Įveskite galiojantį el. paštą.",
+  err_no_phone:"Įveskite telefono numerį.",
   err_no_dates:"Įveskite atvykimo ir išvykimo datas.",
-  err_dates:"Išvykimas turi būti po atvykimo.",err_fail:"Klaida. Susisiekite: +371 29265047",
+  err_dates:"Išvykimas turi būti po atvykimo.",
+  err_fail:"Klaida. Susisiekite: +371 29265047",
+  nav_availability:"Prieinamumas",
+  avail_eyebrow:"Laisvos dienos",
+  avail_title:"Prieinamumas <em>vienu žvilgsniu</em>",
+  avail_hint:"Kiekvienos dienos 5 taškai rodo 5 namelių prieinamumą. Žalia = laisvas, raudona = užimtas.",
+  leg_free:"Laisvas namelis",
+  leg_booked:"Užimtas",
+  leg_hover:"Užveskite arba palieskite dieną",
   months:["Sausis","Vasaris","Kovas","Balandis","Gegužė","Birželis","Liepa","Rugpjūtis","Rugsėjis","Spalis","Lapkritis","Gruodis"],
-  wdays:["Pr","An","Tr","Kt","Pn","Še","Sk"],
-  bedlinen_section:'Patalynė (įtraukta standartiškai)',
-  bedlinen_name:'🛏 Patalynė',
-  bedlinen_contents:'Antklodė su užvalkalu · paklodė · pagalvė su užvalkalu',
-  bedlinen_price_label:'5 €/asm./naktis',
-  included_label:'Įtraukta',
-  excluded_label:'Pašalinta',
-  bedlinen_card_note:'🛏 Patalynė įtraukta',
-  free_cabin:"Laisvas",booked_cabin:"Užimtas",
-  features_title:"Įranga",prices_title_short:"Kainos",
-  max_guests:"Maks. svečių",persons:"asm.",
-  per_night_label:"per naktį",max_qty_note:"Maks. 2 vienam nameliui",
-  closest_sea:"Arčiausiai jūros"
+  weekdays:["Pr","An","Tr","Kt","Pn","Še","Sk"],
+  cabins_available:"namelių laisvi",
+  cabin_label:"Namelis",
+  free:"laisvas",
+  booked:"užimtas"
 },
-ru:{
-  nav_cabins:"Домики",nav_prices:"Цены",nav_book:"Бронь",nav_contact:"Контакты",nav_cta:"Забронировать",
-  hero_eyebrow:"Рагациемс · Балтийское море",hero_title:"Просыпайтесь у <em>моря</em><br>на рассвете",
+ru: {
+  nav_cabins:"Домики", nav_book:"Бронь", nav_contact:"Контакты", nav_cta:"Забронировать",
+  hero_eyebrow:"Рагациемс · Балтийское море",
+  hero_title:"Просыпайтесь у <em>моря</em><br>на рассвете",
   hero_sub:"Пять деревянных домиков прямо на берегу Балтийского моря. Тишина, сосны и свежий морской воздух.",
-  hero_cta1:"🌅 Забронировать домик",hero_cta2:"Посмотреть домики",scroll:"Листать",
-  cabins_eyebrow:"Наши домики",cabins_title:"Пять домов, <em>одно море</em>",
-  cabins_hint:"Наведите на домик на фото — он выделится. Нажмите для бронирования.",
-  type_family:"Семейный",type_double:"Двухместный",type_lux:"⭐ LUX",type_lux2:"LUX",
-  cabin1_short:"№1 · Семейный",cabin2_short:"№2 · Семейный",cabin3_short:"№3 · Двухместный",
-  cabin4_short:"№4 · Двухместный",cabin5_short:"№5 · LUX ⭐",
-  cabin1_name:"Домик № 1",cabin1_tag:"Тихий и уютный — среди сосен",
-  cabin2_name:"Домик № 2",cabin2_tag:"Семейный уют с тёмными жалюзи",
-  cabin3_name:"Домик № 3",cabin3_tag:"Для двоих, кто ценит своё пространство",
-  cabin4_name:"Домик № 4",cabin4_tag:"Ближе к шуму волн",
-  cabin5_tag:"Прямо у моря. Как в мечте.",
-  c1f1:"4 места · 13 м²",c1f2:"Двуспальная 145×200 + двухъярусная 90×200",
-  c1f3:"Светонепроницаемые жалюзи",c1f4:"Чайник",c2f3:"Тёмные жалюзи",
-  c3f1:"2 места · 13 м²",c3f2:"Две отдельные кровати 90×200",
-  c5f1:"2 места · 13 м² · ближайший к морю",c5f2:"Большая кровать 160×200",
-  c5f3:"Светонепроницаемые жалюзи",c5f4:"Холодильник",c5f5:"Кофемашина",
+  hero_cta1:"🌅 Забронировать домик", hero_cta2:"Посмотреть домики",
+  cabins_eyebrow:"Наши домики",
+  cabins_title:"Пять домов, <em>одно море</em>",
+  cabins_hint:"Наведите курсор или коснитесь домика, чтобы увидеть детали. Выберите несколько и забронируйте вместе.",
+  type_family:"Семейный", type_double:"Двухместный", type_lux:"⭐ LUX",
+  cabin1_name:"Домик № 1", cabin1_tag:"Тихий и уютный — среди сосен",
+  cabin2_name:"Домик № 2", cabin2_tag:"Семейный уют с тёмными жалюзи",
+  cabin3_name:"Домик № 3", cabin3_tag:"Для двоих, кто ценит своё пространство",
+  cabin4_name:"Домик № 4", cabin4_tag:"Ближе к шуму волн",
+  cabin5_name:"Домик № 5", cabin5_tag:"Прямо у моря. Как в мечте.",
+  c_4guests:"4 места · 13 м²", c_2guests:"2 места · 13 м²",
+  c_5guests:"2 места · 13 м² · ближайший к морю",
+  c_bed_family:"Двуспальная 145×200 + двухъярусная 90×200",
+  c_bed_double:"Две отдельные кровати 90×200",
+  c_bed_lux:"Большая кровать 160×200",
+  c_blinds_sun:"Светонепроницаемые жалюзи",
+  c_blinds_dark:"Тёмные жалюзи",
+  c_kettle:"Чайник", c_fridge:"Холодильник", c_coffee:"Кофемашина",
   c_terrace:"Терраса · Большой зонт со столиком и стульями",
-  from:"от",per_night:"/ ночь",book_btn:"Забронировать",book_lux:"Забронировать LUX",
-  info1h:"Прямо у моря",info1p:"Домик № 5 — несколько шагов до песка.",
-  info2h:"В сосновом лесу",info2p:"Натуральная тень, свежий воздух, птичье пение.",
-  info3h:"Душ и туалеты",info3p:"Общий санузел на территории — чистый и ухоженный.",
-  info4h:"Животные приветствуются",info4p:"Небольшие собаки и кошки — добро пожаловать.",
-  info5h:"Бесплатная парковка",info5p:"Место рядом с каждым домиком.",
-  prices_eyebrow:"Цены",prices_title:"Честные цены, <em>просто</em>",
-  pt_cabin:"Домик",pt_type:"Тип",pt_low:"Низкий сезон (сент.–май)",pt_high:"Высокий сезон (июнь–авг.)",pt_guests:"Мест",
-  bedlinen_note:"Постельное бельё: +5 €/человек/ночь",
-  extras_note:"Дополнительно: гриль, угли, зонт, шезлонг — выбор при бронировании",
-  book_eyebrow:"Бронирование",book_title:"Выберите даты,<br><em>мы позаботимся об остальном</em>",
-  leg_free:"Свободен",leg_busy:"Занят",leg_sel:"Выбрано",
-  form_title:"Форма бронирования",form_sub:"Заполните — подтвердим в течение 24ч",
-  choose_cabin:"Выберите домик",dates_section:"Даты",
-  checkin:"Заезд",checkout:"Выезд",guests_label:"Количество гостей",
-  contact_section:"Контактная информация",name_label:"Имя, Фамилия *",
-  phone_label:"Телефон *",email_label:"Эл. почта *",
+  bedlinen_card:"<strong>Постельное бельё:</strong> 5 €/человек · включает: одеяло с пододеяльником, простыню, подушку с наволочкой",
+  from:"от", per_night:"/ ночь", book_btn:"Забронировать",
+  info1h:"Прямо у моря", info1p:"Домик № 5 — несколько шагов до песка.",
+  info2h:"В сосновом лесу", info2p:"Натуральная тень, свежий воздух, птичье пение.",
+  info3h:"Душ и туалеты", info3p:"Общий санузел на территории — чистый и ухоженный.",
+  info4h:"Животные приветствуются", info4p:"Небольшие собаки и кошки — добро пожаловать.",
+  info5h:"Бесплатная парковка", info5p:"Место рядом с каждым домиком.",
+  multi_none:"Ещё не выбран ни один домик", multi_one:"Выбран 1 домик", multi_many:"Выбрано {n} домиков",
+  multi_book:"Забронировать выбранные ({n}) →", multi_clear:"Очистить",
+  select_btn:"Выбрать", selected_btn:"Выбрано",
+  features_title:"Оснащение", prices_title_short:"Цена",
+  price_per_night:"за ночь", max_guests:"Макс. гостей", persons:"чел.",
+  cabin_chip_label:"Домик",
+  modal_book_title:"Забронировать", modal_book_multi_title:"Забронировать домики",
+  bedlinen_info:"<strong>🛏 Бельё включено по умолчанию</strong> · 5 €/чел./ночь · одеяло с пододеяльником, простыня, подушка с наволочкой · можно убрать ниже",
+  bedlinen_toggle:"Постельное бельё (всем гостям, на все ночи)",
   extras_section:"Дополнительные услуги",
-  bedlinen_info:"🛏 Бельё добавляется автоматически: 5 €/человек/ночь",
-  notes_label:"Примечания",
-  summary_title:"Расчёт стоимости",total:"Итого",submit_btn:"Отправить заявку на бронирование",
-  success_title:"✅ Заявка получена!",new_booking:"Новое бронирование",
-  contact_eyebrow:"Контакты",contact_title:"Вопросы? <em>Свяжитесь!</em>",
+  extras_hint:"Выберите дополнения — до 2 шт. каждого на домик. Если нужно больше, можно заказать на месте.",
+  e_grill_name:"Аренда гриля", e_grill_desc:"Угольный гриль с решёткой",
+  e_coal_name:"Уголь 10 л", e_coal_desc:"Качественный уголь (10 л)",
+  e_umbrella_name:"Аренда пляжного зонта", e_umbrella_desc:"Большой пляжный зонт",
+  e_chair_name:"Надувной шезлонг", e_chair_desc:"Надувной шезлонг 170×85 см с подставкой для ног",
+  checkin:"Заезд", checkout:"Выезд", guests_label:"Количество гостей",
+  name_label:"Имя, Фамилия *", phone_label:"Телефон *", email_label:"Эл. почта *",
+  notes_label:"Примечания", notes_ph:"Особые пожелания...",
+  summary_title:"Расчёт стоимости", total:"Итого", submit_btn:"Отправить заявку",
+  cabin_price:"Домик", nights:"ночей", bedlinen_line:"Бельё",
+  bedlinen_removed:"Бельё (убрано)",
+  success_title:"✅ Заявка получена!", new_booking:"Закрыть",
+  contact_eyebrow:"Контакты", contact_title:"Вопросы? <em>Свяжитесь!</em>",
   contact_addr:"Рагациемс, Энгурский край, Латвия<br>Быстрее отвечаем в WhatsApp 🟢",
-  call_btn:"📞 +371 29265047",wa_btn:"💬 WhatsApp",email_btn:"✉️ Эл. почта",
-  checkin_info:"<strong>Заезд:</strong> с 14:00 · <strong>Выезд:</strong> до 11:00",
-  e_grill:"Аренда гриля",e_grill_desc:"Угольный гриль с решёткой",e_grill_price:"5 €/ночь",
-  e_coal:"Уголь 10 л",e_coal_desc:"Качественный уголь для гриля",e_coal_price:"10 €",
-  e_umbrella:"Пляжный зонт",e_umbrella_desc:"Большой зонт со стойкой",e_umbrella_price:"5 €/ночь",
-  e_chair:"Надувной шезлонг",e_chair_desc:"170×85 см с подставкой для ног",e_chair_price:"10 €/ночь",
-  nights:"ночей",cabin_price:"Домик",bedlinen_sum:"Бельё",
-  err_no_cabin:"Выберите домик.",err_no_name:"Введите имя и фамилию.",
-  err_no_email:"Введите корректный адрес.",err_no_phone:"Введите номер телефона.",
+  call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ Эл. почта",
+  checkin_info:"<strong>Заезд:</strong> с 14:00 · <strong>Выезд:</strong> до 11:00",,
+  multi_empty_title:"Выберите один или несколько домиков",
+  multi_empty_hint:"Отметьте галочку, чтобы забронировать несколько вместе",
+  multi_add_more_hint:"Выберите ещё или продолжите с этим",
+  multi_ready_hint:"Все будут забронированы одной формой",
+  multi_book_disabled:"Сначала выберите домик",
+  select_hint:"Отметить несколько",
+  select_btn_tooltip:"Отметьте, чтобы забронировать с другими"
+  err_no_cabin:"Выберите хотя бы один домик.",
+  err_no_name:"Введите имя и фамилию.",
+  err_no_email:"Введите корректный адрес.",
+  err_no_phone:"Введите номер телефона.",
   err_no_dates:"Введите даты заезда и выезда.",
-  err_dates:"Дата выезда должна быть позже заезда.",err_fail:"Ошибка. Свяжитесь: +371 29265047",
+  err_dates:"Дата выезда должна быть позже заезда.",
+  err_fail:"Ошибка. Свяжитесь: +371 29265047",
+  nav_availability:"Доступность",
+  avail_eyebrow:"Свободные дни",
+  avail_title:"Доступность <em>одним взглядом</em>",
+  avail_hint:"5 точек каждого дня показывают доступность 5 домиков. Зелёный = свободен, красный = занят.",
+  leg_free:"Свободный домик",
+  leg_booked:"Занят",
+  leg_hover:"Наведите или коснитесь дня",
   months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
-  wdays:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],
-  bedlinen_section:'Постельное бельё (включено)',
-  bedlinen_name:'🛏 Постельное бельё',
-  bedlinen_contents:'Одеяло с пододеяльником · простыня · подушка с наволочкой',
-  bedlinen_price_label:'5 €/чел./ночь',
-  included_label:'Включено',
-  excluded_label:'Убрано',
-  bedlinen_card_note:'🛏 Бельё включено',
-  free_cabin:"Свободен",booked_cabin:"Занят",
-  features_title:"Оснащение",prices_title_short:"Цены",
-  max_guests:"Макс. мест",persons:"чел.",
-  per_night_label:"за ночь",max_qty_note:"Максимум 2 на домик",
-  closest_sea:"Ближайший к морю"
+  weekdays:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"],
+  cabins_available:"домиков свободны",
+  cabin_label:"Домик",
+  free:"свободен",
+  booked:"занят"
 }
 };
 
-// ============================================================
-// LANGUAGE ENGINE
-// ============================================================
-let LANG = 'lv';
-
-function detectLang(){
-  const c=(navigator.language||'lv').toLowerCase().slice(0,2);
-  return {lv:'lv',en:'en',lt:'lt',ru:'ru'}[c]||'lv';
-}
-
-function t(k){ return (TR[LANG]&&TR[LANG][k])||(TR.lv[k])||k; }
-
-function setLang(lang){
-  LANG=lang;
-  document.documentElement.lang=lang;
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const v=t(el.getAttribute('data-i18n'));
-    if(v.includes('<'))el.innerHTML=v; else el.textContent=v;
-  });
-  document.querySelectorAll('.lang-btn').forEach(b=>{
-    b.classList.toggle('active',b.textContent.toLowerCase()===lang);
-  });
-  renderCalendar(); renderCabinSelector(); renderExtras(); recalcPrice();
-  // Refresh modal if open
-  if(document.getElementById('cabin-modal').classList.contains('open') && MST.cabinId) {
-    renderModalExtras(); modalRecalc();
-    document.getElementById('modal-title').textContent = t('cabin'+MST.cabinId+'_name');
-  }
-}
-
-// ============================================================
-// SUPABASE SETUP
-// ============================================================
-// ⚙️ Replace these with your actual Supabase project values:
-const SB_URL  = 'https://YOUR_PROJECT.supabase.co';
-const SB_KEY  = 'YOUR_ANON_KEY';
-// Required SQL (run once in Supabase SQL editor):
-/*
-CREATE TABLE bookings (
-  id            BIGSERIAL PRIMARY KEY,
-  cabin_id      INT NOT NULL,
-  checkin_date  DATE NOT NULL,
-  checkout_date DATE NOT NULL,
-  guest_name    TEXT NOT NULL,
-  guest_email   TEXT NOT NULL,
-  guest_phone   TEXT NOT NULL,
-  guest_count   INT DEFAULT 2,
-  notes         TEXT,
-  extras        JSONB,
-  total_price   NUMERIC,
-  status        TEXT DEFAULT 'pending',
-  created_at    TIMESTAMPTZ DEFAULT NOW()
-);
-*/
-const sb = window.supabase.createClient(SB_URL, SB_KEY);
-
-// ⚙️ EmailJS — replace with your IDs from emailjs.com dashboard:
-const EJS_SVC     = 'YOUR_SERVICE_ID';
-const EJS_TMPL_C  = 'YOUR_TEMPLATE_CLIENT';   // sends to guest
-const EJS_TMPL_O  = 'YOUR_TEMPLATE_OWNER';    // sends to antra.sila@gmail.com
-emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
-
-// ============================================================
-// CABIN DATA
-// ============================================================
-const CABINS=[
-  {id:1,maxG:4,pL:65,pH:85},
-  {id:2,maxG:4,pL:65,pH:85},
-  {id:3,maxG:2,pL:55,pH:70},
-  {id:4,maxG:2,pL:55,pH:70},
-  {id:5,maxG:2,pL:75,pH:95}
+// ───── DATA ─────────────────────────────────────────────────────────
+// IMPORTANT: only the publicly displayed price (called "price") is shown.
+// Internally this is the low-season rate, but we don't label it as such.
+const CABINS = [
+  { id:1, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_sun', extras:['c_kettle'], guests:'c_4guests' },
+  { id:2, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_4guests' },
+  { id:3, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests' },
+  { id:4, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests' },
+  { id:5, type:'lux',    maxG:2, price:75, beds:'c_bed_lux',    blinds:'c_blinds_sun', extras:['c_fridge','c_coffee'], guests:'c_5guests' }
 ];
 
-const EXTRAS=[
-  {id:'grill',    perN:true,  price:5},
-  {id:'coal',     perN:false, price:10},
-  {id:'umbrella', perN:true,  price:5},
-  {id:'chair',    perN:true,  price:10},
+const EXTRAS = [
+  { id:'grill',    perN:true,  price:5  },
+  { id:'coal',     perN:false, price:10 },
+  { id:'umbrella', perN:true,  price:5  },
+  { id:'chair',    perN:true,  price:10 }
 ];
-// Bedlinen is always included by default; guest can opt out
 const BEDLINEN_PRICE = 5; // per person per night
+const MAX_EXTRA_QTY  = 2;
 
-// ============================================================
-// STATE
-// ============================================================
-let ST={year:new Date().getFullYear(),month:new Date().getMonth(),
-  selDate:null,selCabin:null,bookings:[],extras:{grill:0,coal:0,umbrella:0,chair:0}};
+// ───── STATE ────────────────────────────────────────────────────────
+let LANG = 'lv';
+const ST = {
+  selectedCabins: new Set(),   // multi-select for cabin grid
+  modalMode: null,              // 'single' or 'multi'
+  modalCabins: [],              // cabins currently in modal
+  // Per-cabin extras + bedlinen state in modal
+  perCabin: {},                 // { cabinId: { extras:{grill:0,...}, bedlinen:true, guests:2 } }
+  // Availability calendar
+  calYear: new Date().getFullYear(),
+  calMonth: new Date().getMonth(),
+  bookings: []                  // [{ cabin_id, checkin_date, checkout_date, status }]
+};
 
-// ============================================================
-// INIT
-// ============================================================
-window.addEventListener('DOMContentLoaded',()=>{
-  LANG=detectLang(); setLang(LANG); loadBookings(); renderExtras();
-  document.getElementById('nav-toggle').addEventListener('click',()=>{
-    document.getElementById('main-nav').classList.toggle('mobile-open');
-  });
-  document.querySelectorAll('.nav-links a').forEach(a=>{
-    a.addEventListener('click',()=>document.getElementById('main-nav').classList.remove('mobile-open'));
-  });
-  document.getElementById('f-checkin').addEventListener('change',function(){if(this.value)selectDate(this.value);});
-  document.getElementById('f-checkout').addEventListener('change',recalcPrice);
-});
-
-// ============================================================
-// SUPABASE
-// ============================================================
-async function loadBookings(){
-  try{
-    const today=new Date().toISOString().split('T')[0];
-    const{data,error}=await sb.from('bookings').select('cabin_id,checkin_date,checkout_date')
-      .gte('checkout_date',today).neq('status','cancelled');
-    if(error)throw error;
-    ST.bookings=data||[];
-  }catch(e){ console.warn('Supabase not configured:',e.message); ST.bookings=[]; }
-  renderCalendar(); renderCabinSelector();
+// ───── i18n ─────────────────────────────────────────────────────────
+function detectLang(){
+  const c = (navigator.language||'lv').toLowerCase().slice(0,2);
+  return {lv:'lv',en:'en',lt:'lt',ru:'ru'}[c] || 'en';
 }
-
-// ============================================================
-// AVAILABILITY
-// ============================================================
-function isBusy(cabinId,ds){
-  return ST.bookings.some(b=>b.cabin_id===cabinId&&b.checkin_date<=ds&&b.checkout_date>ds);
+function t(k, vars){
+  let v = (TR[LANG]&&TR[LANG][k]) || TR.en[k] || TR.lv[k] || k;
+  if (vars) for (const [key,val] of Object.entries(vars)) v = v.replace('{'+key+'}', val);
+  return v;
 }
-function isHigh(ds){ if(!ds)return false; const m=new Date(ds).getMonth(); return m>=5&&m<=7; }
-function price(cabinId,ds){ const c=CABINS.find(x=>x.id===cabinId); return c?(isHigh(ds)?c.pH:c.pL):0; }
-
-// ============================================================
-// CALENDAR
-// ============================================================
-function changeMonth(d){ ST.month+=d; if(ST.month>11){ST.month=0;ST.year++;} if(ST.month<0){ST.month=11;ST.year--;} renderCalendar(); }
-
-function renderCalendar(){
-  const {year:y,month:m}=ST;
-  document.getElementById('cal-month-label').textContent=`${t('months')[m]} ${y}`;
-  const grid=document.getElementById('cal-grid');
-  const today=new Date(); today.setHours(0,0,0,0);
-  let fdow=new Date(y,m,1).getDay(); fdow=fdow===0?6:fdow-1;
-  const dim=new Date(y,m+1,0).getDate();
-  let html=t('wdays').map(d=>`<div class="cal-weekday">${d}</div>`).join('');
-  for(let i=0;i<fdow;i++) html+=`<div class="cal-day cal-day--empty"></div>`;
-  for(let day=1;day<=dim;day++){
-    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    const d=new Date(y,m,day);
-    const past=d<today, sel=ST.selDate===ds, tod=d.getTime()===today.getTime();
-    let dots=''; CABINS.forEach(c=>{ dots+=`<div class="day-dot ${isBusy(c.id,ds)?'day-dot--booked':'day-dot--free'}"></div>`; });
-    const cls=['cal-day',past?'cal-day--past':'',sel?'cal-day--selected':'',tod&&!sel?'cal-day--today':''].filter(Boolean).join(' ');
-    html+=`<div class="${cls}" ${!past?`onclick="selectDate('${ds}')"`:''}><div class="day-num">${day}</div>${!past?`<div class="day-dots">${dots}</div>`:''}</div>`;
+function setLang(lang){
+  LANG = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n'));
+    if (v.includes('<')) el.innerHTML = v; else el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-ph'));
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // re-render dynamic content
+  renderCabinCards();
+  renderMultiBar();
+  renderCalendar();
+  if (document.getElementById('cabin-modal').classList.contains('open')) {
+    refreshModalContent();
   }
-  grid.innerHTML=html;
 }
 
-// ============================================================
-// SELECT DATE / CABIN
-// ============================================================
-function selectDate(ds){
-  ST.selDate=ds; renderCalendar(); renderCabinSelector();
-  const dd=document.getElementById('date-display');
-  document.getElementById('date-display-text').textContent=
-    new Date(ds+'T00:00:00').toLocaleDateString(
-      LANG==='ru'?'ru-RU':LANG==='lt'?'lt-LT':LANG==='en'?'en-GB':'lv-LV',
-      {weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  dd.classList.add('visible');
-  document.getElementById('f-checkin').value=ds;
-  const nx=new Date(ds); nx.setDate(nx.getDate()+1);
-  document.getElementById('f-checkout').value=nx.toISOString().split('T')[0];
-  recalcPrice();
+// ───── HOTSPOT INFO BANNER ──────────────────────────────────────────
+function showHotspotBanner(cabinId){
+  const c = CABINS.find(x => x.id === cabinId);
+  const banner = document.getElementById('cabin-info-banner');
+  const typeKey = c.type === 'lux' ? 'type_lux' : c.type === 'family' ? 'type_family' : 'type_double';
+  banner.innerHTML = `
+    <div class="cabin-info-banner-title">${t('cabin'+cabinId+'_name')}</div>
+    <div class="cabin-info-banner-sub">${t(typeKey)} · ${t(c.guests)}</div>
+    <div class="cabin-info-banner-price">${c.price}€<small>${t('price_per_night')}</small></div>
+    <button class="cabin-info-banner-btn" onclick="openCabinModal(${cabinId})">${t('book_btn')}</button>
+  `;
+  banner.classList.add('show');
+  // highlight matching card
+  document.querySelectorAll('.cabin-card').forEach(el => el.classList.remove('highlighted'));
+  document.getElementById('card-'+cabinId)?.classList.add('highlighted');
+}
+function hideHotspotBanner(){
+  document.getElementById('cabin-info-banner').classList.remove('show');
+  document.querySelectorAll('.cabin-card').forEach(el => el.classList.remove('highlighted'));
 }
 
-function selectCabinAndBook(id){
-  openCabinModal(id);
-}
-
-function selectCabin(id){ ST.selCabin=id; renderCabinSelector(); recalcPrice(); }
-
-function renderCabinSelector(){
-  const con=document.getElementById('cabin-selector');
-  let html='';
-  CABINS.forEach(c=>{
-    const unavail=ST.selDate&&isBusy(c.id,ST.selDate);
-    const sel=ST.selCabin===c.id;
-    const p=price(c.id,ST.selDate);
-    const typeKey=c.id<=2?'type_family':c.id<=4?'type_double':'type_lux';
-    const cls=['cabin-option',unavail?'cabin-option--unavailable':'',sel&&!unavail?'cabin-option--selected':''].filter(Boolean).join(' ');
-    html+=`<button class="${cls}" type="button" ${unavail?'disabled':`onclick="selectCabin(${c.id})"`}>
-      <div><div class="cabin-option-name">${t('cabin'+c.id+'_name')}</div>
-      <div class="cabin-option-meta">${t(typeKey)} · ${c.maxG} ${t('guests_label').replace(' *','')}</div></div>
-      <div class="cabin-option-right">
-        <div class="cabin-option-price">${p}€</div>
-        <span class="status-pill ${unavail?'status-busy':'status-free'}">${unavail?t('booked_cabin'):t('free_cabin')}</span>
-      </div></button>`;
-  });
-  con.innerHTML=html;
-}
-
-// ============================================================
-// EXTRAS
-// ============================================================
-function renderExtras(){
-  const g=document.getElementById('extras-grid');
-  let html='';
-  EXTRAS.forEach(ex=>{
-    const q=ST.extras[ex.id]||0, active=q>0;
-    html+=`<div class="extra-item ${active?'active':''}" id="er-${ex.id}">
-      <div class="extra-left">
-        <input type="checkbox" class="extra-checkbox" id="ex-${ex.id}" ${active?'checked':''} onchange="toggleExtra('${ex.id}',this.checked)">
-        <div><div class="extra-name">${t('e_'+ex.id)}</div><div class="extra-desc">${t('e_'+ex.id+'_desc')}</div></div>
+// ───── CABIN CARDS ──────────────────────────────────────────────────
+function renderCabinCards(){
+  const grid = document.getElementById('cabins-grid');
+  if (!grid) return;
+  grid.innerHTML = CABINS.map(c => {
+    const typeKey = c.type==='lux'?'type_lux':c.type==='family'?'type_family':'type_double';
+    const badgeCls = c.type==='lux'?'badge-lux':c.type==='family'?'badge-family':'badge-double';
+    const headerStyle = c.type==='lux' ? 'background:linear-gradient(135deg,#1C2E4A,#263d5e)' : '';
+    const isSel = ST.selectedCabins.has(c.id);
+    const featuresHTML = [c.guests, c.beds, c.blinds, ...c.extras, 'c_terrace']
+      .map(k => `<li>${t(k)}</li>`).join('');
+    const priceColor = c.type==='lux' ? 'style="color:var(--gold)"' : '';
+    return `
+      <div class="cabin-card ${isSel?'selected':''}" id="card-${c.id}" onmouseenter="showHotspotBanner(${c.id})" onmouseleave="hideHotspotBanner()">
+        <div class="cabin-select-check" onclick="toggleCabinSelection(${c.id});event.stopPropagation()" title="${t('select_btn')}">${isSel?'✓':''}</div>
+        ${!isSel?`<div class="select-hint-arrow">← ${t('select_hint')}</div>`:''}
+        <div class="cabin-card-header" style="${headerStyle}">
+          <div class="cabin-number">${String(c.id).padStart(2,'0')}</div>
+          <div style="display:flex;gap:.3rem;align-items:center">
+            <span class="cabin-type-badge ${badgeCls}">${t(typeKey)}</span>
+            <span class="cabin-type-badge badge-pets">🐾</span>
+          </div>
+        </div>
+        <div class="cabin-card-body">
+          <div class="cabin-name">${t('cabin'+c.id+'_name')}</div>
+          <div class="cabin-tagline">${t('cabin'+c.id+'_tag')}</div>
+          <ul class="cabin-features">${featuresHTML}</ul>
+          <div class="cabin-bedlinen-note">${t('bedlinen_card')}</div>
+        </div>
+        <div class="cabin-card-footer">
+          <div class="cabin-price">
+            <span class="price-from">${t('from')}</span>
+            <span class="price-value" ${priceColor}>${c.price}<small style="font-size:.65rem;font-family:Inter">€</small></span>
+            <span class="price-unit">${t('per_night')}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;justify-content:flex-end">
+            <button class="cabin-toggle-select" onclick="toggleCabinSelection(${c.id});event.stopPropagation()" title="${t('select_btn_tooltip')}">
+              ${isSel?'✓ '+t('selected_btn'):'+ '+t('select_btn')}
+            </button>
+            <button class="cabin-book-btn" onclick="openCabinModal(${c.id});event.stopPropagation()">${t('book_btn')}</button>
+          </div>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:.6rem">
-        <div class="extra-price">${t('e_'+ex.id+'_price')}</div>
-        ${!ex.perN?`<div class="extra-qty"><button class="qty-btn" type="button" onclick="chgQ('${ex.id}',-1)">−</button><span class="qty-val" id="qv-${ex.id}">${q}</span><button class="qty-btn" type="button" onclick="chgQ('${ex.id}',1)">+</button></div>`:''}
-      </div></div>`;
+    `;
+  }).join('');
+}
+
+// ───── MULTI-SELECT BAR ─────────────────────────────────────────────
+function toggleCabinSelection(cabinId){
+  if (ST.selectedCabins.has(cabinId)) ST.selectedCabins.delete(cabinId);
+  else ST.selectedCabins.add(cabinId);
+  renderCabinCards();
+  renderMultiBar();
+}
+function clearSelection(){
+  ST.selectedCabins.clear();
+  renderCabinCards();
+  renderMultiBar();
+}
+function renderMultiBar(){
+  const bar = document.getElementById('multi-select-bar');
+  if (!bar) return;
+  const n = ST.selectedCabins.size;
+  const info = document.getElementById('multi-select-info');
+  const icon = document.getElementById('multi-icon');
+  const bookBtn = document.getElementById('multi-book-btn');
+  const clearBtn = document.getElementById('multi-clear-btn');
+
+  bar.classList.toggle('has-selection', n > 0);
+  icon.textContent = n > 0 ? '✓' : '☑';
+
+  if (n === 0) {
+    info.innerHTML = `<strong>${t('multi_empty_title')}</strong><small>${t('multi_empty_hint')}</small>`;
+  } else if (n === 1) {
+    info.innerHTML = `<strong>${t('multi_one')}</strong><small>${t('multi_add_more_hint')}</small>`;
+  } else {
+    info.innerHTML = `<strong>${t('multi_many', {n})}</strong><small>${t('multi_ready_hint')}</small>`;
+  }
+
+  bookBtn.textContent = n > 0 ? t('multi_book', {n}) : t('multi_book_disabled');
+  bookBtn.disabled = n === 0;
+  clearBtn.textContent = t('multi_clear');
+  clearBtn.style.display = n === 0 ? 'none' : '';
+}
+
+// ───── MODAL: OPEN ──────────────────────────────────────────────────
+function openCabinModal(cabinId){
+  ST.modalMode = 'single';
+  ST.modalCabins = [cabinId];
+  initPerCabinState([cabinId]);
+  refreshModalContent();
+  openModal();
+}
+function openMultiBookingModal(){
+  const ids = Array.from(ST.selectedCabins).sort();
+  if (ids.length === 0) return;
+  ST.modalMode = ids.length === 1 ? 'single' : 'multi';
+  ST.modalCabins = ids;
+  initPerCabinState(ids);
+  refreshModalContent();
+  openModal();
+}
+function initPerCabinState(ids){
+  ST.perCabin = {};
+  ids.forEach(id => {
+    const c = CABINS.find(x => x.id === id);
+    ST.perCabin[id] = {
+      extras: { grill:0, coal:0, umbrella:0, chair:0 },
+      bedlinen: true,
+      guests: Math.min(2, c.maxG)
+    };
   });
-  g.innerHTML=html;
 }
-
-function toggleExtra(id,checked){
-  ST.extras[id]=checked?1:0;
-  document.getElementById('er-'+id)?.classList.toggle('active',checked);
-  const qv=document.getElementById('qv-'+id); if(qv)qv.textContent=ST.extras[id];
-  recalcPrice();
-}
-
-function chgQ(id,d){
-  ST.extras[id]=Math.max(0,(ST.extras[id]||0)+d);
-  const cb=document.getElementById('ex-'+id); if(cb)cb.checked=ST.extras[id]>0;
-  const qv=document.getElementById('qv-'+id); if(qv)qv.textContent=ST.extras[id];
-  document.getElementById('er-'+id)?.classList.toggle('active',ST.extras[id]>0);
-  recalcPrice();
-}
-
-// ============================================================
-// PRICE CALCULATOR
-// ============================================================
-function recalcPrice(){
-  const ci=document.getElementById('f-checkin').value;
-  const co=document.getElementById('f-checkout').value;
-  const g=parseInt(document.getElementById('f-guests').value)||2;
-  const ps=document.getElementById('price-summary');
-  if(!ST.selCabin||!ci||!co||ci>=co){ps.style.display='none';return;}
-  const nights=Math.round((new Date(co)-new Date(ci))/(864e5));
-  if(nights<=0){ps.style.display='none';return;}
-  const cp=price(ST.selCabin,ci);
-  let total=cp*nights, rows='';
-  rows+=`<div class="price-summary-row"><span>${t('cabin_price')} (${nights} ${t('nights')} × ${cp}€)</span><span>${cp*nights}€</span></div>`;
-  const bl=5*g*nights; total+=bl;
-  rows+=`<div class="price-summary-row"><span>${t('bedlinen_sum')} (${g}× ${nights}× 5€)</span><span>${bl}€</span></div>`;
-  EXTRAS.forEach(ex=>{
-    const q=ST.extras[ex.id]||0;
-    if(q>0){const c=ex.perN?ex.price*nights*q:ex.price*q; total+=c;
-      rows+=`<div class="price-summary-row"><span>${t('e_'+ex.id)}${ex.perN?' ('+nights+' '+t('nights')+')':''}</span><span>${c}€</span></div>`;}
-  });
-  document.getElementById('summary-rows').innerHTML=rows;
-  document.getElementById('summary-total').textContent=total+'€';
-  ps.style.display='block';
-}
-
-// ============================================================
-// HOTSPOT
-// ============================================================
-function highlightCabin(id){
-  document.querySelectorAll('.cabin-hotspot').forEach(e=>e.classList.remove('active'));
-  document.querySelectorAll('.cabin-card').forEach(e=>e.classList.remove('highlighted'));
-  document.querySelector(`.cabin-hotspot[data-cabin="${id}"]`)?.classList.add('active');
-  document.getElementById('card-'+id)?.classList.add('highlighted');
-}
-function clearHighlight(){ document.querySelectorAll('.cabin-hotspot').forEach(e=>e.classList.remove('active')); }
-
-// ============================================================
-// SUBMIT
-// ============================================================
-async function submitBooking(){
-  const name=document.getElementById('f-name').value.trim();
-  const email=document.getElementById('f-email').value.trim();
-  const phone=document.getElementById('f-phone').value.trim();
-  const ci=document.getElementById('f-checkin').value;
-  const co=document.getElementById('f-checkout').value;
-  const g=parseInt(document.getElementById('f-guests').value)||2;
-  const notes=document.getElementById('f-notes').value.trim();
-  const errEl=document.getElementById('booking-error');
-  const showErr=m=>{errEl.textContent='❌ '+m;errEl.classList.add('visible');};
-  errEl.classList.remove('visible');
-  if(!ST.selCabin)return showErr(t('err_no_cabin'));
-  if(!name)return showErr(t('err_no_name'));
-  if(!email||!email.includes('@'))return showErr(t('err_no_email'));
-  if(!phone)return showErr(t('err_no_phone'));
-  if(!ci||!co)return showErr(t('err_no_dates'));
-  if(ci>=co)return showErr(t('err_dates'));
-  const btn=document.getElementById('form-submit');
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
-  const nights=Math.round((new Date(co)-new Date(ci))/(864e5));
-  const cp=price(ST.selCabin,ci);
-  let total=cp*nights+5*g*nights;
-  const extObj={};
-  EXTRAS.forEach(ex=>{ const q=ST.extras[ex.id]||0; if(q>0){extObj[ex.id]=q; total+=ex.perN?ex.price*nights*q:ex.price*q;} });
-  const cname=t('cabin'+ST.selCabin+'_name');
-  try{
-    const{error:dbE}=await sb.from('bookings').insert([{
-      cabin_id:ST.selCabin,checkin_date:ci,checkout_date:co,
-      guest_name:name,guest_email:email,guest_phone:phone,
-      guest_count:g,notes:notes,extras:extObj,total_price:total,status:'pending'
-    }]);
-    if(dbE)throw dbE;
-    await emailjs.send(EJS_SVC,EJS_TMPL_C,{
-      to_name:name,to_email:email,cabin_name:cname,
-      checkin_date:ci,checkout_date:co,guest_count:g,
-      total_price:total+'€',notes:notes||'—',phone:phone
-    });
-    await emailjs.send(EJS_SVC,EJS_TMPL_O,{
-      to_email:'antra.sila@gmail.com',guest_name:name,guest_email:email,guest_phone:phone,
-      cabin_name:cname,checkin_date:ci,checkout_date:co,guest_count:g,
-      total_price:total+'€',extras:JSON.stringify(extObj),notes:notes||'—'
-    });
-    await loadBookings();
-    document.getElementById('form-content').style.display='none';
-    const suc=document.getElementById('booking-success');
-    suc.classList.add('visible');
-    document.getElementById('success-msg').textContent=`${name} — ${cname}, ${ci} → ${co}. ${t('total')}: ${total}€`;
-  }catch(err){
-    console.error(err); showErr(t('err_fail'));
-    btn.disabled=false; btn.innerHTML=`<span>${t('submit_btn')}</span>`;
-  }
-}
-
-
-// ============================================================
-// CABIN DETAILS DATA
-// ============================================================
-const CABIN_DETAILS = {
-  1: {
-    featureKeys: ['c1f1','c1f2','c1f3','c1f4','c_terrace'],
-    lux: false, family: true
-  },
-  2: {
-    featureKeys: ['c1f1','c1f2','c2f3','c1f4','c_terrace'],
-    lux: false, family: true
-  },
-  3: {
-    featureKeys: ['c3f1','c3f2','c2f3','c1f4','c_terrace'],
-    lux: false, family: false
-  },
-  4: {
-    featureKeys: ['c3f1','c3f2','c2f3','c1f4','c_terrace'],
-    lux: false, family: false
-  },
-  5: {
-    featureKeys: ['c5f1','c5f2','c5f3','c5f4','c5f5','c_terrace'],
-    lux: true, family: false
-  }
-};
-
-// ============================================================
-// MODAL STATE
-// ============================================================
-let MST = {
-  cabinId: null,
-  extras: { grill: 0, coal: 0, umbrella: 0, chair: 0 },
-  bedlinen: true   // included by default, guest may opt out
-};
-
-const MAX_QTY = 2;
-
-// ============================================================
-// OPEN MODAL
-// ============================================================
-function openCabinModal(cabinId) {
-  MST.cabinId = cabinId;
-  MST.extras = { grill: 0, coal: 0, umbrella: 0, chair: 0 };
-  MST.bedlinen = true;
-
-  const cabin = CABINS.find(c => c.id === cabinId);
-  const details = CABIN_DETAILS[cabinId];
-
-  // Hero
-  document.getElementById('modal-num').textContent = String(cabinId).padStart(2, '0');
-
-  const typeKey = cabin.id <= 2 ? 'type_family' : cabin.id <= 4 ? 'type_double' : 'type_lux';
-  const badgesHTML = `
-    <span class="cabin-type-badge ${details.lux ? 'badge-lux' : details.family ? 'badge-family' : 'badge-double'}">${t(typeKey)}</span>
-    <span class="cabin-type-badge badge-pets">🐾</span>
-    ${details.lux ? '<span class="cabin-type-badge badge-lux">⭐ ' + t('closest_sea') + '</span>' : ''}
-  `;
-  document.getElementById('modal-badges').innerHTML = badgesHTML;
-  document.getElementById('modal-title').textContent = t('cabin' + cabinId + '_name');
-  document.getElementById('modal-tagline').textContent = t('cabin' + cabinId + '_tag') || t('cabin5_tag');
-
-  // Features
-  const featuresList = details.featureKeys.map(k => `<li>${t(k)}</li>`).join('');
-  document.getElementById('modal-features').innerHTML = featuresList;
-
-  // Prices
-  document.getElementById('modal-price-box').innerHTML = `
-    <div class="modal-price-row">
-      <span class="modal-price-label">${t('pt_low')}</span>
-      <span class="modal-price-val ${details.lux ? 'lux' : ''}">${cabin.pL} €</span>
-    </div>
-    <div class="modal-price-row">
-      <span class="modal-price-label">${t('pt_high')}</span>
-      <span class="modal-price-val ${details.lux ? 'lux' : ''}">${cabin.pH} €</span>
-    </div>
-    <div class="modal-price-row">
-      <span class="modal-price-label">${t('max_guests')}</span>
-      <span class="modal-price-val">${cabin.maxG} ${t('persons')}</span>
-    </div>
-  `;
-
-  // Guests selector max
-  const gSel = document.getElementById('m-guests');
-  gSel.innerHTML = '';
-  for (let i = 1; i <= cabin.maxG; i++) {
-    const opt = document.createElement('option');
-    opt.value = i; opt.textContent = i;
-    if (i === Math.min(2, cabin.maxG)) opt.selected = true;
-    gSel.appendChild(opt);
-  }
-
-  // Render extras
-  renderModalExtras();
-
-  // Reset form
-  resetModalForm();
-
-  // Open overlay
+function openModal(){
   document.getElementById('cabin-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
-function closeModal() {
+function closeModal(){
   document.getElementById('cabin-modal').classList.remove('open');
   document.body.style.overflow = '';
+  // reset success view
+  document.getElementById('modal-form-area').style.display = '';
+  document.getElementById('modal-success').classList.remove('visible');
+  document.getElementById('modal-error').classList.remove('visible');
+  const btn = document.getElementById('modal-submit-btn');
+  btn.disabled = false;
+  btn.innerHTML = `<span>${t('submit_btn')}</span>`;
 }
 
-function handleModalOverlayClick(e) {
-  if (e.target === document.getElementById('cabin-modal')) closeModal();
-}
+// ───── MODAL: RENDER ────────────────────────────────────────────────
+function refreshModalContent(){
+  const ids = ST.modalCabins;
+  const multi = ids.length > 1;
+  const heroNum = document.getElementById('modal-num');
+  const heroTitle = document.getElementById('modal-title');
+  const heroTagline = document.getElementById('modal-tagline');
+  const heroBadges = document.getElementById('modal-badges');
+  const colsArea = document.getElementById('modal-cols-area');
+  const cabinsListArea = document.getElementById('modal-cabins-list-area');
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  if (multi){
+    heroNum.textContent = '×'+ids.length;
+    heroTitle.textContent = t('modal_book_multi_title');
+    heroTagline.textContent = ids.map(id => t('cabin'+id+'_name')).join(' · ');
+    heroBadges.innerHTML = `<span class="cabin-type-badge badge-family">${ids.length} ${t('cabin_chip_label').toLowerCase()}</span>`;
+    colsArea.style.display = 'none';
+    cabinsListArea.style.display = '';
+    cabinsListArea.innerHTML = `
+      <div class="modal-cabins-list">
+        <div class="modal-cabins-list-title">${t('modal_book_multi_title')}</div>
+        ${ids.map(id => {
+          const c = CABINS.find(x => x.id === id);
+          return `<span class="modal-cabin-chip">
+            <strong>#${id}</strong> ${t('cabin'+id+'_name')} · ${c.price}€/${t('per_night')}
+          </span>`;
+        }).join('')}
+      </div>
+    `;
+  } else {
+    const c = CABINS.find(x => x.id === ids[0]);
+    const typeKey = c.type==='lux'?'type_lux':c.type==='family'?'type_family':'type_double';
+    const badgeCls = c.type==='lux'?'badge-lux':c.type==='family'?'badge-family':'badge-double';
+    heroNum.textContent = String(c.id).padStart(2,'0');
+    heroTitle.textContent = t('cabin'+c.id+'_name');
+    heroTagline.textContent = t('cabin'+c.id+'_tag');
+    heroBadges.innerHTML = `
+      <span class="cabin-type-badge ${badgeCls}">${t(typeKey)}</span>
+      <span class="cabin-type-badge badge-pets">🐾</span>
+    `;
+    colsArea.style.display = '';
+    cabinsListArea.style.display = 'none';
 
-// ============================================================
-// MODAL EXTRAS
-// ============================================================
-function renderModalExtras() {
-  const grid = document.getElementById('modal-extras-grid');
-  let html = '';
-  EXTRAS.forEach(ex => {
-    const q = MST.extras[ex.id] || 0;
-    const active = q > 0;
-    const atMax = q >= MAX_QTY;
-    html += `<div class="modal-extra-item ${active ? 'active' : ''}" id="mex-${ex.id}">
-      <div class="modal-extra-left">
-        <input type="checkbox" class="modal-extra-cb" id="mcb-${ex.id}"
-          ${active ? 'checked' : ''} onchange="mToggleExtra('${ex.id}',this.checked)">
-        <div>
-          <div class="modal-extra-name">${t('e_' + ex.id)}</div>
-          <div class="modal-extra-desc">${t('e_' + ex.id + '_desc')}${ex.perN ? ' · ' + t('per_night_label') : ''}</div>
-        </div>
+    const features = [c.guests, c.beds, c.blinds, ...c.extras, 'c_terrace'];
+    document.getElementById('modal-features').innerHTML = features.map(k => `<li>${t(k)}</li>`).join('');
+
+    const isLux = c.type === 'lux';
+    document.getElementById('modal-price-box').innerHTML = `
+      <div class="modal-price-row">
+        <span class="modal-price-label">${t('prices_title_short')}</span>
+        <span class="modal-price-val ${isLux?'lux':''}">${c.price} €<small style="font-size:.65rem;color:var(--text-light);margin-left:.2rem">/${t('per_night')}</small></span>
       </div>
-      <div class="modal-extra-right">
-        <div class="modal-extra-price">${t('e_' + ex.id + '_price')}</div>
-        <div class="modal-qty">
-          <button class="modal-qty-btn" type="button" onclick="mChgQ('${ex.id}',-1)" ${q <= 0 ? 'disabled style="opacity:.35"' : ''}>−</button>
-          <span class="modal-qty-val" id="mqv-${ex.id}">${q}</span>
-          <button class="modal-qty-btn" type="button" onclick="mChgQ('${ex.id}',1)" ${atMax ? 'disabled style="opacity:.35"' : ''}
-            title="${atMax ? t('max_qty_note') : ''}">+</button>
-          <span class="modal-qty-max">(max ${MAX_QTY})</span>
-        </div>
+      <div class="modal-price-row">
+        <span class="modal-price-label">${t('max_guests')}</span>
+        <span class="modal-price-val">${c.maxG} ${t('persons')}</span>
       </div>
-    </div>`;
+    `;
+  }
+
+  // Guests selectors per cabin
+  const guestsArea = document.getElementById('modal-guests-area');
+  guestsArea.innerHTML = ids.map(id => {
+    const c = CABINS.find(x => x.id === id);
+    const pcGuests = ST.perCabin[id].guests;
+    const opts = [];
+    for (let i = 1; i <= c.maxG; i++) opts.push(`<option value="${i}" ${i===pcGuests?'selected':''}>${i}</option>`);
+    return `
+      <div class="form-group">
+        <label class="form-label">${multi ? `${t('cabin_chip_label')} #${id} · ` : ''}${t('guests_label')}</label>
+        <select class="form-select" onchange="setCabinGuests(${id}, this.value)">${opts.join('')}</select>
+      </div>
+    `;
+  }).join('');
+
+  // Bedlinen + extras per cabin
+  renderModalBedlinen();
+  renderModalExtras();
+  recalcModalTotal();
+
+  // i18n labels in static elements
+  document.querySelectorAll('#cabin-modal [data-i18n]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n'));
+    if (v.includes('<')) el.innerHTML = v; else el.textContent = v;
   });
-  grid.innerHTML = html;
+  document.querySelectorAll('#cabin-modal [data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-ph'));
+  });
 }
 
-function mToggleExtra(id, checked) {
-  MST.extras[id] = checked ? 1 : 0;
-  document.getElementById('mex-' + id)?.classList.toggle('active', checked);
+function setCabinGuests(cabinId, n){
+  ST.perCabin[cabinId].guests = parseInt(n);
+  recalcModalTotal();
+}
+
+function renderModalBedlinen(){
+  const ids = ST.modalCabins;
+  const multi = ids.length > 1;
+  const wrap = document.getElementById('modal-bedlinen-area');
+  if (!multi) {
+    const id = ids[0];
+    const checked = ST.perCabin[id].bedlinen;
+    wrap.innerHTML = `
+      <div class="modal-bedlinen-info">${t('bedlinen_info')}</div>
+      <div class="extra-row ${checked?'active':''}" id="bl-row-${id}">
+        <input type="checkbox" class="extra-cb" ${checked?'checked':''} onchange="toggleBedlinen(${id}, this.checked)" id="bl-cb-${id}">
+        <label class="extra-text" for="bl-cb-${id}">
+          <div class="extra-name-row">
+            <span class="extra-name">🛏 ${t('bedlinen_toggle')}</span>
+            <span class="extra-price">${BEDLINEN_PRICE}€/${t('persons')}</span>
+          </div>
+        </label>
+      </div>
+    `;
+  } else {
+    wrap.innerHTML = `
+      <div class="modal-bedlinen-info">${t('bedlinen_info')}</div>
+      ${ids.map(id => {
+        const checked = ST.perCabin[id].bedlinen;
+        return `
+        <div class="extra-row ${checked?'active':''}" id="bl-row-${id}" style="margin-bottom:.4rem">
+          <input type="checkbox" class="extra-cb" ${checked?'checked':''} onchange="toggleBedlinen(${id}, this.checked)" id="bl-cb-${id}">
+          <label class="extra-text" for="bl-cb-${id}">
+            <div class="extra-name-row">
+              <span class="extra-name">🛏 ${t('cabin'+id+'_name')}</span>
+              <span class="extra-price">${BEDLINEN_PRICE}€/${t('persons')}</span>
+            </div>
+            <div class="extra-desc">${t('bedlinen_toggle')}</div>
+          </label>
+        </div>
+        `;
+      }).join('')}
+    `;
+  }
+}
+function toggleBedlinen(cabinId, checked){
+  ST.perCabin[cabinId].bedlinen = checked;
+  const row = document.getElementById('bl-row-'+cabinId);
+  if (row) row.classList.toggle('active', checked);
+  recalcModalTotal();
+}
+
+function renderModalExtras(){
+  const ids = ST.modalCabins;
+  const multi = ids.length > 1;
+  const wrap = document.getElementById('modal-extras-area');
+  if (!multi) {
+    const id = ids[0];
+    wrap.innerHTML = `
+      <div class="modal-section-title">${t('extras_section')}</div>
+      <div style="font-size:.78rem;color:var(--text-light);margin-bottom:.7rem;line-height:1.5">${t('extras_hint')}</div>
+      <div class="modal-extras">${renderExtraRows(id)}</div>
+    `;
+  } else {
+    wrap.innerHTML = `
+      <div class="modal-section-title">${t('extras_section')}</div>
+      <div style="font-size:.78rem;color:var(--text-light);margin-bottom:.7rem;line-height:1.5">${t('extras_hint')}</div>
+      ${ids.map(id => `
+        <div style="margin-bottom:1rem">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--navy);margin-bottom:.4rem;font-weight:600">
+            ${t('cabin'+id+'_name')}
+          </div>
+          <div class="modal-extras">${renderExtraRows(id)}</div>
+        </div>
+      `).join('')}
+    `;
+  }
+}
+function renderExtraRows(cabinId){
+  return EXTRAS.map(ex => {
+    const q = ST.perCabin[cabinId].extras[ex.id] || 0;
+    const active = q > 0;
+    const atMax = q >= MAX_EXTRA_QTY;
+    const priceText = ex.price + '€' + (ex.perN ? '/' + t('per_night') : '');
+    return `
+      <div class="extra-row ${active?'active':''}" id="er-${cabinId}-${ex.id}">
+        <input type="checkbox" class="extra-cb" ${active?'checked':''} onchange="toggleExtra(${cabinId},'${ex.id}',this.checked)" id="cb-${cabinId}-${ex.id}">
+        <label class="extra-text" for="cb-${cabinId}-${ex.id}">
+          <div class="extra-name-row">
+            <span class="extra-name">${t('e_'+ex.id+'_name')}</span>
+            <span class="extra-price">${priceText}</span>
+          </div>
+          <div class="extra-desc">${t('e_'+ex.id+'_desc')}</div>
+        </label>
+        <div class="qty-ctrl">
+          <button class="qty-btn" type="button" onclick="changeExtraQty(${cabinId},'${ex.id}',-1)" ${q<=0?'disabled':''} aria-label="−">−</button>
+          <span class="qty-val">${q}</span>
+          <button class="qty-btn" type="button" onclick="changeExtraQty(${cabinId},'${ex.id}',1)" ${atMax?'disabled':''} aria-label="+">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+function toggleExtra(cabinId, exId, checked){
+  ST.perCabin[cabinId].extras[exId] = checked ? 1 : 0;
   renderModalExtras();
-  modalRecalc();
+  recalcModalTotal();
 }
-
-function mChgQ(id, delta) {
-  const newVal = Math.max(0, Math.min(MAX_QTY, (MST.extras[id] || 0) + delta));
-  MST.extras[id] = newVal;
-  const cb = document.getElementById('mcb-' + id);
-  if (cb) cb.checked = newVal > 0;
+function changeExtraQty(cabinId, exId, delta){
+  const cur = ST.perCabin[cabinId].extras[exId] || 0;
+  const next = Math.max(0, Math.min(MAX_EXTRA_QTY, cur + delta));
+  ST.perCabin[cabinId].extras[exId] = next;
   renderModalExtras();
-  modalRecalc();
+  recalcModalTotal();
 }
 
-// ============================================================
-// MODAL PRICE RECALC
-// ============================================================
-function modalRecalc() {
+// ───── PRICE CALCULATION ────────────────────────────────────────────
+function calcNights(){
   const ci = document.getElementById('m-checkin').value;
   const co = document.getElementById('m-checkout').value;
-  const g = parseInt(document.getElementById('m-guests').value) || 2;
-  const sumEl = document.getElementById('modal-summary');
-  if (!MST.cabinId || !ci || !co || ci >= co) { sumEl.style.display = 'none'; return; }
-  const nights = Math.round((new Date(co) - new Date(ci)) / 864e5);
-  if (nights <= 0) { sumEl.style.display = 'none'; return; }
-  const cp = price(MST.cabinId, ci);
-  let total = cp * nights, rows = '';
-  rows += `<div class="modal-summary-row"><span>${t('cabin_price')} (${nights} ${t('nights')} × ${cp}€)</span><span>${cp * nights}€</span></div>`;
-  if (MST.bedlinen) {
-    const bl = BEDLINEN_PRICE * g * nights; total += bl;
-    rows += `<div class="modal-summary-row"><span>${t('bedlinen_name')} (${g}× ${nights}× ${BEDLINEN_PRICE}€)</span><span>${bl}€</span></div>`;
-  }
-  EXTRAS.forEach(ex => {
-    const q = MST.extras[ex.id] || 0;
-    if (q > 0) {
-      const c = ex.perN ? ex.price * nights * q : ex.price * q;
-      total += c;
-      rows += `<div class="modal-summary-row"><span>${t('e_' + ex.id)} ×${q}${ex.perN ? ' · ' + nights + ' ' + t('nights') : ''}</span><span>${c}€</span></div>`;
+  if (!ci || !co || ci >= co) return { ci, co, nights: 0 };
+  return { ci, co, nights: Math.round((new Date(co) - new Date(ci)) / 864e5) };
+}
+
+function computeTotal(){
+  const { nights } = calcNights();
+  if (nights <= 0) return { total:0, lines:[], nights:0 };
+  const lines = [];
+  let total = 0;
+  ST.modalCabins.forEach(id => {
+    const c = CABINS.find(x => x.id === id);
+    const pc = ST.perCabin[id];
+    const cabinCost = c.price * nights;
+    total += cabinCost;
+    lines.push({ label:`${t('cabin'+id+'_name')} (${nights} ${t('nights')} × ${c.price}€)`, value:cabinCost });
+    if (pc.bedlinen) {
+      const blCost = BEDLINEN_PRICE * pc.guests * nights;
+      total += blCost;
+      lines.push({ label:`${t('bedlinen_line')} (${pc.guests}× ${nights}× ${BEDLINEN_PRICE}€)`, value:blCost, muted:true });
+    } else {
+      lines.push({ label:t('bedlinen_removed'), value:0, removed:true });
     }
+    EXTRAS.forEach(ex => {
+      const q = pc.extras[ex.id] || 0;
+      if (q > 0) {
+        const cost = ex.perN ? ex.price * nights * q : ex.price * q;
+        total += cost;
+        const suffix = ex.perN ? ` × ${nights} ${t('nights')}` : '';
+        lines.push({ label:`${t('e_'+ex.id+'_name')} ×${q}${suffix}`, value:cost, muted:true });
+      }
+    });
   });
-  document.getElementById('modal-summary-rows').innerHTML = rows;
+  return { total, lines, nights };
+}
+
+function recalcModalTotal(){
+  const { total, lines, nights } = computeTotal();
+  const sumEl = document.getElementById('modal-summary');
+  if (nights <= 0) { sumEl.style.display = 'none'; return; }
+  document.getElementById('modal-summary-rows').innerHTML = lines.map(l =>
+    `<div class="modal-summary-row ${l.muted?'muted':''} ${l.removed?'removed':''}">
+      <span>${l.label}</span><span>${l.value}€</span>
+    </div>`
+  ).join('');
   document.getElementById('modal-summary-total').textContent = total + '€';
   sumEl.style.display = 'block';
 }
 
-// ============================================================
-// MODAL SUBMIT
-// ============================================================
-async function submitModalBooking() {
+// ───── SUBMIT ───────────────────────────────────────────────────────
+async function submitModalBooking(){
   const name = document.getElementById('m-name').value.trim();
   const email = document.getElementById('m-email').value.trim();
   const phone = document.getElementById('m-phone').value.trim();
-  const ci = document.getElementById('m-checkin').value;
-  const co = document.getElementById('m-checkout').value;
-  const g = parseInt(document.getElementById('m-guests').value) || 2;
   const notes = document.getElementById('m-notes').value.trim();
+  const { ci, co, nights } = calcNights();
   const errEl = document.getElementById('modal-error');
-  const showErr = m => { errEl.textContent = '❌ ' + m; errEl.classList.add('visible'); };
+  const showErr = (m) => { errEl.textContent = '❌ '+m; errEl.classList.add('visible'); };
   errEl.classList.remove('visible');
-  if (!MST.cabinId) return showErr(t('err_no_cabin'));
-  if (!name) return showErr(t('err_no_name'));
+
+  if (ST.modalCabins.length === 0) return showErr(t('err_no_cabin'));
+  if (!name)  return showErr(t('err_no_name'));
   if (!email || !email.includes('@')) return showErr(t('err_no_email'));
   if (!phone) return showErr(t('err_no_phone'));
   if (!ci || !co) return showErr(t('err_no_dates'));
   if (ci >= co) return showErr(t('err_dates'));
+
   const btn = document.getElementById('modal-submit-btn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
-  const nights = Math.round((new Date(co) - new Date(ci)) / 864e5);
-  const cp = price(MST.cabinId, ci);
-  let total = cp * nights + (MST.bedlinen ? BEDLINEN_PRICE * g * nights : 0);
-  const extObj = {};
-  EXTRAS.forEach(ex => { const q = MST.extras[ex.id] || 0; if (q > 0) { extObj[ex.id] = q; total += ex.perN ? ex.price * nights * q : ex.price * q; } });
-  const cname = t('cabin' + MST.cabinId + '_name');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  const { total } = computeTotal();
+
   try {
-    const { error: dbE } = await sb.from('bookings').insert([{
-      cabin_id: MST.cabinId, checkin_date: ci, checkout_date: co,
-      guest_name: name, guest_email: email, guest_phone: phone,
-      guest_count: g, notes: notes, extras: extObj, total_price: total, status: 'pending'
-    }]);
-    if (dbE) throw dbE;
-    await emailjs.send(EJS_SVC, EJS_TMPL_C, { to_name: name, to_email: email, cabin_name: cname, checkin_date: ci, checkout_date: co, guest_count: g, total_price: total + '€', notes: notes || '—', phone: phone });
-    await emailjs.send(EJS_SVC, EJS_TMPL_O, { to_email: 'antra.sila@gmail.com', guest_name: name, guest_email: email, guest_phone: phone, cabin_name: cname, checkin_date: ci, checkout_date: co, guest_count: g, total_price: total + '€', extras: JSON.stringify(extObj), notes: notes || '—' });
-    await loadBookings();
+    // Insert one booking row per cabin
+    const rows = ST.modalCabins.map(id => {
+      const pc = ST.perCabin[id];
+      const c = CABINS.find(x => x.id === id);
+      const cabinCost = c.price * nights;
+      const blCost = pc.bedlinen ? BEDLINEN_PRICE * pc.guests * nights : 0;
+      let exCost = 0;
+      EXTRAS.forEach(ex => {
+        const q = pc.extras[ex.id] || 0;
+        if (q > 0) exCost += ex.perN ? ex.price * nights * q : ex.price * q;
+      });
+      return {
+        cabin_id: id,
+        checkin_date: ci,
+        checkout_date: co,
+        guest_name: name,
+        guest_email: email,
+        guest_phone: phone,
+        guest_count: pc.guests,
+        notes: notes,
+        extras: { ...pc.extras, bedlinen: pc.bedlinen },
+        total_price: cabinCost + blCost + exCost,
+        status: 'pending'
+      };
+    });
+
+    if (typeof window.sb !== 'undefined') {
+      const { error } = await window.sb.from('bookings').insert(rows);
+      if (error) throw error;
+    }
+
+    // Build summary for email
+    const cabinSummary = ST.modalCabins.map(id => {
+      const pc = ST.perCabin[id];
+      const exList = EXTRAS.filter(ex => (pc.extras[ex.id]||0) > 0)
+        .map(ex => `${t('e_'+ex.id+'_name')} ×${pc.extras[ex.id]}`).join(', ') || '—';
+      return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, ${t('extras_section')}: ${exList}`;
+    }).join('\n');
+
+    // EmailJS - try/catch separately so DB still saves even if email fails
+    if (typeof emailjs !== 'undefined' && typeof EJS_SVC !== 'undefined') {
+      try {
+        await emailjs.send(EJS_SVC, EJS_TMPL_C, {
+          to_name:name, to_email:email,
+          cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+          checkin_date:ci, checkout_date:co,
+          total_price: total+'€', notes: notes||'—', phone:phone,
+          summary: cabinSummary
+        });
+        await emailjs.send(EJS_SVC, EJS_TMPL_O, {
+          to_email:'antra.sila@gmail.com',
+          guest_name:name, guest_email:email, guest_phone:phone,
+          cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+          checkin_date:ci, checkout_date:co,
+          total_price: total+'€', notes: notes||'—',
+          summary: cabinSummary
+        });
+      } catch(e) { console.warn('EmailJS not sent:', e); }
+    }
+
+    // Show success
     document.getElementById('modal-form-area').style.display = 'none';
     const suc = document.getElementById('modal-success');
     suc.classList.add('visible');
-    document.getElementById('modal-success-msg').textContent = `${name} — ${cname}, ${ci} → ${co}. ${t('total')}: ${total}€`;
+    document.getElementById('modal-success-msg').textContent =
+      `${name} — ${ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', ')}, ${ci} → ${co}. ${t('total')}: ${total}€`;
+
+    // Clear multi-select after successful booking
+    ST.selectedCabins.clear();
+    renderCabinCards();
+    renderMultiBar();
+    // Refresh bookings & calendar
+    await loadBookings();
+    renderCalendar();
   } catch (err) {
-    console.error(err); showErr(t('err_fail'));
-    btn.disabled = false; btn.innerHTML = `<span>${t('submit_btn')}</span>`;
+    console.error(err);
+    showErr(t('err_fail'));
+    btn.disabled = false;
+    btn.innerHTML = `<span>${t('submit_btn')}</span>`;
   }
 }
 
-function mToggleBedlinen(checked) {
-  MST.bedlinen = checked;
-  const row = document.getElementById('mex-bedlinen');
-  const pill = document.getElementById('mbl-included');
-  if (row) row.classList.toggle('active', checked);
-  if (pill) {
-    pill.style.background = checked ? 'rgba(94,138,96,.15)' : 'rgba(200,74,58,.12)';
-    pill.style.color = checked ? 'var(--moss)' : 'var(--coral)';
-    pill.textContent = checked ? t('included_label') : t('excluded_label');
+// ───── AVAILABILITY CALENDAR ────────────────────────────────────────
+async function loadBookings(){
+  if (typeof window.sb === 'undefined') {
+    ST.bookings = [];
+    return;
   }
-  modalRecalc();
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const { data, error } = await window.sb.from('bookings')
+      .select('cabin_id,checkin_date,checkout_date,status')
+      .gte('checkout_date', today)
+      .neq('status','cancelled');
+    if (error) throw error;
+    ST.bookings = data || [];
+  } catch(e) {
+    console.warn('Could not load bookings:', e.message);
+    ST.bookings = [];
+  }
 }
 
-function resetModalForm() {
-  ['m-name', 'm-email', 'm-phone', 'm-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  const ci = document.getElementById('m-checkin'); if (ci) ci.value = '';
-  const co = document.getElementById('m-checkout'); if (co) co.value = '';
-  const sumEl = document.getElementById('modal-summary'); if (sumEl) sumEl.style.display = 'none';
-  MST.bedlinen = true;
-  const blCb = document.getElementById('mcb-bedlinen'); if (blCb) blCb.checked = true;
-  const blRow = document.getElementById('mex-bedlinen'); if (blRow) blRow.classList.add('active');
-  const blPill = document.getElementById('mbl-included');
-  if (blPill) { blPill.style.background='rgba(94,138,96,.15)'; blPill.style.color='var(--moss)'; blPill.textContent=t('included_label'); }
-  const btn = document.getElementById('modal-submit-btn');
-  if (btn) { btn.disabled = false; btn.innerHTML = `<span>${t('submit_btn')}</span>`; }
-  const formArea = document.getElementById('modal-form-area');
-  if (formArea) formArea.style.display = '';
-  const suc = document.getElementById('modal-success');
-  if (suc) suc.classList.remove('visible');
-  const err = document.getElementById('modal-error');
-  if (err) err.classList.remove('visible');
+function isCabinBookedOn(cabinId, ymd){
+  return ST.bookings.some(b =>
+    b.cabin_id === cabinId &&
+    b.checkin_date <= ymd &&
+    b.checkout_date > ymd
+  );
 }
 
-  ST.selDate=null;ST.selCabin=null;ST.extras={grill:0,coal:0,umbrella:0,chair:0};
-  document.getElementById('form-content').style.display='';
-  document.getElementById('booking-success').classList.remove('visible');
-  document.getElementById('date-display').classList.remove('visible');
-  ['f-name','f-email','f-phone','f-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-checkin').value='';
-  document.getElementById('f-checkout').value='';
-  document.getElementById('f-guests').value='2';
-  document.getElementById('price-summary').style.display='none';
-  const btn=document.getElementById('form-submit');
-  btn.disabled=false; btn.innerHTML=`<span>${t('submit_btn')}</span>`;
-  renderCalendar(); renderCabinSelector(); renderExtras();
+function changeMonth(delta){
+  ST.calMonth += delta;
+  if (ST.calMonth > 11){ ST.calMonth = 0; ST.calYear++; }
+  if (ST.calMonth < 0){ ST.calMonth = 11; ST.calYear--; }
+  renderCalendar();
 }
+
+function renderCalendar(){
+  const grid = document.getElementById('cal-grid');
+  const lbl  = document.getElementById('cal-month-label');
+  if (!grid || !lbl) return;
+
+  const y = ST.calYear, m = ST.calMonth;
+  const months = TR[LANG].months || TR.en.months;
+  const wdays  = TR[LANG].weekdays || TR.en.weekdays;
+  lbl.textContent = `${months[m]} ${y}`;
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  let firstDow = new Date(y,m,1).getDay();
+  firstDow = firstDow === 0 ? 6 : firstDow - 1; // Mon=0
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+
+  let html = wdays.map(d => `<div class="cal-weekday">${d}</div>`).join('');
+  for (let i = 0; i < firstDow; i++) html += `<div class="cal-day cal-day--empty"></div>`;
+
+  for (let day = 1; day <= daysInMonth; day++){
+    const ymd = `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const d = new Date(y, m, day);
+    const isPast = d < today;
+    const isToday = d.getTime() === today.getTime();
+    let availCount = 0;
+    let dots = '';
+    let tooltipRows = '';
+    CABINS.forEach(c => {
+      const booked = isCabinBookedOn(c.id, ymd);
+      if (!booked) availCount++;
+      dots += `<div class="day-dot day-dot--${booked?'booked':'free'}" title="#${c.id} ${booked?t('booked'):t('free')}"></div>`;
+      tooltipRows += `<div class="cal-day-tooltip-row">
+        <span>#${c.id} ${t('cabin_label')}</span>
+        <strong style="color:${booked?'#E8806E':'#8DC490'}">${booked?t('booked'):t('free')}</strong>
+      </div>`;
+    });
+    const isFull = availCount === 0;
+    const cls = ['cal-day',
+      isPast?'cal-day--past':'',
+      isToday?'cal-day--today':'',
+      (isFull && !isPast)?'cal-day--full':''
+    ].filter(Boolean).join(' ');
+
+    html += `<div class="${cls}">
+      <div class="day-num">${day}</div>
+      ${!isPast ? `<div class="day-dots">${dots}</div>` : ''}
+      ${!isPast ? `<div class="cal-day-tooltip">${tooltipRows}</div>` : ''}
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  LANG = detectLang();
+  renderCabinCards();
+  renderMultiBar();
+  setLang(LANG);
+
+  // Load bookings then render calendar
+  loadBookings().then(renderCalendar);
+
+  // Nav hamburger
+  document.getElementById('nav-toggle').addEventListener('click', () => {
+    document.getElementById('main-nav').classList.toggle('mobile-open');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('main-nav').classList.remove('mobile-open'));
+  });
+
+  // Date recalc
+  ['m-checkin','m-checkout'].forEach(id => {
+    document.getElementById(id).addEventListener('change', recalcModalTotal);
+  });
+
+  // ESC closes modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Click outside modal closes
+  document.getElementById('cabin-modal').addEventListener('click', e => {
+    if (e.target.id === 'cabin-modal') closeModal();
+  });
+
+  // Hotspots — tap on mobile shows banner too
+  document.querySelectorAll('.cabin-hotspot').forEach(hs => {
+    const id = parseInt(hs.dataset.cabin);
+    hs.addEventListener('mouseenter', () => showHotspotBanner(id));
+    hs.addEventListener('mouseleave', hideHotspotBanner);
+    hs.addEventListener('click', () => openCabinModal(id));
+    // Touch support: show banner on tap, hide after 3s
+    hs.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      showHotspotBanner(id);
+      clearTimeout(hs._t);
+      hs._t = setTimeout(hideHotspotBanner, 3000);
+    }, { passive: false });
+  });
+});
+
 </script>
+
 </body>
 </html>
