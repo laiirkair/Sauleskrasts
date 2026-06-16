@@ -68,15 +68,25 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-photo-wrapper{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg)}
 .cabin-main-photo{width:100%;display:block;max-height:520px;object-fit:cover}
 
-/* Floating info banner (appears at top when hovering hotspot) */
-.cabin-info-banner{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);z-index:150;background:rgba(28,46,74,.97);backdrop-filter:blur(12px);border:1px solid rgba(200,136,42,.4);border-radius:12px;padding:1rem 1.4rem;min-width:280px;max-width:90vw;box-shadow:0 16px 48px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .25s, transform .25s}
-.cabin-info-banner.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all}
-.cabin-info-banner-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:white;margin-bottom:.2rem}
-.cabin-info-banner-sub{font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:.45rem}
-.cabin-info-banner-price{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-light);margin-bottom:.7rem;letter-spacing:.04em}
-.cabin-info-banner-price small{font-size:.65rem;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-left:.4rem}
-.cabin-info-banner-btn{display:block;width:100%;padding:.55rem 1rem;background:var(--gold);color:white;border:none;border-radius:7px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;letter-spacing:.04em;transition:background .2s}
-.cabin-info-banner-btn:hover{background:var(--gold-light)}
+/* Hotspot tooltip — appears ON the cabin photo */
+.hs-tooltip{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:220px;background:rgba(28,46,74,.96);backdrop-filter:blur(12px);border:1.5px solid rgba(200,136,42,.5);border-radius:12px;padding:.85rem .95rem;z-index:30;box-shadow:0 12px 40px rgba(0,0,0,.45);pointer-events:all;animation:hsIn .22s ease-out}
+@keyframes hsIn{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.hs-tooltip-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:white;margin-bottom:.2rem;line-height:1.2}
+.hs-tooltip-type{font-size:.74rem;color:rgba(255,255,255,.6);margin-bottom:.4rem}
+.hs-tooltip-features{font-size:.7rem;color:rgba(255,255,255,.5);margin-bottom:.4rem;line-height:1.45}
+.hs-tooltip-price{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold-light);margin-bottom:.3rem;letter-spacing:.03em}
+.hs-tooltip-price small{font-size:.68rem;color:rgba(255,255,255,.45);letter-spacing:.06em;margin-left:.3rem}
+.hs-tooltip-bedlinen{font-size:.68rem;color:rgba(255,255,255,.4);line-height:1.4;margin-bottom:.55rem;padding:.3rem .5rem;background:rgba(200,136,42,.1);border-radius:4px;border-left:2px solid rgba(200,136,42,.4)}
+.hs-tooltip-bedlinen strong{color:var(--gold-light)}
+.hs-tooltip-actions{display:flex;gap:.4rem}
+.hs-btn-book{flex:1;padding:.5rem .6rem;background:var(--gold);color:white;border:none;border-radius:7px;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s;letter-spacing:.03em}
+.hs-btn-book:hover{background:var(--gold-light)}
+.hs-btn-multi{flex:1;padding:.5rem .6rem;background:rgba(94,138,96,.15);color:var(--moss);border:1.5px solid var(--moss);border-radius:7px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s}
+.hs-btn-multi:hover{background:var(--moss);color:white}
+.hs-tooltip-hint{font-size:.68rem;color:rgba(255,255,255,.45);margin-top:.4rem;text-align:center;font-style:italic}
+
+/* Info banner — now only used as fallback / remove */
+.cabin-info-banner{display:none}
 
 .cabin-hotspots{position:absolute;inset:0}
 .cabin-hotspot{position:absolute;cursor:pointer}
@@ -318,7 +328,11 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   .extra-desc{font-size:.7rem}
   /* Mobile: bigger tap targets on hotspots */
   .hotspot-badge{width:36px;height:36px;font-size:1.2rem;opacity:.95}
-  .cabin-info-banner{top:70px;min-width:260px;max-width:calc(100vw - 2rem)}
+  .hs-tooltip{width:180px;padding:.7rem .75rem;font-size:.85rem;bottom:auto;top:0}
+  .hs-tooltip-title{font-size:1rem}
+  .hs-tooltip-price{font-size:1.2rem}
+  .hs-tooltip-features{display:none}
+  .hs-tooltip-bedlinen{display:none}
   /* Mobile calendar */
   .calendar-box{padding:1rem}
   .cal-month{font-size:1.15rem;min-width:auto}
@@ -459,6 +473,33 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
     <div class="info-item"><span class="info-icon">🅿️</span><h4 data-i18n="info5h">Bezmaksas stāvvieta</h4><p data-i18n="info5p">Vieta katrai mājiņai.</p></div>
   </div>
 </div>
+
+<!-- TERMS -->
+<section id="terms" style="background:white;padding:4rem 0">
+  <div style="max-width:720px;margin:0 auto;padding:0 2rem">
+    <div class="section-header" style="margin-bottom:2rem">
+      <p class="section-eyebrow" data-i18n="terms_title">Rezervācijas noteikumi</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div style="display:flex;gap:.7rem;align-items:flex-start">
+        <span style="flex-shrink:0;font-size:1.2rem">💳</span>
+        <p style="font-size:.88rem;color:var(--text);line-height:1.65" data-i18n="terms_prepay">Rezervācija derīga pēc 30% priekšapmaksas saņemšanas.</p>
+      </div>
+      <div style="display:flex;gap:.7rem;align-items:flex-start">
+        <span style="flex-shrink:0;font-size:1.2rem">✅</span>
+        <p style="font-size:.88rem;color:var(--text);line-height:1.65" data-i18n="terms_cancel_free">Bezmaksas atcelšana — 100% atmaksa (mīnus bankas komisija), ja atcelts ne vēlāk kā 3 diennaktis pirms ierašanās.</p>
+      </div>
+      <div style="display:flex;gap:.7rem;align-items:flex-start">
+        <span style="flex-shrink:0;font-size:1.2rem">⚠️</span>
+        <p style="font-size:.88rem;color:var(--text);line-height:1.65" data-i18n="terms_cancel_late">Ja atcelts vēlāk — 30% iemaksa netiek atgriezta.</p>
+      </div>
+      <div style="display:flex;gap:.7rem;align-items:flex-start">
+        <span style="flex-shrink:0;font-size:1.2rem">📞</span>
+        <p style="font-size:.88rem;color:var(--text);line-height:1.65" data-i18n="terms_confirm">Mēs sazināsimies 24h laikā, lai saskaņotu detaļas un nosūtītu rēķinu.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -708,6 +749,18 @@ lv: {
   err_dates:"Izbraukšanai jābūt pēc ierašanās.",
   err_fail:"Kļūda. Lūdzu sazinieties: +371 29265047",
   err_conflict:"⚠️ Izvēlētajā periodā jau ir rezervācija mājiņai: {cabins}. Lūdzu izvēlieties citu datumu.",
+  multi_add_btn:"+ Pievienot",
+  multi_flow_hint:"Pievienojiet un pēc tam nospiediet — Rezervēt izvēlētās",
+  multi_selected_hint:"✓ Pievienota — izvēlieties vēl vai rezervējiet",
+  no_cabins_date:"Šajā datumā nav brīvu mājiņu.",
+  nearest_date:"Tuvākais brīvais datums",
+  pick_cabins_for_date:"Izvēlieties mājiņas šim datumam",
+  terms_summary:"📋 <strong>Rezervācijas noteikumi:</strong><br>• Rezervācija derīga pēc <strong>30% priekšapmaksas</strong> saņemšanas.<br>• Bezmaksas atcelšana — naudas atgriešana 100% apmērā (mīnus bankas komisija), ja atcelts <strong>ne vēlāk kā 3 diennaktis</strong> pirms ierašanās.<br>• Ja atcelts vēlāk — 30% iemaksa netiek atgriezta.<br>• Sazināsimies 24h laikā, lai saskaņotu detaļas.",
+  terms_title:"Rezervācijas noteikumi",
+  terms_prepay:"Rezervācija derīga pēc 30% priekšapmaksas saņemšanas.",
+  terms_cancel_free:"Bezmaksas atcelšana — naudas atgriešana 100% (mīnus bankas komisija), ja atcelts ne vēlāk kā 3 diennaktis pirms ierašanās datuma.",
+  terms_cancel_late:"Ja rezervācija tiek atcelta vēlāk nekā 3 diennaktis līdz ierašanās datumam, 30% priekšapmaksa netiek atgriezta.",
+  terms_confirm:"Mēs sazināsimies ar Jums 24h laikā, lai saskaņotu detaļas un nosūtītu rēķinu.",
   nav_availability:"Pieejamība",
   avail_eyebrow:"Brīvās dienas",
   avail_title:"Pieejamība <em>vienā skatā</em>",
@@ -794,6 +847,18 @@ en: {
   err_dates:"Check-out must be after check-in.",
   err_fail:"Error. Please contact us: +371 29265047",
   err_conflict:"⚠️ Selected period overlaps with existing booking for: {cabins}. Please choose different dates.",
+  multi_add_btn:"+ Add to selection",
+  multi_flow_hint:"Add more and then click — Book selected",
+  multi_selected_hint:"✓ Added — select more or book",
+  no_cabins_date:"No cabins available on this date.",
+  nearest_date:"Nearest available date",
+  pick_cabins_for_date:"Choose cabins for this date",
+  terms_summary:"📋 <strong>Booking terms:</strong><br>• Booking is valid upon receiving <strong>30% prepayment</strong>.<br>• Free cancellation — 100% refund (minus bank fees), if cancelled <strong>at least 3 days</strong> before check-in.<br>• Late cancellation — the 30% deposit is non-refundable.<br>• We will contact you within 24h to confirm details.",
+  terms_title:"Booking terms",
+  terms_prepay:"Booking is valid upon receiving 30% prepayment.",
+  terms_cancel_free:"Free cancellation — 100% refund (minus bank fees), if cancelled at least 3 days before check-in date.",
+  terms_cancel_late:"If cancelled later than 3 days before check-in, the 30% prepayment is non-refundable.",
+  terms_confirm:"We will contact you within 24h to confirm details and send an invoice.",
   nav_availability:"Availability",
   avail_eyebrow:"Available days",
   avail_title:"Availability <em>at a glance</em>",
@@ -880,6 +945,18 @@ lt: {
   err_dates:"Išvykimas turi būti po atvykimo.",
   err_fail:"Klaida. Susisiekite: +371 29265047",
   err_conflict:"⚠️ Pasirinktas laikotarpis jau užimtas nameliui: {cabins}. Pasirinkite kitas datas.",
+  multi_add_btn:"+ Pridėti",
+  multi_flow_hint:"Pridėkite daugiau ir spauskite — Rezervuoti pasirinktus",
+  multi_selected_hint:"✓ Pridėta — rinkitės daugiau arba rezervuokite",
+  no_cabins_date:"Šią dieną nėra laisvų namelių.",
+  nearest_date:"Artimiausia laisva diena",
+  pick_cabins_for_date:"Pasirinkite namelius šiai dienai",
+  terms_summary:"📋 <strong>Rezervacijos sąlygos:</strong><br>• Rezervacija galioja gavus <strong>30% avansą</strong>.<br>• Nemokamas atšaukimas — 100% grąžinimas (minus banko komisija), jei atšaukta <strong>ne vėliau kaip 3 paras</strong> prieš atvykimą.<br>• Vėlesnis atšaukimas — 30% avansas negrąžinamas.<br>• Susisieksime per 24val.",
+  terms_title:"Rezervacijos sąlygos",
+  terms_prepay:"Rezervacija galioja gavus 30% avansą.",
+  terms_cancel_free:"Nemokamas atšaukimas — 100% grąžinimas (minus banko komisija), jei atšaukta ne vėliau kaip 3 paras prieš atvykimą.",
+  terms_cancel_late:"Jei atšaukta vėliau nei 3 paros — 30% avansas negrąžinamas.",
+  terms_confirm:"Susisieksime per 24 val., kad patvirtintume detales ir atsiųstume sąskaitą.",
   nav_availability:"Prieinamumas",
   avail_eyebrow:"Laisvos dienos",
   avail_title:"Prieinamumas <em>vienu žvilgsniu</em>",
@@ -966,6 +1043,18 @@ ru: {
   err_dates:"Дата выезда должна быть позже заезда.",
   err_fail:"Ошибка. Свяжитесь: +371 29265047",
   err_conflict:"⚠️ Выбранный период уже забронирован для домика: {cabins}. Выберите другие даты.",
+  multi_add_btn:"+ Добавить",
+  multi_flow_hint:"Добавьте ещё и нажмите — Забронировать выбранные",
+  multi_selected_hint:"✓ Добавлено — выберите ещё или бронируйте",
+  no_cabins_date:"На эту дату нет свободных домиков.",
+  nearest_date:"Ближайшая свободная дата",
+  pick_cabins_for_date:"Выберите домики на эту дату",
+  terms_summary:"📋 <strong>Условия бронирования:</strong><br>• Бронь действительна после <strong>предоплаты 30%</strong>.<br>• Бесплатная отмена — возврат 100% (минус банковская комиссия), если отменено <strong>не позднее 3 суток</strong> до заезда.<br>• Поздняя отмена — 30% залог не возвращается.<br>• Мы свяжемся в течение 24ч.",
+  terms_title:"Условия бронирования",
+  terms_prepay:"Бронь действительна после получения предоплаты 30%.",
+  terms_cancel_free:"Бесплатная отмена — возврат 100% (минус комиссия банка), при отмене не позднее 3 суток до заезда.",
+  terms_cancel_late:"При отмене позднее 3 суток до заезда — 30% предоплата не возвращается.",
+  terms_confirm:"Мы свяжемся с вами в течение 24 часов для подтверждения деталей и отправки счёта.",
   nav_availability:"Доступность",
   avail_eyebrow:"Свободные дни",
   avail_title:"Доступность <em>одним взглядом</em>",
@@ -1051,21 +1140,45 @@ function setLang(lang){
 // ───── HOTSPOT INFO BANNER ──────────────────────────────────────────
 function showHotspotBanner(cabinId){
   const c = CABINS.find(x => x.id === cabinId);
-  const banner = document.getElementById('cabin-info-banner');
   const typeKey = c.type === 'lux' ? 'type_lux' : c.type === 'family' ? 'type_family' : 'type_double';
-  banner.innerHTML = `
-    <div class="cabin-info-banner-title">${t('cabin'+cabinId+'_name')}</div>
-    <div class="cabin-info-banner-sub">${t(typeKey)} · ${t(c.guests)}</div>
-    <div class="cabin-info-banner-price">${c.price}€<small>${t('price_per_night')}</small></div>
-    <button class="cabin-info-banner-btn" onclick="openCabinModal(${cabinId})">${t('book_btn')}</button>
+  const isSel = ST.selectedCabins.has(cabinId);
+  const hasMulti = ST.selectedCabins.size > 0;
+
+  // Show tooltip inside the hotspot itself
+  const hotspot = document.querySelector(`.cabin-hotspot[data-cabin="${cabinId}"]`);
+  if (!hotspot) return;
+
+  // Remove any existing tooltips
+  document.querySelectorAll('.hs-tooltip').forEach(el => el.remove());
+
+  const tooltip = document.createElement('div');
+  tooltip.className = 'hs-tooltip';
+
+  // Features list (compact)
+  const features = [c.guests, c.beds, c.blinds].map(k => t(k)).join(' · ');
+
+  tooltip.innerHTML = `
+    <div class="hs-tooltip-title">${t('cabin'+cabinId+'_name')}</div>
+    <div class="hs-tooltip-type">${t(typeKey)} · 🐾</div>
+    <div class="hs-tooltip-features">${features}</div>
+    <div class="hs-tooltip-price">${c.price}€ <small>${t('price_per_night')}</small></div>
+    <div class="hs-tooltip-bedlinen">${t('bedlinen_card')}</div>
+    <div class="hs-tooltip-actions">
+      <button class="hs-btn-book" onclick="event.stopPropagation();openCabinModal(${cabinId})">${t('book_btn')} →</button>
+      <button class="hs-btn-multi" onclick="event.stopPropagation();toggleCabinSelection(${cabinId})">${isSel ? '✓ ' + t('selected_btn') : '+ ' + t('multi_add_btn')}</button>
+    </div>
+    ${hasMulti && !isSel ? '<div class="hs-tooltip-hint">' + t('multi_flow_hint') + '</div>' : ''}
+    ${isSel ? '<div class="hs-tooltip-hint" style="color:var(--moss)">' + t('multi_selected_hint') + '</div>' : ''}
   `;
-  banner.classList.add('show');
-  // highlight matching card
+  hotspot.appendChild(tooltip);
+
+  // Highlight card
   document.querySelectorAll('.cabin-card').forEach(el => el.classList.remove('highlighted'));
   document.getElementById('card-'+cabinId)?.classList.add('highlighted');
 }
+
 function hideHotspotBanner(){
-  document.getElementById('cabin-info-banner').classList.remove('show');
+  document.querySelectorAll('.hs-tooltip').forEach(el => el.remove());
   document.querySelectorAll('.cabin-card').forEach(el => el.classList.remove('highlighted'));
 }
 
@@ -1559,20 +1672,35 @@ async function submitModalBooking(){
       } catch(e) { console.warn('EmailJS not sent:', e); }
     }
 
-    // Show success
+    // Optimistic update: immediately mark these cabins as booked in calendar
+    ST.modalCabins.forEach(id => {
+      ST.bookings.push({
+        cabin_id: id,
+        checkin_date: ci,
+        checkout_date: co,
+        status: 'pending'
+      });
+    });
+    renderCalendar();
+
+    // Also reload from DB (in background, confirms persistence)
+    loadBookings().then(renderCalendar);
+
+    // Show success with terms
     document.getElementById('modal-form-area').style.display = 'none';
     const suc = document.getElementById('modal-success');
     suc.classList.add('visible');
-    document.getElementById('modal-success-msg').textContent =
-      `${name} — ${ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', ')}, ${ci} → ${co}. ${t('total')}: ${total}€`;
+    document.getElementById('modal-success-msg').innerHTML =
+      `<strong>${name}</strong> — ${ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', ')}<br>
+       ${ci} → ${co} · ${t('total')}: <strong>${total}€</strong>
+       <div style="margin-top:1rem;padding:.9rem;background:rgba(200,136,42,.08);border-left:3px solid var(--gold);border-radius:4px;text-align:left;font-size:.8rem;line-height:1.6;color:var(--text)">
+         ${t('terms_summary')}
+       </div>`;
 
-    // Clear multi-select after successful booking
+    // Clear multi-select
     ST.selectedCabins.clear();
     renderCabinCards();
     renderMultiBar();
-    // Refresh bookings & calendar
-    await loadBookings();
-    renderCalendar();
   } catch (err) {
     console.error(err);
     showErr(t('err_fail'));
@@ -1668,26 +1796,121 @@ function renderCalendar(){
 }
 
 function selectDateFromCalendar(ymd){
-  // Find cabins available on this date
   const availableCabins = CABINS.filter(c => !isCabinBookedOn(c.id, ymd));
-  if (availableCabins.length === 0) return;
+  const bookedCabins = CABINS.filter(c => isCabinBookedOn(c.id, ymd));
 
-  // Open modal with the first available cabin pre-selected
-  // and dates pre-filled
-  const cabinId = availableCabins[0].id;
-  openCabinModal(cabinId);
+  // Show a date-picker popup with cabin availability
+  const overlay = document.getElementById('cabin-modal');
+  const typeKey = c => c.type==='lux'?'type_lux':c.type==='family'?'type_family':'type_double';
 
-  // Pre-fill dates: this day as check-in, next day as check-out
+  // Build cabin list for this date
+  const dateDisplay = new Date(ymd+'T00:00:00').toLocaleDateString(
+    LANG==='lv'?'lv-LV':LANG==='lt'?'lt-LT':LANG==='ru'?'ru-RU':'en-GB',
+    {weekday:'long',year:'numeric',month:'long',day:'numeric'}
+  );
+
+  // Pre-select available cabins that user already has in selectedCabins
+  const preSelected = new Set([...ST.selectedCabins].filter(id => !isCabinBookedOn(id, ymd)));
+
+  // If no cabins available, find nearest available date
+  if (availableCabins.length === 0) {
+    const nearest = findNearestAvailableDate(ymd);
+    if (nearest) {
+      alert(t('no_cabins_date') + ' ' + t('nearest_date') + ': ' + nearest);
+      selectDateFromCalendar(nearest);
+    } else {
+      alert(t('no_cabins_date'));
+    }
+    return;
+  }
+
+  // Open modal with date context — show all cabins for this date
+  ST.modalMode = 'date_pick';
+  ST.modalCabins = availableCabins.map(c => c.id);
+  initPerCabinState(ST.modalCabins);
+
+  // Render modal hero for date selection
+  document.getElementById('modal-num').textContent = '📅';
+  document.getElementById('modal-title').textContent = dateDisplay;
+  document.getElementById('modal-tagline').textContent =
+    `${availableCabins.length}/${CABINS.length} ${t('cabins_available')}`;
+  document.getElementById('modal-badges').innerHTML = availableCabins.map(c =>
+    `<span class="cabin-type-badge ${c.type==='lux'?'badge-lux':c.type==='family'?'badge-family':'badge-double'}">#${c.id}</span>`
+  ).join('');
+
+  // Show multi-cabin list instead of single details
+  document.getElementById('modal-cols-area').style.display = 'none';
+  const listArea = document.getElementById('modal-cabins-list-area');
+  listArea.style.display = '';
+  listArea.innerHTML = `
+    <div class="modal-cabins-list">
+      <div class="modal-cabins-list-title">${t('pick_cabins_for_date')}</div>
+      ${CABINS.map(c => {
+        const booked = isCabinBookedOn(c.id, ymd);
+        const checked = !booked && preSelected.has(c.id);
+        return `
+        <label class="modal-cabin-picker-row ${booked?'disabled':''}" style="display:flex;align-items:center;gap:.7rem;padding:.55rem .7rem;border:1.5px solid ${booked?'rgba(200,74,58,.2)':'rgba(0,0,0,.08)'};border-radius:9px;margin:.3rem 0;background:${booked?'#fdf0ee':'white'};cursor:${booked?'not-allowed':'pointer'};opacity:${booked?'.5':'1'}">
+          <input type="checkbox" style="width:18px;height:18px;accent-color:var(--moss)" ${booked?'disabled':''} ${checked?'checked':''} data-cabin-id="${c.id}" onchange="toggleDateCabin(${c.id}, this.checked)">
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:.88rem;color:var(--navy)">${t('cabin'+c.id+'_name')}</div>
+            <div style="font-size:.74rem;color:var(--text-light)">${t(typeKey(c))} · ${c.price}€/${t('per_night')} ${booked?'· <span style=color:var(--coral)>'+t('booked')+'</span>':''}</div>
+          </div>
+        </label>`;
+      }).join('')}
+    </div>
+  `;
+
+  // Set dates
+  renderModalBedlinen();
+  renderModalExtras();
+  openModal();
+
   setTimeout(() => {
-    const checkin = document.getElementById('m-checkin');
-    const checkout = document.getElementById('m-checkout');
-    checkin.value = ymd;
+    document.getElementById('m-checkin').value = ymd;
     const next = new Date(ymd);
     next.setDate(next.getDate() + 1);
-    checkout.value = next.toISOString().split('T')[0];
-    checkout.min = next.toISOString().split('T')[0];
+    document.getElementById('m-checkout').value = next.toISOString().split('T')[0];
+    document.getElementById('m-checkout').min = next.toISOString().split('T')[0];
     recalcModalTotal();
   }, 100);
+}
+
+function toggleDateCabin(cabinId, checked){
+  if (checked && !ST.modalCabins.includes(cabinId)) {
+    ST.modalCabins.push(cabinId);
+    const c = CABINS.find(x => x.id === cabinId);
+    ST.perCabin[cabinId] = {
+      extras:{grill:0,coal:0,umbrella:0,chair:0},
+      bedlinen:true,
+      guests: Math.min(2, c.maxG)
+    };
+  } else if (!checked) {
+    ST.modalCabins = ST.modalCabins.filter(id => id !== cabinId);
+    delete ST.perCabin[cabinId];
+  }
+  renderModalBedlinen();
+  renderModalExtras();
+  // Update guests area
+  const guestsArea = document.getElementById('modal-guests-area');
+  guestsArea.innerHTML = ST.modalCabins.map(id => {
+    const c = CABINS.find(x => x.id === id);
+    const pcGuests = ST.perCabin[id]?.guests || 2;
+    const opts = [];
+    for (let i = 1; i <= c.maxG; i++) opts.push('<option value="'+i+'" '+(i===pcGuests?'selected':'')+'>'+i+'</option>');
+    return '<div class="form-group"><label class="form-label">'+(ST.modalCabins.length>1?t('cabin_chip_label')+' #'+id+' · ':'')+t('guests_label')+'</label><select class="form-select" onchange="setCabinGuests('+id+', this.value)">'+opts.join('')+'</select></div>';
+  }).join('');
+  recalcModalTotal();
+}
+
+function findNearestAvailableDate(fromYmd){
+  const from = new Date(fromYmd);
+  for (let d = 1; d <= 90; d++){
+    const check = new Date(from);
+    check.setDate(check.getDate() + d);
+    const ymd = check.toISOString().split('T')[0];
+    if (CABINS.some(c => !isCabinBookedOn(c.id, ymd))) return ymd;
+  }
+  return null;
 }
 window.addEventListener('DOMContentLoaded', () => {
   LANG = detectLang();
