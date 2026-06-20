@@ -656,11 +656,11 @@ try {
 } catch(e) { console.warn('Supabase not initialized:', e); }
 
 // ⚙️  EmailJS — replace with your IDs from emailjs.com
-const EJS_SVC = 'YOUR_SERVICE_ID';
-const EJS_TMPL_C = 'YOUR_TEMPLATE_CLIENT';
-const EJS_TMPL_O = 'YOUR_TEMPLATE_OWNER';
+const EJS_SVC = 'service_su2rrsq';
+const EJS_TMPL_C = 'template_uoaulru';
+const EJS_TMPL_O = 'template_m0gqrng';
 try {
-  if (typeof emailjs !== 'undefined') emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
+  if (typeof emailjs !== 'undefined') emailjs.init('MhHksPeTj4Q0GIi2S');
 } catch(e) { console.warn('EmailJS not initialized:', e); }
 </script>
 
@@ -1712,19 +1712,36 @@ async function submitModalBooking(){
 // ───── AVAILABILITY CALENDAR ────────────────────────────────────────
 async function loadBookings(){
   if (typeof window.sb === 'undefined') {
+    console.warn('⚠️ Supabase nav inicializēts — kalendārs rādīs visas mājiņas brīvas');
     ST.bookings = [];
     return;
   }
   try {
     const today = new Date().toISOString().split('T')[0];
+    console.log('📡 Ielādēju rezervācijas no Supabase (no', today, ')...');
     const { data, error } = await window.sb.from('bookings')
       .select('cabin_id,checkin_date,checkout_date,status')
       .gte('checkout_date', today)
       .neq('status','cancelled');
-    if (error) throw error;
+    if (error) {
+      console.error('❌ Supabase kļūda:', error.message, error.hint || '', error.details || '');
+      // Visbiežākais iemesls: RLS nav konfigurēts
+      if (error.message && error.message.includes('permission') || error.code === '42501') {
+        console.error('👉 RISINĀJUMS: Supabase SQL Editor izpildiet:\n' +
+          'ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;\n' +
+          'CREATE POLICY "anon_select" ON bookings FOR SELECT TO anon USING (true);\n' +
+          'CREATE POLICY "anon_insert" ON bookings FOR INSERT TO anon WITH CHECK (true);');
+      }
+      throw error;
+    }
     ST.bookings = data || [];
+    console.log('✅ Ielādētas', ST.bookings.length, 'rezervācijas');
+    if (ST.bookings.length === 0) {
+      console.log('ℹ️ Nav nevienas aktīvas rezervācijas (vai RLS bloķē SELECT)');
+      console.log('👉 Pārbaudiet: Supabase → Authentication → Policies → tabula "bookings"');
+    }
   } catch(e) {
-    console.warn('Could not load bookings:', e.message);
+    console.warn('❌ Nevar ielādēt rezervācijas:', e.message);
     ST.bookings = [];
   }
 }
