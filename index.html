@@ -1635,6 +1635,9 @@ async function submitModalBooking(){
 
   const { total } = computeTotal();
 
+  // Reservation number — must be defined BEFORE it's used below
+const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
+
   try {
     // Insert one booking row per cabin
     const rows = ST.modalCabins.map(id => {
@@ -1710,9 +1713,7 @@ async function submitModalBooking(){
     // Also reload from DB (in background, confirms persistence)
     loadBookings().then(renderCalendar);
 
-    // Generate reservation number: SK-YYYYMMDD-XXXX
-    const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
-
+ 
     // Show success with custom message
     document.getElementById('modal-form-area').style.display = 'none';
     const suc = document.getElementById('modal-success');
