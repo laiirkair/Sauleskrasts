@@ -761,6 +761,12 @@ lv: {
   terms_cancel_free:"Bezmaksas atcelšana — naudas atgriešana 100% (mīnus bankas komisija), ja atcelts ne vēlāk kā 3 diennaktis pirms ierašanās datuma.",
   terms_cancel_late:"Ja rezervācija tiek atcelta vēlāk nekā 3 diennaktis līdz ierašanās datumam, 30% priekšapmaksa netiek atgriezta.",
   terms_confirm:"Mēs sazināsimies ar Jums 24h laikā, lai saskaņotu detaļas un nosūtītu rēķinu.",
+  success_body_1:"Rezervācija veiksmīgi saņemta!<br>Paldies, ka izvēlējāties kempingu <strong>Saules Krasts</strong>.<br>Rezervācijas apstiprinājums ir nosūtīts uz jūsu e-pastu.",
+  success_body_2:"Ja nepieciešams veikt izmaiņas rezervācijā, sazinieties ar mums:",
+  success_farewell:"Uz tikšanos Saules Krastā!<br>Lai mierīga, skaista un saulaina atpūta.",
+  reservation_details:"Rezervācijas detaļas",
+  reservation_nr:"Rezervācijas Nr.",
+  terms_full_link:"📄 Pilni lietošanas noteikumi",
   nav_availability:"Pieejamība",
   avail_eyebrow:"Brīvās dienas",
   avail_title:"Pieejamība <em>vienā skatā</em>",
@@ -773,7 +779,7 @@ lv: {
   cabins_available:"mājiņas brīvas",
   cabin_label:"Mājiņa",
   free:"brīva",
-  booked:"aizņemta"
+  booked:"aizņemta",
 },
 en: {
   nav_cabins:"Cabins", nav_book:"Book", nav_contact:"Contact", nav_cta:"Book now",
@@ -859,6 +865,12 @@ en: {
   terms_cancel_free:"Free cancellation — 100% refund (minus bank fees), if cancelled at least 3 days before check-in date.",
   terms_cancel_late:"If cancelled later than 3 days before check-in, the 30% prepayment is non-refundable.",
   terms_confirm:"We will contact you within 24h to confirm details and send an invoice.",
+  success_body_1:"Reservation successfully received!<br>Thank you for choosing <strong>Saules Krasts</strong> campsite.<br>A confirmation has been sent to your email.",
+  success_body_2:"If you need to make changes, please contact us:",
+  success_farewell:"See you at Saules Krasts!<br>Wishing you a peaceful, beautiful and sunny holiday.",
+  reservation_details:"Reservation details",
+  reservation_nr:"Reservation No.",
+  terms_full_link:"📄 Full terms and conditions",
   nav_availability:"Availability",
   avail_eyebrow:"Available days",
   avail_title:"Availability <em>at a glance</em>",
@@ -871,7 +883,7 @@ en: {
   cabins_available:"cabins available",
   cabin_label:"Cabin",
   free:"free",
-  booked:"booked"
+  booked:"booked",
 },
 lt: {
   nav_cabins:"Nameliai", nav_book:"Rezervuoti", nav_contact:"Kontaktai", nav_cta:"Rezervuoti dabar",
@@ -957,6 +969,12 @@ lt: {
   terms_cancel_free:"Nemokamas atšaukimas — 100% grąžinimas (minus banko komisija), jei atšaukta ne vėliau kaip 3 paras prieš atvykimą.",
   terms_cancel_late:"Jei atšaukta vėliau nei 3 paros — 30% avansas negrąžinamas.",
   terms_confirm:"Susisieksime per 24 val., kad patvirtintume detales ir atsiųstume sąskaitą.",
+  success_body_1:"Rezervacija sėkmingai gauta!<br>Ačiū, kad pasirinkote kempingą <strong>Saules Krasts</strong>.<br>Patvirtinimas išsiųstas į jūsų el. paštą.",
+  success_body_2:"Jei reikia pakeisti rezervaciją, susisiekite su mumis:",
+  success_farewell:"Iki pasimatymo Saules Krasts!<br>Linkime ramaus, gražaus ir saulėto poilsio.",
+  reservation_details:"Rezervacijos detalės",
+  reservation_nr:"Rezervacijos Nr.",
+  terms_full_link:"📄 Pilnos naudojimo sąlygos",
   nav_availability:"Prieinamumas",
   avail_eyebrow:"Laisvos dienos",
   avail_title:"Prieinamumas <em>vienu žvilgsniu</em>",
@@ -969,7 +987,7 @@ lt: {
   cabins_available:"namelių laisvi",
   cabin_label:"Namelis",
   free:"laisvas",
-  booked:"užimtas"
+  booked:"užimtas",
 },
 ru: {
   nav_cabins:"Домики", nav_book:"Бронь", nav_contact:"Контакты", nav_cta:"Забронировать",
@@ -1055,6 +1073,12 @@ ru: {
   terms_cancel_free:"Бесплатная отмена — возврат 100% (минус комиссия банка), при отмене не позднее 3 суток до заезда.",
   terms_cancel_late:"При отмене позднее 3 суток до заезда — 30% предоплата не возвращается.",
   terms_confirm:"Мы свяжемся с вами в течение 24 часов для подтверждения деталей и отправки счёта.",
+  success_body_1:"Бронирование успешно получено!<br>Спасибо, что выбрали кемпинг <strong>Saules Krasts</strong>.<br>Подтверждение отправлено на вашу почту.",
+  success_body_2:"Если нужно изменить бронирование, свяжитесь с нами:",
+  success_farewell:"До встречи в Saules Krasts!<br>Желаем спокойного, красивого и солнечного отдыха.",
+  reservation_details:"Детали бронирования",
+  reservation_nr:"Бронирование №",
+  terms_full_link:"📄 Полные условия использования",
   nav_availability:"Доступность",
   avail_eyebrow:"Свободные дни",
   avail_title:"Доступность <em>одним взглядом</em>",
@@ -1631,7 +1655,7 @@ async function submitModalBooking(){
         guest_email: email,
         guest_phone: phone,
         guest_count: pc.guests,
-        notes: notes,
+        notes: (resNum + ' | ' + notes).trim(),
         extras: { ...pc.extras, bedlinen: pc.bedlinen },
         total_price: cabinCost + blCost + exCost,
         status: 'pending'
@@ -1655,14 +1679,14 @@ async function submitModalBooking(){
     if (typeof emailjs !== 'undefined' && typeof EJS_SVC !== 'undefined') {
       try {
         await emailjs.send(EJS_SVC, EJS_TMPL_C, {
-          to_name:name, to_email:email,
+          to_name:name, to_email:email, reservation_nr:resNum,
           cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
           checkin_date:ci, checkout_date:co,
           total_price: total+'€', notes: notes||'—', phone:phone,
           summary: cabinSummary
         });
         await emailjs.send(EJS_SVC, EJS_TMPL_O, {
-          to_email:'antra.sila@gmail.com',
+          to_email:'antra.sila@gmail.com', reservation_nr:resNum,
           guest_name:name, guest_email:email, guest_phone:phone,
           cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
           checkin_date:ci, checkout_date:co,
@@ -1686,16 +1710,61 @@ async function submitModalBooking(){
     // Also reload from DB (in background, confirms persistence)
     loadBookings().then(renderCalendar);
 
-    // Show success with terms
+    // Generate reservation number: SK-YYYYMMDD-XXXX
+    const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
+
+    // Show success with custom message
     document.getElementById('modal-form-area').style.display = 'none';
     const suc = document.getElementById('modal-success');
     suc.classList.add('visible');
-    document.getElementById('modal-success-msg').innerHTML =
-      `<strong>${name}</strong> — ${ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', ')}<br>
-       ${ci} → ${co} · ${t('total')}: <strong>${total}€</strong>
-       <div style="margin-top:1rem;padding:.9rem;background:rgba(200,136,42,.08);border-left:3px solid var(--gold);border-radius:4px;text-align:left;font-size:.8rem;line-height:1.6;color:var(--text)">
-         ${t('terms_summary')}
-       </div>`;
+
+    const cabinNames = ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', ');
+    document.getElementById('modal-success-msg').innerHTML = `
+      <div style="text-align:center;margin-bottom:1.2rem">
+        <div style="font-size:2.2rem;margin-bottom:.5rem">🌅</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);line-height:1.65">
+          ${t('success_body_1')}
+        </div>
+      </div>
+      <div style="background:var(--sand);border-radius:10px;padding:1rem 1.2rem;text-align:left;margin-bottom:1rem">
+        <div style="font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.6rem">${t('reservation_details')}</div>
+        <div style="display:flex;justify-content:space-between;padding:.3rem 0;font-size:.86rem;border-bottom:1px solid rgba(0,0,0,.06)">
+          <span style="color:var(--text-light)">${t('reservation_nr')}</span>
+          <strong style="color:var(--navy);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.06em">${resNum}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.3rem 0;font-size:.86rem;border-bottom:1px solid rgba(0,0,0,.06)">
+          <span style="color:var(--text-light)">${t('cabin_chip_label')}</span>
+          <strong style="color:var(--navy)">${cabinNames}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.3rem 0;font-size:.86rem;border-bottom:1px solid rgba(0,0,0,.06)">
+          <span style="color:var(--text-light)">${t('checkin')}</span>
+          <strong style="color:var(--navy)">${ci}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.3rem 0;font-size:.86rem;border-bottom:1px solid rgba(0,0,0,.06)">
+          <span style="color:var(--text-light)">${t('checkout')}</span>
+          <strong style="color:var(--navy)">${co}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.3rem 0;font-size:.86rem">
+          <span style="color:var(--text-light)">${t('total')}</span>
+          <strong style="color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.15rem">${total}€</strong>
+        </div>
+      </div>
+      <div style="font-size:.82rem;color:var(--text);line-height:1.65;text-align:center">
+        ${t('success_body_2')}
+      </div>
+      <div style="margin-top:1rem;text-align:center;font-size:.82rem;color:var(--text-light)">
+        📞 +371 29265047 · ✉️ antra.sila@gmail.com
+      </div>
+      <div style="margin-top:.8rem;text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--gold)">
+        ${t('success_farewell')}
+      </div>
+      <div style="margin-top:1rem;padding:.7rem;background:rgba(200,136,42,.06);border-left:3px solid var(--gold);border-radius:4px;text-align:left;font-size:.76rem;line-height:1.55;color:var(--text-light)">
+        ${t('terms_summary')}
+      </div>
+      <div style="margin-top:.6rem;text-align:center">
+        <a href="noteikumi.html" target="_blank" style="font-size:.78rem;color:var(--gold);text-decoration:underline">${t('terms_full_link')}</a>
+      </div>
+    `;
 
     // Clear multi-select
     ST.selectedCabins.clear();
