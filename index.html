@@ -126,10 +126,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
 .cabin-card.highlighted{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,136,42,.2),var(--shadow-lg)}
 .cabin-card.selected{border-color:var(--moss);box-shadow:0 0 0 3px rgba(94,138,96,.25),var(--shadow-lg)}
-.cabin-card.expanded{box-shadow:var(--shadow-lg)}
 
-.cabin-card-header{background:var(--navy);padding:1.1rem 1.3rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:background .2s}
-.cabin-card-header:hover{background:#243a56}
+.cabin-card-header{background:var(--navy);padding:1.1rem 1.3rem;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+
 
 /* ─── GALLERY ─────────────────────────────────────────────────── */
 .cabin-gallery{position:relative;overflow:hidden;background:var(--sand)}
@@ -242,8 +241,8 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 .modal-overlay.open{opacity:1;pointer-events:all}
 .modal{background:var(--white);border-radius:18px;max-width:820px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.38);transform:translateY(24px) scale(.97);transition:transform .28s cubic-bezier(.22,1,.36,1);position:relative}
 .modal-overlay.open .modal{transform:none}
-.modal-close{position:absolute;top:1rem;right:1rem;z-index:10;background:rgba(0,0,0,.09);border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--navy);transition:background .2s}
-.modal-close:hover{background:rgba(0,0,0,.18)}
+.modal-close{position:absolute;top:.8rem;right:.8rem;z-index:10;background:rgba(255,255,255,.95);border:2px solid rgba(0,0,0,.15);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--navy);transition:all .2s;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.modal-close:hover{background:var(--coral);color:white;border-color:var(--coral);transform:scale(1.1)}
 .modal-hero{background:linear-gradient(135deg,var(--navy) 0%,#263d5e 100%);padding:2rem 2rem 1.5rem;border-radius:18px 18px 0 0;position:relative;overflow:hidden}
 .modal-hero::before{content:'';position:absolute;inset:0;background:url('attēls1.png') center/cover no-repeat;opacity:.18}
 .modal-hero-inner{position:relative;z-index:2}
@@ -372,6 +371,8 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 
 /* Global focus-visible for keyboard users */
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.hs-tooltip-photo{width:100%;height:90px;object-fit:cover;border-radius:8px 8px 0 0;margin:-0.85rem -0.9rem .6rem;width:calc(100% + 1.8rem);display:block}
 
 </style>
 </head>
@@ -1227,11 +1228,11 @@ function showHotspotBanner(cabinId){
   const tooltip = document.createElement('div');
   tooltip.className = 'hs-tooltip';
   tooltip.innerHTML = `
+    <img src="${c.photos[0]}" alt="${t('cabin'+cabinId+'_name')}" class="hs-tooltip-photo" onerror="this.style.display='none'">
     <div class="hs-tooltip-title">${t('cabin'+cabinId+'_name')}</div>
     <div class="hs-tooltip-type">${t(typeKey)} · 🐾</div>
     <div class="hs-tooltip-features">${features}</div>
     <div class="hs-tooltip-price">${c.price}€ <small>${t('price_per_night')}</small></div>
-    <div class="hs-tooltip-bedlinen">${t('bedlinen_card')}</div>
     <div class="hs-tooltip-actions">
       <button class="hs-btn-book" onclick="event.stopPropagation();openCabinModal(${cabinId})">${t('book_btn')} →</button>
       <button class="hs-btn-multi" onclick="event.stopPropagation();toggleCabinSelection(${cabinId});hideHotspotBanner()">${isSel ? '✓ ' + t('selected_btn') : '+ ' + t('multi_add_btn')}</button>
@@ -1262,27 +1263,14 @@ function renderCabinCards(){
     const badgeCls = c.type==='lux'?'badge-lux':c.type==='family'?'badge-family':'badge-double';
     const headerBg = c.type==='lux' ? 'background:linear-gradient(135deg,#1C2E4A,#263d5e)' : '';
     const isSel = ST.selectedCabins.has(c.id);
-    const isExpanded = ST.expandedCabin === c.id;
     const priceColor = c.type==='lux' ? 'color:var(--gold)' : '';
 
     const featuresHTML = [c.guests, c.beds, c.blinds, ...c.extras, 'c_terrace']
       .map(k => '<li>' + t(k) + '</li>').join('');
 
-    // Gallery (only when expanded)
-    const galleryHTML = isExpanded ? `
-      <div class="cabin-gallery" id="gallery-${c.id}">
-        <div class="gallery-track" id="track-${c.id}">
-          ${c.photos.map((p,i) => `<img src="${p}" alt="${t('cabin'+c.id+'_name')} ${i+1}" class="gallery-img" loading="lazy" onerror="this.style.display='none'">`).join('')}
-        </div>
-        <button class="gallery-arrow gallery-prev" onclick="scrollGallery(${c.id},-1);event.stopPropagation()">‹</button>
-        <button class="gallery-arrow gallery-next" onclick="scrollGallery(${c.id},1);event.stopPropagation()">›</button>
-        <div class="gallery-dots">${c.photos.map((_,i) => `<span class="gallery-dot${i===0?' on':''}" onclick="goToSlide(${c.id},${i});event.stopPropagation()"></span>`).join('')}</div>
-      </div>
-    ` : '';
-
     return `
-      <div class="cabin-card ${isSel?'selected':''} ${isExpanded?'expanded':''}" id="card-${c.id}">
-        <div class="cabin-card-header" style="${headerBg}" onclick="toggleExpand(${c.id})">
+      <div class="cabin-card ${isSel?'selected':''}" id="card-${c.id}">
+        <div class="cabin-card-header" style="${headerBg}">
           <div class="cabin-number">${String(c.id).padStart(2,'0')}</div>
           <div style="display:flex;gap:.3rem;align-items:center">
             <span class="cabin-type-badge ${badgeCls}">${t(typeKey)}</span>
@@ -1290,14 +1278,20 @@ function renderCabinCards(){
           </div>
         </div>
 
-        ${galleryHTML}
+        <div class="cabin-gallery" id="gallery-${c.id}">
+          <div class="gallery-track" id="track-${c.id}">
+            ${c.photos.map((p,i) => `<img src="${p}" alt="${t('cabin'+c.id+'_name')} ${i+1}" class="gallery-img" loading="lazy" onerror="this.style.display='none'">`).join('')}
+          </div>
+          <button class="gallery-arrow gallery-prev" onclick="scrollGallery(${c.id},-1);event.stopPropagation()" aria-label="Previous">‹</button>
+          <button class="gallery-arrow gallery-next" onclick="scrollGallery(${c.id},1);event.stopPropagation()" aria-label="Next">›</button>
+          <div class="gallery-dots">${c.photos.map((_,i) => `<span class="gallery-dot${i===0?' on':''}" onclick="goToSlide(${c.id},${i});event.stopPropagation()"></span>`).join('')}</div>
+        </div>
 
-        <div class="cabin-card-body" onclick="toggleExpand(${c.id})">
+        <div class="cabin-card-body">
           <div class="cabin-name">${t('cabin'+c.id+'_name')}</div>
           <div class="cabin-tagline">${t('cabin'+c.id+'_tag')}</div>
-          ${isExpanded ? `<ul class="cabin-features">${featuresHTML}</ul>
-            <div class="cabin-bedlinen-note">${t('bedlinen_card')}</div>` :
-            `<div style="font-size:.8rem;color:var(--text-light);margin-bottom:.5rem">${t(c.guests)} · ${t(c.beds)}</div>`}
+          <ul class="cabin-features">${featuresHTML}</ul>
+          <div class="cabin-bedlinen-note">${t('bedlinen_card')}</div>
         </div>
 
         <div class="cabin-card-footer">
@@ -1319,15 +1313,7 @@ function renderCabinCards(){
   }).join('');
 }
 
-function toggleExpand(cabinId){
-  ST.expandedCabin = ST.expandedCabin === cabinId ? null : cabinId;
-  renderCabinCards();
-  if (ST.expandedCabin) {
-    setTimeout(() => {
-      document.getElementById('card-'+cabinId)?.scrollIntoView({behavior:'smooth',block:'nearest'});
-    }, 50);
-  }
-}
+function toggleExpand(cabinId){ /* cards always show full content */ }
 
 function scrollGallery(cabinId, dir){
   const track = document.getElementById('track-'+cabinId);
