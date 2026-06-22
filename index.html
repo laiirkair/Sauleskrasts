@@ -126,20 +126,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
 .cabin-card.highlighted{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,136,42,.2),var(--shadow-lg)}
 .cabin-card.selected{border-color:var(--moss);box-shadow:0 0 0 3px rgba(94,138,96,.25),var(--shadow-lg)}
+.cabin-card.expanded{box-shadow:var(--shadow-lg)}
 
-/* Visible checkbox in top-right of card (clearer than left) */
-.cabin-select-check{position:absolute;top:.7rem;right:.7rem;z-index:5;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:rgba(28,46,74,.3);transition:all .2s;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);font-family:'Inter',sans-serif}
-.cabin-select-check:hover,.cabin-select-check:focus{transform:scale(1.08);border-color:var(--moss);color:var(--moss);outline:none}
-.cabin-select-check:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.cabin-card.selected .cabin-select-check{background:var(--moss);border-color:white;color:white}
+.cabin-card-header{background:var(--navy);padding:1.1rem 1.3rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:background .2s}
+.cabin-card-header:hover{background:#243a56}
 
-/* Hint tooltip ABOVE the checkbox on hover */
-.select-hint-arrow{position:absolute;top:-32px;right:0;background:var(--moss);color:white;font-size:.72rem;padding:.35rem .7rem;border-radius:6px;font-weight:600;letter-spacing:.02em;white-space:nowrap;pointer-events:none;opacity:0;transition:all .25s;transform:translateY(8px)}
-.select-hint-arrow::after{content:'';position:absolute;top:100%;right:14px;border:5px solid transparent;border-top-color:var(--moss)}
-.cabin-card:hover .cabin-select-check .select-hint-arrow{opacity:1;transform:translateY(0)}
-.cabin-card.selected .cabin-select-check .select-hint-arrow{display:none}
+/* ─── GALLERY ─────────────────────────────────────────────────── */
+.cabin-gallery{position:relative;overflow:hidden;background:var(--sand)}
+.gallery-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.gallery-track::-webkit-scrollbar{display:none}
+.gallery-img{flex-shrink:0;width:100%;height:220px;object-fit:cover;scroll-snap-align:start}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.92);backdrop-filter:blur(4px);border:none;cursor:pointer;font-size:1.3rem;color:var(--navy);display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 2px 10px rgba(0,0,0,.2);z-index:5}
+.gallery-arrow:hover{background:var(--gold);color:white}
+.gallery-prev{left:8px}
+.gallery-next{right:8px}
+.gallery-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:5}
+.gallery-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:all .2s;border:1px solid rgba(0,0,0,.1)}
+.gallery-dot.on{background:var(--gold);transform:scale(1.2)}
 
-.cabin-card-header{background:var(--navy);padding:1.1rem 4rem 1.1rem 1.3rem;display:flex;justify-content:space-between;align-items:center}
+/* ─── CARD ACTION BUTTONS ─────────────────────────────────────── */
+.cabin-actions{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.cabin-add-btn{padding:.5rem 1rem;background:transparent;color:var(--moss);border:1.5px solid var(--moss);border-radius:24px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.cabin-add-btn:hover{background:rgba(94,138,96,.1)}
+.cabin-add-btn.added{background:var(--moss);color:white;border-color:var(--moss)}
+.cabin-add-btn.added:hover{background:#4a7a4c}
 .cabin-number{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:rgba(255,255,255,.18);line-height:1}
 .cabin-type-badge{font-family:'Bebas Neue',sans-serif;font-size:.72rem;letter-spacing:.14em;padding:.28rem .75rem;border-radius:20px;border:1px solid}
 .badge-lux{background:rgba(200,136,42,.2);border-color:var(--gold);color:#E8C87A}
@@ -161,9 +171,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .price-unit{font-size:.68rem;color:var(--text-light)}
 .cabin-book-btn{padding:.55rem 1.1rem;background:var(--gold);color:white;border:none;border-radius:24px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}
 .cabin-book-btn:hover{background:var(--navy);transform:translateY(-1px)}
-.cabin-toggle-select{padding:.5rem 1rem;background:transparent;color:var(--moss);border:1.5px solid var(--moss);border-radius:24px;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;margin-right:.4rem;display:inline-flex;align-items:center;gap:.3rem}
-.cabin-toggle-select:hover{background:var(--moss);color:white}
-.cabin-card.selected .cabin-toggle-select{background:var(--moss);color:white;border-color:var(--moss)}
+
 
 /* ─── INFO STRIP ──────────────────────────────────────────────────── */
 .info-strip{background:var(--sand);padding:3.5rem 0}
@@ -331,8 +339,11 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   .extra-desc{font-size:.7rem}
   /* Mobile: bigger tap targets on hotspots */
   .hotspot-badge{width:36px;height:36px;font-size:1.2rem;opacity:.95}
-  /* Mobile: no hover tooltips, tap opens modal directly */
+  /* Mobile: no hover tooltips, tap scrolls to card */
   .hs-tooltip{display:none!important}
+  .gallery-img{height:180px}
+  .cabin-actions{gap:.35rem}
+  .cabin-add-btn,.cabin-book-btn{font-size:.74rem;padding:.45rem .85rem}
   /* Mobile calendar */
   .calendar-box{padding:1rem}
   .cal-month{font-size:1.15rem;min-width:auto}
@@ -706,8 +717,8 @@ lv: {
   cabin3_name:"Mājiņa Nr. 3", cabin3_tag:"Divi, kuriem patīk sava telpa",
   cabin4_name:"Mājiņa Nr. 4", cabin4_tag:"Tuvāk jūras skaņai",
   cabin5_name:"Mājiņa Nr. 5", cabin5_tag:"Tieši pie jūras. Tieši kā sapnī.",
-  c_4guests:"4 vietas · 13 m²", c_2guests:"2 vietas · 13 m²",
-  c_5guests:"2 vietas · 13 m² · vistuvāk jūrai",
+  c_4guests:"4 vietas · 15 m²", c_2guests:"2 vietas · 15 m²",
+  c_5guests:"2 vietas · 15 m² · vistuvāk jūrai",
   c_bed_family:"Divguļamā 145×200 + divstāvīgā 90×200",
   c_bed_double:"Divas atsevišķas gultas 90×200",
   c_bed_lux:"Lielā gulta 160×200",
@@ -764,6 +775,8 @@ lv: {
   err_fail:"Kļūda. Lūdzu sazinieties: +371 29265047",
   nav_terms:"Noteikumi",
   pick_cabins_first:"Vispirms izvēlieties mājiņas augstāk ☝",
+  add_label:"Pievienot",
+  added_label:"Pievienota",
   err_conflict:"⚠️ Izvēlētajā periodā jau ir rezervācija mājiņai: {cabins}. Lūdzu izvēlieties citu datumu.",
   multi_add_btn:"+ Pievienot",
   multi_flow_hint:"Pievienojiet un pēc tam nospiediet — Rezervēt izvēlētās",
@@ -812,8 +825,8 @@ en: {
   cabin3_name:"Cabin No. 3", cabin3_tag:"For two who enjoy their own space",
   cabin4_name:"Cabin No. 4", cabin4_tag:"Closer to the sound of the sea",
   cabin5_name:"Cabin No. 5", cabin5_tag:"Right by the sea. Just like a dream.",
-  c_4guests:"4 guests · 13 m²", c_2guests:"2 guests · 13 m²",
-  c_5guests:"2 guests · 13 m² · closest to the sea",
+  c_4guests:"4 guests · 15 m²", c_2guests:"2 guests · 15 m²",
+  c_5guests:"2 guests · 15 m² · closest to the sea",
   c_bed_family:"Double bed 145×200 + bunk bed 90×200",
   c_bed_double:"Two single beds 90×200",
   c_bed_lux:"King bed 160×200",
@@ -870,6 +883,8 @@ en: {
   err_fail:"Error. Please contact us: +371 29265047",
   nav_terms:"Terms",
   pick_cabins_first:"First select cabins above ☝",
+  add_label:"Add",
+  added_label:"Added",
   err_conflict:"⚠️ Selected period overlaps with existing booking for: {cabins}. Please choose different dates.",
   multi_add_btn:"+ Add to selection",
   multi_flow_hint:"Add more and then click — Book selected",
@@ -918,8 +933,8 @@ lt: {
   cabin3_name:"Namelis Nr. 3", cabin3_tag:"Dviem, kurie mėgsta savo erdvę",
   cabin4_name:"Namelis Nr. 4", cabin4_tag:"Arčiau jūros garsų",
   cabin5_name:"Namelis Nr. 5", cabin5_tag:"Tiesiai prie jūros. Kaip sapne.",
-  c_4guests:"4 vietos · 13 m²", c_2guests:"2 vietos · 13 m²",
-  c_5guests:"2 vietos · 13 m² · arčiausiai jūros",
+  c_4guests:"4 vietos · 15 m²", c_2guests:"2 vietos · 15 m²",
+  c_5guests:"2 vietos · 15 m² · arčiausiai jūros",
   c_bed_family:"Dvigulė 145×200 + dviaukštė 90×200",
   c_bed_double:"Dvi atskiros lovos 90×200",
   c_bed_lux:"Didelė lova 160×200",
@@ -976,6 +991,8 @@ lt: {
   err_fail:"Klaida. Susisiekite: +371 29265047",
   nav_terms:"Taisyklės",
   pick_cabins_first:"Pirmiausia pasirinkite namelius aukščiau ☝",
+  add_label:"Pridėti",
+  added_label:"Pridėta",
   err_conflict:"⚠️ Pasirinktas laikotarpis jau užimtas nameliui: {cabins}. Pasirinkite kitas datas.",
   multi_add_btn:"+ Pridėti",
   multi_flow_hint:"Pridėkite daugiau ir spauskite — Rezervuoti pasirinktus",
@@ -1024,8 +1041,8 @@ ru: {
   cabin3_name:"Домик № 3", cabin3_tag:"Для двоих, кто ценит своё пространство",
   cabin4_name:"Домик № 4", cabin4_tag:"Ближе к шуму волн",
   cabin5_name:"Домик № 5", cabin5_tag:"Прямо у моря. Как в мечте.",
-  c_4guests:"4 места · 13 м²", c_2guests:"2 места · 13 м²",
-  c_5guests:"2 места · 13 м² · ближайший к морю",
+  c_4guests:"4 места · 15 м²", c_2guests:"2 места · 15 м²",
+  c_5guests:"2 места · 15 м² · ближайший к морю",
   c_bed_family:"Двуспальная 145×200 + двухъярусная 90×200",
   c_bed_double:"Две отдельные кровати 90×200",
   c_bed_lux:"Большая кровать 160×200",
@@ -1082,6 +1099,8 @@ ru: {
   err_fail:"Ошибка. Свяжитесь: +371 29265047",
   nav_terms:"Правила",
   pick_cabins_first:"Сначала выберите домики выше ☝",
+  add_label:"Добавить",
+  added_label:"Добавлено",
   err_conflict:"⚠️ Выбранный период уже забронирован для домика: {cabins}. Выберите другие даты.",
   multi_add_btn:"+ Добавить",
   multi_flow_hint:"Добавьте ещё и нажмите — Забронировать выбранные",
@@ -1121,11 +1140,16 @@ ru: {
 // IMPORTANT: only the publicly displayed price (called "price") is shown.
 // Internally this is the low-season rate, but we don't label it as such.
 const CABINS = [
-  { id:1, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_sun', extras:['c_kettle'], guests:'c_4guests' },
-  { id:2, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_4guests' },
-  { id:3, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests' },
-  { id:4, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests' },
-  { id:5, type:'lux',    maxG:2, price:75, beds:'c_bed_lux',    blinds:'c_blinds_sun', extras:['c_fridge','c_coffee'], guests:'c_5guests' }
+  { id:1, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_sun', extras:['c_kettle'], guests:'c_4guests',
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_4.jpg'] },
+  { id:2, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_4guests',
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_4.jpg'] },
+  { id:3, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests',
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg'] },
+  { id:4, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests',
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg'] },
+  { id:5, type:'lux',    maxG:2, price:75, beds:'c_bed_lux',    blinds:'c_blinds_sun', extras:['c_fridge','c_coffee'], guests:'c_5guests',
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_4.jpg'] }
 ];
 
 const EXTRAS = [
@@ -1141,6 +1165,7 @@ const MAX_EXTRA_QTY  = 2;
 let LANG = 'lv';
 const ST = {
   selectedCabins: new Set(),   // multi-select for cabin grid
+  expandedCabin: null,          // which cabin card is expanded (shows gallery)
   modalMode: null,              // 'single' or 'multi'
   modalCabins: [],              // cabins currently in modal
   // Per-cabin extras + bedlinen state in modal
@@ -1235,43 +1260,98 @@ function renderCabinCards(){
   grid.innerHTML = CABINS.map(c => {
     const typeKey = c.type==='lux'?'type_lux':c.type==='family'?'type_family':'type_double';
     const badgeCls = c.type==='lux'?'badge-lux':c.type==='family'?'badge-family':'badge-double';
-    const headerStyle = c.type==='lux' ? 'background:linear-gradient(135deg,#1C2E4A,#263d5e)' : '';
+    const headerBg = c.type==='lux' ? 'background:linear-gradient(135deg,#1C2E4A,#263d5e)' : '';
     const isSel = ST.selectedCabins.has(c.id);
+    const isExpanded = ST.expandedCabin === c.id;
+    const priceColor = c.type==='lux' ? 'color:var(--gold)' : '';
+
     const featuresHTML = [c.guests, c.beds, c.blinds, ...c.extras, 'c_terrace']
-      .map(k => `<li>${t(k)}</li>`).join('');
-    const priceColor = c.type==='lux' ? 'style="color:var(--gold)"' : '';
-    return `
-      <div class="cabin-card ${isSel?'selected':''}" id="card-${c.id}" onmouseenter="showHotspotBanner(${c.id})" onmouseleave="hideHotspotBanner()">
-        <div class="cabin-select-check" onclick="toggleCabinSelection(${c.id});event.stopPropagation()" title="${t('select_btn_tooltip')}" role="checkbox" aria-checked="${isSel}" tabindex="0">
-          ${isSel?'✓':'☐'}
-          ${!isSel?`<span class="select-hint-arrow">${t('select_hint')}</span>`:''}
+      .map(k => '<li>' + t(k) + '</li>').join('');
+
+    // Gallery (only when expanded)
+    const galleryHTML = isExpanded ? `
+      <div class="cabin-gallery" id="gallery-${c.id}">
+        <div class="gallery-track" id="track-${c.id}">
+          ${c.photos.map((p,i) => `<img src="${p}" alt="${t('cabin'+c.id+'_name')} ${i+1}" class="gallery-img" loading="lazy" onerror="this.style.display='none'">`).join('')}
         </div>
-        <div class="cabin-card-header" style="${headerStyle}">
+        <button class="gallery-arrow gallery-prev" onclick="scrollGallery(${c.id},-1);event.stopPropagation()">‹</button>
+        <button class="gallery-arrow gallery-next" onclick="scrollGallery(${c.id},1);event.stopPropagation()">›</button>
+        <div class="gallery-dots">${c.photos.map((_,i) => `<span class="gallery-dot${i===0?' on':''}" onclick="goToSlide(${c.id},${i});event.stopPropagation()"></span>`).join('')}</div>
+      </div>
+    ` : '';
+
+    return `
+      <div class="cabin-card ${isSel?'selected':''} ${isExpanded?'expanded':''}" id="card-${c.id}">
+        <div class="cabin-card-header" style="${headerBg}" onclick="toggleExpand(${c.id})">
           <div class="cabin-number">${String(c.id).padStart(2,'0')}</div>
           <div style="display:flex;gap:.3rem;align-items:center">
             <span class="cabin-type-badge ${badgeCls}">${t(typeKey)}</span>
             <span class="cabin-type-badge badge-pets">🐾</span>
           </div>
         </div>
-        <div class="cabin-card-body">
+
+        ${galleryHTML}
+
+        <div class="cabin-card-body" onclick="toggleExpand(${c.id})">
           <div class="cabin-name">${t('cabin'+c.id+'_name')}</div>
           <div class="cabin-tagline">${t('cabin'+c.id+'_tag')}</div>
-          <ul class="cabin-features">${featuresHTML}</ul>
-          <div class="cabin-bedlinen-note">${t('bedlinen_card')}</div>
+          ${isExpanded ? `<ul class="cabin-features">${featuresHTML}</ul>
+            <div class="cabin-bedlinen-note">${t('bedlinen_card')}</div>` :
+            `<div style="font-size:.8rem;color:var(--text-light);margin-bottom:.5rem">${t(c.guests)} · ${t(c.beds)}</div>`}
         </div>
+
         <div class="cabin-card-footer">
           <div class="cabin-price">
-            <span class="price-from">${t('from')}</span>
-            <span class="price-value" ${priceColor}>${c.price}<small style="font-size:.65rem;font-family:Inter">€</small></span>
+            <span class="price-value" style="${priceColor}">${c.price}<small style="font-size:.65rem;font-family:Inter">€</small></span>
             <span class="price-unit">${t('per_night')}</span>
           </div>
-          <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:flex-end">
-            <button class="cabin-book-btn" onclick="openCabinModal(${c.id});event.stopPropagation()">${t('book_btn')} →</button>
+          <div class="cabin-actions">
+            <button class="cabin-add-btn ${isSel?'added':''}" onclick="toggleCabinSelection(${c.id});event.stopPropagation()">
+              ${isSel ? '✓ ' + t('added_label') : '+ ' + t('add_label')}
+            </button>
+            <button class="cabin-book-btn" onclick="openCabinModal(${c.id});event.stopPropagation()">
+              ${t('book_btn')} →
+            </button>
           </div>
         </div>
       </div>
     `;
   }).join('');
+}
+
+function toggleExpand(cabinId){
+  ST.expandedCabin = ST.expandedCabin === cabinId ? null : cabinId;
+  renderCabinCards();
+  if (ST.expandedCabin) {
+    setTimeout(() => {
+      document.getElementById('card-'+cabinId)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }, 50);
+  }
+}
+
+function scrollGallery(cabinId, dir){
+  const track = document.getElementById('track-'+cabinId);
+  if (!track) return;
+  const w = track.querySelector('.gallery-img')?.offsetWidth || 280;
+  track.scrollBy({left: dir * w, behavior:'smooth'});
+  // Update dots after scroll
+  setTimeout(() => updateGalleryDots(cabinId), 350);
+}
+function goToSlide(cabinId, idx){
+  const track = document.getElementById('track-'+cabinId);
+  if (!track) return;
+  const w = track.querySelector('.gallery-img')?.offsetWidth || 280;
+  track.scrollTo({left: idx * w, behavior:'smooth'});
+  setTimeout(() => updateGalleryDots(cabinId), 350);
+}
+function updateGalleryDots(cabinId){
+  const track = document.getElementById('track-'+cabinId);
+  if (!track) return;
+  const w = track.querySelector('.gallery-img')?.offsetWidth || 280;
+  const idx = Math.round(track.scrollLeft / w);
+  const gallery = document.getElementById('gallery-'+cabinId);
+  if (!gallery) return;
+  gallery.querySelectorAll('.gallery-dot').forEach((d,i) => d.classList.toggle('on', i===idx));
 }
 
 // ───── MULTI-SELECT BAR ─────────────────────────────────────────────
@@ -2076,10 +2156,14 @@ window.addEventListener('DOMContentLoaded', () => {
     hs.addEventListener('mouseenter', () => showHotspotBanner(id));
     hs.addEventListener('mouseleave', hideHotspotBanner);
     hs.addEventListener('click', () => openCabinModal(id));
-    // Mobile: tap opens modal directly (no tooltip on touch)
+    // Mobile: tap scrolls to card and expands it
     hs.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      openCabinModal(id);
+      ST.expandedCabin = id;
+      renderCabinCards();
+      setTimeout(() => {
+        document.getElementById('card-'+id)?.scrollIntoView({behavior:'smooth',block:'center'});
+      }, 100);
     }, { passive: false });
   });
 });
