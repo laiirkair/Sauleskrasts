@@ -1661,7 +1661,10 @@ async function submitModalBooking(){
 
   const { total } = computeTotal();
 
-  // Build booking rows
+  // Generate reservation number: SK-YYYYMMDD-XXXX
+    const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
+
+    // Build booking rows
     const rows = ST.modalCabins.map(id => {
       const pc = ST.perCabin[id];
       const c = CABINS.find(x => x.id === id);
@@ -1730,9 +1733,6 @@ async function submitModalBooking(){
 
     // 4) Background reload from DB
     loadBookings().then(renderCalendar);
-
-    // Generate reservation number: SK-YYYYMMDD-XXXX
-    const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
 
     // Show success with custom message
     document.getElementById('modal-form-area').style.display = 'none';
