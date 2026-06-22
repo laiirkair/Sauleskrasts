@@ -70,9 +70,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .cabin-photo-wrapper{position:relative;border-radius:14px;box-shadow:var(--shadow-lg)}
 .cabin-main-photo{width:100%;display:block;max-height:520px;object-fit:cover;border-radius:14px}
 
-/* Hotspot tooltip — appears ABOVE the cabin photo */
-.hs-tooltip{position:fixed;z-index:300;width:240px;background:rgba(28,46,74,.97);backdrop-filter:blur(14px);border:1.5px solid rgba(200,136,42,.5);border-radius:12px;padding:.9rem 1rem;box-shadow:0 16px 48px rgba(0,0,0,.5);pointer-events:all;animation:hsIn .2s ease-out}
-@keyframes hsIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* Hotspot tooltip — appears INSIDE the highlighted cabin area */
+.cabin-hotspot{overflow:visible}
+.hs-tooltip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;width:calc(100% + 20px);max-width:220px;background:rgba(28,46,74,.97);backdrop-filter:blur(14px);border:1.5px solid rgba(200,136,42,.5);border-radius:12px;padding:.85rem .9rem;box-shadow:0 12px 40px rgba(0,0,0,.55);pointer-events:all;animation:hsIn .2s ease-out}
+@keyframes hsIn{from{opacity:0;transform:translate(-50%,-50%) scale(.95)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 .hs-tooltip-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:white;margin-bottom:.2rem;line-height:1.2}
 .hs-tooltip-type{font-size:.74rem;color:rgba(255,255,255,.6);margin-bottom:.4rem}
 .hs-tooltip-features{font-size:.7rem;color:rgba(255,255,255,.5);margin-bottom:.4rem;line-height:1.45}
@@ -372,7 +373,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 <!-- NAV -->
 <nav id="main-nav">
-  <div class="nav-logo"><img src="logo.jpeg" alt="Saules Krasts"></div>
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Saules Krasts"></a>
   <ul class="nav-links">
     <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
     <li><a href="#availability" data-i18n="nav_availability">Pieejamība</a></li>
@@ -474,11 +475,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
   </div>
 </section>
-
-<!-- TERMS BANNER -->
-<div class="terms-banner" style="text-align:center;padding:1.2rem 2rem">
-  <a href="noteikumi.html" target="_blank">📄 <span data-i18n="terms_full_link">Pilni lietošanas noteikumi</span></a>
-</div>
 
 <!-- INFO STRIP -->
 <div class="info-strip">
@@ -767,6 +763,7 @@ lv: {
   err_dates:"Izbraukšanai jābūt pēc ierašanās.",
   err_fail:"Kļūda. Lūdzu sazinieties: +371 29265047",
   nav_terms:"Noteikumi",
+  pick_cabins_first:"Vispirms izvēlieties mājiņas augstāk ☝",
   err_conflict:"⚠️ Izvēlētajā periodā jau ir rezervācija mājiņai: {cabins}. Lūdzu izvēlieties citu datumu.",
   multi_add_btn:"+ Pievienot",
   multi_flow_hint:"Pievienojiet un pēc tam nospiediet — Rezervēt izvēlētās",
@@ -872,6 +869,7 @@ en: {
   err_dates:"Check-out must be after check-in.",
   err_fail:"Error. Please contact us: +371 29265047",
   nav_terms:"Terms",
+  pick_cabins_first:"First select cabins above ☝",
   err_conflict:"⚠️ Selected period overlaps with existing booking for: {cabins}. Please choose different dates.",
   multi_add_btn:"+ Add to selection",
   multi_flow_hint:"Add more and then click — Book selected",
@@ -977,6 +975,7 @@ lt: {
   err_dates:"Išvykimas turi būti po atvykimo.",
   err_fail:"Klaida. Susisiekite: +371 29265047",
   nav_terms:"Taisyklės",
+  pick_cabins_first:"Pirmiausia pasirinkite namelius aukščiau ☝",
   err_conflict:"⚠️ Pasirinktas laikotarpis jau užimtas nameliui: {cabins}. Pasirinkite kitas datas.",
   multi_add_btn:"+ Pridėti",
   multi_flow_hint:"Pridėkite daugiau ir spauskite — Rezervuoti pasirinktus",
@@ -1082,6 +1081,7 @@ ru: {
   err_dates:"Дата выезда должна быть позже заезда.",
   err_fail:"Ошибка. Свяжитесь: +371 29265047",
   nav_terms:"Правила",
+  pick_cabins_first:"Сначала выберите домики выше ☝",
   err_conflict:"⚠️ Выбранный период уже забронирован для домика: {cabins}. Выберите другие даты.",
   multi_add_btn:"+ Добавить",
   multi_flow_hint:"Добавьте ещё и нажмите — Забронировать выбранные",
@@ -1215,21 +1215,8 @@ function showHotspotBanner(cabinId){
     ${isSel ? '<div class="hs-tooltip-hint" style="color:#8DC490">' + t('multi_selected_hint') + '</div>' : ''}
   `;
 
-  // Position: fixed, above the hotspot center
-  document.body.appendChild(tooltip);
-  const rect = hotspot.getBoundingClientRect();
-  const ttW = tooltip.offsetWidth;
-  const ttH = tooltip.offsetHeight;
-  let left = rect.left + rect.width/2 - ttW/2;
-  let top = rect.top - ttH - 8;
-
-  // Keep within viewport
-  if (left < 8) left = 8;
-  if (left + ttW > window.innerWidth - 8) left = window.innerWidth - ttW - 8;
-  if (top < 70) top = rect.bottom + 8; // If no room above, show below
-
-  tooltip.style.left = left + 'px';
-  tooltip.style.top = top + 'px';
+  // Place tooltip inside the hotspot element (centered)
+  hotspot.appendChild(tooltip);
 
   // Highlight card
   document.querySelectorAll('.cabin-card').forEach(el => el.classList.remove('highlighted'));
@@ -1436,6 +1423,7 @@ function refreshModalContent(){
 
   // Guests selectors per cabin
   const guestsArea = document.getElementById('modal-guests-area');
+  if (ids.length === 0) { guestsArea.innerHTML = ''; } else
   guestsArea.innerHTML = ids.map(id => {
     const c = CABINS.find(x => x.id === id);
     const pcGuests = ST.perCabin[id].guests;
@@ -1473,6 +1461,7 @@ function renderModalBedlinen(){
   const ids = ST.modalCabins;
   const multi = ids.length > 1;
   const wrap = document.getElementById('modal-bedlinen-area');
+  if (ids.length === 0) { wrap.innerHTML = ''; return; }
   if (!multi) {
     const id = ids[0];
     const checked = ST.perCabin[id].bedlinen;
@@ -1520,6 +1509,7 @@ function renderModalExtras(){
   const ids = ST.modalCabins;
   const multi = ids.length > 1;
   const wrap = document.getElementById('modal-extras-area');
+  if (ids.length === 0) { wrap.innerHTML = `<div class="modal-section-title">${t("extras_section")}</div><div style="font-size:.82rem;color:var(--text-light);margin-bottom:1rem">${t("pick_cabins_first")}</div>`; return; }
   if (!multi) {
     const id = ids[0];
     wrap.innerHTML = `
@@ -1620,6 +1610,7 @@ function computeTotal(){
 }
 
 function recalcModalTotal(){
+  if (ST.modalCabins.length === 0) { const s = document.getElementById('modal-summary'); if(s) s.style.display='none'; return; }
   const { total, lines, nights } = computeTotal();
   const sumEl = document.getElementById('modal-summary');
   if (nights <= 0) { sumEl.style.display = 'none'; return; }
