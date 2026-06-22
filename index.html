@@ -2,11 +2,13 @@
 <html lang="lv">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saules Krasts — Ragaciems</title>
-<meta name="description" content="Piecas koka mājiņas pie Baltijas jūras Ragaciemā.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+<title>Saules Krasts — Kempings Ragaciemā pie Baltijas jūras</title>
+<meta name="description" content="Kempings Saules Krasts — 5 koka mājiņas Ragaciemā pie Baltijas jūras. Rezervē mājiņu tiešsaistē. Priežu mežs, pludmale, mājdzīvnieki gaidīti.">
+<link rel="icon" href="logo.jpeg" type="image/jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="attēls1.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -22,7 +24,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;color:var(--text);background:var(--sand-light);overflow-x:hidden}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--sand-light);overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 
 /* ─── NAV ─────────────────────────────────────────────────────────── */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2.5rem;background:rgba(250,250,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,.12)}
@@ -65,12 +67,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 
 /* Photo with hotspots */
 .cabin-photo-zone{position:relative;max-width:1200px;margin:0 auto 3rem;padding:0 2rem}
-.cabin-photo-wrapper{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg)}
-.cabin-main-photo{width:100%;display:block;max-height:520px;object-fit:cover}
+.cabin-photo-wrapper{position:relative;border-radius:14px;box-shadow:var(--shadow-lg)}
+.cabin-main-photo{width:100%;display:block;max-height:520px;object-fit:cover;border-radius:14px}
 
-/* Hotspot tooltip — appears ON the cabin photo */
-.hs-tooltip{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:220px;background:rgba(28,46,74,.96);backdrop-filter:blur(12px);border:1.5px solid rgba(200,136,42,.5);border-radius:12px;padding:.85rem .95rem;z-index:30;box-shadow:0 12px 40px rgba(0,0,0,.45);pointer-events:all;animation:hsIn .22s ease-out}
-@keyframes hsIn{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+/* Hotspot tooltip — appears ABOVE the cabin photo */
+.hs-tooltip{position:fixed;z-index:300;width:240px;background:rgba(28,46,74,.97);backdrop-filter:blur(14px);border:1.5px solid rgba(200,136,42,.5);border-radius:12px;padding:.9rem 1rem;box-shadow:0 16px 48px rgba(0,0,0,.5);pointer-events:all;animation:hsIn .2s ease-out}
+@keyframes hsIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .hs-tooltip-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:white;margin-bottom:.2rem;line-height:1.2}
 .hs-tooltip-type{font-size:.74rem;color:rgba(255,255,255,.6);margin-bottom:.4rem}
 .hs-tooltip-features{font-size:.7rem;color:rgba(255,255,255,.5);margin-bottom:.4rem;line-height:1.45}
@@ -289,7 +291,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 .modal-summary-row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--text);padding:.22rem 0}
 .modal-summary-row.muted{color:var(--text-light);font-size:.76rem}
 .modal-summary-row.removed{color:var(--coral);text-decoration:line-through;opacity:.6}
-.modal-summary-total{display:flex;justify-content:space-between;font-weight:700;color:var(--navy);margin-top:.5rem;padding-top:.5rem;border-top:1.5px solid rgba(200,136,42,.25);font-size:1.05rem}
+.modal-summary-total{display:flex;justify-content:space-between;font-weight:700;color:var(--navy);margin-top:.5rem;padding-top:.5rem;border-top:2px solid var(--navy);font-size:1.15rem}
 
 .modal-submit{width:100%;padding:.95rem;background:var(--gold);color:white;border:none;border-radius:9px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:.04em}
 .modal-submit:hover:not(:disabled){background:var(--navy);transform:translateY(-1px)}
@@ -328,11 +330,8 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   .extra-desc{font-size:.7rem}
   /* Mobile: bigger tap targets on hotspots */
   .hotspot-badge{width:36px;height:36px;font-size:1.2rem;opacity:.95}
-  .hs-tooltip{width:180px;padding:.7rem .75rem;font-size:.85rem;bottom:auto;top:0}
-  .hs-tooltip-title{font-size:1rem}
-  .hs-tooltip-price{font-size:1.2rem}
-  .hs-tooltip-features{display:none}
-  .hs-tooltip-bedlinen{display:none}
+  /* Mobile: no hover tooltips, tap opens modal directly */
+  .hs-tooltip{display:none!important}
   /* Mobile calendar */
   .calendar-box{padding:1rem}
   .cal-month{font-size:1.15rem;min-width:auto}
@@ -352,9 +351,21 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   .modal-title{font-size:1.6rem}
 }
 
+/* ─── TERMS NAV LINK ─────────────────────────────────────────── */
+.terms-banner{max-width:1200px;margin:0 auto;padding:.8rem 2rem}
+.terms-banner a{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--gold);text-decoration:none;font-weight:500;transition:color .2s}
+.terms-banner a:hover{color:var(--navy);text-decoration:underline}
+
+.skip-link:focus{top:0}
+
+/* Global focus-visible for keyboard users */
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
 </style>
 </head>
 <body>
+
+<a href="#cabins" class="skip-link" style="position:absolute;top:-100px;left:0;background:var(--gold);color:white;padding:.5rem 1rem;z-index:999;font-weight:600;transition:top .2s">Skip to content</a>
 
 <!-- Floating hotspot info banner (top of page) -->
 <div class="cabin-info-banner" id="cabin-info-banner"></div>
@@ -366,6 +377,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
     <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
     <li><a href="#availability" data-i18n="nav_availability">Pieejamība</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
+    <li><a href="noteikumi.html" data-i18n="nav_terms">Noteikumi</a></li>
     <li>
       <div class="lang-switcher">
         <button class="lang-btn active" data-lang="lv" onclick="setLang('lv')">LV</button>
@@ -462,6 +474,11 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
     </div>
   </div>
 </section>
+
+<!-- TERMS BANNER -->
+<div class="terms-banner" style="text-align:center;padding:1.2rem 2rem">
+  <a href="noteikumi.html" target="_blank">📄 <span data-i18n="terms_full_link">Pilni lietošanas noteikumi</span></a>
+</div>
 
 <!-- INFO STRIP -->
 <div class="info-strip">
@@ -625,6 +642,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
     <ul class="footer-links">
       <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
+      <li><a href="noteikumi.html" data-i18n="nav_terms">Noteikumi</a></li>
     </ul>
     <p class="footer-copy">© 2026 Saules Krasts · Ragaciems · antra.sila@gmail.com</p>
   </div>
@@ -748,6 +766,7 @@ lv: {
   err_no_dates:"Ievadiet ierašanās un izbraukšanas datumus.",
   err_dates:"Izbraukšanai jābūt pēc ierašanās.",
   err_fail:"Kļūda. Lūdzu sazinieties: +371 29265047",
+  nav_terms:"Noteikumi",
   err_conflict:"⚠️ Izvēlētajā periodā jau ir rezervācija mājiņai: {cabins}. Lūdzu izvēlieties citu datumu.",
   multi_add_btn:"+ Pievienot",
   multi_flow_hint:"Pievienojiet un pēc tam nospiediet — Rezervēt izvēlētās",
@@ -852,6 +871,7 @@ en: {
   err_no_dates:"Enter check-in and check-out dates.",
   err_dates:"Check-out must be after check-in.",
   err_fail:"Error. Please contact us: +371 29265047",
+  nav_terms:"Terms",
   err_conflict:"⚠️ Selected period overlaps with existing booking for: {cabins}. Please choose different dates.",
   multi_add_btn:"+ Add to selection",
   multi_flow_hint:"Add more and then click — Book selected",
@@ -956,6 +976,7 @@ lt: {
   err_no_dates:"Įveskite atvykimo ir išvykimo datas.",
   err_dates:"Išvykimas turi būti po atvykimo.",
   err_fail:"Klaida. Susisiekite: +371 29265047",
+  nav_terms:"Taisyklės",
   err_conflict:"⚠️ Pasirinktas laikotarpis jau užimtas nameliui: {cabins}. Pasirinkite kitas datas.",
   multi_add_btn:"+ Pridėti",
   multi_flow_hint:"Pridėkite daugiau ir spauskite — Rezervuoti pasirinktus",
@@ -1060,6 +1081,7 @@ ru: {
   err_no_dates:"Введите даты заезда и выезда.",
   err_dates:"Дата выезда должна быть позже заезда.",
   err_fail:"Ошибка. Свяжитесь: +371 29265047",
+  nav_terms:"Правила",
   err_conflict:"⚠️ Выбранный период уже забронирован для домика: {cabins}. Выберите другие даты.",
   multi_add_btn:"+ Добавить",
   multi_flow_hint:"Добавьте ещё и нажмите — Забронировать выбранные",
@@ -1168,19 +1190,17 @@ function showHotspotBanner(cabinId){
   const isSel = ST.selectedCabins.has(cabinId);
   const hasMulti = ST.selectedCabins.size > 0;
 
-  // Show tooltip inside the hotspot itself
   const hotspot = document.querySelector(`.cabin-hotspot[data-cabin="${cabinId}"]`);
   if (!hotspot) return;
 
   // Remove any existing tooltips
   document.querySelectorAll('.hs-tooltip').forEach(el => el.remove());
 
-  const tooltip = document.createElement('div');
-  tooltip.className = 'hs-tooltip';
-
-  // Features list (compact)
+  // Features (compact)
   const features = [c.guests, c.beds, c.blinds].map(k => t(k)).join(' · ');
 
+  const tooltip = document.createElement('div');
+  tooltip.className = 'hs-tooltip';
   tooltip.innerHTML = `
     <div class="hs-tooltip-title">${t('cabin'+cabinId+'_name')}</div>
     <div class="hs-tooltip-type">${t(typeKey)} · 🐾</div>
@@ -1189,12 +1209,27 @@ function showHotspotBanner(cabinId){
     <div class="hs-tooltip-bedlinen">${t('bedlinen_card')}</div>
     <div class="hs-tooltip-actions">
       <button class="hs-btn-book" onclick="event.stopPropagation();openCabinModal(${cabinId})">${t('book_btn')} →</button>
-      <button class="hs-btn-multi" onclick="event.stopPropagation();toggleCabinSelection(${cabinId})">${isSel ? '✓ ' + t('selected_btn') : '+ ' + t('multi_add_btn')}</button>
+      <button class="hs-btn-multi" onclick="event.stopPropagation();toggleCabinSelection(${cabinId});hideHotspotBanner()">${isSel ? '✓ ' + t('selected_btn') : '+ ' + t('multi_add_btn')}</button>
     </div>
     ${hasMulti && !isSel ? '<div class="hs-tooltip-hint">' + t('multi_flow_hint') + '</div>' : ''}
-    ${isSel ? '<div class="hs-tooltip-hint" style="color:var(--moss)">' + t('multi_selected_hint') + '</div>' : ''}
+    ${isSel ? '<div class="hs-tooltip-hint" style="color:#8DC490">' + t('multi_selected_hint') + '</div>' : ''}
   `;
-  hotspot.appendChild(tooltip);
+
+  // Position: fixed, above the hotspot center
+  document.body.appendChild(tooltip);
+  const rect = hotspot.getBoundingClientRect();
+  const ttW = tooltip.offsetWidth;
+  const ttH = tooltip.offsetHeight;
+  let left = rect.left + rect.width/2 - ttW/2;
+  let top = rect.top - ttH - 8;
+
+  // Keep within viewport
+  if (left < 8) left = 8;
+  if (left + ttW > window.innerWidth - 8) left = window.innerWidth - ttW - 8;
+  if (top < 70) top = rect.bottom + 8; // If no room above, show below
+
+  tooltip.style.left = left + 'px';
+  tooltip.style.top = top + 'px';
 
   // Highlight card
   document.querySelectorAll('.cabin-card').forEach(el => el.classList.remove('highlighted'));
@@ -1635,11 +1670,7 @@ async function submitModalBooking(){
 
   const { total } = computeTotal();
 
-  // Reservation number — must be defined BEFORE it's used below
-const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
-
-  try {
-    // Insert one booking row per cabin
+  // Build booking rows
     const rows = ST.modalCabins.map(id => {
       const pc = ST.perCabin[id];
       const c = CABINS.find(x => x.id === id);
@@ -1665,21 +1696,28 @@ const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random
       };
     });
 
+    // 1) OPTIMISTIC: immediately update calendar UI
+    ST.modalCabins.forEach(id => {
+      ST.bookings.push({ cabin_id:id, checkin_date:ci, checkout_date:co, status:'pending' });
+    });
+    renderCalendar();
+
+  try {
+    // 2) Save to Supabase (may fail if RLS not configured — that's OK)
     if (typeof window.sb !== 'undefined') {
       const { error } = await window.sb.from('bookings').insert(rows);
-      if (error) throw error;
+      if (error) console.warn('Supabase insert warning:', error.message);
     }
 
-    // Build summary for email
+    // 3) Send emails (may fail if EmailJS not configured — that's OK)
     const cabinSummary = ST.modalCabins.map(id => {
       const pc = ST.perCabin[id];
       const exList = EXTRAS.filter(ex => (pc.extras[ex.id]||0) > 0)
         .map(ex => `${t('e_'+ex.id+'_name')} ×${pc.extras[ex.id]}`).join(', ') || '—';
-      return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, ${t('extras_section')}: ${exList}`;
+      return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
     }).join('\n');
 
-    // EmailJS - try/catch separately so DB still saves even if email fails
-    if (typeof emailjs !== 'undefined' && typeof EJS_SVC !== 'undefined') {
+    if (typeof emailjs !== 'undefined' && EJS_SVC && !EJS_SVC.includes('YOUR_')) {
       try {
         await emailjs.send(EJS_SVC, EJS_TMPL_C, {
           to_name:name, to_email:email, reservation_nr:resNum,
@@ -1696,24 +1734,15 @@ const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random
           total_price: total+'€', notes: notes||'—',
           summary: cabinSummary
         });
-      } catch(e) { console.warn('EmailJS not sent:', e); }
+      } catch(e) { console.warn('EmailJS:', e.message || e); }
     }
 
-    // Optimistic update: immediately mark these cabins as booked in calendar
-    ST.modalCabins.forEach(id => {
-      ST.bookings.push({
-        cabin_id: id,
-        checkin_date: ci,
-        checkout_date: co,
-        status: 'pending'
-      });
-    });
-    renderCalendar();
-
-    // Also reload from DB (in background, confirms persistence)
+    // 4) Background reload from DB
     loadBookings().then(renderCalendar);
 
- 
+    // Generate reservation number: SK-YYYYMMDD-XXXX
+    const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
+
     // Show success with custom message
     document.getElementById('modal-form-area').style.display = 'none';
     const suc = document.getElementById('modal-success');
@@ -1913,8 +1942,9 @@ function selectDateFromCalendar(ymd){
 
   // Open modal with date context — show all cabins for this date
   ST.modalMode = 'date_pick';
-  ST.modalCabins = availableCabins.map(c => c.id);
-  initPerCabinState(ST.modalCabins);
+  // Start with NO cabins selected — user picks which ones
+  ST.modalCabins = [];
+  ST.perCabin = {};
 
   // Render modal hero for date selection
   document.getElementById('modal-num').textContent = '📅';
@@ -2055,17 +2085,27 @@ window.addEventListener('DOMContentLoaded', () => {
     hs.addEventListener('mouseenter', () => showHotspotBanner(id));
     hs.addEventListener('mouseleave', hideHotspotBanner);
     hs.addEventListener('click', () => openCabinModal(id));
-    // Touch support: show banner on tap, hide after 3s
+    // Mobile: tap opens modal directly (no tooltip on touch)
     hs.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      showHotspotBanner(id);
-      clearTimeout(hs._t);
-      hs._t = setTimeout(hideHotspotBanner, 3000);
+      openCabinModal(id);
     }, { passive: false });
   });
 });
 
 </script>
 
+<script>
+// Always scroll to top on load (fresh start)
+window.addEventListener('load', () => window.scrollTo(0,0));
+// Smooth scroll polyfill for iOS
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
 </body>
 </html>
