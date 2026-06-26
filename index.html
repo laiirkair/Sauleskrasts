@@ -693,8 +693,8 @@ const EJS_TMPL_O = 'template_m0gqrng';
 const EJS_PK = 'MhHksPeTj4Q0GIi2S';
 // EmailJS credentials (used by sendEmailDirect below)
 
-// EmailJS direct API — diagnostic version
-const EJS_API = 'https://api.emailjs.com/api/v1.0/email/send';
+// EmailJS via FormData — NO CORS preflight, works on ALL mobile browsers
+const EJS_API_FORM = 'https://api.emailjs.com/api/v1.0/email/send-form';
 
 function showToast(msg, isError) {
   const t = document.createElement('div');
@@ -707,33 +707,40 @@ function showToast(msg, isError) {
 }
 
 async function sendEmailDirect(templateId, params) {
-  const body = JSON.stringify({
-    service_id: EJS_SVC,
-    template_id: templateId,
-    user_id: EJS_PK,
-    template_params: params
-  });
+  // Use FormData — this is a "simple request" so browser
+  // does NOT send CORS preflight OPTIONS request.
+  // This fixes the "Failed to fetch" error on mobile.
+  const formData = new FormData();
+  formData.append('service_id', EJS_SVC);
+  formData.append('template_id', templateId);
+  formData.append('user_id', EJS_PK);
+  // Each template param as a separate form field
+  for (const [key, value] of Object.entries(params)) {
+    formData.append(key, String(value));
+  }
 
   try {
-    const response = await fetch(EJS_API, {
+    const response = await fetch(EJS_API_FORM, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: body
+      body: formData
+      // NO Content-Type header — browser sets it automatically for FormData
+      // This prevents CORS preflight!
     });
 
     const responseText = await response.text();
 
     if (response.ok) {
-      showToast('✅ E-pasts nosūtīts! (' + templateId.slice(-6) + ')', false);
+      showToast('✅ E-pasts nosūtīts!', false);
+      console.log('✅ EmailJS OK:', templateId);
       return true;
     } else {
-      showToast('❌ EmailJS atbilde: ' + response.status + ' — ' + responseText.slice(0, 80), true);
+      showToast('❌ EmailJS: ' + response.status + ' ' + responseText.slice(0, 80), true);
       console.error('EmailJS error:', response.status, responseText);
       return false;
     }
   } catch(e) {
-    showToast('❌ Tīkla kļūda: ' + (e.message || e), true);
-    console.error('Fetch error:', e);
+    showToast('❌ Kļūda: ' + (e.message || e), true);
+    console.error('Email fetch error:', e);
     return false;
   }
 }
