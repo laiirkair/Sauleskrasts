@@ -693,20 +693,20 @@ const EJS_TMPL_O = 'template_m0gqrng';
 const EJS_PK = 'MhHksPeTj4Q0GIi2S';
 // EmailJS credentials (used by sendEmailDirect below)
 
-// EmailJS direct API — 3 methods for maximum mobile compatibility
+// EmailJS direct API — diagnostic version
 const EJS_API = 'https://api.emailjs.com/api/v1.0/email/send';
 
-// Visual debug toast (works without F12)
 function showToast(msg, isError) {
   const t = document.createElement('div');
   t.textContent = msg;
-  t.style.cssText = 'position:fixed;bottom:' + (document.querySelectorAll('.debug-toast').length * 40 + 10) + 'px;right:10px;z-index:9999;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;color:white;background:' + (isError ? '#C84A3A' : '#5E8A60') + ';box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .3s;max-width:90vw';
+  const bottomPos = document.querySelectorAll('.debug-toast').length * 45 + 10;
+  t.style.cssText = 'position:fixed;bottom:'+bottomPos+'px;left:10px;right:10px;z-index:9999;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:600;color:white;background:'+(isError?'#C84A3A':'#5E8A60')+';box-shadow:0 4px 12px rgba(0,0,0,.3);text-align:center';
   t.className = 'debug-toast';
   document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 5000);
+  setTimeout(() => t.remove(), 8000);
 }
 
-function sendEmailDirect(templateId, params) {
+async function sendEmailDirect(templateId, params) {
   const body = JSON.stringify({
     service_id: EJS_SVC,
     template_id: templateId,
@@ -714,50 +714,29 @@ function sendEmailDirect(templateId, params) {
     template_params: params
   });
 
-  // METHOD 1: sendBeacon (most reliable on mobile — survives EVERYTHING)
-  if (navigator.sendBeacon) {
-    const blob = new Blob([body], { type: 'application/json' });
-    const sent = navigator.sendBeacon(EJS_API, blob);
-    if (sent) {
-      console.log('✅ sendBeacon:', templateId);
-      showToast('📧 E-pasts nosūtīts (beacon)', false);
-      return Promise.resolve();
-    }
-    console.warn('⚠️ sendBeacon failed, trying fetch...');
-  }
+  try {
+    const response = await fetch(EJS_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: body
+    });
 
-  // METHOD 2: fetch with keepalive
-  return fetch(EJS_API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: body,
-    keepalive: true
-  }).then(r => {
-    if (r.ok) {
-      console.log('✅ fetch keepalive:', templateId);
-      showToast('📧 E-pasts nosūtīts (fetch)', false);
+    const responseText = await response.text();
+
+    if (response.ok) {
+      showToast('✅ E-pasts nosūtīts! (' + templateId.slice(-6) + ')', false);
+      return true;
     } else {
-      throw new Error('HTTP ' + r.status);
+      showToast('❌ EmailJS atbilde: ' + response.status + ' — ' + responseText.slice(0, 80), true);
+      console.error('EmailJS error:', response.status, responseText);
+      return false;
     }
-  }).catch(e => {
-    console.warn('❌ fetch failed:', e);
-    showToast('❌ E-pasts: ' + (e.message || e), true);
-    
-    // METHOD 3: XHR as last resort
-    try {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', EJS_API, true); // true = async
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(body);
-      console.log('📧 XHR fallback sent:', templateId);
-      showToast('📧 E-pasts nosūtīts (XHR)', false);
-    } catch(e2) {
-      console.error('❌ All methods failed:', e2);
-      showToast('❌ E-pasts nenosūtīts', true);
-    }
-  });
+  } catch(e) {
+    showToast('❌ Tīkla kļūda: ' + (e.message || e), true);
+    console.error('Fetch error:', e);
+    return false;
+  }
 }
-console.log('📧 EmailJS ready: sendBeacon → fetch → XHR');
 </script>
 
 <script>
@@ -1847,29 +1826,30 @@ async function submitModalBooking(){
       return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
     }).join('\n');
 
-    // 4) Send emails via direct API with keepalive (survives mobile DOM changes)
-    btn.innerHTML = '<span class="spinner"></span> Nosūtam apstiprinājumu...';
-    
-    // Fire both emails — keepalive ensures they complete even if UI changes
-    sendEmailDirect(EJS_TMPL_C, {
-      to_name:name, to_email:email, reservation_nr:resNum,
-      cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-      checkin_date:ci, checkout_date:co,
-      total_price: total+'€', notes: notes||'—', phone:phone,
-      summary: cabinSummary
-    }).catch(e => console.warn('❌ Klienta e-pasts:', e));
+    // 4) Send emails — WAIT for response before changing UI
+    btn.innerHTML = '<span class="spinner"></span> Nosūtam e-pastus...';
 
-    sendEmailDirect(EJS_TMPL_O, {
-      to_email:'antra.sila@gmail.com', reservation_nr:resNum,
-      guest_name:name, guest_email:email, guest_phone:phone,
-      cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-      checkin_date:ci, checkout_date:co,
-      total_price: total+'€', notes: notes||'—',
-      summary: cabinSummary
-    }).catch(e => console.warn('❌ Īpašnieka e-pasts:', e));
+    const [r1, r2] = await Promise.all([
+      sendEmailDirect(EJS_TMPL_C, {
+        to_name:name, to_email:email, reservation_nr:resNum,
+        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+        checkin_date:ci, checkout_date:co,
+        total_price: total+'€', notes: notes||'—', phone:phone,
+        summary: cabinSummary
+      }),
+      sendEmailDirect(EJS_TMPL_O, {
+        to_email:'antra.sila@gmail.com', reservation_nr:resNum,
+        guest_name:name, guest_email:email, guest_phone:phone,
+        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+        checkin_date:ci, checkout_date:co,
+        total_price: total+'€', notes: notes||'—',
+        summary: cabinSummary
+      })
+    ]);
 
-    // Small delay to let fetch start before UI change
-    await new Promise(r => setTimeout(r, 300));
+    if (!r1 && !r2) {
+      showToast('⚠️ Rezervācija saglabāta, bet e-pasti nenosūtīti. Sazināsimies ar Jums!', true);
+    }
 
     // Background reload from DB
     loadBookings().then(renderCalendar);
