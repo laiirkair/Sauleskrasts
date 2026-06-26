@@ -11,7 +11,7 @@
 <link rel="preload" as="image" href="attēls1.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root{
   --sand:#F5EDD6;--sand-light:#FAF5E9;
@@ -1778,23 +1778,30 @@ async function submitModalBooking(){
     }).join('\n');
 
     if (typeof emailjs !== 'undefined' && EJS_SVC && !EJS_SVC.includes('YOUR_')) {
-      try {
-        await emailjs.send(EJS_SVC, EJS_TMPL_C, {
-          to_name:name, to_email:email, reservation_nr:resNum,
-          cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-          checkin_date:ci, checkout_date:co,
-          total_price: total+'€', notes: notes||'—', phone:phone,
-          summary: cabinSummary
-        });
-        await emailjs.send(EJS_SVC, EJS_TMPL_O, {
-          to_email:'antra.sila@gmail.com', reservation_nr:resNum,
-          guest_name:name, guest_email:email, guest_phone:phone,
-          cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-          checkin_date:ci, checkout_date:co,
-          total_price: total+'€', notes: notes||'—',
-          summary: cabinSummary
-        });
-      } catch(e) { console.warn('EmailJS:', e.message || e); }
+      const emailParams1 = {
+        to_name:name, to_email:email, reservation_nr:resNum,
+        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+        checkin_date:ci, checkout_date:co,
+        total_price: total+'€', notes: notes||'—', phone:phone,
+        summary: cabinSummary
+      };
+      const emailParams2 = {
+        to_email:'antra.sila@gmail.com', reservation_nr:resNum,
+        guest_name:name, guest_email:email, guest_phone:phone,
+        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+        checkin_date:ci, checkout_date:co,
+        total_price: total+'€', notes: notes||'—',
+        summary: cabinSummary
+      };
+      // Send BOTH independently — if one fails, other still goes
+      emailjs.send(EJS_SVC, EJS_TMPL_C, emailParams1)
+        .then(() => console.log('✅ E-pasts klientam nosūtīts'))
+        .catch(e => console.warn('❌ Klienta e-pasts:', e?.text || e?.message || e));
+      emailjs.send(EJS_SVC, EJS_TMPL_O, emailParams2)
+        .then(() => console.log('✅ E-pasts īpašniekam nosūtīts'))
+        .catch(e => console.warn('❌ Īpašnieka e-pasts:', e?.text || e?.message || e));
+    } else {
+      console.warn('⚠️ EmailJS nav pieejams — e-pasti netika sūtīti');
     }
 
     // 4) Background reload from DB
@@ -2168,10 +2175,5 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 </script>
-
-  <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="x9esPizLaZwXdXH6SsWL9";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
-  
 </body>
 </html>
