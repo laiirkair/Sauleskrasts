@@ -373,6 +373,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 .hs-tooltip-photo{width:100%;height:90px;object-fit:cover;border-radius:8px 8px 0 0;margin:-0.85rem -0.9rem .6rem;width:calc(100% + 1.8rem);display:block}
 
+
+/* Performance: reduce layout thrashing */
+.cabin-card{will-change:transform;contain:layout style}
+.gallery-track{will-change:scroll-position}
+.modal{will-change:transform}
+.debug-toast{pointer-events:none}
 </style>
 </head>
 <body>
@@ -687,28 +693,71 @@ const EJS_TMPL_O = 'template_m0gqrng';
 const EJS_PK = 'MhHksPeTj4Q0GIi2S';
 // EmailJS credentials (used by sendEmailDirect below)
 
-// Direct EmailJS API — no SDK needed, works on mobile with keepalive
+// EmailJS direct API — 3 methods for maximum mobile compatibility
+const EJS_API = 'https://api.emailjs.com/api/v1.0/email/send';
+
+// Visual debug toast (works without F12)
+function showToast(msg, isError) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:' + (document.querySelectorAll('.debug-toast').length * 40 + 10) + 'px;right:10px;z-index:9999;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;color:white;background:' + (isError ? '#C84A3A' : '#5E8A60') + ';box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .3s;max-width:90vw';
+  t.className = 'debug-toast';
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 5000);
+}
+
 function sendEmailDirect(templateId, params) {
-  const payload = JSON.stringify({
+  const body = JSON.stringify({
     service_id: EJS_SVC,
     template_id: templateId,
     user_id: EJS_PK,
     template_params: params
   });
-  // keepalive: true — tells browser to finish this request
-  // even if page/DOM changes (critical for mobile!)
-  return fetch('https://api.emailjs.com/api/v1.0/email/send', {
+
+  // METHOD 1: sendBeacon (most reliable on mobile — survives EVERYTHING)
+  if (navigator.sendBeacon) {
+    const blob = new Blob([body], { type: 'application/json' });
+    const sent = navigator.sendBeacon(EJS_API, blob);
+    if (sent) {
+      console.log('✅ sendBeacon:', templateId);
+      showToast('📧 E-pasts nosūtīts (beacon)', false);
+      return Promise.resolve();
+    }
+    console.warn('⚠️ sendBeacon failed, trying fetch...');
+  }
+
+  // METHOD 2: fetch with keepalive
+  return fetch(EJS_API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: payload,
+    body: body,
     keepalive: true
   }).then(r => {
-    if (!r.ok) throw new Error('EmailJS HTTP ' + r.status);
-    console.log('✅ E-pasts nosūtīts:', templateId);
-    return r;
+    if (r.ok) {
+      console.log('✅ fetch keepalive:', templateId);
+      showToast('📧 E-pasts nosūtīts (fetch)', false);
+    } else {
+      throw new Error('HTTP ' + r.status);
+    }
+  }).catch(e => {
+    console.warn('❌ fetch failed:', e);
+    showToast('❌ E-pasts: ' + (e.message || e), true);
+    
+    // METHOD 3: XHR as last resort
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', EJS_API, true); // true = async
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(body);
+      console.log('📧 XHR fallback sent:', templateId);
+      showToast('📧 E-pasts nosūtīts (XHR)', false);
+    } catch(e2) {
+      console.error('❌ All methods failed:', e2);
+      showToast('❌ E-pasts nenosūtīts', true);
+    }
   });
 }
-console.log('📧 EmailJS direct API ready (keepalive mode)');
+console.log('📧 EmailJS ready: sendBeacon → fetch → XHR');
 </script>
 
 <script>
