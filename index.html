@@ -1808,7 +1808,9 @@ async function submitModalBooking(){
       return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
     }).join('\n');
 
-    // Ensure EmailJS is initialized (critical for mobile)
+    // 4) Send emails and WAIT for them to complete BEFORE changing UI
+    //    (mobile browsers kill async requests if UI changes too fast)
+    let emailsOk = false;
     if (!ejsReady) initEmailJS();
     if (typeof emailjs !== 'undefined' && ejsReady) {
       const emailParams1 = {
@@ -1826,26 +1828,21 @@ async function submitModalBooking(){
         total_price: total+'€', notes: notes||'—',
         summary: cabinSummary
       };
-      // Send BOTH independently — if one fails, other still goes
-      emailjs.send(EJS_SVC, EJS_TMPL_C, emailParams1)
-        .then(() => console.log('✅ E-pasts klientam nosūtīts'))
-        .catch(e => console.warn('❌ Klienta e-pasts:', e?.text || e?.message || e));
-      emailjs.send(EJS_SVC, EJS_TMPL_O, emailParams2)
-        .then(() => console.log('✅ E-pasts īpašniekam nosūtīts'))
-        .catch(e => console.warn('❌ Īpašnieka e-pasts:', e?.text || e?.message || e));
-    } else {
-      console.warn('⚠️ EmailJS nav pieejams — e-pasti netika sūtīti');
-      // Show note in success that email might not have been sent
-      setTimeout(() => {
-        const msg = document.getElementById('modal-success-msg');
-        if (msg) msg.innerHTML += '<div style="margin-top:.8rem;padding:.6rem;background:#fdf0ee;border:1px solid #f5b8b0;border-radius:6px;font-size:.78rem;color:var(--coral);text-align:center">⚠️ E-pasta apstiprinājums, iespējams, netika nosūtīts. Lūdzu sazinieties: +371 29265047</div>';
-      }, 500);
+      // WAIT for BOTH to finish before showing success
+      btn.innerHTML = '<span class="spinner"></span> Nosūtam apstiprinājumu...';
+      try {
+        await Promise.allSettled([
+          emailjs.send(EJS_SVC, EJS_TMPL_C, emailParams1).then(() => console.log('✅ Klienta e-pasts OK')),
+          emailjs.send(EJS_SVC, EJS_TMPL_O, emailParams2).then(() => console.log('✅ Īpašnieka e-pasts OK'))
+        ]);
+        emailsOk = true;
+      } catch(e) { console.warn('EmailJS:', e); }
     }
 
-    // 4) Background reload from DB
+    // Background reload from DB
     loadBookings().then(renderCalendar);
 
-    // Show success with custom message
+    // NOW safe to change UI — emails already sent
     document.getElementById('modal-form-area').style.display = 'none';
     const suc = document.getElementById('modal-success');
     suc.classList.add('visible');
