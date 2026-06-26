@@ -11,7 +11,7 @@
 <link rel="preload" as="image" href="attēls1.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- EmailJS loaded dynamically below -->
 <style>
 :root{
   --sand:#F5EDD6;--sand-light:#FAF5E9;
@@ -681,13 +681,44 @@ try {
   if (SB_URL && !SB_URL.includes('YOUR_')) window.sb = window.supabase.createClient(SB_URL, SB_KEY);
 } catch(e) { console.warn('Supabase not initialized:', e); }
 
-// ⚙️  EmailJS — replace with your IDs from emailjs.com
+// ⚙️  EmailJS
 const EJS_SVC = 'service_su2rrsq';
 const EJS_TMPL_C = 'template_uoaulru';
 const EJS_TMPL_O = 'template_m0gqrng';
-try {
-  if (typeof emailjs !== 'undefined') emailjs.init('MhHksPeTj4Q0GIi2S');
-} catch(e) { console.warn('EmailJS not initialized:', e); }
+const EJS_PK = 'MhHksPeTj4Q0GIi2S';
+let ejsReady = false;
+
+function initEmailJS(){
+  if (typeof emailjs !== 'undefined' && !ejsReady) {
+    try {
+      emailjs.init(EJS_PK);
+      ejsReady = true;
+      console.log('✅ EmailJS inicializēts');
+    } catch(e) { console.warn('EmailJS init kļūda:', e); }
+  }
+}
+
+// Dynamically load EmailJS with guaranteed callback
+(function loadEJS(){
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+  s.onload = function(){
+    console.log('📦 EmailJS skripts ielādēts');
+    initEmailJS();
+  };
+  s.onerror = function(){
+    console.warn('❌ EmailJS skripts neielādējās — mēģinu vēlreiz...');
+    // Retry once after 2 seconds
+    setTimeout(() => {
+      const s2 = document.createElement('script');
+      s2.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+      s2.onload = () => { console.log('📦 EmailJS ielādēts (2. mēģinājums)'); initEmailJS(); };
+      s2.onerror = () => console.error('❌ EmailJS galīgi neielādējās');
+      document.head.appendChild(s2);
+    }, 2000);
+  };
+  document.head.appendChild(s);
+})();
 </script>
 
 <script>
@@ -1777,7 +1808,9 @@ async function submitModalBooking(){
       return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
     }).join('\n');
 
-    if (typeof emailjs !== 'undefined' && EJS_SVC && !EJS_SVC.includes('YOUR_')) {
+    // Ensure EmailJS is initialized (critical for mobile)
+    if (!ejsReady) initEmailJS();
+    if (typeof emailjs !== 'undefined' && ejsReady) {
       const emailParams1 = {
         to_name:name, to_email:email, reservation_nr:resNum,
         cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
@@ -1802,6 +1835,11 @@ async function submitModalBooking(){
         .catch(e => console.warn('❌ Īpašnieka e-pasts:', e?.text || e?.message || e));
     } else {
       console.warn('⚠️ EmailJS nav pieejams — e-pasti netika sūtīti');
+      // Show note in success that email might not have been sent
+      setTimeout(() => {
+        const msg = document.getElementById('modal-success-msg');
+        if (msg) msg.innerHTML += '<div style="margin-top:.8rem;padding:.6rem;background:#fdf0ee;border:1px solid #f5b8b0;border-radius:6px;font-size:.78rem;color:var(--coral);text-align:center">⚠️ E-pasta apstiprinājums, iespējams, netika nosūtīts. Lūdzu sazinieties: +371 29265047</div>';
+      }, 500);
     }
 
     // 4) Background reload from DB
