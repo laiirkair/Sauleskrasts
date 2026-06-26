@@ -11,7 +11,6 @@
 <link rel="preload" as="image" href="attēls1.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- EmailJS loaded dynamically below -->
 <style>
 :root{
   --sand:#F5EDD6;--sand-light:#FAF5E9;
@@ -686,39 +685,30 @@ const EJS_SVC = 'service_su2rrsq';
 const EJS_TMPL_C = 'template_uoaulru';
 const EJS_TMPL_O = 'template_m0gqrng';
 const EJS_PK = 'MhHksPeTj4Q0GIi2S';
-let ejsReady = false;
+// EmailJS credentials (used by sendEmailDirect below)
 
-function initEmailJS(){
-  if (typeof emailjs !== 'undefined' && !ejsReady) {
-    try {
-      emailjs.init(EJS_PK);
-      ejsReady = true;
-      console.log('✅ EmailJS inicializēts');
-    } catch(e) { console.warn('EmailJS init kļūda:', e); }
-  }
+// Direct EmailJS API — no SDK needed, works on mobile with keepalive
+function sendEmailDirect(templateId, params) {
+  const payload = JSON.stringify({
+    service_id: EJS_SVC,
+    template_id: templateId,
+    user_id: EJS_PK,
+    template_params: params
+  });
+  // keepalive: true — tells browser to finish this request
+  // even if page/DOM changes (critical for mobile!)
+  return fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: payload,
+    keepalive: true
+  }).then(r => {
+    if (!r.ok) throw new Error('EmailJS HTTP ' + r.status);
+    console.log('✅ E-pasts nosūtīts:', templateId);
+    return r;
+  });
 }
-
-// Dynamically load EmailJS with guaranteed callback
-(function loadEJS(){
-  const s = document.createElement('script');
-  s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-  s.onload = function(){
-    console.log('📦 EmailJS skripts ielādēts');
-    initEmailJS();
-  };
-  s.onerror = function(){
-    console.warn('❌ EmailJS skripts neielādējās — mēģinu vēlreiz...');
-    // Retry once after 2 seconds
-    setTimeout(() => {
-      const s2 = document.createElement('script');
-      s2.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-      s2.onload = () => { console.log('📦 EmailJS ielādēts (2. mēģinājums)'); initEmailJS(); };
-      s2.onerror = () => console.error('❌ EmailJS galīgi neielādējās');
-      document.head.appendChild(s2);
-    }, 2000);
-  };
-  document.head.appendChild(s);
-})();
+console.log('📧 EmailJS direct API ready (keepalive mode)');
 </script>
 
 <script>
@@ -1808,36 +1798,29 @@ async function submitModalBooking(){
       return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
     }).join('\n');
 
-    // 4) Send emails and WAIT for them to complete BEFORE changing UI
-    //    (mobile browsers kill async requests if UI changes too fast)
-    let emailsOk = false;
-    if (!ejsReady) initEmailJS();
-    if (typeof emailjs !== 'undefined' && ejsReady) {
-      const emailParams1 = {
-        to_name:name, to_email:email, reservation_nr:resNum,
-        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-        checkin_date:ci, checkout_date:co,
-        total_price: total+'€', notes: notes||'—', phone:phone,
-        summary: cabinSummary
-      };
-      const emailParams2 = {
-        to_email:'antra.sila@gmail.com', reservation_nr:resNum,
-        guest_name:name, guest_email:email, guest_phone:phone,
-        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-        checkin_date:ci, checkout_date:co,
-        total_price: total+'€', notes: notes||'—',
-        summary: cabinSummary
-      };
-      // WAIT for BOTH to finish before showing success
-      btn.innerHTML = '<span class="spinner"></span> Nosūtam apstiprinājumu...';
-      try {
-        await Promise.allSettled([
-          emailjs.send(EJS_SVC, EJS_TMPL_C, emailParams1).then(() => console.log('✅ Klienta e-pasts OK')),
-          emailjs.send(EJS_SVC, EJS_TMPL_O, emailParams2).then(() => console.log('✅ Īpašnieka e-pasts OK'))
-        ]);
-        emailsOk = true;
-      } catch(e) { console.warn('EmailJS:', e); }
-    }
+    // 4) Send emails via direct API with keepalive (survives mobile DOM changes)
+    btn.innerHTML = '<span class="spinner"></span> Nosūtam apstiprinājumu...';
+    
+    // Fire both emails — keepalive ensures they complete even if UI changes
+    sendEmailDirect(EJS_TMPL_C, {
+      to_name:name, to_email:email, reservation_nr:resNum,
+      cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+      checkin_date:ci, checkout_date:co,
+      total_price: total+'€', notes: notes||'—', phone:phone,
+      summary: cabinSummary
+    }).catch(e => console.warn('❌ Klienta e-pasts:', e));
+
+    sendEmailDirect(EJS_TMPL_O, {
+      to_email:'antra.sila@gmail.com', reservation_nr:resNum,
+      guest_name:name, guest_email:email, guest_phone:phone,
+      cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
+      checkin_date:ci, checkout_date:co,
+      total_price: total+'€', notes: notes||'—',
+      summary: cabinSummary
+    }).catch(e => console.warn('❌ Īpašnieka e-pasts:', e));
+
+    // Small delay to let fetch start before UI change
+    await new Promise(r => setTimeout(r, 300));
 
     // Background reload from DB
     loadBookings().then(renderCalendar);
