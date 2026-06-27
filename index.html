@@ -686,16 +686,6 @@ try {
   if (SB_URL && !SB_URL.includes('YOUR_')) window.sb = window.supabase.createClient(SB_URL, SB_KEY);
 } catch(e) { console.warn('Supabase not initialized:', e); }
 
-// ⚙️  EmailJS
-const EJS_SVC = 'service_su2rrsq';
-const EJS_TMPL_C = 'template_uoaulru';
-const EJS_TMPL_O = 'template_m0gqrng';
-const EJS_PK = 'MhHksPeTj4Q0GIi2S';
-// EmailJS credentials (used by sendEmailDirect below)
-
-// EmailJS via FormData — NO CORS preflight, works on ALL mobile browsers
-const EJS_API_FORM = 'https://api.emailjs.com/api/v1.0/email/send-form';
-
 function showToast(msg, isError) {
   const t = document.createElement('div');
   t.textContent = msg;
@@ -704,45 +694,6 @@ function showToast(msg, isError) {
   t.className = 'debug-toast';
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 8000);
-}
-
-async function sendEmailDirect(templateId, params) {
-  // Use FormData — this is a "simple request" so browser
-  // does NOT send CORS preflight OPTIONS request.
-  // This fixes the "Failed to fetch" error on mobile.
-  const formData = new FormData();
-  formData.append('service_id', EJS_SVC);
-  formData.append('template_id', templateId);
-  formData.append('user_id', EJS_PK);
-  // Each template param as a separate form field
-  for (const [key, value] of Object.entries(params)) {
-    formData.append(key, String(value));
-  }
-
-  try {
-    const response = await fetch(EJS_API_FORM, {
-      method: 'POST',
-      body: formData
-      // NO Content-Type header — browser sets it automatically for FormData
-      // This prevents CORS preflight!
-    });
-
-    const responseText = await response.text();
-
-    if (response.ok) {
-      showToast('✅ E-pasts nosūtīts!', false);
-      console.log('✅ EmailJS OK:', templateId);
-      return true;
-    } else {
-      showToast('❌ EmailJS: ' + response.status + ' ' + responseText.slice(0, 80), true);
-      console.error('EmailJS error:', response.status, responseText);
-      return false;
-    }
-  } catch(e) {
-    showToast('❌ Kļūda: ' + (e.message || e), true);
-    console.error('Email fetch error:', e);
-    return false;
-  }
 }
 </script>
 
@@ -755,6 +706,11 @@ async function sendEmailDirect(templateId, params) {
    - EXTRAS  : add-on services
    - ST      : global state (multi-cabin selection, current modal)
    - openCabinModal / openMultiBookingModal : two booking flows
+   - EMAILS  : now sent SERVER-SIDE via a Supabase Database Webhook ->
+               Edge Function, triggered by the INSERT into `reservations`.
+               The browser no longer talks to EmailJS directly, which is
+               what made delivery unreliable on some mobile networks/
+               browsers (ad/tracker blockers, ITP, backgrounding, etc).
 ═══════════════════════════════════════════════════════════════════ */
 
 // ───── TRANSLATIONS ─────────────────────────────────────────────────
@@ -1746,6 +1702,14 @@ function recalcModalTotal(){
 }
 
 // ───── SUBMIT ───────────────────────────────────────────────────────
+// Email sending is now done SERVER-SIDE by a Supabase Database Webhook
+// that fires on INSERT into the `reservations` table, and calls a
+// Supabase Edge Function which talks to EmailJS directly from the
+// server. The browser only has to successfully write two rows to
+// Supabase — it never has to reach EmailJS itself. This removes every
+// mobile-browser failure mode (ad/tracker blockers, ITP, backgrounding,
+// flaky mobile data, CORS) because none of those affect a server-to-
+// server call.
 async function submitModalBooking(){
   const name = document.getElementById('m-name').value.trim();
   const email = document.getElementById('m-email').value.trim();
@@ -1777,6 +1741,10 @@ async function submitModalBooking(){
     return showErr(t('err_conflict', {cabins: names}));
   }
 
+  if (typeof window.sb === 'undefined') {
+    return showErr(t('err_fail'));
+  }
+
   const btn = document.getElementById('modal-submit-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>';
@@ -1784,84 +1752,88 @@ async function submitModalBooking(){
   const { total } = computeTotal();
 
   // Generate reservation number: SK-YYYYMMDD-XXXX
-    const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
+  const resNum = 'SK-' + ci.replace(/-/g,'') + '-' + String(Math.floor(Math.random()*9000)+1000);
 
-    // Build booking rows
-    const rows = ST.modalCabins.map(id => {
-      const pc = ST.perCabin[id];
-      const c = CABINS.find(x => x.id === id);
-      const cabinCost = c.price * nights;
-      const blCost = pc.bedlinen ? BEDLINEN_PRICE * pc.guests * nights : 0;
-      let exCost = 0;
-      EXTRAS.forEach(ex => {
-        const q = pc.extras[ex.id] || 0;
-        if (q > 0) exCost += ex.perN ? ex.price * nights * q : ex.price * q;
-      });
-      return {
-        cabin_id: id,
-        checkin_date: ci,
-        checkout_date: co,
-        guest_name: name,
-        guest_email: email,
-        guest_phone: phone,
-        guest_count: pc.guests,
-        notes: (resNum + ' | ' + notes).trim(),
-        extras: { ...pc.extras, bedlinen: pc.bedlinen },
-        total_price: cabinCost + blCost + exCost,
-        status: 'pending'
-      };
+  // Build per-cabin booking rows (used for the calendar / conflict checks)
+  const rows = ST.modalCabins.map(id => {
+    const pc = ST.perCabin[id];
+    const c = CABINS.find(x => x.id === id);
+    const cabinCost = c.price * nights;
+    const blCost = pc.bedlinen ? BEDLINEN_PRICE * pc.guests * nights : 0;
+    let exCost = 0;
+    EXTRAS.forEach(ex => {
+      const q = pc.extras[ex.id] || 0;
+      if (q > 0) exCost += ex.perN ? ex.price * nights * q : ex.price * q;
     });
+    return {
+      cabin_id: id,
+      checkin_date: ci,
+      checkout_date: co,
+      guest_name: name,
+      guest_email: email,
+      guest_phone: phone,
+      guest_count: pc.guests,
+      notes: (resNum + ' | ' + notes).trim(),
+      extras: { ...pc.extras, bedlinen: pc.bedlinen },
+      total_price: cabinCost + blCost + exCost,
+      status: 'pending'
+    };
+  });
 
-    // 1) OPTIMISTIC: immediately update calendar UI
+  // Human-readable cabin summary (used by the email template)
+  const cabinSummary = ST.modalCabins.map(id => {
+    const pc = ST.perCabin[id];
+    const exList = EXTRAS.filter(ex => (pc.extras[ex.id]||0) > 0)
+      .map(ex => `${t('e_'+ex.id+'_name')} ×${pc.extras[ex.id]}`).join(', ') || '—';
+    return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
+  }).join('\n');
+
+  // One row describing the WHOLE reservation (all cabins together).
+  // This is the row whose INSERT triggers the email webhook.
+  const cabinsForEmail = ST.modalCabins.map(id => {
+    const c = CABINS.find(x => x.id === id);
+    return { id, name: t('cabin'+id+'_name'), price: c.price, guests: ST.perCabin[id].guests };
+  });
+  const reservationRow = {
+    reservation_nr: resNum,
+    guest_name: name,
+    guest_email: email,
+    guest_phone: phone,
+    checkin_date: ci,
+    checkout_date: co,
+    lang: LANG,
+    cabins: cabinsForEmail,
+    summary: cabinSummary,
+    notes: notes || null,
+    total_price: total
+  };
+
+  try {
+    // 1) Save per-cabin rows (calendar/conflict source of truth)
+    const { error: bookingsErr } = await window.sb.from('bookings').insert(rows);
+    if (bookingsErr) {
+      console.error('Supabase bookings insert error:', bookingsErr);
+      throw bookingsErr;
+    }
+
+    // 2) Save the single reservation row. The DB webhook configured on
+    //    this table fires automatically and sends both emails server-side.
+    const { error: resErr } = await window.sb.from('reservations').insert([reservationRow]);
+    if (resErr) {
+      console.error('Supabase reservations insert error:', resErr);
+      // Bookings already saved — surface a soft warning but still show success,
+      // since the stay itself IS reserved. Owner can be reached by phone too.
+      showToast('⚠️ Rezervācija saglabāta, bet apstiprinājuma e-pasts varētu kavēties. Sazināsimies ar Jums!', true);
+    }
+
+    // Optimistic local calendar update
     ST.modalCabins.forEach(id => {
       ST.bookings.push({ cabin_id:id, checkin_date:ci, checkout_date:co, status:'pending' });
     });
     renderCalendar();
-
-  try {
-    // 2) Save to Supabase (may fail if RLS not configured — that's OK)
-    if (typeof window.sb !== 'undefined') {
-      const { error } = await window.sb.from('bookings').insert(rows);
-      if (error) console.warn('Supabase insert warning:', error.message);
-    }
-
-    // 3) Send emails (may fail if EmailJS not configured — that's OK)
-    const cabinSummary = ST.modalCabins.map(id => {
-      const pc = ST.perCabin[id];
-      const exList = EXTRAS.filter(ex => (pc.extras[ex.id]||0) > 0)
-        .map(ex => `${t('e_'+ex.id+'_name')} ×${pc.extras[ex.id]}`).join(', ') || '—';
-      return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
-    }).join('\n');
-
-    // 4) Send emails — WAIT for response before changing UI
-    btn.innerHTML = '<span class="spinner"></span> Nosūtam e-pastus...';
-
-    const [r1, r2] = await Promise.all([
-      sendEmailDirect(EJS_TMPL_C, {
-        to_name:name, to_email:email, reservation_nr:resNum,
-        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-        checkin_date:ci, checkout_date:co,
-        total_price: total+'€', notes: notes||'—', phone:phone,
-        summary: cabinSummary
-      }),
-      sendEmailDirect(EJS_TMPL_O, {
-        to_email:'antra.sila@gmail.com', reservation_nr:resNum,
-        guest_name:name, guest_email:email, guest_phone:phone,
-        cabins: ST.modalCabins.map(id => t('cabin'+id+'_name')).join(', '),
-        checkin_date:ci, checkout_date:co,
-        total_price: total+'€', notes: notes||'—',
-        summary: cabinSummary
-      })
-    ]);
-
-    if (!r1 && !r2) {
-      showToast('⚠️ Rezervācija saglabāta, bet e-pasti nenosūtīti. Sazināsimies ar Jums!', true);
-    }
-
-    // Background reload from DB
+    // Background reload from DB to stay in sync
     loadBookings().then(renderCalendar);
 
-    // NOW safe to change UI — emails already sent
     document.getElementById('modal-form-area').style.display = 'none';
     const suc = document.getElementById('modal-success');
     suc.classList.add('visible');
