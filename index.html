@@ -761,6 +761,10 @@ lv: {
   modal_book_title:"Rezervēt", modal_book_multi_title:"Rezervēt mājiņas",
   bedlinen_info:"🛏 <strong>Gultasveļa nav iekļauta cenā</strong> · 5€/pers. (vienreizēja maksa) · sega ar pārvalku, palags, spilvens ar pārvalku",
   bedlinen_toggle:"Gultasveļa · 5€/pers. (vienreizēja maksa)",
+  bedlinen_desc:"Sega ar pārvalku · Palags · Spilvens",
+  bedlinen_once:"Vienreizēja maksa",
+  bedlinen_not_included:"nav iekļauta cenā",
+  bedlinen_one_time:"vienreizēji",
   extras_section:"Papildus pakalpojumi",
   extras_hint:"Izvēlieties papildus pakalpojumus — katru var pasūtīt līdz 2 vienībām uz mājiņu. Ja būs vajadzīgs vairāk, varēs piereģistrēties uz vietas.",
   e_grill_name:"Grila īre", e_grill_desc:"Ogļu grils ar restēm",
@@ -869,6 +873,10 @@ en: {
   modal_book_title:"Book", modal_book_multi_title:"Book cabins",
   bedlinen_info:"🛏 <strong>Bed linen not included in price</strong> · €5/pers. (one-time fee) · duvet with cover, fitted sheet, pillow with pillowcase",
   bedlinen_toggle:"Bed linen · €5/pers. (one-time fee)",
+  bedlinen_desc:"Duvet with cover · Fitted sheet · Pillow with pillowcase",
+  bedlinen_once:"One-time fee",
+  bedlinen_not_included:"not included in price",
+  bedlinen_one_time:"one-time",
   extras_section:"Add-on services",
   extras_hint:"Choose extras — up to 2 of each per cabin. If you need more, additional items can be booked on-site.",
   e_grill_name:"Grill hire", e_grill_desc:"Charcoal grill with grate",
@@ -977,6 +985,10 @@ lt: {
   modal_book_title:"Rezervuoti", modal_book_multi_title:"Rezervuoti namelius",
   bedlinen_info:"🛏 <strong>Patalynė neįtraukta į kainą</strong> · 5€/asm. (vienkartinis mokestis) · antklodė su užvalkalu, paklodė, pagalvė su užvalkalu",
   bedlinen_toggle:"Patalynė · 5€/asm. (vienkartinis mokestis)",
+  bedlinen_desc:"Antklodė su užvalkalu · Paklodė · Pagalvė su užvalkalu",
+  bedlinen_once:"Vienkartinis mokestis",
+  bedlinen_not_included:"neįtraukta į kainą",
+  bedlinen_one_time:"vienkartinis",
   extras_section:"Papildomos paslaugos",
   extras_hint:"Pasirinkite papildomas paslaugas — iki 2 vnt. vienam nameliui. Jei reikės daugiau, galima rezervuoti vietoje.",
   e_grill_name:"Grilio nuoma", e_grill_desc:"Anglių grilis su grotelėmis",
@@ -1085,6 +1097,10 @@ ru: {
   modal_book_title:"Забронировать", modal_book_multi_title:"Забронировать домики",
   bedlinen_info:"🛏 <strong>Бельё не включено в цену</strong> · 5€/чел. (разовая плата) · одеяло с пододеяльником, простыня, подушка с наволочкой",
   bedlinen_toggle:"Постельное бельё · 5€/чел. (разовая плата)",
+  bedlinen_desc:"Одеяло с пододеяльником · Простыня · Подушка с наволочкой",
+  bedlinen_once:"Разовая плата",
+  bedlinen_not_included:"не включено в цену",
+  bedlinen_one_time:"разово",
   extras_section:"Дополнительные услуги",
   extras_hint:"Выберите дополнения — до 2 шт. каждого на домик. Если нужно больше, можно заказать на месте.",
   e_grill_name:"Аренда гриля", e_grill_desc:"Угольный гриль с решёткой",
@@ -1563,17 +1579,17 @@ function renderModalBedlinen(){
         <input type="checkbox" class="extra-cb" ${checked?'checked':''} onchange="toggleBedlinen(${id})" onclick="event.stopPropagation()" id="bl-cb-${id}">
         <label class="extra-text" for="bl-cb-${id}" style="cursor:pointer">
           <div class="extra-name-row">
-            <span class="extra-name">🛏 ${multi ? t('cabin'+id+'_name')+' · ' : ''}Gultasveļa</span>
+            <span class="extra-name">🛏 ${multi ? t('cabin'+id+'_name')+' · ' : ''}${t('bedlinen_line')}</span>
             <span class="extra-price">${cost}€</span>
           </div>
-          <div class="extra-desc">Sega ar pārvalku · Palags · Spilvens · ${guests} pers. × ${BEDLINEN_PRICE}€ · Vienreizēja maksa</div>
+          <div class="extra-desc">${t('bedlinen_desc')} · ${guests} ${t('persons')} × ${BEDLINEN_PRICE}€ · ${t('bedlinen_once')}</div>
         </label>
       </div>
     `;
   }).join('');
   wrap.innerHTML = `
-    <div class="modal-section-title" style="margin-top:.5rem">🛏 Gultasveļa
-      <span style="font-size:.72rem;color:var(--text-light);font-family:Inter;font-weight:400;text-transform:none;letter-spacing:0"> — nav iekļauta cenā · ${BEDLINEN_PRICE}€/pers. (vienreizēji)</span>
+    <div class="modal-section-title" style="margin-top:.5rem">🛏 ${t('bedlinen_line')}
+      <span style="font-size:.72rem;color:var(--text-light);font-family:Inter;font-weight:400;text-transform:none;letter-spacing:0"> — ${t('bedlinen_not_included')} · ${BEDLINEN_PRICE}€/${t('persons')} (${t('bedlinen_one_time')})</span>
     </div>
     <div class="modal-extras" style="margin-bottom:1rem">${rows}</div>
   `;
