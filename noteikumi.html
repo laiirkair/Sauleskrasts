@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saules Krasts — Noteikumi / Terms</title>
+<meta name="description" content="Saules Krasts kempinga mājiņu lietošanas un kārtības noteikumi.">
+<link rel="icon" href="logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -12,12 +14,29 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;color:var(--text);background:var(--sand-light)}
-.tn{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;background:rgba(250,250,248,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,.12)}
-.tn a{text-decoration:none;color:var(--navy);font-size:.82rem;font-weight:500;display:flex;align-items:center;gap:.4rem}
-.tn a:hover{color:var(--gold)}
-.ls{display:flex;gap:4px}
-.lb{background:none;border:1px solid rgba(28,46,74,.2);color:var(--navy);font-size:.7rem;font-weight:600;padding:.25rem .5rem;border-radius:4px;cursor:pointer;transition:all .2s}
-.lb:hover,.lb.a{background:var(--navy);color:white;border-color:var(--navy)}
+
+/* ── NAV (matches index.html exactly) ── */
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2.5rem;background:rgba(250,250,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,.12)}
+.nav-logo img{height:44px;width:auto;display:block;object-fit:contain}
+.nav-links{display:flex;gap:1.6rem;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;color:var(--navy);font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a.active{color:var(--gold)}
+.nav-cta{background:var(--gold)!important;color:white!important;padding:.5rem 1.2rem;border-radius:30px;font-weight:600!important}
+.nav-cta:hover{background:var(--navy)!important}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{background:none;border:1px solid rgba(28,46,74,.2);color:var(--navy);font-size:.7rem;font-weight:600;padding:.25rem .5rem;border-radius:4px;cursor:pointer;transition:all .2s}
+.lang-btn:hover,.lang-btn.active{background:var(--navy);color:white;border-color:var(--navy)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:.3s}
+@media(max-width:768px){
+  nav{padding:.8rem 1.2rem}
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  nav.mobile-open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);padding:1.3rem 2rem;gap:1rem;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+}
+
+/* ── CONTENT ── */
 .th{background:var(--navy);padding:3.5rem 2rem 2.5rem;text-align:center}
 .th h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:300;color:white;margin-bottom:.5rem;line-height:1.2}
 .th p{color:rgba(255,255,255,.55);font-size:.85rem}
@@ -37,29 +56,44 @@ table.t tr:nth-child(even) td{background:rgba(200,136,42,.03)}
 .n b{color:var(--gold)}
 .mt{display:grid;grid-template-columns:auto 1fr;gap:.25rem .8rem;font-size:.8rem;color:var(--text-light);margin-bottom:2rem;padding:1rem;background:white;border-radius:8px;border:1px solid rgba(0,0,0,.06)}
 .mt b{color:var(--navy);font-weight:600}
-.tf{background:var(--navy-dark);padding:1.8rem 2rem;text-align:center}
-.tf a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.78rem}
-.tf a:hover{color:var(--gold-light)}
-.tf p{color:rgba(255,255,255,.25);font-size:.72rem;margin-top:.5rem}
-@media(max-width:640px){.tb{padding:1.5rem 1.2rem 3rem}.tn{padding:.7rem 1rem}table.t{font-size:.74rem}table.t th,table.t td{padding:.45rem .55rem}}
+footer{background:var(--navy-dark);padding:2.2rem 0}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem}
+.footer-logo img{height:34px;width:auto;opacity:.8;object-fit:contain}
+.footer-links{display:flex;gap:1.4rem;list-style:none}
+.footer-links a{color:rgba(255,255,255,.4);font-size:.78rem;text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--gold-light)}
+.footer-copy{color:rgba(255,255,255,.28);font-size:.73rem}
+@media(max-width:640px){.tb{padding:1.5rem 1.2rem 3rem}table.t{font-size:.74rem}table.t th,table.t td{padding:.45rem .55rem}}
 </style>
 </head>
 <body>
-<nav class="tn">
-<a href="index.html">← Saules Krasts</a>
-<div class="ls">
-<button class="lb a" onclick="sl('lv')">LV</button>
-<button class="lb" onclick="sl('en')">EN</button>
-<button class="lb" onclick="sl('lt')">LT</button>
-<button class="lb" onclick="sl('ru')">RU</button>
-</div>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Saules Krasts"></a>
+  <ul class="nav-links">
+    <li><a href="index.html#cabins">Mājiņas</a></li>
+    <li><a href="index.html#availability">Pieejamība</a></li>
+    <li><a href="index.html#contact">Kontakti</a></li>
+    <li><a href="noteikumi.html" class="active">Noteikumi</a></li>
+    <li>
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="sl('lv')">LV</button>
+        <button class="lang-btn" onclick="sl('en')">EN</button>
+        <button class="lang-btn" onclick="sl('lt')">LT</button>
+        <button class="lang-btn" onclick="sl('ru')">RU</button>
+      </div>
+    </li>
+    <li><a href="index.html#cabins" class="nav-cta">Rezervēt tagad</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- ═══════════════════ LV ═══════════════════ -->
+<!-- ═══════════ LV ═══════════ -->
 <div class="lc on" data-lang="lv">
-<div class="th"><h1>Kempinga mājiņu lietošanas un kārtības noteikumi</h1><p>Saules Krasts | Seaside Camping · Spēkā no 16.06.2026.</p></div>
+<div class="th"><h1>Kempinga mājiņu lietošanas un kārtības noteikumi</h1><p>Saules Krasts · Spēkā no 16.06.2026.</p></div>
 <div class="tb">
-
 <div class="mt">
 <span>Pakalpojuma sniedzējs</span><b>SIA "SDGTrade"</b>
 <span>Reģ. Nr.</span><b>40103288847</b>
@@ -121,8 +155,7 @@ table.t tr:nth-child(even) td{background:rgba(200,136,42,.03)}
 <p class="p">5.3. Inventāru nedrīkst iznest ārpus mājiņas vai pārvietot uz citām mājiņām.</p>
 <p class="p">5.4.–5.6. Aizliegts patvaļīgi regulēt elektroinstalāciju, lietot augstas jaudas ierīces, līmēt/naglot/urbt sienas, mēbeles u.c.</p>
 <p class="p">5.7.–5.8. Par avārijām nekavējoties jāziņo. Aizliegts slēpt bojājumus vai tos remontēt patstāvīgi.</p>
-<p class="p"><b>5.10. Elektroenerģijas lietošana.</b> Elektroenerģija mājiņā paredzēta tikai tajā esošo sadzīves ierīču un aprīkojuma lietošanai. Aizliegts izmantot mājiņas elektropieslēgumu citu ierīču, transportlīdzekļu, kemperu, telšu vai citu ārpus mājiņas esošu elektroiekārtu pieslēgšanai, tostarp izvadot pagarinātājus ārpus mājiņas.</p>
-<p class="p">Izņēmuma gadījumos papildu elektroenerģijas lietošana ir pieļaujama tikai pēc iepriekšējas saskaņošanas ar kempinga īpašnieku vai administrāciju. Šādā gadījumā tiek piemērota papildu maksa <b>7,00 EUR par diennakti</b>.</p>
+<p class="p"><b>5.10. Elektroenerģijas lietošana.</b> Elektroenerģija mājiņā paredzēta tikai tajā esošo sadzīves ierīču un aprīkojuma lietošanai. Aizliegts izmantot mājiņas elektropieslēgumu citu ierīču, transportlīdzekļu, kemperu, telšu vai citu ārpus mājiņas esošu elektroiekārtu pieslēgšanai, tostarp izvadot pagarinātājus ārpus mājiņas. Izņēmuma gadījumos papildu elektroenerģijas lietošana ir pieļaujama tikai pēc iepriekšējas saskaņošanas ar kempinga administrāciju. Šādā gadījumā tiek piemērota papildu maksa <b>7,00 EUR par diennakti</b>.</p>
 
 <h2 class="s">6. Aizliegtās darbības</h2>
 <p class="p">Mājiņā un kempinga teritorijā aizliegts:</p>
@@ -150,7 +183,7 @@ table.t tr:nth-child(even) td{background:rgba(200,136,42,.03)}
 <p class="p">7.6. Klients atbild par savu un viesu drošību, t.sk. peldēšanos, bērnu uzraudzību, laikapstākļu riskus.</p>
 
 <h2 class="s">8. Klusuma laiks un sabiedriskā kārtība</h2>
-<p class="p"><b>Klusuma laiks: 23:00–7:00.</b> Aizliegta skaļa mūzika, sarunas, transporta lieka darbināšana. Koplietošanas zonas jālieto saudzīgi un tīri. Jāievēro cieņpilna izturēšanās.</p>
+<p class="p"><b>Klusuma laiks: 23:00–7:00.</b> Aizliegta skaļa mūzika, sarunas, transporta lieka darbināšana. Koplietošanas zonas jālieto saudzīgi un tīri. Jāievēro cieņpilna izturēšanās pret citiem viesiem un personālu.</p>
 
 <h2 class="s">9. Bērni un mājdzīvnieki</h2>
 <p class="p">9.1.–9.3. Nepilngadīgie — tikai pilngadīgas personas atbildībā. Bērniem aizliegts bez uzraudzības pie ūdenstilpnēm, uguns, stāvvietām.</p>
@@ -183,18 +216,14 @@ table.t tr:nth-child(even) td{background:rgba(200,136,42,.03)}
 <p class="p"><b>13.</b> Personas dati tiek apstrādāti rezervācijas, drošības un normatīvo aktu nolūkos. Videonovērošana — tikai drošības zonās, ne privātuma zonās.</p>
 <p class="p"><b>14.</b> Sūdzības iesniedzamas rakstiski uz e-pastu. Strīdi risināmi sarunu ceļā, ja nepanāk — LR normatīvajos aktos noteiktajā kārtībā.</p>
 <p class="p"><b>15.</b> Saules Krasts var grozīt noteikumus. Piemērojama rezervācijas brīdī spēkā esošā redakcija. Strīdos noteicošā ir latviešu valodas versija.</p>
-
 <div class="n"><b>ℹ️</b> Klientam ieteicams saglabāt rezervācijas apstiprinājumu un šo noteikumu kopiju.</div>
-</div>
-</div>
+</div></div>
 
-<!-- ═══════════════════ EN ═══════════════════ -->
+<!-- ═══════════ EN ═══════════ -->
 <div class="lc" data-lang="en">
-<div class="th"><h1>Campsite Cabin Use and Rules</h1><p>Saules Krasts | Seaside Camping · Effective from 16.06.2026.</p></div>
+<div class="th"><h1>Campsite Cabin Use and Rules</h1><p>Saules Krasts · Effective from 16.06.2026.</p></div>
 <div class="tb">
-
-<div class="n"><b>ℹ️</b> This is an informational translation. In case of dispute, the Latvian version prevails (section 15.3).</div>
-
+<div class="n"><b>ℹ️</b> Informational translation. In case of dispute, the Latvian version prevails (section 15).</div>
 <div class="mt">
 <span>Service provider</span><b>SIA "SDGTrade"</b>
 <span>Reg. No.</span><b>40103288847</b>
@@ -203,75 +232,126 @@ table.t tr:nth-child(even) td{background:rgba(200,136,42,.03)}
 </div>
 
 <h2 class="s">1. General provisions</h2>
-<p class="p">These rules govern reservation, use, maintenance, safety, liability, damage compensation, cancellation and other procedures related to Saules Krasts campsite cabins. By making a reservation or arriving at the campsite, the Client confirms acceptance of these rules. The Client is fully responsible for all accompanying persons, children and pets.</p>
+<p class="p">1.1. These rules govern the reservation, use, maintenance, safety, liability, damage compensation, cancellation and all other matters related to the use of Saules Krasts campsite cabins.</p>
+<p class="p">1.2. By making a reservation via the website, email, phone, social media or any other channel, and/or upon arrival at the campsite and receiving the cabin keys, the Client confirms they have read and agree to comply with these rules.</p>
+<p class="p">1.3. These rules are binding on the Client, all persons staying in the cabin or on the campsite grounds together with the Client, and any persons invited by the Client onto the premises.</p>
+<p class="p">1.4. The Client is fully responsible for the conduct of their companions, guests, children, pets and invited persons, as well as for any damage or rule violations caused by them.</p>
+<p class="p">1.5. Saules Krasts reserves the right to refuse service or terminate a stay if the Client or any associated person violates these rules, endangers safety, public order, the peace of other guests, Saules Krasts property or staff.</p>
+<p class="p">1.6. Matters not covered by these rules are governed by applicable Latvian law and good-faith service use principles.</p>
 
 <h2 class="s">2. Definitions</h2>
 <table class="t">
 <tr><th>Term</th><th>Meaning</th></tr>
-<tr><td><b>Saules Krasts</b></td><td>The service provider operating the campsite cabin reservation and accommodation service.</td></tr>
-<tr><td><b>Client</b></td><td>The person who makes the reservation, pays for the service and/or uses the cabin.</td></tr>
-<tr><td><b>Guest</b></td><td>Any person staying in the cabin or campsite grounds under the Client's reservation.</td></tr>
-<tr><td><b>Cabin</b></td><td>The reserved campsite cabin with its equipment, inventory, furniture, keys and surrounding area.</td></tr>
+<tr><td><b>Saules Krasts</b></td><td>The entity providing campsite cabin reservation and accommodation services.</td></tr>
+<tr><td><b>Client</b></td><td>The person making the reservation, paying for the service and/or actually using the cabin.</td></tr>
+<tr><td><b>Guest</b></td><td>Any person staying in the cabin or on the campsite under the Client's reservation.</td></tr>
+<tr><td><b>Cabin</b></td><td>The reserved campsite cabin including its equipment, inventory, furniture, keys and surrounding use area.</td></tr>
 <tr><td><b>Reservation</b></td><td>A service order for specific dates, period, cabin type and number of guests.</td></tr>
-<tr><td><b>Deposit</b></td><td>Security payment intended to cover potential damages, additional cleaning or other costs.</td></tr>
+<tr><td><b>Deposit</b></td><td>Security payment to cover potential damage, additional cleaning or other costs.</td></tr>
 </table>
 
-<h2 class="s">3. Reservation, payments, cancellation</h2>
-<p class="p">3.1. A reservation is valid only after receiving <b>30% prepayment</b> of the total amount. Until payment is received, selected dates are not guaranteed.</p>
-<p class="p">3.2. The Client must provide accurate information: name, contact details, dates, cabin type, number of guests, children, pets, special needs.</p>
-<p class="p">3.3. Only the number of persons stated in the reservation may stay in the cabin. Additional persons require prior written approval.</p>
+<h2 class="s">3. Reservation, payments, cancellation and no-show</h2>
+<p class="p">3.1. A reservation is considered valid and confirmed only after receipt of <b>30% of the total reservation amount</b>. Until prepayment is received, the selected dates are not guaranteed.</p>
+<p class="p">3.2. The Client must provide accurate and complete information at the time of booking: name, surname, contact details, stay dates, cabin type, number of guests, number of children, pets, special needs.</p>
+<p class="p">3.3. Only the number of persons stated in the reservation may stay in the cabin. Additional persons — only with prior approval and at additional cost.</p>
+<p class="p">3.4. The price, payment deadline, prepayment amount, remaining balance payment terms and deposit are stated on the website or in the booking confirmation. The remaining balance must be paid no later than upon arrival.</p>
+<p class="p">3.5. If prepayment is not made within the specified deadline, Saules Krasts reserves the right to cancel the reservation without further notice.</p>
+<p class="p">3.6. Changes to reservation dates are only possible with written approval from Saules Krasts, subject to availability and current prices.</p>
+<p class="p">3.7. If the Client wishes to cancel a reservation, they must notify Saules Krasts in writing.</p>
 <p class="p"><b>3.8. Cancellation policy:</b></p>
 <ul class="l">
-<li>Free cancellation — at least <b>3 calendar days</b> before check-in. Full refund minus bank fees.</li>
-<li>Cancellation less than 3 days before — <b>30% deposit is non-refundable</b>.</li>
-<li>No-show or early departure — no refund for the unused period.</li>
+<li>Free cancellation — no later than <b>3 calendar days</b> before the planned arrival date. The amount paid is refunded, excluding bank commission.</li>
+<li>Cancellation later than 3 days before arrival — Saules Krasts is entitled to retain the <b>30% prepayment</b>.</li>
+<li>In case of no-show or early departure, payment for the unused period is not refunded.</li>
+<li>If a non-refundable price or special offer applies — the terms of that specific reservation take precedence.</li>
 </ul>
+<p class="p">3.9. Saules Krasts may cancel a reservation in emergency situations, offering an alternative or refund.</p>
+<p class="p">3.10. The Client may not transfer the reservation to a third party without Saules Krasts consent.</p>
 
-<h2 class="s">4. Check-in, check-out, keys</h2>
-<p class="p"><b>Check-in from 15:00. Check-out by 12:00.</b> Early check-in or late check-out may be arranged in advance for an additional fee (see section 4.7). ID document may be required. Inspect the cabin upon arrival — report any issues within 1 hour with photos. Upon departure: take out rubbish, wash dishes, close windows/doors, switch off appliances. Lost keys — replacement cost applies. Early check-in or late check-out (agreed): <b>€10</b>. Unagreed: €10/hour + damages.</p>
+<h2 class="s">4. Check-in, check-out, keys and inventory</h2>
+<p class="p">4.1. <b>Check-in from 15:00. Check-out by 12:00.</b> If the cabin is ready earlier, early check-in may be possible. Early check-in or late check-out may be arranged in advance for an additional fee (see section 4.7).</p>
+<p class="p">4.2. Upon arrival, the Client may be asked to present a valid ID document.</p>
+<p class="p">4.3. Upon receiving the cabin, the Client must immediately inspect its condition. Any damage must be reported within 1 hour with photos.</p>
+<p class="p">4.4. If the Client fails to report damage in time, it is assumed the cabin was handed over in good condition.</p>
+<p class="p">4.5. Upon check-out, the cabin must be left in order: rubbish removed, dishes washed, inventory returned to place, windows and doors closed, appliances switched off.</p>
+<p class="p">4.6. The Client is responsible for the replacement cost of lost or damaged keys.</p>
+<p class="p">4.7. Agreed early check-in or late check-out — <b>€10</b>. Without prior agreement — €10/hour + any resulting losses.</p>
 
-<h2 class="s">5–6. Cabin use, electricity & prohibited activities</h2>
-<p class="p">Use cabin carefully — for rest and overnight stay only. No commercial use, parties, or events without approval. Keep the cabin clean. Do not remove furniture/inventory outdoors. Do not tamper with electrical/plumbing systems, drill or nail walls.</p>
-<p class="p"><b>5.10. Electricity use.</b> Electricity in the cabin is intended solely for the appliances and equipment provided within it. It is prohibited to use the cabin's electrical connection to power external devices, vehicles, campervans, tents or any equipment outside the cabin, including by running extension cords outdoors. Exceptions require prior agreement with the campsite management; an additional fee of <b>€7.00 per day</b> applies in such cases.</p>
-<p class="p"><b>Prohibited:</b> Smoking indoors (incl. e-cigarettes); loud parties; exceeding guest count; fireworks; illegal substances; damaging the environment; aggressive behaviour; leaving children/pets unattended; unauthorized parking; handing over sanitary facility keys to third parties not registered as guests; using the cabin's electrical connection for external equipment without prior approval.</p>
+<h2 class="s">5. Cabin use and order</h2>
+<p class="p">5.1. The cabin must be used carefully — for rest and overnight stays only. Commercial activity, parties or events are prohibited without prior approval.</p>
+<p class="p">5.2. Cleanliness and order must be maintained throughout the stay.</p>
+<p class="p">5.3. Inventory must not be taken outside the cabin or moved to other cabins.</p>
+<p class="p">5.4.–5.6. It is prohibited to tamper with the electrical installation, use high-power devices, or glue/nail/drill walls, furniture, etc.</p>
+<p class="p">5.7.–5.8. Emergencies must be reported immediately. It is prohibited to conceal damage or carry out repairs independently.</p>
+<p class="p"><b>5.10. Electricity use.</b> Electricity in the cabin is intended solely for the household appliances and equipment provided within it. It is prohibited to use the cabin's electrical connection to power other devices, vehicles, campervans, tents or any equipment outside the cabin, including by running extension cords outdoors. Exceptions require prior agreement with campsite management; an additional fee of <b>€7.00 per day</b> applies in such cases.</p>
 
-<h2 class="s">7–8. Fire safety, quiet hours</h2>
-<p class="p">Follow fire safety rules. Open fires/grills only in designated areas, never unattended. Do not disable smoke detectors. Emergency: call 112, then inform Saules Krasts. <b>Quiet hours: 23:00–07:00.</b> Respectful behaviour is expected at all times.</p>
+<h2 class="s">6. Prohibited activities</h2>
+<p class="p">The following are prohibited in the cabin and on the campsite grounds:</p>
+<ul class="l">
+<li>Smoking in cabins, toilets, showers and enclosed spaces (including e-cigarettes and vapes)</li>
+<li>Holding loud parties or events that disturb other guests</li>
+<li>Hosting more persons than stated in the reservation</li>
+<li>Using fireworks, firecrackers or smoke flares</li>
+<li>Bringing illegal substances or weapons onto the premises</li>
+<li>Damaging the environment, dunes, beach or plantings</li>
+<li>Disturbing staff or behaving aggressively</li>
+<li>Leaving children or pets unsupervised</li>
+<li>Entering technical or staff-only areas</li>
+<li>Parking vehicles outside designated areas</li>
+<li>Handing over sanitary facility keys or access rights to third parties who are not registered guests of that cabin</li>
+<li>Using the cabin's electrical connection for devices or equipment outside the cabin without prior agreement with campsite management</li>
+</ul>
+<p class="p">Violations may result in a warning, additional charge of <b>€10</b>, retention of deposit, police involvement or termination of stay.</p>
 
-<h2 class="s">9. Children & pets</h2>
-<p class="p">Minors must be supervised by an adult. Pets allowed only if pre-agreed; extra fee may apply. Clean up after pets immediately. Saules Krasts may refuse pets that disturb other guests or damage property.</p>
+<h2 class="s">7. Fire safety and security</h2>
+<p class="p">7.1.–7.2. Fire safety regulations must be observed. Fires, grills and candles may only be used in designated areas and must never be left unattended.</p>
+<p class="p">7.3. Cooking inside cabins using equipment other than that provided is prohibited.</p>
+<p class="p">7.4. It is prohibited to damage or disable smoke detectors, fire extinguishers or other safety equipment.</p>
+<p class="p">7.5. In an emergency — call 112 and inform Saules Krasts.</p>
+<p class="p">7.6. The Client is responsible for their own and their guests' safety, including swimming, child supervision and weather-related risks.</p>
 
-<h2 class="s">10. Damages, deposit & liability</h2>
-<p class="p">Client is liable for all damages. Photo documentation will be made. Invoice payable within 7 days. Objections within 3 business days in writing. Saules Krasts is not liable for Client's personal belongings.</p>
+<h2 class="s">8. Quiet hours and public order</h2>
+<p class="p"><b>Quiet hours: 23:00–07:00.</b> Loud music, conversations and unnecessary use of vehicles are prohibited. Shared areas must be used considerately and kept clean. Respectful behaviour towards other guests and staff is expected at all times.</p>
+
+<h2 class="s">9. Children and pets</h2>
+<p class="p">9.1.–9.3. Minors must be under the supervision of an adult at all times. Children are not permitted near water, fires or car parks without supervision.</p>
+<p class="p">9.4.–9.7. Pets are allowed only with prior approval. An additional fee may apply. Pet waste must be collected immediately. Saules Krasts may refuse to allow a pet if it endangers other guests or property.</p>
+
+<h2 class="s">10. Damage, deposit and liability</h2>
+<p class="p">10.1.–10.4. The Client is liable for all damage caused. The deposit may be retained to cover damage but does not limit additional claims.</p>
+<p class="p">10.5.–10.7. Damage is documented with photos. The invoice must be paid within 7 days. Objections must be submitted in writing within 3 business days.</p>
+<p class="p">10.8. Saules Krasts is not liable for the Client's personal belongings.</p>
 
 <h2 class="s">Fee schedule</h2>
 <table class="t">
 <tr><th>Violation</th><th>Fee</th></tr>
-<tr><td>Smoking indoors</td><td>€100 + actual cleaning costs</td></tr>
-<tr><td>Lost key/remote</td><td>€20 or actual replacement cost</td></tr>
-<tr><td>Extra cleaning</td><td>€25/hour or actual costs</td></tr>
-<tr><td>Damaged inventory/furniture</td><td>Actual repair/replacement costs</td></tr>
-<tr><td>Removing inventory outdoors</td><td>€20 + actual costs</td></tr>
+<tr><td>Smoking inside cabin</td><td>€100 + actual odour removal costs</td></tr>
+<tr><td>Lost key/remote</td><td>€20 or actual replacement costs</td></tr>
+<tr><td>Additional cleaning</td><td>€25/hour or actual costs</td></tr>
+<tr><td>Damaged inventory, furniture, equipment</td><td>Actual repair/replacement costs</td></tr>
+<tr><td>Removing inventory from cabin</td><td>€20 + actual costs</td></tr>
 <tr><td>Early check-in or late check-out (agreed)</td><td>€10</td></tr>
-<tr><td>Early check-in or late check-out (unagreed)</td><td>€10/hour + damages</td></tr>
-<tr><td>Unauthorized extra person</td><td>€15/person/night</td></tr>
-<tr><td>Unauthorized pet</td><td>€20 + cleaning costs</td></tr>
-<tr><td>Quiet hours violation</td><td>€30; repeated: €50 and/or eviction</td></tr>
-<tr><td>Unauthorized external electricity use</td><td>€7/day + €10 violation fee</td></tr>
+<tr><td>Early check-in or late check-out (unagreed)</td><td>€10/hour + losses</td></tr>
+<tr><td>Unauthorised additional person</td><td>€15/person/night</td></tr>
+<tr><td>Unauthorised pet</td><td>€20 + additional cleaning costs</td></tr>
+<tr><td>Quiet hours violation</td><td>€30; repeat offence — €50 and/or eviction</td></tr>
+<tr><td>Unauthorised external electricity use</td><td>€7/day + €10 violation fee</td></tr>
 </table>
 
 <h2 class="s">11–15. Additional provisions</h2>
-<p class="p">Staff may enter the cabin for inspection in the Client's presence; without presence only in emergencies. Serious violations may result in immediate eviction without refund. Personal data processed per GDPR. Disputes governed by Latvian law. The Latvian version of these rules prevails.</p>
-</div>
-</div>
+<p class="p"><b>11.</b> Saules Krasts staff may enter the cabin for inspection in the Client's presence; without the Client's presence — only in urgent cases.</p>
+<p class="p"><b>12.</b> In the event of serious violations, the stay may be terminated immediately without refund.</p>
+<p class="p"><b>13.</b> Personal data is processed for booking, security and regulatory purposes. Video surveillance — only in security zones, not in privacy areas.</p>
+<p class="p"><b>14.</b> Complaints must be submitted in writing by email. Disputes shall be resolved through negotiation; failing that — in accordance with Latvian law.</p>
+<p class="p"><b>15.</b> Saules Krasts may amend these rules. The version in force at the time of booking applies. In case of dispute, the Latvian version prevails.</p>
+<div class="n"><b>ℹ️</b> The Client is advised to keep a copy of the booking confirmation and these rules.</div>
+</div></div>
 
-<!-- ═══════════════════ LT ═══════════════════ -->
+<!-- ═══════════ LT ═══════════ -->
 <div class="lc" data-lang="lt">
-<div class="th"><h1>Kempingo namelių naudojimo ir tvarkos taisyklės</h1><p>Saules Krasts | Seaside Camping · Galioja nuo 2026-06-16.</p></div>
+<div class="th"><h1>Kempingo namelių naudojimo ir tvarkos taisyklės</h1><p>Saules Krasts · Galioja nuo 2026-06-16.</p></div>
 <div class="tb">
-
-<div class="n"><b>ℹ️</b> Tai informacinis vertimas. Ginčo atveju pirmenybė teikiama latvių kalbos versijai (15.3 p.).</div>
-
+<div class="n"><b>ℹ️</b> Informacinis vertimas. Ginčo atveju pirmenybė teikiama latvių kalbos versijai (15 p.).</div>
 <div class="mt">
 <span>Paslaugų teikėjas</span><b>SIA "SDGTrade"</b>
 <span>Reg. Nr.</span><b>40103288847</b>
@@ -280,53 +360,126 @@ table.t tr:nth-child(even) td{background:rgba(200,136,42,.03)}
 </div>
 
 <h2 class="s">1. Bendrosios nuostatos</h2>
-<p class="p">Šios taisyklės reglamentuoja Saules Krasts kempingo namelių rezervavimo, naudojimo, priežiūros, saugumo, atsakomybės ir atšaukimo tvarką. Rezervuodamas ar atvykdamas klientas patvirtina, kad susipažino su taisyklėmis. Klientas pilnai atsako už visus lydinčius asmenis, vaikus ir gyvūnus.</p>
+<p class="p">1.1. Šios taisyklės reglamentuoja Saules Krasts kempingo namelių rezervavimo, naudojimo, priežiūros, saugumo, atsakomybės, žalos atlyginimo, atšaukimo ir visų kitų su paslaugos naudojimu susijusių klausimų tvarką.</p>
+<p class="p">1.2. Rezervuodamas svetainėje, el. paštu, telefonu ar kitais kanalais, taip pat atvykdamas į kempingą ir/ar pasiimant namelio raktus, Klientas patvirtina, kad susipažino su šiomis taisyklėmis ir sutinka jų laikytis.</p>
+<p class="p">1.3. Šios taisyklės yra privalomos Klientui, visiems asmenims, esantiems namelyje ar kempingo teritorijoje, ir asmenims, kuriuos Klientas pakvietė į teritoriją.</p>
+<p class="p">1.4. Klientas yra visiškai atsakingas už savo palydovų, svečių, vaikų, gyvūnų ir pakviestų asmenų elgesį, taip pat už jų padarytą žalą ir taisyklių pažeidimus.</p>
+<p class="p">1.5. Saules Krasts turi teisę atsisakyti teikti paslaugą arba nutraukti apsigyvenimą, jei Klientas ar su juo susijęs asmuo pažeidžia šias taisykles, kelia grėsmę saugumui, viešajai tvarkai, kitų svečių rimčiai ar Saules Krasts turtui.</p>
+<p class="p">1.6. Klausimus, kurie nėra aptarti šiose taisyklėse, reglamentuoja Latvijos Respublikos teisės aktai ir sąžiningo paslaugų naudojimo principai.</p>
 
-<h2 class="s">3. Rezervacija, mokėjimai, atšaukimas</h2>
-<p class="p">Rezervacija galioja tik gavus <b>30% avansą</b>. Iki mokėjimo datos negarantuojamos.</p>
-<p class="p"><b>Atšaukimo politika:</b></p>
+<h2 class="s">2. Sąvokos</h2>
+<table class="t">
+<tr><th>Sąvoka</th><th>Reikšmė</th></tr>
+<tr><td><b>Saules Krasts</b></td><td>Subjektas, teikiantis kempingo namelių rezervavimo ir apgyvendinimo paslaugas.</td></tr>
+<tr><td><b>Klientas</b></td><td>Asmuo, atliekantis rezervaciją, apmokantis už paslaugą ir/ar faktiškai naudojantis namelį.</td></tr>
+<tr><td><b>Svečias</b></td><td>Bet kuris asmuo, esantis namelyje ar kempingo teritorijoje pagal Kliento rezervaciją.</td></tr>
+<tr><td><b>Namelis</b></td><td>Rezervuotas kempingo namelis su jame esančia įranga, inventoriumi, baldais, raktais ir gretima naudojimo zona.</td></tr>
+<tr><td><b>Rezervacija</b></td><td>Paslaugos užsakymas konkrečioms datoms, laikotarpiui, namelio tipui ir svečių skaičiui.</td></tr>
+<tr><td><b>Depozitas</b></td><td>Užstatas, skirtas galimoms žaloms, papildomam valymui ar kitoms išlaidoms padengti.</td></tr>
+</table>
+
+<h2 class="s">3. Rezervacija, mokėjimai, atšaukimas ir neatvykimas</h2>
+<p class="p">3.1. Rezervacija laikoma galiojančia ir patvirtinta tik gavus <b>30% nuo bendros rezervacijos sumos</b> avansą. Iki avanso gavimo pasirinktos datos negarantuojamos.</p>
+<p class="p">3.2. Rezervuodamas Klientas privalo nurodyti teisingą ir išsamią informaciją: vardą, pavardę, kontaktus, apsistojimo datas, namelio tipą, svečių skaičių, vaikų skaičių, gyvūnus, ypatingus poreikius.</p>
+<p class="p">3.3. Namelyje gali apsistoti tik rezervacijoje nurodytas asmenų skaičius. Papildomi asmenys — tik iš anksto suderinus ir už papildomą mokestį.</p>
+<p class="p">3.4. Kaina, mokėjimo terminas, avanso dydis, likutinio mokėjimo tvarka ir depozitas nurodomi svetainėje arba rezervacijos patvirtinime. Likutinė suma turi būti sumokėta ne vėliau kaip atvykstant.</p>
+<p class="p">3.5. Jei avansas nesumokamas nurodytu terminu, Saules Krasts turi teisę atšaukti rezervaciją be papildomo įspėjimo.</p>
+<p class="p">3.6. Rezervacijos datų keitimas galimas tik gavus Saules Krasts raštišką patvirtinimą, atsižvelgiant į prieinamumą ir galiojančias kainas.</p>
+<p class="p">3.7. Norėdamas atšaukti rezervaciją, Klientas privalo raštu informuoti Saules Krasts.</p>
+<p class="p"><b>3.8. Atšaukimo politika:</b></p>
 <ul class="l">
-<li>Nemokamas atšaukimas — ne vėliau kaip <b>3 kalendorinės dienos</b> prieš atvykimą. Grąžinama 100% minus banko komisija.</li>
-<li>Vėlesnis atšaukimas — <b>30% avansas negrąžinamas</b>.</li>
-<li>Neatvykimas ar ankstyvesnis išvykimas — nekompensuojama.</li>
+<li>Nemokamas atšaukimas — ne vėliau kaip <b>likus 3 kalendorinėms dienoms</b> iki planuojamo atvykimo. Sumokėta suma grąžinama, išskyrus banko komisiją.</li>
+<li>Atšaukus vėliau nei prieš 3 dienas iki atvykimo — Saules Krasts turi teisę sulaikyti <b>30% avansą</b>.</li>
+<li>Neatvykus arba išvykus anksčiau laiko — mokėjimas už nepanaudotą laikotarpį negrąžinamas.</li>
+<li>Jei taikoma negrąžinama kaina ar specialus pasiūlymas — pirmenybė teikiama konkrečios rezervacijos sąlygoms.</li>
 </ul>
+<p class="p">3.9. Saules Krasts gali atšaukti rezervaciją force majeure atvejais, siūlydamas alternatyvą arba grąžinant mokėjimą.</p>
+<p class="p">3.10. Klientas neturi teisės perleisti rezervacijos trečiajai šaliai be Saules Krasts sutikimo.</p>
 
-<h2 class="s">4. Atvykimas ir išvykimas</h2>
-<p class="p"><b>Atvykimas nuo 15:00. Išvykimas iki 12:00.</b> Ankstyvesnis atvykimas ar vėlesnis išvykimas gali būti suderintas iš anksto už papildomą mokestį (žr. 4.7 p.). Atvykus patikrinkite namelį — pranešimui apie defektus turite 1 valandą. Išvykstant: išneškite šiukšles, nuplaukite indus, uždarykite langus/duris, išjunkite prietaisus. Pamesti raktai — keitimo kaina. Ankstyvesnis atvykimas ar vėlyvas išvykimas (suderintas): <b>10 €</b>. Nesuderintas: 10 €/val. + nuostoliai.</p>
+<h2 class="s">4. Atvykimas, išvykimas, raktai ir inventorius</h2>
+<p class="p">4.1. <b>Atvykimas nuo 15:00. Išvykimas iki 12:00.</b> Jei namelis paruoštas anksčiau, ankstyvas atvykimas galimas. Ankstyvesnį atvykimą ar vėlesnį išvykimą galima suderinti iš anksto už papildomą mokestį (žr. 4.7 p.).</p>
+<p class="p">4.2. Atvykus Saules Krasts gali pareikalauti pateikti asmens tapatybę patvirtinantį dokumentą.</p>
+<p class="p">4.3. Pasiėmęs namelį, Klientas privalo nedelsdamas patikrinti jo būklę. Apie gedimus pranešti per 1 valandą, pridedant nuotraukas.</p>
+<p class="p">4.4. Jei Klientas laiku nepraneša apie gedimus, laikoma, kad namelis perduotas geros būklės.</p>
+<p class="p">4.5. Išvykstant namelis turi būti paliktas tvarkingai: išneštos šiukšlės, nuploti indai, sutvarkytas inventorius, uždaryti langai ir durys, išjungti elektros prietaisai.</p>
+<p class="p">4.6. Klientas padengia prarastų ar sugadintų raktų pakeitimo išlaidas.</p>
+<p class="p">4.7. Suderintas ankstyvesnis atvykimas ar vėlesnis išvykimas — <b>10 EUR</b>. Be suderinimo — 10 EUR/val. + nuostoliai, jei tokių atsirado.</p>
 
-<h2 class="s">5–6. Naudojimas, elektra ir draudimai</h2>
-<p class="p">Naudokite namelį atsargiai — tik poilsiui. Draudžiama: rūkyti patalpose, triukšmauti, viršyti svečių skaičių, naudoti pirotechniką. Ugnis tik nurodytose vietose.</p>
-<p class="p"><b>5.10. Elektros naudojimas.</b> Elektra namelyje skirta tik jame esantiems buitiniams prietaisams. Draudžiama naudoti namelio elektros jungtį išoriniams prietaisams, transporto priemonėms ar įrangai, esančiai už namelio ribų. Išimtiniais atvejais — tik iš anksto suderinus; taikomas papildomas mokestis <b>7,00 € už parą</b>.</p>
-<p class="p"><b>Draudžiama:</b> rūkyti patalpose (įskaitant e-cigaretes); triukšmauti; viršyti svečių skaičių; naudoti pirotechniką; įnešti neteisėtų medžiagų; gadinti aplinką; elgtis agresyviai; palikti vaikus ar gyvūnus be priežiūros; neleistinai statyti transportą; perduoti sanitarinių patalpų raktus trečiosioms šalims; naudoti namelio elektros jungtį išorinei įrangai be leidimo.</p>
-<p class="p"><b>Ramybės valandos: 23:00–7:00.</b></p>
+<h2 class="s">5. Namelio naudojimas ir tvarka</h2>
+<p class="p">5.1. Namelis turi būti naudojamas atsargiai — tik poilsiui ir nakvynei. Komercinė veikla, vakarėliai, renginiai be suderinimo — draudžiami.</p>
+<p class="p">5.2. Visą apsistojimo laikotarpį turi būti palaikoma švarą ir tvarka.</p>
+<p class="p">5.3. Inventorius negali būti išnešamas iš namelio ar perkeltas į kitus namelius.</p>
+<p class="p">5.4.–5.6. Draudžiama savavaliauti su elektros instaliacija, naudoti didelės galios prietaisus, klijuoti/kalti/gręžti sienas, baldus ir pan.</p>
+<p class="p">5.7.–5.8. Apie avarijas pranešti nedelsiant. Draudžiama slėpti gedimus ar juos taisyti savarankiškai.</p>
+<p class="p"><b>5.10. Elektros energijos naudojimas.</b> Elektros energija namelyje skirta tik jame esantiems buitiniams prietaisams. Draudžiama naudoti namelio elektros jungtį kitiems prietaisams, transporto priemonėms, kempingavimo priekaboms, palapinėms ar bet kokiai įrangai, esančiai už namelio ribų, taip pat išvedant ilgintuvo laidus laukan. Išimtiniais atvejais papildomas elektros energijos naudojimas galimas tik iš anksto suderinus su administracija. Tokiu atveju taikomas papildomas mokestis <b>7,00 EUR per parą</b>.</p>
 
-<h2 class="s">9–10. Vaikai, gyvūnai, žala</h2>
-<p class="p">Nepilnamečiai — tik su suaugusiojo priežiūra. Gyvūnai — tik iš anksto suderinti. Klientas atsako už visą žalą. Sąskaita per 7 dienas. Prieštaravimai — per 3 d.d. raštu.</p>
+<h2 class="s">6. Draudžiami veiksmai</h2>
+<p class="p">Namelyje ir kempingo teritorijoje draudžiama:</p>
+<ul class="l">
+<li>Rūkyti nameliuose, tualetų, dušų ir uždarose patalpose (įskaitant e-cigaretes ir veipus)</li>
+<li>Rengti triukšmingus vakarėlius ar renginius, trukdančius kitiems svečiams</li>
+<li>Apsistoti daugiau asmenų, nei nurodyta rezervacijoje</li>
+<li>Naudoti pirotechniką, petardas, dūmų signalus</li>
+<li>Įnešti neteisėtų medžiagų ar ginklų</li>
+<li>Gadinti aplinką, kopas, paplūdimį, apželdintus plotus</li>
+<li>Trukdyti personalui; elgtis agresyviai</li>
+<li>Palikti vaikus ar gyvūnus be priežiūros</li>
+<li>Patekti į technines ar personalo zonas</li>
+<li>Statyti transportą ne nurodytose vietose</li>
+<li>Perduoti sanitarinių patalpų raktus ar prieigos teises trečiosioms šalims, kurios nėra registruoti to namelio svečiai</li>
+<li>Naudoti namelio elektros jungtį už namelio ribų esantiems prietaisams ar įrangai be išankstinio suderinimo su administracija</li>
+</ul>
+<p class="p">Už pažeidimus — įspėjimas, papildomas mokestis <b>10 EUR</b>, depozito sulaikymas, policijos iškvietimas ar apsigyvenimo nutraukimas.</p>
+
+<h2 class="s">7. Priešgaisrinė sauga ir saugumas</h2>
+<p class="p">7.1.–7.2. Turi būti laikomasi priešgaisrinės saugos reikalavimų. Ugnis, grilis, žvakės — tik nurodytose vietose, niekada nepaliekant be priežiūros.</p>
+<p class="p">7.3. Nameliuose draudžiama gaminti maistą naudojant kitą nei numatytą įrangą.</p>
+<p class="p">7.4. Draudžiama gadinti ar išjungti dūmų detektorius, gesintuvus ar kitą saugos įrangą.</p>
+<p class="p">7.5. Ekstremalios situacijos atveju — skambinti 112, informuoti Saules Krasts.</p>
+<p class="p">7.6. Klientas atsako už savo ir svečių saugumą, įskaitant plaukimą, vaikų priežiūrą ir oro sąlygų keliamą riziką.</p>
+
+<h2 class="s">8. Tylos valandos ir viešoji tvarka</h2>
+<p class="p"><b>Tylos valandos: 23:00–07:00.</b> Draudžiama garsiai leisti muziką, triukšmauti, nereikalingai varyti variklius. Bendros zonos turi būti naudojamos atsargiai ir laikomos švarios. Visada turi būti elgiamasi pagarbiai su kitais svečiais ir personalu.</p>
+
+<h2 class="s">9. Vaikai ir gyvūnai</h2>
+<p class="p">9.1.–9.3. Nepilnamečiai — tik suaugusio asmens atsakomybe. Vaikams draudžiama be priežiūros eiti prie vandens telkinių, ugnies, automobilių stovėjimo aikštelių.</p>
+<p class="p">9.4.–9.7. Gyvūnai — tik iš anksto suderinus. Gali būti taikomas papildomas mokestis. Ekskramentai turi būti surinkti nedelsiant. Saules Krasts gali atsisakyti leisti gyvūną, jei jis kelia grėsmę kitiems svečiams ar turtui.</p>
+
+<h2 class="s">10. Žala, depozitas ir atsakomybė</h2>
+<p class="p">10.1.–10.4. Klientas atsako už visą padarytą žalą. Depozitas gali būti sulaikytas žalai padengti, tačiau tai neriboja papildomų pretenzijų.</p>
+<p class="p">10.5.–10.7. Žala pagrindžiama nuotraukomis. Sąskaita turi būti apmokėta per 7 dienas. Prieštaravimai — per 3 darbo dienas raštu.</p>
+<p class="p">10.8. Saules Krasts neatsako už Kliento asmeninį turtą.</p>
 
 <h2 class="s">Mokesčių lentelė</h2>
 <table class="t">
 <tr><th>Pažeidimas</th><th>Mokestis</th></tr>
-<tr><td>Rūkymas patalpose</td><td>100 € + faktinės valymo išlaidos</td></tr>
-<tr><td>Pamestas raktas</td><td>20 € arba faktinės keitimo išlaidos</td></tr>
-<tr><td>Papildomas valymas</td><td>25 €/val. arba faktinės išlaidos</td></tr>
-<tr><td>Sugadintas inventorius</td><td>Faktinės remonto/keitimo išlaidos</td></tr>
-<tr><td>Ankstyvesnis atvykimas ar vėlyvas išvykimas (suderintas)</td><td>10 €</td></tr>
-<tr><td>Ankstyvesnis atvykimas ar vėlyvas išvykimas (nesuderintas)</td><td>10 €/val. + nuostoliai</td></tr>
-<tr><td>Neleistinas papildomas asmuo</td><td>15 €/asmeniui/nakčiai</td></tr>
-<tr><td>Neleistinas gyvūnas</td><td>20 € + valymo išlaidos</td></tr>
-<tr><td>Ramybės valandų pažeidimas</td><td>30 €; pakartotinai: 50 € ir/arba iškeldimas</td></tr>
-<tr><td>Neleistinas išorinis elektros naudojimas</td><td>7 €/parą + 10 € pažeidimo mokestis</td></tr>
+<tr><td>Rūkymas namelyje</td><td>100 EUR + faktinės kvapo šalinimo išlaidos</td></tr>
+<tr><td>Pamestas raktas/pultelis</td><td>20 EUR arba faktinės pakeitimo išlaidos</td></tr>
+<tr><td>Papildomas valymas</td><td>25 EUR/val. arba faktinės išlaidos</td></tr>
+<tr><td>Sugadintas inventorius, baldai, įranga</td><td>Faktinės remonto/pakeitimo išlaidos</td></tr>
+<tr><td>Inventoriaus išnešimas iš namelio</td><td>20 EUR + faktinės išlaidos</td></tr>
+<tr><td>Ankstyvesnis atvykimas ar vėlesnis išvykimas (suderintas)</td><td>10 EUR</td></tr>
+<tr><td>Ankstyvesnis atvykimas ar vėlesnis išvykimas (nesuderintas)</td><td>10 EUR/val. + nuostoliai</td></tr>
+<tr><td>Neleistinas papildomas asmuo</td><td>15 EUR/asmeniui/nakčiai</td></tr>
+<tr><td>Neleistinas gyvūnas</td><td>20 EUR + papildomo valymo išlaidos</td></tr>
+<tr><td>Tylos valandų pažeidimas</td><td>30 EUR; pakartotinai — 50 EUR ir/arba iškeldimas</td></tr>
+<tr><td>Neleistinas elektros naudojimas lauke</td><td>7 EUR/parą + 10 EUR baudos mokestis</td></tr>
 </table>
-</div>
-</div>
 
-<!-- ═══════════════════ RU ═══════════════════ -->
+<h2 class="s">11–15. Papildomos nuostatos</h2>
+<p class="p"><b>11.</b> Saules Krasts personalas gali įeiti į namelį patikrinimui dalyvaujant Klientui; be Kliento — tik skubiais atvejais.</p>
+<p class="p"><b>12.</b> Esant rimtiems pažeidimams, apsigyvenimas gali būti nedelsiant nutrauktas negrąžinant mokėjimo.</p>
+<p class="p"><b>13.</b> Asmens duomenys tvarkomi rezervacijos, saugumo ir teisės aktų tikslais. Vaizdo stebėjimas — tik saugumo zonose.</p>
+<p class="p"><b>14.</b> Skundai teikiami raštu el. paštu. Ginčai sprendžiami derybomis; nepavykus — pagal Latvijos įstatymus.</p>
+<p class="p"><b>15.</b> Saules Krasts gali keisti šias taisykles. Taikomos rezervacijos metu galiojančios taisyklės. Ginčuose pirmenybė teikiama latvių kalbos versijai.</p>
+<div class="n"><b>ℹ️</b> Klientui rekomenduojama išsaugoti rezervacijos patvirtinimą ir šių taisyklių kopiją.</div>
+</div></div>
+
+<!-- ═══════════ RU ═══════════ -->
 <div class="lc" data-lang="ru">
-<div class="th"><h1>Правила использования и порядка домиков кемпинга</h1><p>Saules Krasts | Seaside Camping · Действует с 16.06.2026.</p></div>
+<div class="th"><h1>Правила пользования домиками кемпинга</h1><p>Saules Krasts · Действует с 16.06.2026.</p></div>
 <div class="tb">
-
-<div class="n"><b>ℹ️</b> Это информационный перевод. В случае спора приоритет имеет версия на латышском языке (п. 15.3).</div>
-
+<div class="n"><b>ℹ️</b> Информационный перевод. В случае спора приоритет имеет версия на латышском языке (п. 15).</div>
 <div class="mt">
 <span>Поставщик услуг</span><b>SIA «SDGTrade»</b>
 <span>Рег. №</span><b>40103288847</b>
@@ -335,65 +488,154 @@ table.t tr:nth-child(even) td{background:rgba(200,136,42,.03)}
 </div>
 
 <h2 class="s">1. Общие положения</h2>
-<p class="p">Настоящие правила регулируют порядок бронирования, использования, содержания, безопасности, ответственности и отмены бронирования домиков кемпинга Saules Krasts. Оформляя бронирование или прибывая в кемпинг, Клиент подтверждает согласие с правилами. Клиент несёт полную ответственность за всех сопровождающих лиц, детей и домашних животных.</p>
+<p class="p">1.1. Настоящие правила регулируют порядок бронирования, использования, содержания, обеспечения безопасности, ответственности, возмещения убытков, отмены бронирования и все прочие вопросы, связанные с использованием домиков кемпинга Saules Krasts.</p>
+<p class="p">1.2. Совершая бронирование через сайт, по электронной почте, по телефону, в социальных сетях или иным способом, а также прибывая в кемпинг и/или получая ключи от домика, Клиент подтверждает, что ознакомился с настоящими правилами и соглашается их соблюдать.</p>
+<p class="p">1.3. Настоящие правила обязательны для Клиента, всех лиц, находящихся в домике или на территории кемпинга вместе с Клиентом, а также лиц, приглашённых Клиентом на территорию.</p>
+<p class="p">1.4. Клиент несёт полную ответственность за поведение своих спутников, гостей, детей, домашних животных и приглашённых лиц, а также за причинённый ими ущерб и нарушения правил.</p>
+<p class="p">1.5. Saules Krasts вправе отказать в предоставлении услуги или прекратить проживание, если Клиент или связанное с ним лицо нарушает настоящие правила, угрожает безопасности, общественному порядку, спокойствию других гостей, имуществу или персоналу Saules Krasts.</p>
+<p class="p">1.6. Вопросы, не урегулированные настоящими правилами, регулируются законодательством Латвийской Республики и принципами добросовестного использования услуг.</p>
 
-<h2 class="s">3. Бронирование, оплата, отмена</h2>
-<p class="p">Бронирование действительно после получения <b>предоплаты 30%</b>. До оплаты даты не гарантируются.</p>
-<p class="p"><b>Политика отмены:</b></p>
+<h2 class="s">2. Определения</h2>
+<table class="t">
+<tr><th>Термин</th><th>Значение</th></tr>
+<tr><td><b>Saules Krasts</b></td><td>Лицо, обеспечивающее бронирование домиков кемпинга и услуги размещения.</td></tr>
+<tr><td><b>Клиент</b></td><td>Лицо, осуществляющее бронирование, оплачивающее услугу и/или фактически использующее домик.</td></tr>
+<tr><td><b>Гость</b></td><td>Любое лицо, находящееся в домике или на территории кемпинга в рамках бронирования Клиента.</td></tr>
+<tr><td><b>Домик</b></td><td>Забронированный домик кемпинга с находящимся в нём оборудованием, инвентарём, мебелью, ключами и прилегающей зоной использования.</td></tr>
+<tr><td><b>Бронирование</b></td><td>Заказ услуги на определённую дату, период, тип домика и количество гостей.</td></tr>
+<tr><td><b>Депозит</b></td><td>Залоговый платёж для покрытия возможного ущерба, дополнительной уборки или иных расходов.</td></tr>
+</table>
+
+<h2 class="s">3. Бронирование, оплата, отмена и неявка</h2>
+<p class="p">3.1. Бронирование считается действительным и подтверждённым только после получения <b>30% от общей суммы бронирования</b>. До получения предоплаты выбранные даты не гарантируются.</p>
+<p class="p">3.2. При бронировании Клиент обязан указать достоверную и полную информацию: имя, фамилию, контактные данные, даты пребывания, тип домика, количество гостей, детей, наличие животных, особые потребности.</p>
+<p class="p">3.3. В домике могут находиться только лица, указанные в бронировании. Дополнительные лица — только с предварительного согласования и за дополнительную плату.</p>
+<p class="p">3.4. Цена, срок оплаты, размер предоплаты, порядок оплаты остатка и депозит указываются на сайте или в подтверждении бронирования. Оставшаяся сумма должна быть оплачена не позднее момента прибытия.</p>
+<p class="p">3.5. Если предоплата не поступает в установленный срок, Saules Krasts вправе отменить бронирование без дополнительного предупреждения.</p>
+<p class="p">3.6. Изменение дат бронирования возможно только с письменного согласия Saules Krasts с учётом наличия свободных мест и действующих цен.</p>
+<p class="p">3.7. При желании отменить бронирование Клиент обязан письменно уведомить Saules Krasts.</p>
+<p class="p"><b>3.8. Политика отмены:</b></p>
 <ul class="l">
-<li>Бесплатная отмена — не позднее <b>3 календарных дней</b> до заезда. Возврат 100% минус комиссия банка.</li>
-<li>Отмена менее чем за 3 дня — <b>30% предоплата не возвращается</b>.</li>
-<li>Неявка или досрочный выезд — оплата за неиспользованный период не возвращается.</li>
+<li>Бесплатная отмена — не позднее чем за <b>3 календарных дня</b> до планируемой даты заезда. Уплаченная сумма возвращается за вычетом банковской комиссии.</li>
+<li>Отмена позднее чем за 3 дня до заезда — Saules Krasts вправе удержать <b>30% предоплаты</b>.</li>
+<li>В случае неявки или досрочного выезда оплата за неиспользованный период не возвращается.</li>
+<li>При применении невозвратной цены или специального предложения — приоритет имеют условия конкретного бронирования.</li>
 </ul>
+<p class="p">3.9. Saules Krasts может отменить бронирование в чрезвычайных ситуациях, предложив альтернативу или возврат средств.</p>
+<p class="p">3.10. Клиент не вправе передавать бронирование третьим лицам без согласия Saules Krasts.</p>
 
-<h2 class="s">4. Заезд, выезд, ключи</h2>
-<p class="p"><b>Заезд с 15:00. Выезд до 12:00.</b> Ранний заезд или поздний выезд можно согласовать заранее за дополнительную плату (см. п. 4.7). При заезде осмотрите домик — о дефектах сообщите в течение 1 часа с фото. При выезде: вынесите мусор, вымойте посуду, закройте окна/двери, выключите приборы. Утерянные ключи — стоимость замены. Ранний заезд или поздний выезд (согласованный): <b>10 €</b>. Несогласованный: 10 €/час + убытки.</p>
+<h2 class="s">4. Заезд, выезд, ключи и инвентарь</h2>
+<p class="p">4.1. <b>Заезд с 15:00. Выезд до 12:00.</b> Если домик готов раньше, возможен ранний заезд. Ранний заезд или поздний выезд можно согласовать заранее за дополнительную плату (см. п. 4.7).</p>
+<p class="p">4.2. При заезде Saules Krasts может потребовать предъявить документ, удостоверяющий личность.</p>
+<p class="p">4.3. Получив домик, Клиент обязан незамедлительно проверить его состояние. О повреждениях необходимо сообщить в течение 1 часа с приложением фотографий.</p>
+<p class="p">4.4. Если Клиент своевременно не сообщает о повреждениях, считается, что домик передан в надлежащем состоянии.</p>
+<p class="p">4.5. При выезде домик должен быть оставлен в порядке: вынесен мусор, вымыта посуда, инвентарь расставлен на места, закрыты окна и двери, выключены электроприборы.</p>
+<p class="p">4.6. Клиент несёт расходы по замене утерянных или повреждённых ключей.</p>
+<p class="p">4.7. Согласованный ранний заезд или поздний выезд — <b>10 EUR</b>. Без согласования — 10 EUR/час + возникшие убытки.</p>
 
-<h2 class="s">5–6. Использование, электричество и запреты</h2>
-<p class="p">Используйте домик бережно — только для отдыха. Запрещено: курение в помещениях (вкл. электронные сигареты), шумные мероприятия, превышение числа гостей, пиротехника. Огонь только в отведённых местах.</p>
-<p class="p"><b>5.10. Использование электроэнергии.</b> Электроэнергия в домике предназначена только для бытовых приборов и оборудования, находящихся внутри него. Запрещается использовать электроподключение домика для питания внешних устройств, транспортных средств, кемперов, палаток или любого оборудования за пределами домика, включая прокладку удлинителей наружу. В исключительных случаях — только по предварительному согласованию с администрацией; применяется дополнительный сбор <b>7,00 € в сутки</b>.</p>
-<p class="p"><b>Запрещено:</b> курение в помещениях; шумные мероприятия; превышение числа гостей; пиротехника; незаконные вещества; повреждение природы; агрессивное поведение; оставление детей/животных без присмотра; несанкционированная парковка; передача ключей от санузлов третьим лицам; использование электроподключения домика для внешнего оборудования без разрешения.</p>
-<p class="p"><b>Часы тишины: 23:00–7:00.</b></p>
+<h2 class="s">5. Использование домика и порядок</h2>
+<p class="p">5.1. Домик следует использовать бережно — только для отдыха и ночлега. Коммерческая деятельность, вечеринки, мероприятия без согласования — запрещены.</p>
+<p class="p">5.2. На протяжении всего пребывания необходимо поддерживать чистоту и порядок.</p>
+<p class="p">5.3. Инвентарь нельзя выносить за пределы домика или перемещать в другие домики.</p>
+<p class="p">5.4.–5.6. Запрещается самовольно вмешиваться в электропроводку, использовать высокомощные приборы, клеить/прибивать/сверлить стены, мебель и т.д.</p>
+<p class="p">5.7.–5.8. Об авариях необходимо сообщать незамедлительно. Запрещается скрывать повреждения или устранять их самостоятельно.</p>
+<p class="p"><b>5.10. Использование электроэнергии.</b> Электроэнергия в домике предназначена исключительно для бытовых приборов и оборудования, находящихся внутри него. Запрещается использовать электроподключение домика для питания других устройств, транспортных средств, кемперов, палаток или любого оборудования за пределами домика, в том числе прокладывая удлинители наружу. В исключительных случаях дополнительное использование электроэнергии допустимо только после предварительного согласования с администрацией. В этом случае применяется дополнительный сбор <b>7,00 EUR в сутки</b>.</p>
 
-<h2 class="s">9–10. Дети, животные, ущерб</h2>
-<p class="p">Несовершеннолетние — только под присмотром взрослого. Животные — только по предварительному согласованию. Клиент отвечает за любой ущерб. Счёт оплачивается в течение 7 дней. Возражения — в течение 3 раб. дней письменно.</p>
+<h2 class="s">6. Запрещённые действия</h2>
+<p class="p">В домике и на территории кемпинга запрещено:</p>
+<ul class="l">
+<li>Курить в домиках, туалетах, душевых и закрытых помещениях (в том числе электронные сигареты и вейпы)</li>
+<li>Устраивать шумные вечеринки или мероприятия, мешающие другим гостям</li>
+<li>Размещать больше лиц, чем указано в бронировании</li>
+<li>Использовать пиротехнику, петарды, дымовые шашки</li>
+<li>Проносить незаконные вещества или оружие</li>
+<li>Наносить ущерб окружающей среде, дюнам, пляжу, насаждениям</li>
+<li>Мешать персоналу; вести себя агрессивно</li>
+<li>Оставлять детей или домашних животных без присмотра</li>
+<li>Проникать в технические зоны или зоны для персонала</li>
+<li>Парковать транспорт вне отведённых мест</li>
+<li>Передавать ключи от санузлов или права доступа третьим лицам, не являющимся зарегистрированными гостями данного домика</li>
+<li>Использовать электроподключение домика для оборудования снаружи без предварительного согласования с администрацией</li>
+</ul>
+<p class="p">За нарушения — предупреждение, дополнительный штраф <b>10 EUR</b>, удержание депозита, вызов полиции или прекращение проживания.</p>
+
+<h2 class="s">7. Пожарная безопасность и охрана</h2>
+<p class="p">7.1.–7.2. Необходимо соблюдать требования пожарной безопасности. Огонь, грили, свечи разрешены только в отведённых местах и не должны оставаться без присмотра.</p>
+<p class="p">7.3. В домиках запрещено готовить пищу с использованием оборудования, не предусмотренного для этих целей.</p>
+<p class="p">7.4. Запрещается повреждать или отключать дымовые детекторы, огнетушители и другое оборудование безопасности.</p>
+<p class="p">7.5. В экстренной ситуации — позвонить по номеру 112 и сообщить в Saules Krasts.</p>
+<p class="p">7.6. Клиент несёт ответственность за безопасность свою и своих гостей, включая купание, контроль за детьми и риски, связанные с погодными условиями.</p>
+
+<h2 class="s">8. Часы тишины и общественный порядок</h2>
+<p class="p"><b>Часы тишины: 23:00–07:00.</b> Запрещена громкая музыка, шумные разговоры, излишняя работа двигателей. Общие зоны необходимо использовать бережно и содержать в чистоте. Всегда требуется уважительное отношение к другим гостям и персоналу.</p>
+
+<h2 class="s">9. Дети и домашние животные</h2>
+<p class="p">9.1.–9.3. Несовершеннолетние — только под ответственностью взрослого. Детям запрещено без присмотра находиться у водоёмов, огня, парковок.</p>
+<p class="p">9.4.–9.7. Домашние животные — только с предварительного согласования. Может взиматься дополнительная плата. Экскременты необходимо убирать незамедлительно. Saules Krasts вправе отказать в нахождении животного, если оно угрожает другим гостям или имуществу.</p>
+
+<h2 class="s">10. Убытки, депозит и ответственность</h2>
+<p class="p">10.1.–10.4. Клиент несёт ответственность за весь причинённый ущерб. Депозит может быть удержан в счёт покрытия ущерба, что не исключает дополнительных претензий.</p>
+<p class="p">10.5.–10.7. Ущерб фиксируется фотографиями. Счёт должен быть оплачен в течение 7 дней. Возражения — в течение 3 рабочих дней в письменном виде.</p>
+<p class="p">10.8. Saules Krasts не несёт ответственности за личное имущество Клиента.</p>
 
 <h2 class="s">Таблица штрафов</h2>
 <table class="t">
-<tr><th>Нарушение</th><th>Сумма</th></tr>
-<tr><td>Курение в помещении</td><td>100 € + фактические расходы на устранение запаха</td></tr>
-<tr><td>Утерянный ключ/пульт</td><td>20 € или фактические расходы на замену</td></tr>
-<tr><td>Дополнительная уборка</td><td>25 €/час или фактические расходы</td></tr>
-<tr><td>Повреждённый инвентарь</td><td>Фактические расходы на ремонт/замену</td></tr>
-<tr><td>Ранний заезд или поздний выезд (согласованный)</td><td>10 €</td></tr>
-<tr><td>Ранний заезд или поздний выезд (несогласованный)</td><td>10 €/час + убытки</td></tr>
-<tr><td>Несанкционированное лицо</td><td>15 €/чел./ночь</td></tr>
-<tr><td>Несогласованное животное</td><td>20 € + расходы на уборку</td></tr>
-<tr><td>Нарушение тишины</td><td>30 €; повторное: 50 € и/или выселение</td></tr>
-<tr><td>Несанкционированное использование электричества снаружи</td><td>7 €/сутки + штраф 10 €</td></tr>
+<tr><th>Нарушение</th><th>Размер штрафа</th></tr>
+<tr><td>Курение в домике</td><td>100 EUR + фактические расходы на устранение запаха</td></tr>
+<tr><td>Утерянный ключ/пульт</td><td>20 EUR или фактические расходы на замену</td></tr>
+<tr><td>Дополнительная уборка</td><td>25 EUR/час или фактические расходы</td></tr>
+<tr><td>Повреждённый инвентарь, мебель, техника</td><td>Фактические расходы на ремонт/замену</td></tr>
+<tr><td>Вынос инвентаря из домика</td><td>20 EUR + фактические расходы</td></tr>
+<tr><td>Ранний заезд или поздний выезд (согласованный)</td><td>10 EUR</td></tr>
+<tr><td>Ранний заезд или поздний выезд (несогласованный)</td><td>10 EUR/час + убытки</td></tr>
+<tr><td>Несанкционированное дополнительное лицо</td><td>15 EUR/человек/ночь</td></tr>
+<tr><td>Несогласованное животное</td><td>20 EUR + расходы на дополнительную уборку</td></tr>
+<tr><td>Нарушение часов тишины</td><td>30 EUR; повторно — 50 EUR и/или выселение</td></tr>
+<tr><td>Несогласованное использование электричества снаружи</td><td>7 EUR/сутки + штраф 10 EUR</td></tr>
 </table>
-</div>
-</div>
 
-<footer class="tf">
-<a href="index.html">← Saules Krasts · Ragaciems</a>
-<p>© 2026 SIA "SDGTrade" · Reģ. Nr. 40103288847 · Bākas iela 10, Ragaciems · antra.sila@gmail.com</p>
+<h2 class="s">11–15. Дополнительные положения</h2>
+<p class="p"><b>11.</b> Персонал Saules Krasts может войти в домик для проверки в присутствии Клиента; без присутствия — только в неотложных случаях.</p>
+<p class="p"><b>12.</b> При серьёзных нарушениях проживание может быть немедленно прекращено без возврата оплаты.</p>
+<p class="p"><b>13.</b> Персональные данные обрабатываются в целях бронирования, безопасности и в соответствии с нормативными актами. Видеонаблюдение — только в зонах безопасности.</p>
+<p class="p"><b>14.</b> Жалобы подаются в письменном виде по электронной почте. Споры решаются путём переговоров; при недостижении согласия — в соответствии с законодательством Латвии.</p>
+<p class="p"><b>15.</b> Saules Krasts вправе вносить изменения в настоящие правила. Применяется редакция, действующая на момент бронирования. В спорных случаях приоритет имеет версия на латышском языке.</p>
+<div class="n"><b>ℹ️</b> Клиенту рекомендуется сохранить подтверждение бронирования и копию настоящих правил.</div>
+</div></div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="logo.png" alt="Saules Krasts"></div>
+    <ul class="footer-links">
+      <li><a href="index.html#cabins">Mājiņas</a></li>
+      <li><a href="index.html#contact">Kontakti</a></li>
+      <li><a href="privatuma-politika.html">Privātuma politika</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 SIA "SDGTrade" · Reģ. Nr. 40103288847 · Ragaciems</p>
+  </div>
 </footer>
+
 <script>
 function sl(l){
   document.querySelectorAll('.lc').forEach(e=>e.classList.remove('on'));
   document.querySelector('.lc[data-lang="'+l+'"]').classList.add('on');
-  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('a'));
-  event.target.classList.add('a');
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
   document.documentElement.lang=l;
 }
+// Nav hamburger
+document.getElementById('nav-toggle').addEventListener('click',()=>{
+  document.getElementById('main-nav').classList.toggle('mobile-open');
+});
+// Auto-detect language
 const nl=(navigator.language||'lv').toLowerCase().slice(0,2);
 const sm={lv:'lv',en:'en',lt:'lt',ru:'ru'};
 if(sm[nl]&&sm[nl]!=='lv'){
   document.querySelector('.lc.on')?.classList.remove('on');
   document.querySelector('.lc[data-lang="'+sm[nl]+'"]')?.classList.add('on');
-  document.querySelector('.lb.a')?.classList.remove('a');
-  document.querySelectorAll('.lb').forEach(b=>{if(b.textContent===sm[nl].toUpperCase())b.classList.add('a');});
+  document.querySelector('.lang-btn.active')?.classList.remove('active');
+  document.querySelectorAll('.lang-btn').forEach(b=>{if(b.textContent===sm[nl].toUpperCase())b.classList.add('active');});
+  document.documentElement.lang=sm[nl];
 }
 </script>
 </body>
