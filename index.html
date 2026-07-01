@@ -917,6 +917,13 @@ lv: {
   success_body_1:"Rezervācija veiksmīgi saņemta!<br>Paldies, ka izvēlējāties kempingu <strong>Saules Krasts</strong>.<br>Rezervācijas apstiprinājums ir nosūtīts uz jūsu e-pastu.",
   success_body_2:"Ja nepieciešams veikt izmaiņas rezervācijā, sazinieties ar mums:",
   success_farewell:"Uz tikšanos Saules Krastā!<br>Lai mierīga, skaista un saulaina atpūta.",
+  pay_title:"💳 Priekšapmaksa — rezervācijas apstiprināšanai",
+  pay_desc:"Lai rezervācija stātos spēkā, 24h laikā pārskaitiet",
+  pay_amount:"Summa (30%)",
+  pay_recipient:"Saņēmējs",
+  pay_bank:"Banka",
+  pay_ref:"Maksājuma mērķis",
+  pay_contact:"Jautājumu gadījumā sazinieties: 📞 +37129388788 (WhatsApp/Zvans)",
   reservation_details:"Rezervācijas detaļas",
   reservation_nr:"Rezervācijas Nr.",
   terms_full_link:"📄 Pilni lietošanas noteikumi",
@@ -1029,6 +1036,13 @@ en: {
   success_body_1:"Reservation successfully received!<br>Thank you for choosing <strong>Saules Krasts</strong> campsite.<br>A confirmation has been sent to your email.",
   success_body_2:"If you need to make changes, please contact us:",
   success_farewell:"See you at Saules Krasts!<br>Wishing you a peaceful, beautiful and sunny holiday.",
+  pay_title:"💳 Prepayment — to confirm your reservation",
+  pay_desc:"To activate your booking, please transfer 30% within 24h",
+  pay_amount:"Amount (30%)",
+  pay_recipient:"Recipient",
+  pay_bank:"Bank",
+  pay_ref:"Payment reference",
+  pay_contact:"Questions? Contact us: 📞 +37129388788 (WhatsApp/Call)",
   reservation_details:"Reservation details",
   reservation_nr:"Reservation No.",
   terms_full_link:"📄 Full terms and conditions",
@@ -1141,6 +1155,13 @@ lt: {
   success_body_1:"Rezervacija sėkmingai gauta!<br>Ačiū, kad pasirinkote kempingą <strong>Saules Krasts</strong>.<br>Patvirtinimas išsiųstas į jūsų el. paštą.",
   success_body_2:"Jei reikia pakeisti rezervaciją, susisiekite su mumis:",
   success_farewell:"Iki pasimatymo Saules Krasts!<br>Linkime ramaus, gražaus ir saulėto poilsio.",
+  pay_title:"💳 Avansas — rezervacijos patvirtinimui",
+  pay_desc:"Kad rezervacija įsigaliotų, per 24h perveskite 30% avansą",
+  pay_amount:"Suma (30%)",
+  pay_recipient:"Gavėjas",
+  pay_bank:"Bankas",
+  pay_ref:"Mokėjimo paskirtis",
+  pay_contact:"Klausimai? Susisiekite: 📞 +37129388788 (WhatsApp/Skambutis)",
   reservation_details:"Rezervacijos detalės",
   reservation_nr:"Rezervacijos Nr.",
   terms_full_link:"📄 Pilnos naudojimo sąlygos",
@@ -1253,6 +1274,13 @@ ru: {
   success_body_1:"Бронирование успешно получено!<br>Спасибо, что выбрали кемпинг <strong>Saules Krasts</strong>.<br>Подтверждение отправлено на вашу почту.",
   success_body_2:"Если нужно изменить бронирование, свяжитесь с нами:",
   success_farewell:"До встречи в Saules Krasts!<br>Желаем спокойного, красивого и солнечного отдыха.",
+  pay_title:"💳 Предоплата — подтверждение бронирования",
+  pay_desc:"Чтобы бронирование вступило в силу, переведите 30% в течение 24ч",
+  pay_amount:"Сумма (30%)",
+  pay_recipient:"Получатель",
+  pay_bank:"Банк",
+  pay_ref:"Назначение платежа",
+  pay_contact:"Вопросы? Свяжитесь: 📞 +37129388788 (WhatsApp/Звонок)",
   reservation_details:"Детали бронирования",
   reservation_nr:"Бронирование №",
   terms_full_link:"📄 Полные условия использования",
@@ -2019,18 +2047,18 @@ Maksājuma mērķis: ${resNum}`;
       </div>
       <!-- BANK DETAILS + 30% PREPAYMENT -->
       <div style="margin-top:1rem;background:linear-gradient(135deg,rgba(94,138,96,.08),rgba(200,136,42,.08));border:2px solid var(--moss);border-radius:12px;padding:1.1rem 1.2rem">
-        <div style="font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);font-weight:700;margin-bottom:.7rem">💳 Priekšapmaksa — rezervācijas apstiprināšanai</div>
-        <div style="font-size:.82rem;color:var(--text-light);margin-bottom:.6rem;line-height:1.5">Lai rezervācija stātos spēkā, 24h laikā pārskaitiet <strong style="color:var(--navy)">30% avansu:</strong></div>
+        <div style="font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);font-weight:700;margin-bottom:.7rem">${t('pay_title')}</div>
+        <div style="font-size:.82rem;color:var(--text-light);margin-bottom:.6rem;line-height:1.5">${t('pay_desc')} <strong style="color:var(--navy)">30%:</strong></div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
-          <span style="color:var(--text-light)">Summa (30%)</span>
+          <span style="color:var(--text-light)">${t('pay_amount')}</span>
           <strong style="color:var(--moss);font-family:'Bebas Neue',sans-serif;font-size:1.15rem">${Math.ceil(total*0.3)}€</strong>
         </div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
-          <span style="color:var(--text-light)">Saņēmējs</span>
+          <span style="color:var(--text-light)">${t('pay_recipient')}</span>
           <strong style="color:var(--navy)">${BANK.recipient}</strong>
         </div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
-          <span style="color:var(--text-light)">Banka</span>
+          <span style="color:var(--text-light)">${t('pay_bank')}</span>
           <strong style="color:var(--navy)">${BANK.bank}</strong>
         </div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
@@ -2042,12 +2070,12 @@ Maksājuma mērķis: ${resNum}`;
           <strong style="color:var(--navy);font-family:monospace">${BANK.swift}</strong>
         </div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;font-size:.86rem">
-          <span style="color:var(--text-light)">Maksājuma mērķis</span>
+          <span style="color:var(--text-light)">${t('pay_ref')}</span>
           <strong style="color:var(--gold);font-family:'Bebas Neue',sans-serif">${resNum}</strong>
         </div>
       </div>
       <div style="margin-top:.8rem;text-align:center;font-size:.78rem;color:var(--text-light)">
-        Jautājumu gadījumā sazinieties: 📞 +37129388788 (WhatsApp/Zvans)
+        ${t('pay_contact')}
       </div>
       <div style="margin-top:.8rem;text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--gold)">
         ${t('success_farewell')}
