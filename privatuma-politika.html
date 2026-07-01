@@ -42,14 +42,26 @@ ul li{margin-bottom:.2rem}
 </style>
 </head>
 <body>
-<nav class="tn">
-  <a href="index.html">← Saules Krasts</a>
-  <div class="ls">
-    <button class="lb a" onclick="sl('lv')">LV</button>
-    <button class="lb" onclick="sl('en')">EN</button>
-    <button class="lb" onclick="sl('lt')">LT</button>
-    <button class="lb" onclick="sl('ru')">RU</button>
-  </div>
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Saules Krasts"></a>
+  <ul class="nav-links">
+    <li><a href="index.html#cabins" data-nav="cabins">Mājiņas</a></li>
+    <li><a href="index.html#availability" data-nav="avail">Pieejamība</a></li>
+    <li><a href="index.html#contact" data-nav="contact">Kontakti</a></li>
+    <li><a href="noteikumi.html" data-nav="terms">Noteikumi</a></li>
+    <li>
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="sl('lv')">LV</button>
+        <button class="lang-btn" onclick="sl('en')">EN</button>
+        <button class="lang-btn" onclick="sl('lt')">LT</button>
+        <button class="lang-btn" onclick="sl('ru')">RU</button>
+      </div>
+    </li>
+    <li><a href="index.html#cabins" class="nav-cta" data-nav="cta">Rezervēt tagad</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- ══════════════════ LV ══════════════════ -->
@@ -296,26 +308,52 @@ Email: antra.sila@gmail.com</p>
 </div>
 </div>
 
-<footer class="tf">
-  <a href="index.html">← Saules Krasts · Ragaciems</a>
-  <p>© 2026 SIA "SDGTrade" · Reģ. Nr. 40103288847</p>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="logo.png" alt="Saules Krasts"></div>
+    <ul class="footer-links">
+      <li><a href="index.html#cabins" data-nav="cabins">Mājiņas</a></li>
+      <li><a href="index.html#contact" data-nav="contact">Kontakti</a></li>
+      <li><a href="noteikumi.html" data-nav="terms">Noteikumi</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 SIA "SDGTrade" · Reģ. Nr. 40103288847 · Ragaciems</p>
+  </div>
 </footer>
 
 <script>
+const NAV_TR = {
+  lv: { cabins:'Mājiņas', avail:'Pieejamība', contact:'Kontakti', terms:'Noteikumi', cta:'Rezervēt tagad' },
+  en: { cabins:'Cabins',  avail:'Availability', contact:'Contact',  terms:'Terms',    cta:'Book now' },
+  lt: { cabins:'Nameliai',avail:'Prieinamumas', contact:'Kontaktai',terms:'Taisyklės',cta:'Rezervuoti dabar' },
+  ru: { cabins:'Домики',  avail:'Доступность',  contact:'Контакты', terms:'Правила',  cta:'Забронировать' }
+};
+function applyNavLang(l){
+  const tr = NAV_TR[l]||NAV_TR.lv;
+  document.querySelectorAll('[data-nav]').forEach(el=>{ el.textContent=tr[el.dataset.nav]||el.textContent; });
+}
 function sl(l){
   document.querySelectorAll('.lc').forEach(e=>e.classList.remove('on'));
   document.querySelector('.lc[data-lang="'+l+'"]').classList.add('on');
-  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('a'));
-  event.target.classList.add('a');
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
   document.documentElement.lang=l;
+  applyNavLang(l);
 }
+document.getElementById('nav-toggle').addEventListener('click',()=>{
+  document.getElementById('main-nav').classList.toggle('mobile-open');
+});
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('main-nav').classList.remove('mobile-open'));
+});
 const nl=(navigator.language||'lv').toLowerCase().slice(0,2);
 const sm={lv:'lv',en:'en',lt:'lt',ru:'ru'};
 if(sm[nl]&&sm[nl]!=='lv'){
   document.querySelector('.lc.on')?.classList.remove('on');
   document.querySelector('.lc[data-lang="'+sm[nl]+'"]')?.classList.add('on');
-  document.querySelector('.lb.a')?.classList.remove('a');
-  document.querySelectorAll('.lb').forEach(b=>{if(b.textContent===sm[nl].toUpperCase())b.classList.add('a');});
+  document.querySelector('.lang-btn.active')?.classList.remove('active');
+  document.querySelectorAll('.lang-btn').forEach(b=>{if(b.textContent===sm[nl].toUpperCase())b.classList.add('active');});
+  document.documentElement.lang=sm[nl];
+  applyNavLang(sm[nl]);
 }
 </script>
 </body>
