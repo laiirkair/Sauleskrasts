@@ -2606,41 +2606,85 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 <script>if(localStorage.getItem('ck'))document.getElementById('cookie-banner').style.display='none';</script>
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   GALERIJA — pievienojiet jaunas bildes GALLERY_PHOTOS masīvā.
-   Formāts: { src: 'faila_nosaukums.jpg', caption: 'Apraksts (pēc izvēles)' }
-   Bildes augšupielādējiet GitHub repozitorijā blakus index.html.
+   GALERIJA — AUTOMĀTISKĀ IELĀDE NO GITHUB MAPES
+
+   Kā pievienot bildes:
+   1. GitHub repozitorijā izveidojiet mapi ar nosaukumu:  gallery
+   2. Ielieciet tur jebkuras bildes (.jpg .jpeg .png .webp)
+   3. Bildes uzreiz parādīsies lapā — nekas cits nav jādara!
+
+   Ieteicamie izmēri: vismaz 1200×800 pikseļi.
+   Ieteicamais nosaukums: piem. saullekts_01.jpg (bez īpašām zīmēm)
 ═══════════════════════════════════════════════════════════════ */
-const GALLERY_PHOTOS = [
-  /* Piemērs — nomainiet ar savām bildēm: */
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_2.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_3.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_4.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_1.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_2.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_3.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_4.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg', caption: '' },
-  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg', caption: '' },
-  /* Pievienojiet jaunas pejzāžu, saullēktu, saulrietu bildes šeit: */
-  /* { src: 'saullekts_1.jpg', caption: 'Saullēkts no mājiņas Nr.5' }, */
-];
 
-let glCurrentIdx = 0;
+// Jūsu GitHub repozitorija nosaukums (pārbaudiet github.com/??? )
+const GITHUB_REPO   = 'laiirkair/laiirkair.github.io';
+const GALLERY_FOLDER = 'gallery'; // mapes nosaukums repozitorijā
 
-function renderGallery() {
+let GALLERY_PHOTOS  = [];
+let glCurrentIdx    = 0;
+
+async function loadGallery() {
   const grid = document.getElementById('gallery-grid');
   if (!grid) return;
-  if (GALLERY_PHOTOS.length === 0) {
-    grid.innerHTML = '<div class="gallery-empty">Bildes drīz parādīsies...</div>';
-    return;
+
+  // Loading state
+  grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.3)">⏳ Ielādē bildes...</div>';
+
+  try {
+    // GitHub Contents API — bez autentifikācijas, publiskiem repozitorijiem
+    const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GALLERY_FOLDER}`;
+    const resp = await fetch(apiUrl, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+
+    if (!resp.ok) {
+      // Mape vēl nav izveidota — rāda instrukciju
+      grid.innerHTML = `<div class="gallery-empty" style="color:rgba(255,255,255,.45);padding:3rem 2rem;text-align:center;line-height:1.8">
+        📁 Galerija ir gatava!<br>
+        <span style="font-size:.82rem">GitHub repozitorijā izveidojiet mapi <strong style="color:var(--gold)">gallery</strong><br>
+        un ielieciet tur savas bildes — tās automātiski parādīsies šeit.</span>
+      </div>`;
+      return;
+    }
+
+    const files = await resp.json();
+    const imageFiles = files.filter(f =>
+      f.type === 'file' &&
+      /\.(jpg|jpeg|png|webp|gif)$/i.test(f.name)
+    );
+
+    if (imageFiles.length === 0) {
+      grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.45)">📷 Mape ir tukša — ielieciet tajā bildes!</div>';
+      return;
+    }
+
+    // Bildes tiek servētas tieši no sauleskrasts.lv (ātrāk nekā GitHub raw)
+    GALLERY_PHOTOS = imageFiles.map(f => ({
+      src: `/${GALLERY_FOLDER}/${f.name}`,
+      caption: f.name
+        .replace(/[-_]/g, ' ')
+        .replace(/\.(jpg|jpeg|png|webp|gif)$/i, '')
+    }));
+
+    renderGalleryGrid();
+
+  } catch(err) {
+    console.warn('Galerija: nevar ielādēt:', err);
+    grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.3)">Bildes drīz parādīsies...</div>';
   }
+}
+
+function renderGalleryGrid() {
+  const grid = document.getElementById('gallery-grid');
+  if (!grid || !GALLERY_PHOTOS.length) return;
   grid.innerHTML = GALLERY_PHOTOS.map((p, i) => `
-    <div class="gallery-item" onclick="glOpen(${i})" role="button" tabindex="0" aria-label="Atvērt attēlu">
-      <img src="${p.src}" alt="${p.caption || 'Saules Krasts'}" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'">
-      ${p.caption ? `<div class="gallery-item-overlay"><span class="gallery-item-caption">${p.caption}</span></div>` : ''}
+    <div class="gallery-item" onclick="glOpen(${i})" role="button" tabindex="0" aria-label="Atvērt attēlu ${i+1}">
+      <img src="${p.src}" alt="${p.caption || 'Saules Krasts'}" loading="lazy"
+           onerror="this.closest('.gallery-item').style.display='none'">
+      <div class="gallery-item-overlay">
+        <span class="gallery-item-caption">${p.caption}</span>
+      </div>
     </div>
   `).join('');
 }
@@ -2676,17 +2720,15 @@ function glClose(e) {
   document.body.style.overflow = '';
 }
 
-// Keyboard navigation in lightbox
 document.addEventListener('keydown', e => {
   const lb = document.getElementById('gl-lightbox');
   if (!lb.classList.contains('open')) return;
-  if (e.key === 'Escape') glClose();
-  if (e.key === 'ArrowLeft')  glNav(-1);
-  if (e.key === 'ArrowRight') glNav(1);
+  if (e.key === 'Escape')      glClose();
+  if (e.key === 'ArrowLeft')   glNav(-1);
+  if (e.key === 'ArrowRight')  glNav(1);
 });
 
-// Render gallery when page loads
-window.addEventListener('DOMContentLoaded', renderGallery);
+window.addEventListener('DOMContentLoaded', loadGallery);
 </script>
 
 </body>
