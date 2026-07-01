@@ -417,9 +417,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="hero-bg"><img src="attēls1.png" alt="Saules Krasts mājiņas pie jūras" class="hero-img" loading="eager"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Baltijas jūra</p>
-    <h1 class="hero-title" data-i18n="hero_title">Pamosties pie <em>jūras</em><br>rīta saulītē</h1>
-    <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas tieši pie Baltijas jūras krasta.</p>
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Jūras krasts</p>
+    <h1 class="hero-title" data-i18n="hero_title">Pamosties pie <em>jūras,</em><br>kur saule mostas</h1>
+    <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas Jūras krastā. Klusums, daba un jūras čalošana.</p>
     <div class="hero-actions">
       <a href="#cabins" class="btn-primary" data-i18n="hero_cta1">🌅 Rezervēt mājiņu</a>
       <a href="#cabins" class="btn-outline" data-i18n="hero_cta2">Apskatīt mājiņas</a>
@@ -540,11 +540,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
     <p style="margin-top:1rem;color:var(--text-light);font-size:.9rem;line-height:1.9" data-i18n="contact_addr">Ragaciems, Engures novads, Latvija</p>
     <div class="contact-methods">
-      <a href="tel:+37129265047" class="contact-btn contact-btn--call" data-i18n="call_btn">📞 +371 29265047</a>
-      <a href="https://wa.me/37129265047" target="_blank" class="contact-btn contact-btn--wa" data-i18n="wa_btn">💬 WhatsApp</a>
-      <a href="mailto:antra.sila@gmail.com" class="contact-btn contact-btn--email" data-i18n="email_btn">✉️ E-pasts</a>
+      <a href="tel:+37129388788" class="contact-btn contact-btn--call" data-i18n="call_btn">📞 +371 29265047</a>
+      <a href="https://wa.me/37129388788" target="_blank" class="contact-btn contact-btn--wa" data-i18n="wa_btn">💬 WhatsApp</a>
     </div>
-    <p class="contact-address" data-i18n="checkin_info"><strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00</p>
+    <p class="contact-address" data-i18n="checkin_info"><strong>Ierašanās:</strong> no 15:00 · <strong>Izbraukšana:</strong> līdz 12:00</p>
   </div>
 </section>
 
@@ -586,16 +585,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         <!-- Multi-cabin chips -->
         <div id="modal-cabins-list-area" style="display:none"></div>
 
-        <!-- Bedlinen toggle -->
-        <div id="modal-bedlinen-area"></div>
-
-        <!-- Extras -->
-        <div id="modal-extras-area"></div>
-
-        <!-- Booking form -->
-        <div class="modal-form">
+        <!-- Dates + guests FIRST -->
+        <div class="modal-form" style="margin-bottom:.8rem">
           <div class="modal-form-title" data-i18n="modal_book_title">Rezervēt</div>
-          <div class="modal-error" id="modal-error"></div>
           <div style="display:flex;flex-direction:column;gap:.7rem">
             <div class="form-row">
               <div class="form-group">
@@ -608,6 +600,30 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
               </div>
             </div>
             <div id="modal-guests-area"></div>
+          </div>
+        </div>
+
+        <!-- Bedlinen toggle -->
+        <div id="modal-bedlinen-area"></div>
+
+        <!-- Extras -->
+        <div id="modal-extras-area"></div>
+
+        <!-- Price summary -->
+        <div class="modal-summary" id="modal-summary" style="display:none">
+          <div class="modal-summary-title" data-i18n="summary_title">Izmaksu aprēķins</div>
+          <div id="modal-summary-rows"></div>
+          <div class="modal-summary-total">
+            <span data-i18n="total">Kopā</span>
+            <span id="modal-summary-total">0€</span>
+          </div>
+        </div>
+
+        <!-- Personal info -->
+        <div class="modal-form">
+          <div class="modal-form-title" style="font-size:1rem">Kontaktinformācija</div>
+          <div class="modal-error" id="modal-error"></div>
+          <div style="display:flex;flex-direction:column;gap:.7rem">
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" data-i18n="name_label">Vārds, Uzvārds *</label>
@@ -626,16 +642,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
               <label class="form-label" data-i18n="notes_label">Piezīmes</label>
               <textarea class="form-textarea" id="m-notes" rows="2" data-i18n-ph="notes_ph" placeholder="Īpaši pieprasījumi..."></textarea>
             </div>
-          </div>
-        </div>
-
-        <!-- Price summary -->
-        <div class="modal-summary" id="modal-summary" style="display:none">
-          <div class="modal-summary-title" data-i18n="summary_title">Izmaksu aprēķins</div>
-          <div id="modal-summary-rows"></div>
-          <div class="modal-summary-total">
-            <span data-i18n="total">Kopā</span>
-            <span id="modal-summary-total">0€</span>
           </div>
         </div>
 
@@ -717,9 +723,9 @@ function showToast(msg, isError) {
 const TR = {
 lv: {
   nav_cabins:"Mājiņas", nav_book:"Rezervēt", nav_contact:"Kontakti", nav_cta:"Rezervēt tagad",
-  hero_eyebrow:"Ragaciems · Baltijas jūra",
-  hero_title:"Pamosties pie <em>jūras</em><br>rīta saulītē",
-  hero_sub:"Piecas koka mājiņas tieši pie Baltijas jūras krasta. Klusums, priedes un svaigs jūras gaiss.",
+  hero_eyebrow:"Ragaciems · Jūras krasts",
+  hero_title:"Pamosties pie <em>jūras,</em><br>kur saule mostas",
+  hero_sub:"Piecas koka mājiņas Jūras krastā. Klusums, daba un jūras čalošana.",
   hero_cta1:"🌅 Rezervēt mājiņu", hero_cta2:"Apskatīt mājiņas",
   cabins_eyebrow:"Mūsu mājiņas",
   cabins_title:"Piecas mājas, <em>viena jūra</em>",
@@ -739,7 +745,7 @@ lv: {
   c_blinds_dark:"Tumšās žalūzijas",
   c_kettle:"Tējkanna", c_fridge:"Ledusskapis", c_coffee:"Kafijas aparāts",
   c_terrace:"Terase · Lietussargs ar galdu un krēsliem",
-  bedlinen_card:"<strong>Gultasveļa:</strong> 5 €/persona · iekļauta: sega ar pārvalku, palags, spilvens ar pārvalku",
+  bedlinen_card:"🚫 <strong>Gultasveļa nav iekļauta cenā</strong> · var pievienot: 5€/pers.",
   from:"no", per_night:"naktī", book_btn:"Rezervēt",
   info1h:"Tieši pie jūras", info1p:"Nr. 5 — pa soļiem līdz smiltīm un viļņiem.",
   info2h:"Priežu mežā", info2p:"Dabisks ēnojums, svaigs gaiss, dziedošie putni.",
@@ -753,8 +759,8 @@ lv: {
   price_per_night:"par nakti", max_guests:"Maksimālais viesu skaits", persons:"pers.",
   cabin_chip_label:"Mājiņa",
   modal_book_title:"Rezervēt", modal_book_multi_title:"Rezervēt mājiņas",
-  bedlinen_info:"<strong>🛏 Gultasveļa iekļauta standartā</strong> · 5 €/persona/nakts · sega ar pārvalku, palags, spilvens ar pārvalku · variet noņemt zemāk, ja nav nepieciešama",
-  bedlinen_toggle:"Gultasveļa (visām personām, visās naktīs)",
+  bedlinen_info:"🛏 <strong>Gultasveļa nav iekļauta cenā</strong> · 5€/pers. (vienreizēja maksa) · sega ar pārvalku, palags, spilvens ar pārvalku",
+  bedlinen_toggle:"Gultasveļa · 5€/pers. (vienreizēja maksa)",
   extras_section:"Papildus pakalpojumi",
   extras_hint:"Izvēlieties papildus pakalpojumus — katru var pasūtīt līdz 2 vienībām uz mājiņu. Ja būs vajadzīgs vairāk, varēs piereģistrēties uz vietas.",
   e_grill_name:"Grila īre", e_grill_desc:"Ogļu grils ar restēm",
@@ -771,7 +777,7 @@ lv: {
   contact_eyebrow:"Kontakti", contact_title:"Jautājumi? <em>Sazinieties!</em>",
   contact_addr:"Ragaciems, Engures novads, Latvija<br>Atbildam ātrāk WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ E-pasts",
-  checkin_info:"<strong>Ierašanās:</strong> no 14:00 · <strong>Izbraukšana:</strong> līdz 11:00",
+  checkin_info:"<strong>Ierašanās:</strong> no 15:00 · <strong>Izbraukšana:</strong> līdz 12:00",
   multi_empty_title:"Izvēlieties vienu vai vairākas mājiņas",
   multi_empty_hint:"Atzīmējiet izvēles laukus, lai rezervētu vairākas vienlaikus",
   multi_add_more_hint:"Atzīmējiet vēl, vai turpiniet ar šo vienu",
@@ -825,9 +831,9 @@ lv: {
 },
 en: {
   nav_cabins:"Cabins", nav_book:"Book", nav_contact:"Contact", nav_cta:"Book now",
-  hero_eyebrow:"Ragaciems · Baltic Sea",
-  hero_title:"Wake up by the <em>sea</em><br>at sunrise",
-  hero_sub:"Five wooden cabins right on the Baltic Sea shore. Silence, pines and fresh sea air.",
+  hero_eyebrow:"Ragaciems · By the Sea",
+  hero_title:"Wake up by the <em>sea,</em><br>where the sun rises",
+  hero_sub:"Five wooden cabins on the sea shore. Silence, nature and the sound of the waves.",
   hero_cta1:"🌅 Book a cabin", hero_cta2:"View cabins",
   cabins_eyebrow:"Our cabins",
   cabins_title:"Five homes, <em>one sea</em>",
@@ -847,7 +853,7 @@ en: {
   c_blinds_dark:"Blackout blinds",
   c_kettle:"Kettle", c_fridge:"Mini fridge", c_coffee:"Coffee machine",
   c_terrace:"Terrace · Large umbrella with table & chairs",
-  bedlinen_card:"<strong>Bed linen:</strong> €5/person · includes: duvet with cover, fitted sheet, pillow with pillowcase",
+  bedlinen_card:"🚫 <strong>Bed linen not included</strong> · can be added: €5/pers.",
   from:"from", per_night:"/ night", book_btn:"Book",
   info1h:"Right by the sea", info1p:"Cabin No. 5 — steps from the sand.",
   info2h:"In the pine forest", info2p:"Natural shade, fresh air, birdsong at dawn.",
@@ -861,8 +867,8 @@ en: {
   price_per_night:"per night", max_guests:"Max guests", persons:"pers.",
   cabin_chip_label:"Cabin",
   modal_book_title:"Book", modal_book_multi_title:"Book cabins",
-  bedlinen_info:"<strong>🛏 Bed linen included by default</strong> · €5/person/night · duvet with cover, fitted sheet, pillow with pillowcase · you can opt out below",
-  bedlinen_toggle:"Bed linen (all guests, all nights)",
+  bedlinen_info:"🛏 <strong>Bed linen not included in price</strong> · €5/pers. (one-time fee) · duvet with cover, fitted sheet, pillow with pillowcase",
+  bedlinen_toggle:"Bed linen · €5/pers. (one-time fee)",
   extras_section:"Add-on services",
   extras_hint:"Choose extras — up to 2 of each per cabin. If you need more, additional items can be booked on-site.",
   e_grill_name:"Grill hire", e_grill_desc:"Charcoal grill with grate",
@@ -879,7 +885,7 @@ en: {
   contact_eyebrow:"Contact", contact_title:"Questions? <em>Get in touch!</em>",
   contact_addr:"Ragaciems, Engure District, Latvia<br>We respond faster on WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ Email",
-  checkin_info:"<strong>Check-in:</strong> from 14:00 · <strong>Check-out:</strong> by 11:00",
+  checkin_info:"<strong>Check-in:</strong> from 15:00 · <strong>Check-out:</strong> by 12:00",
   multi_empty_title:"Select one or more cabins",
   multi_empty_hint:"Tick the checkbox to book multiple cabins together",
   multi_add_more_hint:"Select more, or continue with this one",
@@ -933,9 +939,9 @@ en: {
 },
 lt: {
   nav_cabins:"Nameliai", nav_book:"Rezervuoti", nav_contact:"Kontaktai", nav_cta:"Rezervuoti dabar",
-  hero_eyebrow:"Ragaciems · Baltijos jūra",
-  hero_title:"Pabuskite prie <em>jūros</em><br>saulėtekio metu",
-  hero_sub:"Penki mediniai nameliai tiesiai prie Baltijos jūros kranto. Tyla, pušys ir grynas jūros oras.",
+  hero_eyebrow:"Ragaciems · Jūros krantas",
+  hero_title:"Pabuskite prie <em>jūros,</em><br>kur kyla saulė",
+  hero_sub:"Penki mediniai nameliai jūros pakrantėje. Tyla, gamta ir jūros ošimas.",
   hero_cta1:"🌅 Rezervuoti namelį", hero_cta2:"Peržiūrėti namelius",
   cabins_eyebrow:"Mūsų nameliai",
   cabins_title:"Penki namai, <em>viena jūra</em>",
@@ -955,7 +961,7 @@ lt: {
   c_blinds_dark:"Tamsėjantys žaliuziai",
   c_kettle:"Virdulys", c_fridge:"Šaldytuvas", c_coffee:"Kavos aparatas",
   c_terrace:"Terasa · Didelis skėtis su stalu ir kėdėmis",
-  bedlinen_card:"<strong>Patalynė:</strong> 5 €/asmeniui · įtraukta: antklodė su užvalkalu, paklodė, pagalvė su užvalkalu",
+  bedlinen_card:"🚫 <strong>Patalynė neįtraukta į kainą</strong> · galima pridėti: 5€/asm.",
   from:"nuo", per_night:"naktis", book_btn:"Rezervuoti",
   info1h:"Tiesiai prie jūros", info1p:"Nr. 5 — žingsniai iki smėlio.",
   info2h:"Pušyne", info2p:"Natūralus šešėlis, grynas oras, paukščių giesmė.",
@@ -969,8 +975,8 @@ lt: {
   price_per_night:"per naktį", max_guests:"Maks. svečių", persons:"asm.",
   cabin_chip_label:"Namelis",
   modal_book_title:"Rezervuoti", modal_book_multi_title:"Rezervuoti namelius",
-  bedlinen_info:"<strong>🛏 Patalynė įtraukta pagal nutylėjimą</strong> · 5 €/asmeniui/naktis · antklodė su užvalkalu, paklodė, pagalvė su užvalkalu · galite atsisakyti žemiau",
-  bedlinen_toggle:"Patalynė (visiems svečiams, visomis naktimis)",
+  bedlinen_info:"🛏 <strong>Patalynė neįtraukta į kainą</strong> · 5€/asm. (vienkartinis mokestis) · antklodė su užvalkalu, paklodė, pagalvė su užvalkalu",
+  bedlinen_toggle:"Patalynė · 5€/asm. (vienkartinis mokestis)",
   extras_section:"Papildomos paslaugos",
   extras_hint:"Pasirinkite papildomas paslaugas — iki 2 vnt. vienam nameliui. Jei reikės daugiau, galima rezervuoti vietoje.",
   e_grill_name:"Grilio nuoma", e_grill_desc:"Anglių grilis su grotelėmis",
@@ -987,7 +993,7 @@ lt: {
   contact_eyebrow:"Kontaktai", contact_title:"Klausimai? <em>Susisiekite!</em>",
   contact_addr:"Ragaciems, Engurės rajonas, Latvija<br>Greičiau atsakome WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ El. paštas",
-  checkin_info:"<strong>Atvykimas:</strong> nuo 14:00 · <strong>Išvykimas:</strong> iki 11:00",
+  checkin_info:"<strong>Atvykimas:</strong> nuo 15:00 · <strong>Išvykimas:</strong> iki 12:00",
   multi_empty_title:"Pasirinkite vieną ar kelis namelius",
   multi_empty_hint:"Pažymėkite langelį, kad rezervuotumėte kelis kartu",
   multi_add_more_hint:"Pasirinkite daugiau arba tęskite su šiuo",
@@ -1041,9 +1047,9 @@ lt: {
 },
 ru: {
   nav_cabins:"Домики", nav_book:"Бронь", nav_contact:"Контакты", nav_cta:"Забронировать",
-  hero_eyebrow:"Рагациемс · Балтийское море",
-  hero_title:"Просыпайтесь у <em>моря</em><br>на рассвете",
-  hero_sub:"Пять деревянных домиков прямо на берегу Балтийского моря. Тишина, сосны и свежий морской воздух.",
+  hero_eyebrow:"Рагациемс · Морской берег",
+  hero_title:"Просыпайтесь у <em>моря,</em><br>где восходит солнце",
+  hero_sub:"Пять деревянных домиков на берегу моря. Тишина, природа и шум волн.",
   hero_cta1:"🌅 Забронировать домик", hero_cta2:"Посмотреть домики",
   cabins_eyebrow:"Наши домики",
   cabins_title:"Пять домов, <em>одно море</em>",
@@ -1063,7 +1069,7 @@ ru: {
   c_blinds_dark:"Тёмные жалюзи",
   c_kettle:"Чайник", c_fridge:"Холодильник", c_coffee:"Кофемашина",
   c_terrace:"Терраса · Большой зонт со столиком и стульями",
-  bedlinen_card:"<strong>Постельное бельё:</strong> 5 €/человек · включает: одеяло с пододеяльником, простыню, подушку с наволочкой",
+  bedlinen_card:"🚫 <strong>Постельное бельё не включено</strong> · можно добавить: 5€/чел.",
   from:"от", per_night:"/ ночь", book_btn:"Забронировать",
   info1h:"Прямо у моря", info1p:"Домик № 5 — несколько шагов до песка.",
   info2h:"В сосновом лесу", info2p:"Натуральная тень, свежий воздух, птичье пение.",
@@ -1077,8 +1083,8 @@ ru: {
   price_per_night:"за ночь", max_guests:"Макс. гостей", persons:"чел.",
   cabin_chip_label:"Домик",
   modal_book_title:"Забронировать", modal_book_multi_title:"Забронировать домики",
-  bedlinen_info:"<strong>🛏 Бельё включено по умолчанию</strong> · 5 €/чел./ночь · одеяло с пододеяльником, простыня, подушка с наволочкой · можно убрать ниже",
-  bedlinen_toggle:"Постельное бельё (всем гостям, на все ночи)",
+  bedlinen_info:"🛏 <strong>Бельё не включено в цену</strong> · 5€/чел. (разовая плата) · одеяло с пододеяльником, простыня, подушка с наволочкой",
+  bedlinen_toggle:"Постельное бельё · 5€/чел. (разовая плата)",
   extras_section:"Дополнительные услуги",
   extras_hint:"Выберите дополнения — до 2 шт. каждого на домик. Если нужно больше, можно заказать на месте.",
   e_grill_name:"Аренда гриля", e_grill_desc:"Угольный гриль с решёткой",
@@ -1095,7 +1101,7 @@ ru: {
   contact_eyebrow:"Контакты", contact_title:"Вопросы? <em>Свяжитесь!</em>",
   contact_addr:"Рагациемс, Энгурский край, Латвия<br>Быстрее отвечаем в WhatsApp 🟢",
   call_btn:"📞 +371 29265047", wa_btn:"💬 WhatsApp", email_btn:"✉️ Эл. почта",
-  checkin_info:"<strong>Заезд:</strong> с 14:00 · <strong>Выезд:</strong> до 11:00",
+  checkin_info:"<strong>Заезд:</strong> с 15:00 · <strong>Выезд:</strong> до 12:00",
   multi_empty_title:"Выберите один или несколько домиков",
   multi_empty_hint:"Отметьте галочку, чтобы забронировать несколько вместе",
   multi_add_more_hint:"Выберите ещё или продолжите с этим",
@@ -1154,13 +1160,13 @@ ru: {
 // Internally this is the low-season rate, but we don't label it as such.
 const CABINS = [
   { id:1, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_sun', extras:['c_kettle'], guests:'c_4guests',
-    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_4.jpg'] },
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_4.jpg'] },
   { id:2, type:'family', maxG:4, price:65, beds:'c_bed_family', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_4guests',
     photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_4.jpg'] },
   { id:3, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests',
-    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg'] },
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg'] },
   { id:4, type:'double', maxG:2, price:55, beds:'c_bed_double', blinds:'c_blinds_dark', extras:['c_kettle'], guests:'c_2guests',
-    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg'] },
+    photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg'] },
   { id:5, type:'lux',    maxG:2, price:75, beds:'c_bed_lux',    blinds:'c_blinds_sun', extras:['c_fridge','c_coffee'], guests:'c_5guests',
     photos:['saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_2.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_3.jpg','saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_4.jpg'] }
 ];
@@ -1171,7 +1177,13 @@ const EXTRAS = [
   { id:'umbrella', perN:true,  price:5  },
   { id:'chair',    perN:true,  price:10 }
 ];
-const BEDLINEN_PRICE = 5; // per person per night
+const BEDLINEN_PRICE = 5; // per person, ONE-TIME (not per night)
+// ⚠️ AIZPILDĪT: Bankas rekvizīti priekšapmaksas informācijai rezervācijas apstiprinājumā
+const BANK = {
+  recipient: 'Antra Sīla',          // ← NOMAINĪT uz pareizo saņēmēja vārdu
+  iban:      'LV00XXXX0000000000000', // ← NOMAINĪT uz pareizo IBAN!
+  bank:      'SEB banka'              // ← NOMAINĪT uz pareizo banku
+};
 const MAX_EXTRA_QTY  = 2;
 
 // ───── STATE ────────────────────────────────────────────────────────
@@ -1303,7 +1315,7 @@ function renderCabinCards(){
           <div class="cabin-name">${t('cabin'+c.id+'_name')}</div>
           <div class="cabin-tagline">${t('cabin'+c.id+'_tag')}</div>
           <ul class="cabin-features">${featuresHTML}</ul>
-          <div class="cabin-bedlinen-note">${t('bedlinen_card')}</div>
+          <div class="cabin-bedlinen-note" style="color:var(--coral);border-color:var(--coral);background:rgba(200,74,58,.06)">${t('bedlinen_card')}</div>
         </div>
 
         <div class="cabin-card-footer">
@@ -1413,7 +1425,7 @@ function initPerCabinState(ids){
     const c = CABINS.find(x => x.id === id);
     ST.perCabin[id] = {
       extras: { grill:0, coal:0, umbrella:0, chair:0 },
-      bedlinen: true,
+      bedlinen_qty: 0,
       guests: Math.min(2, c.maxG)
     };
   });
@@ -1540,46 +1552,41 @@ function renderModalBedlinen(){
   const multi = ids.length > 1;
   const wrap = document.getElementById('modal-bedlinen-area');
   if (ids.length === 0) { wrap.innerHTML = ''; return; }
-  if (!multi) {
-    const id = ids[0];
-    const checked = ST.perCabin[id].bedlinen;
-    wrap.innerHTML = `
-      <div class="modal-bedlinen-info">${t('bedlinen_info')}</div>
-      <div class="extra-row ${checked?'active':''}" id="bl-row-${id}">
-        <input type="checkbox" class="extra-cb" ${checked?'checked':''} onchange="toggleBedlinen(${id}, this.checked)" id="bl-cb-${id}">
-        <label class="extra-text" for="bl-cb-${id}">
+  const rows = ids.map(id => {
+    const c = CABINS.find(x => x.id === id);
+    const qty = ST.perCabin[id].bedlinen_qty;
+    const active = qty > 0;
+    return `
+      <div class="extra-row ${active?'active':''}" id="bl-row-${id}">
+        <div class="extra-text">
           <div class="extra-name-row">
-            <span class="extra-name">🛏 ${t('bedlinen_toggle')}</span>
+            <span class="extra-name">🛏 ${multi ? t('cabin'+id+'_name')+' · ' : ''}${t('bedlinen_toggle')}</span>
             <span class="extra-price">${BEDLINEN_PRICE}€/${t('persons')}</span>
           </div>
-        </label>
+          <div class="extra-desc" style="color:var(--text-light);font-size:.72rem">Sega ar pārvalku · Palags · Spilvens ar pārvalku · Vienreizēja maksa</div>
+        </div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" type="button" onclick="changeBedlinenQty(${id},-1)" ${qty<=0?'disabled':''} aria-label="−">−</button>
+          <span class="qty-val">${qty}</span>
+          <button class="qty-btn" type="button" onclick="changeBedlinenQty(${id},1)" ${qty>=c.maxG?'disabled':''} aria-label="+">+</button>
+        </div>
       </div>
     `;
-  } else {
-    wrap.innerHTML = `
-      <div class="modal-bedlinen-info">${t('bedlinen_info')}</div>
-      ${ids.map(id => {
-        const checked = ST.perCabin[id].bedlinen;
-        return `
-        <div class="extra-row ${checked?'active':''}" id="bl-row-${id}" style="margin-bottom:.4rem">
-          <input type="checkbox" class="extra-cb" ${checked?'checked':''} onchange="toggleBedlinen(${id}, this.checked)" id="bl-cb-${id}">
-          <label class="extra-text" for="bl-cb-${id}">
-            <div class="extra-name-row">
-              <span class="extra-name">🛏 ${t('cabin'+id+'_name')}</span>
-              <span class="extra-price">${BEDLINEN_PRICE}€/${t('persons')}</span>
-            </div>
-            <div class="extra-desc">${t('bedlinen_toggle')}</div>
-          </label>
-        </div>
-        `;
-      }).join('')}
-    `;
-  }
+  }).join('');
+  wrap.innerHTML = `
+    <div class="modal-section-title" style="margin-top:.5rem">${t('bedlinen_line')}</div>
+    <div style="font-size:.78rem;color:var(--text-light);margin-bottom:.7rem;line-height:1.5">${t('bedlinen_info')}</div>
+    <div class="modal-extras" style="margin-bottom:1rem">${rows}</div>
+  `;
 }
-function toggleBedlinen(cabinId, checked){
-  ST.perCabin[cabinId].bedlinen = checked;
+function changeBedlinenQty(cabinId, delta){
+  const c = CABINS.find(x => x.id === cabinId);
+  const cur = ST.perCabin[cabinId].bedlinen_qty;
+  const next = Math.max(0, Math.min(c.maxG, cur + delta));
+  ST.perCabin[cabinId].bedlinen_qty = next;
   const row = document.getElementById('bl-row-'+cabinId);
-  if (row) row.classList.toggle('active', checked);
+  if (row) row.classList.toggle('active', next > 0);
+  renderModalBedlinen();
   recalcModalTotal();
 }
 
@@ -1667,12 +1674,10 @@ function computeTotal(){
     const cabinCost = c.price * nights;
     total += cabinCost;
     lines.push({ label:`${t('cabin'+id+'_name')} (${nights} ${t('nights')} × ${c.price}€)`, value:cabinCost });
-    if (pc.bedlinen) {
-      const blCost = BEDLINEN_PRICE * pc.guests * nights;
+    if (pc.bedlinen_qty > 0) {
+      const blCost = BEDLINEN_PRICE * pc.bedlinen_qty;
       total += blCost;
-      lines.push({ label:`${t('bedlinen_line')} (${pc.guests}× ${nights}× ${BEDLINEN_PRICE}€)`, value:blCost, muted:true });
-    } else {
-      lines.push({ label:t('bedlinen_removed'), value:0, removed:true });
+      lines.push({ label:`${t('bedlinen_line')} (${pc.bedlinen_qty}× ${BEDLINEN_PRICE}€)`, value:blCost, muted:true });
     }
     EXTRAS.forEach(ex => {
       const q = pc.extras[ex.id] || 0;
@@ -1759,7 +1764,7 @@ async function submitModalBooking(){
     const pc = ST.perCabin[id];
     const c = CABINS.find(x => x.id === id);
     const cabinCost = c.price * nights;
-    const blCost = pc.bedlinen ? BEDLINEN_PRICE * pc.guests * nights : 0;
+    const blCost = pc.bedlinen_qty > 0 ? BEDLINEN_PRICE * pc.bedlinen_qty : 0;
     let exCost = 0;
     EXTRAS.forEach(ex => {
       const q = pc.extras[ex.id] || 0;
@@ -1774,7 +1779,7 @@ async function submitModalBooking(){
       guest_phone: phone,
       guest_count: pc.guests,
       notes: (resNum + ' | ' + notes).trim(),
-      extras: { ...pc.extras, bedlinen: pc.bedlinen },
+      extras: { ...pc.extras, bedlinen_qty: pc.bedlinen_qty },
       total_price: cabinCost + blCost + exCost,
       status: 'pending'
     };
@@ -1872,8 +1877,33 @@ async function submitModalBooking(){
       <div style="font-size:.82rem;color:var(--text);line-height:1.65;text-align:center">
         ${t('success_body_2')}
       </div>
-      <div style="margin-top:1rem;text-align:center;font-size:.82rem;color:var(--text-light)">
-        📞 +371 29265047 · ✉️ antra.sila@gmail.com
+      <!-- BANK DETAILS + 30% PREPAYMENT -->
+      <div style="margin-top:1rem;background:linear-gradient(135deg,rgba(94,138,96,.08),rgba(200,136,42,.08));border:2px solid var(--moss);border-radius:12px;padding:1.1rem 1.2rem">
+        <div style="font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);font-weight:700;margin-bottom:.7rem">💳 Priekšapmaksa — rezervācijas apstiprināšanai</div>
+        <div style="font-size:.82rem;color:var(--text-light);margin-bottom:.6rem;line-height:1.5">Lai rezervācija stātos spēkā, 24h laikā pārskaitiet <strong style="color:var(--navy)">30% avansu:</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
+          <span style="color:var(--text-light)">Summa (30%)</span>
+          <strong style="color:var(--moss);font-family:'Bebas Neue',sans-serif;font-size:1.15rem">${Math.ceil(total*0.3)}€</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
+          <span style="color:var(--text-light)">IBAN</span>
+          <strong style="color:var(--navy);font-size:.82rem;letter-spacing:.04em">${BANK.iban}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
+          <span style="color:var(--text-light)">Saņēmējs</span>
+          <strong style="color:var(--navy)">${BANK.recipient}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
+          <span style="color:var(--text-light)">Banka</span>
+          <strong style="color:var(--navy)">${BANK.bank}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.35rem 0;font-size:.86rem">
+          <span style="color:var(--text-light)">Maksājuma mērķis</span>
+          <strong style="color:var(--gold);font-family:'Bebas Neue',sans-serif">${resNum}</strong>
+        </div>
+      </div>
+      <div style="margin-top:.8rem;text-align:center;font-size:.78rem;color:var(--text-light)">
+        Jautājumu gadījumā sazinieties: 📞 +37129388788 (WhatsApp/Zvans)
       </div>
       <div style="margin-top:.8rem;text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--gold)">
         ${t('success_farewell')}
