@@ -64,7 +64,7 @@
   "currenciesAccepted": "EUR",
   "paymentAccepted": "Cash, Bank transfer",
   "amenityFeature": [
-    {"@type": "LocationFeatureSpecification", "name": "Bezmaksas stāvvieta", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Stāvvieta (50% atlaide kempinga viesiem)", "value": true},
     {"@type": "LocationFeatureSpecification", "name": "Mājdzīvnieki atļauti", "value": true},
     {"@type": "LocationFeatureSpecification", "name": "Pludmale", "value": true},
     {"@type": "LocationFeatureSpecification", "name": "Priežu mežs", "value": true},
@@ -600,7 +600,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     <div class="info-item"><span class="info-icon">🌲</span><h4 data-i18n="info2h">Priežu mežā</h4><p data-i18n="info2p">Dabisks ēnojums un svaigs gaiss.</p></div>
     <div class="info-item"><span class="info-icon">🚿</span><h4 data-i18n="info3h">Dušas un tualetes</h4><p data-i18n="info3p">Kopīgs sanitārais mezgls.</p></div>
     <div class="info-item"><span class="info-icon">🐾</span><h4 data-i18n="info4h">Mājdzīvnieki gaidīti</h4><p data-i18n="info4p">Nelieli suņi un kaķi.</p></div>
-    <div class="info-item"><span class="info-icon">🅿️</span><h4 data-i18n="info5h">Bezmaksas stāvvieta</h4><p data-i18n="info5p">Vieta katrai mājiņai.</p></div>
+    <div class="info-item"><span class="info-icon">🅿️</span><h4 data-i18n="info5h">Stāvvieta</h4><p data-i18n="info5p">Maksas stāvvieta · kempinga iemītniekiem 50% atlaide · 1 mājiņa = 1 auto.</p></div>
   </div>
 </div>
 
@@ -852,12 +852,12 @@ lv: {
   info2h:"Priežu mežā", info2p:"Dabisks ēnojums, svaigs gaiss, dziedošie putni.",
   info3h:"Dušas un tualetes", info3p:"Kopīgs sanitārais mezgls — tīrs un ērts.",
   info4h:"Mājdzīvnieki gaidīti", info4p:"Nelieli suņi un kaķi ir laipni gaidīti.",
-  info5h:"Bezmaksas stāvvieta", info5p:"Vieta katrai mājiņai blakus.",
+  info5h:"Stāvvieta", info5p:"Maksas stāvvieta · kempinga iemītniekiem 50% atlaide · 1 mājiņa = 1 auto.",
   multi_none:"Vēl nav izvēlēta neviena mājiņa", multi_one:"1 mājiņa izvēlēta", multi_many:"{n} mājiņas izvēlētas",
   multi_book:"Rezervēt izvēlētās ({n}) →", multi_clear:"Notīrīt",
   select_btn:"Izvēlēties", selected_btn:"Izvēlēta",
   features_title:"Iekārtojums", prices_title_short:"Cena",
-  price_per_night:"par nakti", max_guests:"Maksimālais viesu skaits", persons:"pers.",
+  price_per_night:"par nakti", per_day:"dienā", max_guests:"Maksimālais viesu skaits", persons:"pers.",
   cabin_chip_label:"Mājiņa",
   modal_book_title:"Rezervēt", modal_book_multi_title:"Rezervēt mājiņas",
   bedlinen_info:"🛏 <strong>Gultasveļa nav iekļauta cenā</strong> · 5€/pers. (vienreizēja maksa) · sega ar pārvalku, palags, spilvens ar pārvalku",
@@ -868,10 +868,10 @@ lv: {
   bedlinen_one_time:"vienreizēji",
   extras_section:"Papildus pakalpojumi",
   extras_hint:"Izvēlieties papildus pakalpojumus — katru var pasūtīt līdz 2 vienībām uz mājiņu. Ja būs vajadzīgs vairāk, varēs piereģistrēties uz vietas.",
-  e_grill_name:"Grila īre", e_grill_desc:"Ogļu grils ar restēm",
+  e_grill_name:"Grila īre", e_grill_desc:"Ogļu grils ar restēm · maksa par diennakti",
   e_coal_name:"Ogles 10 L", e_coal_desc:"Kvalitatīvas ogles grilam (10 L)",
-  e_umbrella_name:"Saulessarga īre", e_umbrella_desc:"Liels pludmales saulessargs",
-  e_chair_name:"Piepūšamais atpūtas krēsls", e_chair_desc:"Piepūšams atpūtas krēsls 170×85 cm ar palikni kājām",
+  e_umbrella_name:"Saulessarga īre", e_umbrella_desc:"Liels pludmales saulessargs · maksa par diennakti",
+  e_chair_name:"Piepūšamais atpūtas krēsls", e_chair_desc:"Piepūšams atpūtas krēsls 170×85 cm ar palikni kājām · maksa par diennakti",
   checkin:"Ierašanās", checkout:"Izbraukšana", guests_label:"Viesu skaits",
   name_label:"Vārds, Uzvārds *", phone_label:"Tālrunis *", email_label:"E-pasts *",
   notes_label:"Piezīmes", notes_ph:"Īpaši pieprasījumi...",
@@ -971,12 +971,12 @@ en: {
   info2h:"In the pine forest", info2p:"Natural shade, fresh air, birdsong at dawn.",
   info3h:"Showers & toilets", info3p:"Shared sanitary block — clean and maintained.",
   info4h:"Pets welcome", info4p:"Small dogs and cats are warmly welcome.",
-  info5h:"Free parking", info5p:"Dedicated spot next to each cabin.",
+  info5h:"Parking", info5p:"Paid parking · campsite guests get 50% discount · 1 cabin = 1 car.",
   multi_none:"No cabins selected yet", multi_one:"1 cabin selected", multi_many:"{n} cabins selected",
   multi_book:"Book selected ({n}) →", multi_clear:"Clear",
   select_btn:"Select", selected_btn:"Selected",
   features_title:"Features", prices_title_short:"Price",
-  price_per_night:"per night", max_guests:"Max guests", persons:"pers.",
+  price_per_night:"per night", per_day:"per day", max_guests:"Max guests", persons:"pers.",
   cabin_chip_label:"Cabin",
   modal_book_title:"Book", modal_book_multi_title:"Book cabins",
   bedlinen_info:"🛏 <strong>Bed linen not included in price</strong> · €5/pers. (one-time fee) · duvet with cover, fitted sheet, pillow with pillowcase",
@@ -987,10 +987,10 @@ en: {
   bedlinen_one_time:"one-time",
   extras_section:"Add-on services",
   extras_hint:"Choose extras — up to 2 of each per cabin. If you need more, additional items can be booked on-site.",
-  e_grill_name:"Grill hire", e_grill_desc:"Charcoal grill with grate",
+  e_grill_name:"Grill hire", e_grill_desc:"Charcoal grill with grate · price per day",
   e_coal_name:"Charcoal 10 L", e_coal_desc:"Quality charcoal (10 L)",
-  e_umbrella_name:"Beach umbrella", e_umbrella_desc:"Large beach umbrella",
-  e_chair_name:"Inflatable lounger", e_chair_desc:"Inflatable lounger 170×85 cm with footrest",
+  e_umbrella_name:"Beach umbrella", e_umbrella_desc:"Large beach umbrella · price per day",
+  e_chair_name:"Inflatable lounger", e_chair_desc:"Inflatable lounger 170×85 cm with footrest · price per day",
   checkin:"Check-in", checkout:"Check-out", guests_label:"Number of guests",
   name_label:"Full name *", phone_label:"Phone *", email_label:"Email *",
   notes_label:"Notes", notes_ph:"Special requests...",
@@ -1090,12 +1090,12 @@ lt: {
   info2h:"Pušyne", info2p:"Natūralus šešėlis, grynas oras, paukščių giesmė.",
   info3h:"Dušai ir tualetai", info3p:"Bendras sanitarinis mazgas — švarus ir tvarkingas.",
   info4h:"Gyvūnai laukiami", info4p:"Maži šunys ir katės yra laukiami.",
-  info5h:"Nemokama parkavimo aikštelė", info5p:"Vieta šalia kiekvieno namelio.",
+  info5h:"Automobilių stovėjimas", info5p:"Mokama aikštelė · kempingo svečiams 50% nuolaida · 1 namelis = 1 automobilis.",
   multi_none:"Dar nepasirinkta nė vieno namelio", multi_one:"Pasirinktas 1 namelis", multi_many:"Pasirinkti {n} nameliai",
   multi_book:"Rezervuoti pasirinktus ({n}) →", multi_clear:"Išvalyti",
   select_btn:"Pasirinkti", selected_btn:"Pasirinktas",
   features_title:"Įranga", prices_title_short:"Kaina",
-  price_per_night:"per naktį", max_guests:"Maks. svečių", persons:"asm.",
+  price_per_night:"per naktį", per_day:"per dieną", max_guests:"Maks. svečių", persons:"asm.",
   cabin_chip_label:"Namelis",
   modal_book_title:"Rezervuoti", modal_book_multi_title:"Rezervuoti namelius",
   bedlinen_info:"🛏 <strong>Patalynė neįtraukta į kainą</strong> · 5€/asm. (vienkartinis mokestis) · antklodė su užvalkalu, paklodė, pagalvė su užvalkalu",
@@ -1106,10 +1106,10 @@ lt: {
   bedlinen_one_time:"vienkartinis",
   extras_section:"Papildomos paslaugos",
   extras_hint:"Pasirinkite papildomas paslaugas — iki 2 vnt. vienam nameliui. Jei reikės daugiau, galima rezervuoti vietoje.",
-  e_grill_name:"Grilio nuoma", e_grill_desc:"Anglių grilis su grotelėmis",
+  e_grill_name:"Grilio nuoma", e_grill_desc:"Anglių grilis su grotelėmis · mokestis per parą",
   e_coal_name:"Anglys 10 L", e_coal_desc:"Kokybingos anglys (10 L)",
-  e_umbrella_name:"Skėčio nuoma", e_umbrella_desc:"Didelis paplūdimio skėtis",
-  e_chair_name:"Pripučiamas gultas", e_chair_desc:"Pripučiamas gultas 170×85 cm su kojų atrama",
+  e_umbrella_name:"Skėčio nuoma", e_umbrella_desc:"Didelis paplūdimio skėtis · mokestis per parą",
+  e_chair_name:"Pripučiamas gultas", e_chair_desc:"Pripučiamas gultas 170×85 cm su kojų atrama · mokestis per parą",
   checkin:"Atvykimas", checkout:"Išvykimas", guests_label:"Svečių skaičius",
   name_label:"Vardas, Pavardė *", phone_label:"Telefonas *", email_label:"El. paštas *",
   notes_label:"Pastabos", notes_ph:"Specialūs pageidavimai...",
@@ -1209,12 +1209,12 @@ ru: {
   info2h:"В сосновом лесу", info2p:"Натуральная тень, свежий воздух, птичье пение.",
   info3h:"Душ и туалеты", info3p:"Общий санузел на территории — чистый и ухоженный.",
   info4h:"Животные приветствуются", info4p:"Небольшие собаки и кошки — добро пожаловать.",
-  info5h:"Бесплатная парковка", info5p:"Место рядом с каждым домиком.",
+  info5h:"Парковка", info5p:"Платная парковка · для гостей кемпинга скидка 50% · 1 домик = 1 автомобиль.",
   multi_none:"Ещё не выбран ни один домик", multi_one:"Выбран 1 домик", multi_many:"Выбрано {n} домиков",
   multi_book:"Забронировать выбранные ({n}) →", multi_clear:"Очистить",
   select_btn:"Выбрать", selected_btn:"Выбрано",
   features_title:"Оснащение", prices_title_short:"Цена",
-  price_per_night:"за ночь", max_guests:"Макс. гостей", persons:"чел.",
+  price_per_night:"за ночь", per_day:"в сутки", max_guests:"Макс. гостей", persons:"чел.",
   cabin_chip_label:"Домик",
   modal_book_title:"Забронировать", modal_book_multi_title:"Забронировать домики",
   bedlinen_info:"🛏 <strong>Бельё не включено в цену</strong> · 5€/чел. (разовая плата) · одеяло с пододеяльником, простыня, подушка с наволочкой",
@@ -1225,10 +1225,10 @@ ru: {
   bedlinen_one_time:"разово",
   extras_section:"Дополнительные услуги",
   extras_hint:"Выберите дополнения — до 2 шт. каждого на домик. Если нужно больше, можно заказать на месте.",
-  e_grill_name:"Аренда гриля", e_grill_desc:"Угольный гриль с решёткой",
+  e_grill_name:"Аренда гриля", e_grill_desc:"Угольный гриль с решёткой · оплата за сутки",
   e_coal_name:"Уголь 10 л", e_coal_desc:"Качественный уголь (10 л)",
-  e_umbrella_name:"Аренда пляжного зонта", e_umbrella_desc:"Большой пляжный зонт",
-  e_chair_name:"Надувной шезлонг", e_chair_desc:"Надувной шезлонг 170×85 см с подставкой для ног",
+  e_umbrella_name:"Аренда пляжного зонта", e_umbrella_desc:"Большой пляжный зонт · оплата за сутки",
+  e_chair_name:"Надувной шезлонг", e_chair_desc:"Надувной шезлонг 170×85 см с подставкой для ног · оплата за сутки",
   checkin:"Заезд", checkout:"Выезд", guests_label:"Количество гостей",
   name_label:"Имя, Фамилия *", phone_label:"Телефон *", email_label:"Эл. почта *",
   notes_label:"Примечания", notes_ph:"Особые пожелания...",
@@ -1767,7 +1767,7 @@ function renderExtraRows(cabinId){
     const q = ST.perCabin[cabinId].extras[ex.id] || 0;
     const active = q > 0;
     const atMax = q >= MAX_EXTRA_QTY;
-    const priceText = ex.price + '€' + (ex.perN ? '/' + t('per_night') : '');
+    const priceText = ex.price + '€' + (ex.perN ? '/' + t('per_day') : '');
     return `
       <div class="extra-row ${active?'active':''}" id="er-${cabinId}-${ex.id}">
         <input type="checkbox" class="extra-cb" ${active?'checked':''} onchange="toggleExtra(${cabinId},'${ex.id}',this.checked)" id="cb-${cabinId}-${ex.id}">
