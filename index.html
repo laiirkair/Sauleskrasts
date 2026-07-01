@@ -418,7 +418,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Jūras krasts</p>
-    <h1 class="hero-title" data-i18n="hero_title">Mosties pie <em>jūras,</em><br>kur saule aust</h1>
+    <h1 class="hero-title" data-i18n="hero_title">Pamosties pie <em>jūras,</em><br>kur saule mostas</h1>
     <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas Jūras krastā. Klusums, daba un jūras čalošana.</p>
     <div class="hero-actions">
       <a href="#cabins" class="btn-primary" data-i18n="hero_cta1">🌅 Rezervēt mājiņu</a>
@@ -1555,23 +1555,19 @@ function renderModalBedlinen(){
   const rows = ids.map(id => {
     const c = CABINS.find(x => x.id === id);
     if (!c || !ST.perCabin[id]) return '';
-    const qty = ST.perCabin[id].bedlinen_qty ?? 0;
-    const maxG = c.maxG || 4;
-    const active = qty > 0;
+    const checked = ST.perCabin[id].bedlinen_qty > 0;
+    const guests = ST.perCabin[id].guests || 1;
+    const cost = BEDLINEN_PRICE * guests;
     return `
-      <div class="extra-row ${active?'active':''}" id="bl-row-${id}">
-        <div class="extra-text">
+      <div class="extra-row ${checked?'active':''}" id="bl-row-${id}" onclick="toggleBedlinen(${id})" style="cursor:pointer">
+        <input type="checkbox" class="extra-cb" ${checked?'checked':''} onchange="toggleBedlinen(${id})" onclick="event.stopPropagation()" id="bl-cb-${id}">
+        <label class="extra-text" for="bl-cb-${id}" style="cursor:pointer">
           <div class="extra-name-row">
             <span class="extra-name">🛏 ${multi ? t('cabin'+id+'_name')+' · ' : ''}Gultasveļa</span>
-            <span class="extra-price">${BEDLINEN_PRICE}€/pers.</span>
+            <span class="extra-price">${cost}€</span>
           </div>
-          <div class="extra-desc">Sega ar pārvalku · Palags · Spilvens · Vienreizēja maksa</div>
-        </div>
-        <div class="qty-ctrl">
-          <button class="qty-btn" type="button" onclick="changeBedlinenQty(${id},-1)" ${qty<=0?'disabled':''} aria-label="−">−</button>
-          <span class="qty-val">${qty}</span>
-          <button class="qty-btn" type="button" onclick="changeBedlinenQty(${id},1)" ${qty>=maxG?'disabled':''} aria-label="+">+</button>
-        </div>
+          <div class="extra-desc">Sega ar pārvalku · Palags · Spilvens · ${guests} pers. × ${BEDLINEN_PRICE}€ · Vienreizēja maksa</div>
+        </label>
       </div>
     `;
   }).join('');
@@ -1582,14 +1578,12 @@ function renderModalBedlinen(){
     <div class="modal-extras" style="margin-bottom:1rem">${rows}</div>
   `;
 }
-function changeBedlinenQty(cabinId, delta){
+function toggleBedlinen(cabinId){
+  if (!ST.perCabin[cabinId]) return;
   const c = CABINS.find(x => x.id === cabinId);
-  if (!c || !ST.perCabin[cabinId]) return;
   const cur = ST.perCabin[cabinId].bedlinen_qty ?? 0;
-  const next = Math.max(0, Math.min(c.maxG, cur + delta));
-  ST.perCabin[cabinId].bedlinen_qty = next;
-  const row = document.getElementById('bl-row-'+cabinId);
-  if (row) row.classList.toggle('active', next > 0);
+  // Ieslēgt = visi viesi, izslēgt = neviens
+  ST.perCabin[cabinId].bedlinen_qty = cur > 0 ? 0 : (ST.perCabin[cabinId].guests || (c ? Math.min(2, c.maxG) : 2));
   renderModalBedlinen();
   recalcModalTotal();
 }
@@ -1681,7 +1675,7 @@ function computeTotal(){
     if (pc.bedlinen_qty > 0) {
       const blCost = BEDLINEN_PRICE * pc.bedlinen_qty;
       total += blCost;
-      lines.push({ label:`${t('bedlinen_line')} (${pc.bedlinen_qty}× ${BEDLINEN_PRICE}€)`, value:blCost, muted:true });
+      lines.push({ label:`${t('bedlinen_line')} (${pc.bedlinen_qty} pers. × ${BEDLINEN_PRICE}€)`, value:blCost, muted:true });
     }
     EXTRAS.forEach(ex => {
       const q = pc.extras[ex.id] || 0;
