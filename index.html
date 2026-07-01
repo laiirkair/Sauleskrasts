@@ -1297,9 +1297,11 @@ const EXTRAS = [
 const BEDLINEN_PRICE = 5; // per person, ONE-TIME (not per night)
 // ⚠️ AIZPILDĪT: Bankas rekvizīti priekšapmaksas informācijai rezervācijas apstiprinājumā
 const BANK = {
-  recipient: 'Antra Sīla',          // ← NOMAINĪT uz pareizo saņēmēja vārdu
-  iban:      'LV00XXXX0000000000000', // ← NOMAINĪT uz pareizo IBAN!
-  bank:      'SEB banka'              // ← NOMAINĪT uz pareizo banku
+  recipient: 'SIA "SDGTrade"',
+  reg_nr:    '40103288847',
+  iban:      'LV54HABA0551065520508',
+  bank:      'A/S Swedbank',
+  swift:     'HABALV22'
 };
 const MAX_EXTRA_QTY  = 2;
 
@@ -1908,7 +1910,23 @@ async function submitModalBooking(){
     const blText = pc.bedlinen_qty > 0 ? `Gultasveļa ×${pc.bedlinen_qty}` : '—';
     return `${t('cabin'+id+'_name')}: ${pc.guests} viesi, gultasveļa: ${blText}, papildus: ${exList}`;
   }).join('\n');
-  const cabinSummary = `REZERVĀCIJAS NR.: ${resNum}\nIerašanās: ${ci} (no 15:00) | Izbraukšana: ${co} (līdz 12:00)\nKopā: ${computeTotal().total}€\n\nMājiņas:\n${cabinSummaryLines}`;
+  const prepay30 = Math.ceil(total * 0.3);
+  const cabinSummary = `REZERVĀCIJAS NR.: ${resNum}
+Ierašanās: ${ci} (no 15:00) | Izbraukšana: ${co} (līdz 12:00)
+Kopā: ${total}€
+
+Mājiņas:
+${cabinSummaryLines}
+
+---
+💳 PRIEKŠAPMAKSA 30% — REZERVĀCIJAS APSTIPRINĀŠANAI
+Lai rezervācija stātos spēkā, 24h laikā pārskaitiet avansu:
+Summa (30%): ${prepay30}€
+Saņēmējs: ${BANK.recipient}
+Banka: ${BANK.bank}
+IBAN: ${BANK.iban}
+SWIFT: ${BANK.swift}
+Maksājuma mērķis: ${resNum}`;
 
   // One row describing the WHOLE reservation (all cabins together).
   // This is the row whose INSERT triggers the email webhook.
@@ -1927,7 +1945,12 @@ async function submitModalBooking(){
     cabins: cabinsForEmail,
     summary: cabinSummary,
     notes: notes || null,
-    total_price: total
+    total_price: total,
+    prepayment_30: prepay30,
+    bank_iban: BANK.iban,
+    bank_swift: BANK.swift,
+    bank_recipient: BANK.recipient,
+    bank_name: BANK.bank
   };
 
   try {
@@ -2003,16 +2026,20 @@ async function submitModalBooking(){
           <strong style="color:var(--moss);font-family:'Bebas Neue',sans-serif;font-size:1.15rem">${Math.ceil(total*0.3)}€</strong>
         </div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
-          <span style="color:var(--text-light)">IBAN</span>
-          <strong style="color:var(--navy);font-size:.82rem;letter-spacing:.04em">${BANK.iban}</strong>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
           <span style="color:var(--text-light)">Saņēmējs</span>
           <strong style="color:var(--navy)">${BANK.recipient}</strong>
         </div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
           <span style="color:var(--text-light)">Banka</span>
           <strong style="color:var(--navy)">${BANK.bank}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
+          <span style="color:var(--text-light)">IBAN</span>
+          <strong style="color:var(--navy);font-size:.82rem;font-family:monospace;letter-spacing:.04em">${BANK.iban}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:.86rem">
+          <span style="color:var(--text-light)">SWIFT</span>
+          <strong style="color:var(--navy);font-family:monospace">${BANK.swift}</strong>
         </div>
         <div style="display:flex;justify-content:space-between;padding:.35rem 0;font-size:.86rem">
           <span style="color:var(--text-light)">Maksājuma mērķis</span>
