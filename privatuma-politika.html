@@ -4,24 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privātuma politika — Saules Krasts</title>
-<meta name="description" content="Saules Krasts privātuma politika — kā mēs apstrādājam Jūsu personas datus rezervāciju ietvaros.">
+<meta name="description" content="Saules Krasts privātuma politika — kā mēs apstrādājam Jūsu personas datus.">
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://sauleskrasts.lv/privatuma-politika.html">
+<link rel="icon" href="logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-:root{--sand:#F5EDD6;--sand-light:#FAF5E9;--navy:#1C2E4A;--navy-dark:#0F1D30;--gold:#C8882A;--white:#FAFAF8;--text:#2C3540;--text-light:#5A6570}
+:root{
+  --sand:#F5EDD6;--sand-light:#FAF5E9;
+  --navy:#1C2E4A;--navy-dark:#0F1D30;
+  --gold:#C8882A;--gold-light:#E8A84A;
+  --white:#FAFAF8;--text:#2C3540;--text-light:#5A6570;
+  --shadow:0 4px 24px rgba(28,46,74,.10);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;color:var(--text);background:var(--sand-light)}
-.tn{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;background:rgba(250,250,248,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,.12)}
-.tn a{text-decoration:none;color:var(--navy);font-size:.82rem;font-weight:500}
-.tn a:hover{color:var(--gold)}
-.ls{display:flex;gap:4px}
-.lb{background:none;border:1px solid rgba(28,46,74,.2);color:var(--navy);font-size:.7rem;font-weight:600;padding:.25rem .5rem;border-radius:4px;cursor:pointer;transition:all .2s}
-.lb:hover,.lb.a{background:var(--navy);color:white;border-color:var(--navy)}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--sand-light);-webkit-font-smoothing:antialiased}
+
+/* ── NAV — identical to index.html ── */
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2.5rem;background:rgba(250,250,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,136,42,.12)}
+.nav-logo img{height:44px;width:auto;display:block;object-fit:contain}
+.nav-links{display:flex;gap:1.6rem;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;color:var(--navy);font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold)!important;color:white!important;padding:.5rem 1.2rem;border-radius:30px;font-weight:600!important}
+.nav-cta:hover{background:var(--navy)!important}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{background:none;border:1px solid rgba(28,46,74,.2);color:var(--navy);font-size:.7rem;font-weight:600;padding:.25rem .5rem;border-radius:4px;cursor:pointer;transition:all .2s}
+.lang-btn:hover,.lang-btn.active{background:var(--navy);color:white;border-color:var(--navy)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:.3s}
+
+/* ── PAGE CONTENT ── */
 .th{background:var(--navy);padding:3rem 2rem 2rem;text-align:center}
-.th h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:300;color:white;margin-bottom:.4rem}
+.th h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:300;color:white;margin-bottom:.4rem;line-height:1.2}
 .th p{color:rgba(255,255,255,.5);font-size:.82rem}
 .tb{max-width:780px;margin:0 auto;padding:2.5rem 2rem 4rem}
 .lc{display:none}.lc.on{display:block}
@@ -34,14 +52,30 @@ ul li{margin-bottom:.2rem}
 .box{background:rgba(200,136,42,.07);border-left:3px solid var(--gold);border-radius:4px;padding:.7rem .9rem;font-size:.82rem;line-height:1.6;margin:1.2rem 0}
 .contact-box{background:var(--navy);color:white;border-radius:10px;padding:1.2rem 1.5rem;margin-top:1.5rem;font-size:.84rem;line-height:1.9}
 .contact-box b{color:var(--gold)}
-.tf{background:var(--navy-dark);padding:1.5rem 2rem;text-align:center}
-.tf a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.76rem}
-.tf a:hover{color:var(--gold)}
-.tf p{color:rgba(255,255,255,.22);font-size:.7rem;margin-top:.4rem}
-@media(max-width:640px){.tb{padding:1.5rem 1.2rem 3rem}.tn{padding:.7rem 1rem}}
+
+/* ── FOOTER ── */
+footer{background:var(--navy-dark);padding:2.2rem 0}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem}
+.footer-logo img{height:34px;width:auto;opacity:.8;object-fit:contain}
+.footer-links{display:flex;gap:1.4rem;list-style:none}
+.footer-links a{color:rgba(255,255,255,.4);font-size:.78rem;text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--gold-light)}
+.footer-copy{color:rgba(255,255,255,.28);font-size:.73rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:.8rem 1.2rem}
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  nav.mobile-open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);padding:1.3rem 2rem;gap:1rem;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:200}
+}
+@media(max-width:640px){
+  .tb{padding:1.5rem 1.2rem 3rem}
+}
 </style>
 </head>
 <body>
+
 <nav id="main-nav">
   <a href="index.html" class="nav-logo"><img src="logo.png" alt="Saules Krasts"></a>
   <ul class="nav-links">
@@ -64,8 +98,10 @@ ul li{margin-bottom:.2rem}
   </button>
 </nav>
 
-<!-- ══════════════════ LV ══════════════════ -->
+<!-- LV -->
 <div class="lc on" data-lang="lv">
+<div class="th"><h1>Privātuma politika</h1><p>Spēkā no 01.07.2026. · SIA "SDGTrade"</p></div>
+<div class="tb">
 <div class="th"><h1>Privātuma politika</h1><p>Spēkā no 01.07.2026. · Saules Krasts / SIA "SDGTrade"</p></div>
 <div class="tb">
 
@@ -133,10 +169,12 @@ E-pasts: antra.sila@gmail.com</p>
 </div>
 
 </div>
-</div>
+</div></div>
 
-<!-- ══════════════════ EN ══════════════════ -->
+<!-- EN -->
 <div class="lc" data-lang="en">
+<div class="th"><h1>Privacy Policy</h1><p>Effective 01.07.2026 · SIA "SDGTrade"</p></div>
+<div class="tb">
 <div class="th"><h1>Privacy Policy</h1><p>Effective 01.07.2026 · Saules Krasts / SIA "SDGTrade"</p></div>
 <div class="tb">
 
@@ -204,10 +242,12 @@ Email: antra.sila@gmail.com</p>
 </div>
 
 </div>
-</div>
+</div></div>
 
-<!-- ══════════════════ LT ══════════════════ -->
+<!-- LT -->
 <div class="lc" data-lang="lt">
+<div class="th"><h1>Privatumo politika</h1><p>Galioja nuo 2026-07-01 · SIA "SDGTrade"</p></div>
+<div class="tb">
 <div class="th"><h1>Privatumo politika</h1><p>Galioja nuo 2026-07-01 · Saules Krasts / SIA "SDGTrade"</p></div>
 <div class="tb">
 
@@ -255,10 +295,12 @@ El. paštas: antra.sila@gmail.com</p>
 </div>
 
 </div>
-</div>
+</div></div>
 
-<!-- ══════════════════ RU ══════════════════ -->
+<!-- RU -->
 <div class="lc" data-lang="ru">
+<div class="th"><h1>Политика конфиденциальности</h1><p>Действует с 01.07.2026 · SIA "SDGTrade"</p></div>
+<div class="tb">
 <div class="th"><h1>Политика конфиденциальности</h1><p>Действует с 01.07.2026 · Saules Krasts / SIA "SDGTrade"</p></div>
 <div class="tb">
 
@@ -307,6 +349,7 @@ Email: antra.sila@gmail.com</p>
 
 </div>
 </div>
+</div></div>
 
 <footer>
   <div class="footer-inner">
@@ -322,14 +365,14 @@ Email: antra.sila@gmail.com</p>
 
 <script>
 const NAV_TR = {
-  lv: { cabins:'Mājiņas', avail:'Pieejamība', contact:'Kontakti', terms:'Noteikumi', cta:'Rezervēt tagad' },
-  en: { cabins:'Cabins',  avail:'Availability', contact:'Contact',  terms:'Terms',    cta:'Book now' },
-  lt: { cabins:'Nameliai',avail:'Prieinamumas', contact:'Kontaktai',terms:'Taisyklės',cta:'Rezervuoti dabar' },
-  ru: { cabins:'Домики',  avail:'Доступность',  contact:'Контакты', terms:'Правила',  cta:'Забронировать' }
+  lv:{cabins:'Mājiņas',avail:'Pieejamība',contact:'Kontakti',terms:'Noteikumi',cta:'Rezervēt tagad'},
+  en:{cabins:'Cabins',avail:'Availability',contact:'Contact',terms:'Terms',cta:'Book now'},
+  lt:{cabins:'Nameliai',avail:'Prieinamumas',contact:'Kontaktai',terms:'Taisyklės',cta:'Rezervuoti dabar'},
+  ru:{cabins:'Домики',avail:'Доступность',contact:'Контакты',terms:'Правила',cta:'Забронировать'}
 };
 function applyNavLang(l){
-  const tr = NAV_TR[l]||NAV_TR.lv;
-  document.querySelectorAll('[data-nav]').forEach(el=>{ el.textContent=tr[el.dataset.nav]||el.textContent; });
+  const tr=NAV_TR[l]||NAV_TR.lv;
+  document.querySelectorAll('[data-nav]').forEach(el=>{el.textContent=tr[el.dataset.nav]||el.textContent;});
 }
 function sl(l){
   document.querySelectorAll('.lc').forEach(e=>e.classList.remove('on'));
