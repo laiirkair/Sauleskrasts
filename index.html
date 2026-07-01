@@ -2617,61 +2617,64 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
    Ieteicamais nosaukums: piem. saullekts_01.jpg (bez īpašām zīmēm)
 ═══════════════════════════════════════════════════════════════ */
 
-// Jūsu GitHub repozitorija nosaukums (pārbaudiet github.com/??? )
-const GITHUB_REPO   = 'laiirkair/laiirkair.github.io';
-const GALLERY_FOLDER = 'gallery'; // mapes nosaukums repozitorijā
+// ─── GALERIJAS KONFIGURĀCIJA ────────────────────────────────────────
+// Bildes lieciet TIEŠI blakus index.html (repozitorija sakne)
+// Nosaukums OBLIGĀTI sākas ar:  gallery-
+// Piemērs: gallery-saulleksts-01.jpg, gallery-saulriets-vakars-01.jpg
+const GITHUB_REPO    = 'laiirkair/laiirkair.github.io';
+const GALLERY_PREFIX = 'gallery-'; // faili ar šo prefiksu tiek rādīti galerijā
 
-let GALLERY_PHOTOS  = [];
-let glCurrentIdx    = 0;
+let GALLERY_PHOTOS = [];
+let glCurrentIdx   = 0;
 
 async function loadGallery() {
   const grid = document.getElementById('gallery-grid');
   if (!grid) return;
-
-  // Loading state
   grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.3)">⏳ Ielādē bildes...</div>';
-
   try {
-    // GitHub Contents API — bez autentifikācijas, publiskiem repozitorijiem
-    const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GALLERY_FOLDER}`;
-    const resp = await fetch(apiUrl, {
-      headers: { 'Accept': 'application/vnd.github.v3+json' }
-    });
+    // Ielādē visu repozitorija saknes failu sarakstu
+    const resp = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/`,
+      { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (!resp.ok) throw new Error(resp.status);
+    const files = await resp.json();
 
-    if (!resp.ok) {
-      // Mape vēl nav izveidota — rāda instrukciju
-      grid.innerHTML = `<div class="gallery-empty" style="color:rgba(255,255,255,.45);padding:3rem 2rem;text-align:center;line-height:1.8">
-        📁 Galerija ir gatava!<br>
-        <span style="font-size:.82rem">GitHub repozitorijā izveidojiet mapi <strong style="color:var(--gold)">gallery</strong><br>
-        un ielieciet tur savas bildes — tās automātiski parādīsies šeit.</span>
+    // Filtrē tikai gallery-*.jpg/png/webp u.c.
+    const imageFiles = files.filter(f =>
+      f.type === 'file' &&
+      f.name.toLowerCase().startsWith(GALLERY_PREFIX) &&
+      /\.(jpg|jpeg|png|webp|gif)$/i.test(f.name)
+    ).sort((a, b) => a.name.localeCompare(b.name)); // alfabētiskā kārtībā
+
+    if (imageFiles.length === 0) {
+      grid.innerHTML = `<div class="gallery-empty" style="color:rgba(255,255,255,.45);padding:3rem 2rem;text-align:center;line-height:2">
+        🌅 Galerija ir gatava!<br>
+        <span style="font-size:.82rem;color:rgba(255,255,255,.35)">
+          Augšupielādējiet bildes GitHub repozitorijā blakus index.html.<br>
+          Nosaukums jāsāk ar <strong style="color:var(--gold)">gallery-</strong><br>
+          Piemērs: <strong style="color:var(--gold-light)">gallery-saulleksts-01.jpg</strong>
+        </span>
       </div>`;
       return;
     }
 
-    const files = await resp.json();
-    const imageFiles = files.filter(f =>
-      f.type === 'file' &&
-      /\.(jpg|jpeg|png|webp|gif)$/i.test(f.name)
-    );
-
-    if (imageFiles.length === 0) {
-      grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.45)">📷 Mape ir tukša — ielieciet tajā bildes!</div>';
-      return;
-    }
-
-    // Bildes tiek servētas tieši no sauleskrasts.lv (ātrāk nekā GitHub raw)
+    // Bildes tiek servētas no sauleskrasts.lv (ātrāk nekā GitHub raw)
     GALLERY_PHOTOS = imageFiles.map(f => ({
-      src: `/${GALLERY_FOLDER}/${f.name}`,
+      src: `/${f.name}`,
+      // Apraksts no faila nosaukuma: gallery-saulleksts-01 → "saulleksts 01"
       caption: f.name
+        .replace(new RegExp('^' + GALLERY_PREFIX, 'i'), '')
         .replace(/[-_]/g, ' ')
         .replace(/\.(jpg|jpeg|png|webp|gif)$/i, '')
+        .replace(/\s+\d+$/, '') // noņem skaitli beigās
+        .trim()
     }));
 
     renderGalleryGrid();
-
   } catch(err) {
-    console.warn('Galerija: nevar ielādēt:', err);
-    grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.3)">Bildes drīz parādīsies...</div>';
+    console.warn('Galerija:', err);
+    grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.25)">Bildes drīz parādīsies...</div>';
   }
 }
 
