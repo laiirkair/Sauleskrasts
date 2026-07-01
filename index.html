@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
-<title>Saules Krasts — Kempings Ragaciemā pie Baltijas jūras</title>
-<meta name="description" content="Kempings Saules Krasts — 5 koka mājiņas Ragaciemā pie Baltijas jūras. Rezervē mājiņu tiešsaistē. Priežu mežs, pludmale, mājdzīvnieki gaidīti.">
+<title>Saules Krasts — Kempings Ragaciemā pie Baltijas Jūras</title>
+<meta name="description" content="Kempings Saules Krasts — 5 koka mājiņas Ragaciemā pie Baltijas Jūras. Rezervē mājiņu tiešsaistē. Priežu mežs, pludmale, mājdzīvnieki gaidīti.">
 <link rel="icon" href="logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,8 +15,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sauleskrasts.lv/">
 <meta property="og:site_name" content="Saules Krasts">
-<meta property="og:title" content="Saules Krasts — Mosties pie jūras, kur saule aust | Ragaciems">
-<meta property="og:description" content="5 koka mājiņas tieši pie jūras Ragaciemā. Klusums, daba, mājdzīvnieki gaidīti. Rezervē tiešsaistē!">
+<meta property="og:title" content="Saules Krasts — Mosties pie Jūras, kur saule aust | Ragaciems">
+<meta property="og:description" content="5 koka mājiņas tieši pie Jūras Ragaciemā. Klusums, daba, mājdzīvnieki gaidīti. Rezervē tiešsaistē!">
 <meta property="og:image" content="https://sauleskrasts.lv/saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -28,7 +28,7 @@
 <!-- Twitter/X Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Saules Krasts — Kempings pie Jūras">
-<meta name="twitter:description" content="5 koka mājiņas tieši pie jūras Ragaciemā. Rezervē tiešsaistē!">
+<meta name="twitter:description" content="5 koka mājiņas tieši pie Jūras Ragaciemā. Rezervē tiešsaistē!">
 <meta name="twitter:image" content="https://sauleskrasts.lv/saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg">
 
 <!-- Schema.org: Campground structured data for Google -->
@@ -38,7 +38,7 @@
   "@type": "Campground",
   "name": "Saules Krasts",
   "alternateName": "Saules Krasts Seaside Camping",
-  "description": "Piecas koka mājiņas tieši pie jūras Ragaciemā, Latvijā. Klusums, daba, mājdzīvnieki gaidīti.",
+  "description": "Piecas koka mājiņas tieši pie Jūras Ragaciemā, Latvijā. Klusums, daba, mājdzīvnieki gaidīti.",
   "url": "https://sauleskrasts.lv",
   "telephone": "+37129388788",
   "email": "antra.sila@gmail.com",
@@ -95,14 +95,14 @@
     {
       "@type": "Accommodation",
       "name": "Mājiņa Nr. 4 — Divvietīgā",
-      "description": "Divvietīgā mājiņa 2 personām, 15m², tuvāk jūrai",
+      "description": "Divvietīgā mājiņa 2 personām, 15m², tuvāk Jūrai",
       "occupancy": {"@type": "QuantitativeValue", "maxValue": 2},
       "priceRange": "55€"
     },
     {
       "@type": "Accommodation",
       "name": "Mājiņa Nr. 5 — LUX",
-      "description": "LUX mājiņa 2 personām, tieši pie jūras, lielā gulta 160×200, ledusskapis, kafijas aparāts",
+      "description": "LUX mājiņa 2 personām, tieši pie Jūras, lielā gulta 160×200, ledusskapis, kafijas aparāts",
       "occupancy": {"@type": "QuantitativeValue", "maxValue": 2},
       "priceRange": "75€"
     }
@@ -479,6 +479,39 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .gallery-track{will-change:scroll-position}
 .modal{will-change:transform}
 .debug-toast{pointer-events:none}
+
+/* ─── GALLERY ─────────────────────────────────────────────────────── */
+#gallery{background:var(--navy-dark);padding:5rem 0}
+#gallery .section-eyebrow{color:var(--gold)}
+#gallery .section-title{color:white}
+#gallery .section-title em{color:var(--gold-light)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:4px;max-width:1400px;margin:0 auto;padding:0 4px}
+.gallery-item{position:relative;overflow:hidden;aspect-ratio:4/3;cursor:pointer;background:var(--navy)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease,opacity .3s}
+.gallery-item:hover img{transform:scale(1.06);opacity:.85}
+.gallery-item-overlay{position:absolute;inset:0;display:flex;align-items:flex-end;padding:.8rem;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+.gallery-item:hover .gallery-item-overlay{opacity:1}
+.gallery-item-caption{color:rgba(255,255,255,.85);font-size:.76rem;font-style:italic}
+/* Lightbox */
+.gl-lightbox{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.gl-lightbox.open{opacity:1;pointer-events:all}
+.gl-lightbox img{max-width:92vw;max-height:88vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.6)}
+.gl-lb-close{position:absolute;top:1rem;right:1.2rem;color:white;font-size:2rem;cursor:pointer;background:none;border:none;line-height:1;opacity:.7;transition:opacity .2s}
+.gl-lb-close:hover{opacity:1}
+.gl-lb-prev,.gl-lb-next{position:absolute;top:50%;transform:translateY(-50%);color:white;font-size:2rem;cursor:pointer;background:rgba(255,255,255,.1);border:none;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;transition:background .2s;backdrop-filter:blur(4px)}
+.gl-lb-prev:hover,.gl-lb-next:hover{background:rgba(255,255,255,.25)}
+.gl-lb-prev{left:1rem}
+.gl-lb-next{right:1rem}
+.gl-lb-counter{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:.8rem}
+.gallery-empty{text-align:center;padding:3rem 2rem;color:rgba(255,255,255,.4);font-style:italic;font-size:.9rem}
+@media(max-width:768px){
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+  .gl-lb-prev{left:.3rem}
+  .gl-lb-next{right:.3rem}
+}
+@media(max-width:480px){
+  .gallery-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -493,6 +526,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   <a href="index.html" class="nav-logo"><img src="logo.png" alt="Saules Krasts"></a>
   <ul class="nav-links">
     <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
+    <li><a href="#gallery" data-i18n="nav_gallery">Galerija</a></li>
     <li><a href="#availability" data-i18n="nav_availability">Pieejamība</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
     <li><a href="noteikumi.html" data-i18n="nav_terms">Noteikumi</a></li>
@@ -514,12 +548,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <main>
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"><img src="attēls1.png" alt="Saules Krasts mājiņas pie jūras" class="hero-img" loading="eager"></div>
+  <div class="hero-bg"><img src="attēls1.png" alt="Saules Krasts mājiņas pie Jūras" class="hero-img" loading="eager"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Jūras krasts</p>
-    <h1 class="hero-title" data-i18n="hero_title">Mosties pie <em>jūras,</em><br>kur saule aust</h1>
-    <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas Jūras krastā. Klusums, daba un jūras čalošana.</p>
+    <h1 class="hero-title" data-i18n="hero_title">Mosties pie <em>Jūras,</em><br>kur saule aust</h1>
+    <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas Jūras krastā. Klusums, daba un Jūras čalošana.</p>
     <div class="hero-actions">
       <a href="#cabins" class="btn-primary" data-i18n="hero_cta1">🌅 Rezervēt mājiņu</a>
       <a href="#cabins" class="btn-outline" data-i18n="hero_cta2">Apskatīt mājiņas</a>
@@ -531,7 +565,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <section id="cabins">
   <div class="section-header">
     <p class="section-eyebrow" data-i18n="cabins_eyebrow">Mūsu mājiņas</p>
-    <h2 class="section-title" data-i18n="cabins_title">Piecas mājas, <em>viena jūra</em></h2>
+    <h2 class="section-title" data-i18n="cabins_title">Piecas mājas, <em>viena Jūra</em></h2>
     <p style="margin-top:.8rem;color:var(--text-light);font-size:.88rem;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.6" data-i18n="cabins_hint">
       Uzejiet ar peli vai pieskarieties mājiņai, lai redzētu detaļas.
     </p>
@@ -593,10 +627,25 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   </div>
 </section>
 
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header">
+    <p class="section-eyebrow" data-i18n="gallery_eyebrow">Mirkļi un noskaņas</p>
+    <h2 class="section-title" data-i18n="gallery_title">Saules Krasts <em>caur gadalaiku</em></h2>
+    <p style="margin-top:.8rem;color:rgba(255,255,255,.55);font-size:.88rem;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.6" data-i18n="gallery_hint">
+      Saullēkti, saulrieti, Jūra un tās noskaņas — kā tas izskatās dzīvē.
+    </p>
+  </div>
+  <div class="gallery-grid" id="gallery-grid">
+    <!-- Bildes tiek ielādētas ar JS — pievienojiet failu nosaukumus GALLERY_PHOTOS masīvā -->
+  </div>
+</section>
+
 <!-- INFO STRIP -->
 <div class="info-strip">
   <div class="info-grid">
-    <div class="info-item"><span class="info-icon">🌊</span><h4 data-i18n="info1h">Tieši pie jūras</h4><p data-i18n="info1p">Nr. 5 — pa soļiem līdz smiltīm.</p></div>
+    <div class="info-item"><span class="info-icon">🌊</span><h4 data-i18n="info1h">Tieši pie Jūras</h4><p data-i18n="info1p">Nr. 5 — pa soļiem līdz smiltīm.</p></div>
     <div class="info-item"><span class="info-icon">🌅</span><h4 data-i18n="info2h">Saullēkts un saulriets</h4><p data-i18n="info2p">Vienas pastaigas attālumā — gan saullēkts, gan saulriets.</p></div>
     <div class="info-item"><span class="info-icon">🚿</span><h4 data-i18n="info3h">Dušas un tualetes</h4><p data-i18n="info3p">Kopīgs sanitārais mezgls.</p></div>
     <div class="info-item"><span class="info-icon">🐾</span><h4 data-i18n="info4h">Mājdzīvnieki gaidīti</h4><p data-i18n="info4p">Nelieli suņi un kaķi.</p></div>
@@ -753,6 +802,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="gl-lightbox" id="gl-lightbox" onclick="glClose(event)">
+  <button class="gl-lb-close" onclick="glClose()" aria-label="Aizvērt">✕</button>
+  <button class="gl-lb-prev" onclick="glNav(-1);event.stopPropagation()" aria-label="Iepriekšējā">‹</button>
+  <img id="gl-lb-img" src="" alt="">
+  <button class="gl-lb-next" onclick="glNav(1);event.stopPropagation()" aria-label="Nākamā">›</button>
+  <div class="gl-lb-counter" id="gl-lb-counter"></div>
+</div>
+
 <!-- FOOTER -->
 </main>
 <footer>
@@ -825,20 +883,20 @@ const TR = {
 lv: {
   nav_cabins:"Mājiņas", nav_book:"Rezervēt", nav_contact:"Kontakti", nav_cta:"Rezervēt tagad",
   hero_eyebrow:"Ragaciems · Jūras krasts",
-  hero_title:"Mosties pie <em>jūras,</em><br>kur saule aust",
-  hero_sub:"Piecas koka mājiņas Jūras krastā. Klusums, daba un jūras čalošana.",
+  hero_title:"Mosties pie <em>Jūras,</em><br>kur saule aust",
+  hero_sub:"Piecas koka mājiņas Jūras krastā. Klusums, daba un Jūras čalošana.",
   hero_cta1:"🌅 Rezervēt mājiņu", hero_cta2:"Apskatīt mājiņas",
   cabins_eyebrow:"Mūsu mājiņas",
-  cabins_title:"Piecas mājas, <em>viena jūra</em>",
+  cabins_title:"Piecas mājas, <em>viena Jūra</em>",
   cabins_hint:"Uzejiet ar peli vai pieskarieties mājiņai, lai redzētu detaļas. Atzīmējiet vairākas un rezervējiet kopā.",
   type_family:"Ģimenes", type_double:"Divvietīgā", type_lux:"⭐ LUX",
   cabin1_name:"Mājiņa Nr. 1", cabin1_tag:"Klusa un ērta — priežu ēnā",
   cabin2_name:"Mājiņa Nr. 2", cabin2_tag:"Ģimenes prieks ar tumšajām žalūzijām",
   cabin3_name:"Mājiņa Nr. 3", cabin3_tag:"Divi, kuriem patīk sava telpa",
-  cabin4_name:"Mājiņa Nr. 4", cabin4_tag:"Tuvāk jūras skaņai",
-  cabin5_name:"Mājiņa Nr. 5", cabin5_tag:"Tieši pie jūras. Tieši kā sapnī.",
+  cabin4_name:"Mājiņa Nr. 4", cabin4_tag:"Tuvāk Jūras skaņai",
+  cabin5_name:"Mājiņa Nr. 5", cabin5_tag:"Tieši pie Jūras. Tieši kā sapnī.",
   c_4guests:"4 vietas · 15 m²", c_2guests:"2 vietas · 15 m²",
-  c_5guests:"2 vietas · 15 m² · vistuvāk jūrai",
+  c_5guests:"2 vietas · 15 m² · vistuvāk Jūrai",
   c_bed_family:"Divguļamā 145×200 + divstāvīgā 90×200",
   c_bed_double:"Divas atsevišķas gultas 90×200",
   c_bed_lux:"Lielā gulta 160×200",
@@ -848,7 +906,7 @@ lv: {
   c_terrace:"Terase · Lietussargs ar galdu un krēsliem",
   bedlinen_card:"🚫 <strong>Gultasveļa nav iekļauta cenā</strong> · var pievienot: 5€/pers.",
   from:"no", per_night:"naktī", book_btn:"Rezervēt",
-  info1h:"Tieši pie jūras", info1p:"Nr. 5 — pa soļiem līdz smiltīm un viļņiem.",
+  info1h:"Tieši pie Jūras", info1p:"Nr. 5 — pa soļiem līdz smiltīm un viļņiem.",
   info2h:"Saullēkts un saulriets", info2p:"Vienas pastaigas attālumā — gan saullēkts, gan saulriets.",
   info3h:"Dušas un tualetes", info3p:"Kopīgs sanitārais mezgls — tīrs un ērts.",
   info4h:"Mājdzīvnieki gaidīti", info4p:"Nelieli suņi un kaķi ir laipni gaidīti.",
@@ -928,6 +986,10 @@ lv: {
   reservation_nr:"Rezervācijas Nr.",
   terms_full_link:"📄 Pilni lietošanas noteikumi",
   nav_availability:"Pieejamība",
+  nav_gallery:"Galerija",
+  gallery_eyebrow:"Mirkļi un noskaņas",
+  gallery_title:"Saules Krasts <em>caur gadalaiku</em>",
+  gallery_hint:"Saullēkti, saulrieti, Jūra un tās noskaņas — kā tas izskatās dzīvē.",
   avail_eyebrow:"Brīvās dienas",
   avail_title:"Pieejamība <em>vienā skatā</em>",
   avail_hint:"Katras dienas 5 punktiņi attēlo 5 mājiņu pieejamību. Zaļš = brīva, sarkans = aizņemta.",
@@ -951,19 +1013,19 @@ en: {
   nav_cabins:"Cabins", nav_book:"Book", nav_contact:"Contact", nav_cta:"Book now",
   hero_eyebrow:"Ragaciems · By the Sea",
   hero_title:"Wake up by the <em>sea,</em><br>where the sun rises",
-  hero_sub:"Five wooden cabins on the sea shore. Silence, nature and the sound of the waves.",
+  hero_sub:"Five wooden cabins on the Sea shore. Silence, nature and the sound of the waves.",
   hero_cta1:"🌅 Book a cabin", hero_cta2:"View cabins",
   cabins_eyebrow:"Our cabins",
-  cabins_title:"Five homes, <em>one sea</em>",
+  cabins_title:"Five homes, <em>one Sea</em>",
   cabins_hint:"Hover or tap a cabin to see details. Select several and book them together.",
   type_family:"Family", type_double:"Twin", type_lux:"⭐ LUX",
   cabin1_name:"Cabin No. 1", cabin1_tag:"Quiet and cosy — among the pines",
   cabin2_name:"Cabin No. 2", cabin2_tag:"Family comfort with blackout blinds",
   cabin3_name:"Cabin No. 3", cabin3_tag:"For two who enjoy their own space",
-  cabin4_name:"Cabin No. 4", cabin4_tag:"Closer to the sound of the sea",
-  cabin5_name:"Cabin No. 5", cabin5_tag:"Right by the sea. Just like a dream.",
+  cabin4_name:"Cabin No. 4", cabin4_tag:"Closer to the sound of the Sea",
+  cabin5_name:"Cabin No. 5", cabin5_tag:"Right by the Sea. Just like a dream.",
   c_4guests:"4 guests · 15 m²", c_2guests:"2 guests · 15 m²",
-  c_5guests:"2 guests · 15 m² · closest to the sea",
+  c_5guests:"2 guests · 15 m² · closest to the Sea",
   c_bed_family:"Double bed 145×200 + bunk bed 90×200",
   c_bed_double:"Two single beds 90×200",
   c_bed_lux:"King bed 160×200",
@@ -973,7 +1035,7 @@ en: {
   c_terrace:"Terrace · Large umbrella with table & chairs",
   bedlinen_card:"🚫 <strong>Bed linen not included</strong> · can be added: €5/pers.",
   from:"from", per_night:"/ night", book_btn:"Book",
-  info1h:"Right by the sea", info1p:"Cabin No. 5 — steps from the sand.",
+  info1h:"Right by the Sea", info1p:"Cabin No. 5 — steps from the sand.",
   info2h:"Sunrise & Sunset", info2p:"Both sunrise and sunset within a short walk.",
   info3h:"Showers & toilets", info3p:"Shared sanitary block — clean and maintained.",
   info4h:"Pets welcome", info4p:"Small dogs and cats are warmly welcome.",
@@ -1053,6 +1115,10 @@ en: {
   reservation_nr:"Reservation No.",
   terms_full_link:"📄 Full terms and conditions",
   nav_availability:"Availability",
+  nav_gallery:"Gallery",
+  gallery_eyebrow:"Moments & Moods",
+  gallery_title:"Saules Krasts <em>through the seasons</em>",
+  gallery_hint:"Sunrises, sunsets, the Sea and its atmosphere — as it looks in real life.",
   avail_eyebrow:"Available days",
   avail_title:"Availability <em>at a glance</em>",
   avail_hint:"Each day's 5 dots show the availability of 5 cabins. Green = free, red = booked.",
@@ -1075,20 +1141,20 @@ en: {
 lt: {
   nav_cabins:"Nameliai", nav_book:"Rezervuoti", nav_contact:"Kontaktai", nav_cta:"Rezervuoti dabar",
   hero_eyebrow:"Ragaciems · Jūros krantas",
-  hero_title:"Pabuskite prie <em>jūros,</em><br>kur kyla saulė",
-  hero_sub:"Penki mediniai nameliai jūros pakrantėje. Tyla, gamta ir jūros ošimas.",
+  hero_title:"Pabuskite prie <em>Jūros,</em><br>kur kyla saulė",
+  hero_sub:"Penki mediniai nameliai Jūros pakrantėje. Tyla, gamta ir Jūros ošimas.",
   hero_cta1:"🌅 Rezervuoti namelį", hero_cta2:"Peržiūrėti namelius",
   cabins_eyebrow:"Mūsų nameliai",
-  cabins_title:"Penki namai, <em>viena jūra</em>",
+  cabins_title:"Penki namai, <em>viena Jūra</em>",
   cabins_hint:"Užveskite pelę arba palieskite namelį, kad pamatytumėte detales. Pažymėkite kelis ir rezervuokite kartu.",
   type_family:"Šeimai", type_double:"Dvivietis", type_lux:"⭐ LUX",
   cabin1_name:"Namelis Nr. 1", cabin1_tag:"Ramus ir jaukus — tarp pušų",
   cabin2_name:"Namelis Nr. 2", cabin2_tag:"Šeimos komfortas su tamsėjančiais žaliuziais",
   cabin3_name:"Namelis Nr. 3", cabin3_tag:"Dviem, kurie mėgsta savo erdvę",
-  cabin4_name:"Namelis Nr. 4", cabin4_tag:"Arčiau jūros garsų",
-  cabin5_name:"Namelis Nr. 5", cabin5_tag:"Tiesiai prie jūros. Kaip sapne.",
+  cabin4_name:"Namelis Nr. 4", cabin4_tag:"Arčiau Jūros garsų",
+  cabin5_name:"Namelis Nr. 5", cabin5_tag:"Tiesiai prie Jūros. Kaip sapne.",
   c_4guests:"4 vietos · 15 m²", c_2guests:"2 vietos · 15 m²",
-  c_5guests:"2 vietos · 15 m² · arčiausiai jūros",
+  c_5guests:"2 vietos · 15 m² · arčiausiai Jūros",
   c_bed_family:"Dvigulė 145×200 + dviaukštė 90×200",
   c_bed_double:"Dvi atskiros lovos 90×200",
   c_bed_lux:"Didelė lova 160×200",
@@ -1098,7 +1164,7 @@ lt: {
   c_terrace:"Terasa · Didelis skėtis su stalu ir kėdėmis",
   bedlinen_card:"🚫 <strong>Patalynė neįtraukta į kainą</strong> · galima pridėti: 5€/asm.",
   from:"nuo", per_night:"naktis", book_btn:"Rezervuoti",
-  info1h:"Tiesiai prie jūros", info1p:"Nr. 5 — žingsniai iki smėlio.",
+  info1h:"Tiesiai prie Jūros", info1p:"Nr. 5 — žingsniai iki smėlio.",
   info2h:"Saulėtekis ir saulėlydis", info2p:"Ir saulėtekis, ir saulėlydis — vienos pasivaikščiojimo atstumu.",
   info3h:"Dušai ir tualetai", info3p:"Bendras sanitarinis mazgas — švarus ir tvarkingas.",
   info4h:"Gyvūnai laukiami", info4p:"Maži šunys ir katės yra laukiami.",
@@ -1178,6 +1244,10 @@ lt: {
   reservation_nr:"Rezervacijos Nr.",
   terms_full_link:"📄 Pilnos naudojimo sąlygos",
   nav_availability:"Prieinamumas",
+  nav_gallery:"Galerija",
+  gallery_eyebrow:"Akimirkos ir nuotaikos",
+  gallery_title:"Saules Krasts <em>per sezonus</em>",
+  gallery_hint:"Saulėtekiai, saulėlydžiai, Jūra ir jos nuotaikos — kaip tai atrodo iš tikrųjų.",
   avail_eyebrow:"Laisvos dienos",
   avail_title:"Prieinamumas <em>vienu žvilgsniu</em>",
   avail_hint:"Kiekvienos dienos 5 taškai rodo 5 namelių prieinamumą. Žalia = laisvas, raudona = užimtas.",
@@ -1200,18 +1270,18 @@ lt: {
 ru: {
   nav_cabins:"Домики", nav_book:"Бронь", nav_contact:"Контакты", nav_cta:"Забронировать",
   hero_eyebrow:"Рагациемс · Морской берег",
-  hero_title:"Просыпайтесь у <em>моря,</em><br>где восходит солнце",
-  hero_sub:"Пять деревянных домиков на берегу моря. Тишина, природа и шум волн.",
+  hero_title:"Просыпайтесь у <em>Моря,</em><br>где восходит солнце",
+  hero_sub:"Пять деревянных домиков на берегу Моря. Тишина, природа и шум волн.",
   hero_cta1:"🌅 Забронировать домик", hero_cta2:"Посмотреть домики",
   cabins_eyebrow:"Наши домики",
-  cabins_title:"Пять домов, <em>одно море</em>",
+  cabins_title:"Пять домов, <em>одно Море</em>",
   cabins_hint:"Наведите курсор или коснитесь домика, чтобы увидеть детали. Выберите несколько и забронируйте вместе.",
   type_family:"Семейный", type_double:"Двухместный", type_lux:"⭐ LUX",
   cabin1_name:"Домик № 1", cabin1_tag:"Тихий и уютный — среди сосен",
   cabin2_name:"Домик № 2", cabin2_tag:"Семейный уют с тёмными жалюзи",
   cabin3_name:"Домик № 3", cabin3_tag:"Для двоих, кто ценит своё пространство",
   cabin4_name:"Домик № 4", cabin4_tag:"Ближе к шуму волн",
-  cabin5_name:"Домик № 5", cabin5_tag:"Прямо у моря. Как в мечте.",
+  cabin5_name:"Домик № 5", cabin5_tag:"Прямо у Моря. Как в мечте.",
   c_4guests:"4 места · 15 м²", c_2guests:"2 места · 15 м²",
   c_5guests:"2 места · 15 м² · ближайший к морю",
   c_bed_family:"Двуспальная 145×200 + двухъярусная 90×200",
@@ -1223,7 +1293,7 @@ ru: {
   c_terrace:"Терраса · Большой зонт со столиком и стульями",
   bedlinen_card:"🚫 <strong>Постельное бельё не включено</strong> · можно добавить: 5€/чел.",
   from:"от", per_night:"/ ночь", book_btn:"Забронировать",
-  info1h:"Прямо у моря", info1p:"Домик № 5 — несколько шагов до песка.",
+  info1h:"Прямо у Моря", info1p:"Домик № 5 — несколько шагов до песка.",
   info2h:"Рассвет и закат", info2p:"И рассвет, и закат — в нескольких шагах.",
   info3h:"Душ и туалеты", info3p:"Общий санузел на территории — чистый и ухоженный.",
   info4h:"Животные приветствуются", info4p:"Небольшие собаки и кошки — добро пожаловать.",
@@ -1303,6 +1373,10 @@ ru: {
   reservation_nr:"Бронирование №",
   terms_full_link:"📄 Полные условия использования",
   nav_availability:"Доступность",
+  nav_gallery:"Галерея",
+  gallery_eyebrow:"Моменты и настроения",
+  gallery_title:"Saules Krasts <em>сквозь сезоны</em>",
+  gallery_hint:"Рассветы, закаты, Море и его атмосфера — как это выглядит в жизни.",
   avail_eyebrow:"Свободные дни",
   avail_title:"Доступность <em>одним взглядом</em>",
   avail_hint:"5 точек каждого дня показывают доступность 5 домиков. Зелёный = свободен, красный = занят.",
@@ -2530,5 +2604,90 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   <button onclick="document.getElementById('cookie-banner').style.display='none';localStorage.setItem('ck','1')" style="background:var(--gold);color:white;border:none;border-radius:6px;padding:.45rem 1.1rem;font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0">Sapratu ✓</button>
 </div>
 <script>if(localStorage.getItem('ck'))document.getElementById('cookie-banner').style.display='none';</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   GALERIJA — pievienojiet jaunas bildes GALLERY_PHOTOS masīvā.
+   Formāts: { src: 'faila_nosaukums.jpg', caption: 'Apraksts (pēc izvēles)' }
+   Bildes augšupielādējiet GitHub repozitorijā blakus index.html.
+═══════════════════════════════════════════════════════════════ */
+const GALLERY_PHOTOS = [
+  /* Piemērs — nomainiet ar savām bildēm: */
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_2.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_3.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_4.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_1.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_2.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_3.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_gimenes_ar_berniem_4.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_1.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_2.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_3.jpg', caption: '' },
+  { src: 'saules_krasts_kempings_ragaciems_atputa_pie_juras_divvietigs_4.jpg', caption: '' },
+  /* Pievienojiet jaunas pejzāžu, saullēktu, saulrietu bildes šeit: */
+  /* { src: 'saullekts_1.jpg', caption: 'Saullēkts no mājiņas Nr.5' }, */
+];
+
+let glCurrentIdx = 0;
+
+function renderGallery() {
+  const grid = document.getElementById('gallery-grid');
+  if (!grid) return;
+  if (GALLERY_PHOTOS.length === 0) {
+    grid.innerHTML = '<div class="gallery-empty">Bildes drīz parādīsies...</div>';
+    return;
+  }
+  grid.innerHTML = GALLERY_PHOTOS.map((p, i) => `
+    <div class="gallery-item" onclick="glOpen(${i})" role="button" tabindex="0" aria-label="Atvērt attēlu">
+      <img src="${p.src}" alt="${p.caption || 'Saules Krasts'}" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'">
+      ${p.caption ? `<div class="gallery-item-overlay"><span class="gallery-item-caption">${p.caption}</span></div>` : ''}
+    </div>
+  `).join('');
+}
+
+function glOpen(idx) {
+  glCurrentIdx = idx;
+  glShow();
+  document.getElementById('gl-lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function glShow() {
+  const p = GALLERY_PHOTOS[glCurrentIdx];
+  if (!p) return;
+  const img = document.getElementById('gl-lb-img');
+  img.style.opacity = '0';
+  img.src = p.src;
+  img.alt = p.caption || 'Saules Krasts';
+  img.onload = () => { img.style.transition = 'opacity .25s'; img.style.opacity = '1'; };
+  document.getElementById('gl-lb-counter').textContent =
+    (glCurrentIdx + 1) + ' / ' + GALLERY_PHOTOS.length;
+}
+
+function glNav(delta) {
+  glCurrentIdx = (glCurrentIdx + delta + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length;
+  glShow();
+}
+
+function glClose(e) {
+  if (e && e.target !== document.getElementById('gl-lightbox') && e.type !== 'click') return;
+  if (e && e.currentTarget !== e.target && e.target.tagName === 'IMG') return;
+  document.getElementById('gl-lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Keyboard navigation in lightbox
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('gl-lightbox');
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') glClose();
+  if (e.key === 'ArrowLeft')  glNav(-1);
+  if (e.key === 'ArrowRight') glNav(1);
+});
+
+// Render gallery when page loads
+window.addEventListener('DOMContentLoaded', renderGallery);
+</script>
+
 </body>
 </html>
