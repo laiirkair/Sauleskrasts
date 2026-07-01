@@ -941,8 +941,8 @@ lv: {
   avail_for_max:"Pieejama {d}+ dienas",
   avail_free_in:"Atbrīvosies pēc {d} dienām",
   avail_today_free:"Pieejama šodien",
-  cal_prev_day:"← Iepriekšējā diena",
-  cal_next_day:"Nākamā diena →",
+  cal_prev_day:"Iepriekšējā",
+  cal_next_day:"Nākamā",
   cabin_label:"Mājiņa",
   free:"brīva",
   booked:"aizņemta",
@@ -1066,8 +1066,8 @@ en: {
   avail_for_max:"Available for {d}+ days",
   avail_free_in:"Free in {d} days",
   avail_today_free:"Available today",
-  cal_prev_day:"← Previous day",
-  cal_next_day:"Next day →",
+  cal_prev_day:"Previous",
+  cal_next_day:"Next",
   cabin_label:"Cabin",
   free:"free",
   booked:"booked",
@@ -1191,8 +1191,8 @@ lt: {
   avail_for_max:"Laisvas {d}+ dienas",
   avail_free_in:"Atlaisvės po {d} dienų",
   avail_today_free:"Laisvas šiandien",
-  cal_prev_day:"← Ankstesnė diena",
-  cal_next_day:"Kita diena →",
+  cal_prev_day:"Ankstesnė",
+  cal_next_day:"Kita",
   cabin_label:"Namelis",
   free:"laisvas",
   booked:"užimtas",
@@ -1316,8 +1316,8 @@ ru: {
   avail_for_max:"Доступен {d}+ дней",
   avail_free_in:"Освободится через {d} дн.",
   avail_today_free:"Доступен сегодня",
-  cal_prev_day:"← Предыдущий день",
-  cal_next_day:"Следующий день →",
+  cal_prev_day:"Назад",
+  cal_next_day:"Вперёд",
   cabin_label:"Домик",
   free:"свободен",
   booked:"занят"
@@ -2319,14 +2319,9 @@ function selectDateFromCalendar(ymd){
   // Render modal hero for date selection
   document.getElementById('modal-num').textContent = '📅';
   document.getElementById('modal-title').textContent = dateDisplay;
-  // Nav buttons + availability count in tagline
-  document.getElementById('modal-tagline').innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap">
-      <button onclick="navigateCalDate(-1)" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;border-radius:6px;padding:.3rem .7rem;cursor:pointer;font-size:.78rem;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">${t('cal_prev_day')}</button>
-      <span>${availableCabins.length}/${CABINS.length} ${t('cabins_available')}</span>
-      <button onclick="navigateCalDate(1)" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;border-radius:6px;padding:.3rem .7rem;cursor:pointer;font-size:.78rem;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">${t('cal_next_day')}</button>
-    </div>
-  `;
+  // Tagline — just show count (nav buttons go in modal body to avoid z-index conflict with modal-num)
+  document.getElementById('modal-tagline').textContent =
+    `${availableCabins.length}/${CABINS.length} ${t('cabins_available')}`;
   document.getElementById('modal-badges').innerHTML = availableCabins.map(c =>
     `<span class="cabin-type-badge ${c.type==='lux'?'badge-lux':c.type==='family'?'badge-family':'badge-double'}">#${c.id}</span>`
   ).join('');
@@ -2336,6 +2331,11 @@ function selectDateFromCalendar(ymd){
   const listArea = document.getElementById('modal-cabins-list-area');
   listArea.style.display = '';
   listArea.innerHTML = `
+    <!-- Day navigation bar — inside white modal body, no z-index conflict -->
+    <div style="display:flex;align-items:stretch;gap:.5rem;margin-bottom:1rem">
+      <button onclick="navigateCalDate(-1)" style="flex:1;min-width:0;padding:.65rem .5rem;background:var(--navy);color:white;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:background .2s;letter-spacing:.02em" onmouseover="this.style.background='var(--navy-dark)'" onmouseout="this.style.background='var(--navy)'">← ${t('cal_prev_day').replace('← ','')}</button>
+      <button onclick="navigateCalDate(1)" style="flex:1;min-width:0;padding:.65rem .5rem;background:var(--gold);color:white;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:background .2s;letter-spacing:.02em" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">${t('cal_next_day').replace(' →','')} →</button>
+    </div>
     <div class="modal-cabins-list">
       <div class="modal-cabins-list-title">${t('pick_cabins_for_date')}</div>
       ${CABINS.map(c => {
