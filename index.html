@@ -1554,34 +1554,38 @@ function renderModalBedlinen(){
   if (ids.length === 0) { wrap.innerHTML = ''; return; }
   const rows = ids.map(id => {
     const c = CABINS.find(x => x.id === id);
-    const qty = ST.perCabin[id].bedlinen_qty;
+    if (!c || !ST.perCabin[id]) return '';
+    const qty = ST.perCabin[id].bedlinen_qty ?? 0;
+    const maxG = c.maxG || 4;
     const active = qty > 0;
     return `
       <div class="extra-row ${active?'active':''}" id="bl-row-${id}">
         <div class="extra-text">
           <div class="extra-name-row">
-            <span class="extra-name">🛏 ${multi ? t('cabin'+id+'_name')+' · ' : ''}${t('bedlinen_toggle')}</span>
-            <span class="extra-price">${BEDLINEN_PRICE}€/${t('persons')}</span>
+            <span class="extra-name">🛏 ${multi ? t('cabin'+id+'_name')+' · ' : ''}Gultasveļa</span>
+            <span class="extra-price">${BEDLINEN_PRICE}€/pers.</span>
           </div>
-          <div class="extra-desc" style="color:var(--text-light);font-size:.72rem">Sega ar pārvalku · Palags · Spilvens ar pārvalku · Vienreizēja maksa</div>
+          <div class="extra-desc">Sega ar pārvalku · Palags · Spilvens · Vienreizēja maksa</div>
         </div>
         <div class="qty-ctrl">
           <button class="qty-btn" type="button" onclick="changeBedlinenQty(${id},-1)" ${qty<=0?'disabled':''} aria-label="−">−</button>
           <span class="qty-val">${qty}</span>
-          <button class="qty-btn" type="button" onclick="changeBedlinenQty(${id},1)" ${qty>=c.maxG?'disabled':''} aria-label="+">+</button>
+          <button class="qty-btn" type="button" onclick="changeBedlinenQty(${id},1)" ${qty>=maxG?'disabled':''} aria-label="+">+</button>
         </div>
       </div>
     `;
   }).join('');
   wrap.innerHTML = `
-    <div class="modal-section-title" style="margin-top:.5rem">${t('bedlinen_line')}</div>
-    <div style="font-size:.78rem;color:var(--text-light);margin-bottom:.7rem;line-height:1.5">${t('bedlinen_info')}</div>
+    <div class="modal-section-title" style="margin-top:.5rem">🛏 Gultasveļa
+      <span style="font-size:.72rem;color:var(--text-light);font-family:Inter;font-weight:400;text-transform:none;letter-spacing:0"> — nav iekļauta cenā · ${BEDLINEN_PRICE}€/pers. (vienreizēji)</span>
+    </div>
     <div class="modal-extras" style="margin-bottom:1rem">${rows}</div>
   `;
 }
 function changeBedlinenQty(cabinId, delta){
   const c = CABINS.find(x => x.id === cabinId);
-  const cur = ST.perCabin[cabinId].bedlinen_qty;
+  if (!c || !ST.perCabin[cabinId]) return;
+  const cur = ST.perCabin[cabinId].bedlinen_qty ?? 0;
   const next = Math.max(0, Math.min(c.maxG, cur + delta));
   ST.perCabin[cabinId].bedlinen_qty = next;
   const row = document.getElementById('bl-row-'+cabinId);
@@ -1786,12 +1790,14 @@ async function submitModalBooking(){
   });
 
   // Human-readable cabin summary (used by the email template)
-  const cabinSummary = ST.modalCabins.map(id => {
+  const cabinSummaryLines = ST.modalCabins.map(id => {
     const pc = ST.perCabin[id];
     const exList = EXTRAS.filter(ex => (pc.extras[ex.id]||0) > 0)
       .map(ex => `${t('e_'+ex.id+'_name')} ×${pc.extras[ex.id]}`).join(', ') || '—';
-    return `${t('cabin'+id+'_name')}: ${pc.guests} ${t('persons')}, ${pc.bedlinen?'+ '+t('bedlinen_line'):'—'}, extras: ${exList}`;
+    const blText = pc.bedlinen_qty > 0 ? `Gultasveļa ×${pc.bedlinen_qty}` : '—';
+    return `${t('cabin'+id+'_name')}: ${pc.guests} viesi, gultasveļa: ${blText}, papildus: ${exList}`;
   }).join('\n');
+  const cabinSummary = `REZERVĀCIJAS NR.: ${resNum}\nIerašanās: ${ci} (no 15:00) | Izbraukšana: ${co} (līdz 12:00)\nKopā: ${computeTotal().total}€\n\nMājiņas:\n${cabinSummaryLines}`;
 
   // One row describing the WHOLE reservation (all cabins together).
   // This is the row whose INSERT triggers the email webhook.
@@ -2118,7 +2124,7 @@ function toggleDateCabin(cabinId, checked){
     const c = CABINS.find(x => x.id === cabinId);
     ST.perCabin[cabinId] = {
       extras:{grill:0,coal:0,umbrella:0,chair:0},
-      bedlinen:true,
+      bedlinen_qty: 0,
       guests: Math.min(2, c.maxG)
     };
   } else if (!checked) {
