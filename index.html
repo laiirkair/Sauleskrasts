@@ -9,6 +9,106 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="attēls1.png">
+<link rel="canonical" href="https://sauleskrasts.lv/">
+
+<!-- Open Graph (Facebook, WhatsApp, iMessage previews) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sauleskrasts.lv/">
+<meta property="og:site_name" content="Saules Krasts">
+<meta property="og:title" content="Saules Krasts — Kempings pie Jūras | Ragaciems">
+<meta property="og:description" content="5 koka mājiņas tieši pie jūras Ragaciemā. Klusums, daba, mājdzīvnieki gaidīti. Rezervē tiešsaistē!">
+<meta property="og:image" content="https://sauleskrasts.lv/saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="lt_LT">
+<meta property="og:locale:alternate" content="ru_RU">
+
+<!-- Twitter/X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Saules Krasts — Kempings pie Jūras">
+<meta name="twitter:description" content="5 koka mājiņas tieši pie jūras Ragaciemā. Rezervē tiešsaistē!">
+<meta name="twitter:image" content="https://sauleskrasts.lv/saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg">
+
+<!-- Schema.org: Campground structured data for Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Campground",
+  "name": "Saules Krasts",
+  "alternateName": "Saules Krasts Seaside Camping",
+  "description": "Piecas koka mājiņas tieši pie jūras Ragaciemā, Latvijā. Klusums, daba, mājdzīvnieki gaidīti.",
+  "url": "https://sauleskrasts.lv",
+  "telephone": "+37129388788",
+  "email": "antra.sila@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Bākas iela 10",
+    "addressLocality": "Ragaciems",
+    "addressRegion": "Tukuma novads",
+    "postalCode": "LV-3118",
+    "addressCountry": "LV"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 57.052,
+    "longitude": 23.124
+  },
+  "image": "https://sauleskrasts.lv/saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg",
+  "priceRange": "55€ – 75€",
+  "checkinTime": "15:00",
+  "checkoutTime": "12:00",
+  "petsAllowed": true,
+  "numberOfRooms": 5,
+  "currenciesAccepted": "EUR",
+  "paymentAccepted": "Cash, Bank transfer",
+  "amenityFeature": [
+    {"@type": "LocationFeatureSpecification", "name": "Bezmaksas stāvvieta", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Mājdzīvnieki atļauti", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Pludmale", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Priežu mežs", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Dušas un tualetes", "value": true}
+  ],
+  "containsPlace": [
+    {
+      "@type": "Accommodation",
+      "name": "Mājiņa Nr. 1 — Ģimenes mājiņa",
+      "description": "Ģimenes mājiņa 4 personām, 15m², divguļamā + divstāvīgā gulta",
+      "occupancy": {"@type": "QuantitativeValue", "maxValue": 4},
+      "priceRange": "65€"
+    },
+    {
+      "@type": "Accommodation",
+      "name": "Mājiņa Nr. 2 — Ģimenes mājiņa",
+      "description": "Ģimenes mājiņa 4 personām, 15m², tumšās žalūzijas",
+      "occupancy": {"@type": "QuantitativeValue", "maxValue": 4},
+      "priceRange": "65€"
+    },
+    {
+      "@type": "Accommodation",
+      "name": "Mājiņa Nr. 3 — Divvietīgā",
+      "description": "Divvietīgā mājiņa 2 personām, 15m², divas atsevišķas gultas",
+      "occupancy": {"@type": "QuantitativeValue", "maxValue": 2},
+      "priceRange": "55€"
+    },
+    {
+      "@type": "Accommodation",
+      "name": "Mājiņa Nr. 4 — Divvietīgā",
+      "description": "Divvietīgā mājiņa 2 personām, 15m², tuvāk jūrai",
+      "occupancy": {"@type": "QuantitativeValue", "maxValue": 2},
+      "priceRange": "55€"
+    },
+    {
+      "@type": "Accommodation",
+      "name": "Mājiņa Nr. 5 — LUX",
+      "description": "LUX mājiņa 2 personām, tieši pie jūras, lielā gulta 160×200, ledusskapis, kafijas aparāts",
+      "occupancy": {"@type": "QuantitativeValue", "maxValue": 2},
+      "priceRange": "75€"
+    }
+  ]
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -418,7 +518,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-eyebrow" data-i18n="hero_eyebrow">Ragaciems · Jūras krasts</p>
-    <h1 class="hero-title" data-i18n="hero_title">Mosties pie <em>jūras,</em><br>kur saule aust</h1>
+    <h1 class="hero-title" data-i18n="hero_title">Pamosties pie <em>jūras,</em><br>kur saule mostas</h1>
     <p class="hero-sub" data-i18n="hero_sub">Piecas koka mājiņas Jūras krastā. Klusums, daba un jūras čalošana.</p>
     <div class="hero-actions">
       <a href="#cabins" class="btn-primary" data-i18n="hero_cta1">🌅 Rezervēt mājiņu</a>
@@ -662,6 +762,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
       <li><a href="noteikumi.html" data-i18n="nav_terms">Noteikumi</a></li>
+      <li><a href="privatuma-politika.html">Privātuma politika</a></li>
     </ul>
     <p class="footer-copy">© 2026 Saules Krasts · Ragaciems · antra.sila@gmail.com</p>
   </div>
@@ -724,7 +825,7 @@ const TR = {
 lv: {
   nav_cabins:"Mājiņas", nav_book:"Rezervēt", nav_contact:"Kontakti", nav_cta:"Rezervēt tagad",
   hero_eyebrow:"Ragaciems · Jūras krasts",
-  hero_title:"Mosties pie <em>jūras,</em><br>kur saule aust",
+  hero_title:"Pamosties pie <em>jūras,</em><br>kur saule mostas",
   hero_sub:"Piecas koka mājiņas Jūras krastā. Klusums, daba un jūras čalošana.",
   hero_cta1:"🌅 Rezervēt mājiņu", hero_cta2:"Apskatīt mājiņas",
   cabins_eyebrow:"Mūsu mājiņas",
@@ -2247,5 +2348,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 </script>
+
+<!-- Cookie / Google Fonts notice -->
+<div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(15,29,48,.96);color:rgba(255,255,255,.82);font-size:.78rem;padding:.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;backdrop-filter:blur(8px);box-shadow:0 -4px 20px rgba(0,0,0,.3)">
+  <span>🍪 Šī lapa izmanto Google Fonts, kas ielādē fontus no Google serveriem. Apmeklējot lapu, Jūsu IP adrese tiek nosūtīta Google. Citas sīkdatnes neizmantojam. <a href="privatuma-politika.html" style="color:#E8A84A;text-decoration:underline">Privātuma politika</a></span>
+  <button onclick="document.getElementById('cookie-banner').style.display='none';localStorage.setItem('ck','1')" style="background:var(--gold);color:white;border:none;border-radius:6px;padding:.45rem 1.1rem;font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0">Sapratu ✓</button>
+</div>
+<script>if(localStorage.getItem('ck'))document.getElementById('cookie-banner').style.display='none';</script>
 </body>
 </html>
