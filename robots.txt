@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /edge_function_send_booking_emails.ts
+
+Sitemap: https://sauleskrasts.lv/sitemap.xml

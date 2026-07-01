@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://sauleskrasts.lv/</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="lv" href="https://sauleskrasts.lv/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sauleskrasts.lv/"/>
+    <xhtml:link rel="alternate" hreflang="lt" href="https://sauleskrasts.lv/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://sauleskrasts.lv/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://sauleskrasts.lv/"/>
+  </url>
+
+  <url>
+    <loc>https://sauleskrasts.lv/noteikumi.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://sauleskrasts.lv/privatuma-politika.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
