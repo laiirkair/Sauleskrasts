@@ -883,6 +883,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
           </div>
         </div>
 
+        <!-- Add another cabin suggestion -->
+        <div id="modal-add-cabin-area"></div>
+
         <button class="modal-submit" id="modal-submit-btn" onclick="submitModalBooking()">
           <span data-i18n="submit_btn">Nosūtīt rezervācijas pieteikumu</span>
         </button>
@@ -1058,6 +1061,11 @@ lv: {
   nav_terms:"Noteikumi",
   pick_cabins_first:"Vispirms izvēlieties mājiņas augstāk ☝",
   add_label:"Pievienot",
+  add_cabin_title:"🏠 Pievienot vēl mājiņu?",
+  add_cabin_avail:"Jūsu izvēlētajā periodā pieejamas vēl {n} mājiņas:",
+  add_cabin_hint:"Katra mājiņa var tikt noformēta ar saviem papildus pakalpojumiem. Kontaktinformācija kopīga.",
+  add_cabin_added:"✓ Pievienota",
+  add_cabin_add:"+ Pievienot",
   added_label:"Pievienota",
   err_conflict:"⚠️ Izvēlētajā periodā jau ir rezervācija mājiņai: {cabins}. Lūdzu izvēlieties citu datumu.",
   multi_add_btn:"+ Pievienot",
@@ -1197,6 +1205,11 @@ en: {
   nav_terms:"Terms",
   pick_cabins_first:"First select cabins above ☝",
   add_label:"Add",
+  add_cabin_title:"🏠 Add another cabin?",
+  add_cabin_avail:"For your selected period, {n} more cabins are available:",
+  add_cabin_hint:"Each cabin can have its own extras. Contact details are shared.",
+  add_cabin_added:"✓ Added",
+  add_cabin_add:"+ Add",
   added_label:"Added",
   err_conflict:"⚠️ Selected period overlaps with existing booking for: {cabins}. Please choose different dates.",
   multi_add_btn:"+ Add to selection",
@@ -1336,6 +1349,11 @@ lt: {
   nav_terms:"Taisyklės",
   pick_cabins_first:"Pirmiausia pasirinkite namelius aukščiau ☝",
   add_label:"Pridėti",
+  add_cabin_title:"🏠 Pridėti dar namelį?",
+  add_cabin_avail:"Jūsų pasirinktam laikotarpiui dar {n} nameliai laisvi:",
+  add_cabin_hint:"Kiekvienas namelis gali turėti savo papildomas paslaugas. Kontaktinė informacija bendra.",
+  add_cabin_added:"✓ Pridėta",
+  add_cabin_add:"+ Pridėti",
   added_label:"Pridėta",
   err_conflict:"⚠️ Pasirinktas laikotarpis jau užimtas nameliui: {cabins}. Pasirinkite kitas datas.",
   multi_add_btn:"+ Pridėti",
@@ -1475,6 +1493,11 @@ ru: {
   nav_terms:"Правила",
   pick_cabins_first:"Сначала выберите домики выше ☝",
   add_label:"Добавить",
+  add_cabin_title:"🏠 Добавить ещё домик?",
+  add_cabin_avail:"На ваш период доступно ещё {n} домиков:",
+  add_cabin_hint:"У каждого домика могут быть свои дополнения. Контактные данные общие.",
+  add_cabin_added:"✓ Добавлено",
+  add_cabin_add:"+ Добавить",
   added_label:"Добавлено",
   err_conflict:"⚠️ Выбранный период уже забронирован для домика: {cabins}. Выберите другие даты.",
   multi_add_btn:"+ Добавить",
@@ -1810,11 +1833,21 @@ function openModal(){
   document.getElementById('cabin-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
   // Prevent past dates
-  const today = new Date().toISOString().split('T')[0];
+  const todayDate = new Date();
+  const today = toLocalYMD(todayDate);
   document.getElementById('m-checkin').min = today;
   document.getElementById('m-checkout').min = today;
-  // Auto-focus check-in date for fast keyboard use
-  setTimeout(() => document.getElementById('m-checkin')?.focus(), 350);
+  // Auto-fill today + tomorrow if no date selected yet
+  const ci = document.getElementById('m-checkin');
+  const co = document.getElementById('m-checkout');
+  if (!ci.value) {
+    ci.value = today;
+    const tom = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + 1);
+    const tomorrowYmd = toLocalYMD(tom);
+    co.value = tomorrowYmd;
+    co.min = tomorrowYmd;
+    setTimeout(() => { updateModalAvailInfo(today); renderAddCabinSuggestion(); }, 80);
+  }
 }
 function closeModal(){
   document.getElementById('cabin-modal').classList.remove('open');
@@ -1908,6 +1941,7 @@ function refreshModalContent(){
   renderModalExtras();
   recalcModalTotal();
   updateModalAvailInfo();
+  setTimeout(renderAddCabinSuggestion, 50);
 
   // i18n labels in static elements
   document.querySelectorAll('#cabin-modal [data-i18n]').forEach(el => {
@@ -2070,6 +2104,85 @@ function updateModalAvailInfo(ymd) {
     return `<div class="avail-info-row">${nameTag}${availBadge(id, dateToCheck)}</div>`;
   }).join('');
   el.innerHTML = rows;
+}
+
+
+// Check if cabin is free for ALL nights in a check-in → check-out period
+function isCabinFreeForPeriod(cabinId, ciYmd, coYmd) {
+  const [cy, cm, cd] = ciYmd.split('-').map(Number);
+  const [oy, om, od] = coYmd.split('-').map(Number);
+  const from = new Date(cy, cm-1, cd);
+  const to   = new Date(oy, om-1, od);
+  const nights = Math.round((to - from) / 864e5);
+  for (let d = 0; d < nights; d++) {
+    const check = new Date(cy, cm-1, cd + d);
+    if (isCabinBookedOn(cabinId, toLocalYMD(check))) return false;
+  }
+  return true;
+}
+
+function renderAddCabinSuggestion() {
+  const el = document.getElementById('modal-add-cabin-area');
+  if (!el) return;
+  const ci = document.getElementById('m-checkin').value;
+  const co = document.getElementById('m-checkout').value;
+  if (!ci || !co || ci >= co) { el.innerHTML = ''; return; }
+
+  // Cabins free for the whole period, not already selected
+  const available = CABINS.filter(c =>
+    !ST.modalCabins.includes(c.id) &&
+    isCabinFreeForPeriod(c.id, ci, co)
+  );
+  const alreadyExtra = ST.modalCabins.slice(1); // cabins added via this feature
+
+  if (available.length === 0 && alreadyExtra.length === 0) { el.innerHTML = ''; return; }
+
+  const hint = t('add_cabin_avail').replace('{n}', available.length);
+
+  el.innerHTML = `
+    <div style="background:linear-gradient(135deg,rgba(94,138,96,.07),rgba(200,136,42,.05));border:1.5px solid rgba(94,138,96,.4);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.12em;color:var(--moss);margin-bottom:.3rem">${t('add_cabin_title')}</div>
+      <div style="font-size:.78rem;color:var(--text-light);margin-bottom:.65rem;line-height:1.5">${hint}<br><span style="font-size:.72rem">${t('add_cabin_hint')}</span></div>
+      ${available.map(c => `
+        <label style="display:flex;align-items:center;gap:.7rem;padding:.5rem .7rem;border:1.5px solid rgba(0,0,0,.08);border-radius:8px;margin:.25rem 0;background:white;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor='var(--moss)'" onmouseout="this.style.borderColor='rgba(0,0,0,.08)'">
+          <input type="checkbox" style="width:17px;height:17px;accent-color:var(--moss);flex-shrink:0" onchange="toggleExtraCabin(${c.id}, this.checked)">
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;font-size:.85rem;color:var(--navy)">${t('cabin'+c.id+'_name')}</div>
+            <div style="font-size:.72rem;color:var(--text-light)">${t(c.type==='lux'?'type_lux':c.type==='family'?'type_family':'type_double')} · ${c.price}€/${t('per_night')} · ${availBadge(c.id, ci)}</div>
+          </div>
+        </label>
+      `).join('')}
+      ${alreadyExtra.length > 0 ? `<div style="font-size:.74rem;color:var(--moss);margin-top:.4rem">✓ ${alreadyExtra.map(id=>t('cabin'+id+'_name')).join(', ')} — ${t('add_cabin_added')}</div>` : ''}
+    </div>
+  `;
+}
+
+function toggleExtraCabin(cabinId, checked) {
+  if (checked && !ST.modalCabins.includes(cabinId)) {
+    ST.modalCabins.push(cabinId);
+    const c = CABINS.find(x => x.id === cabinId);
+    ST.perCabin[cabinId] = {
+      extras: {grill:0, coal:0, umbrella:0, chair:0},
+      bedlinen_qty: 0,
+      guests: Math.min(2, c.maxG)
+    };
+  } else if (!checked) {
+    ST.modalCabins = ST.modalCabins.filter(id => id !== cabinId);
+    delete ST.perCabin[cabinId];
+  }
+  // Update guests selector
+  const ga = document.getElementById('modal-guests-area');
+  if (ga) ga.innerHTML = ST.modalCabins.map(id => {
+    const c = CABINS.find(x => x.id === id);
+    const g = ST.perCabin[id]?.guests || 2;
+    const multi = ST.modalCabins.length > 1;
+    return `<div class="form-group"><label class="form-label">${multi?t('cabin_chip_label')+' #'+id+' · ':''}${t('guests_label')}</label><select class="form-select" onchange="setCabinGuests(${id},this.value)">${Array.from({length:c.maxG},(_,i)=>`<option value="${i+1}" ${i+1===g?'selected':''}>${i+1}</option>`).join('')}</select></div>`;
+  }).join('');
+  renderModalBedlinen();
+  renderModalExtras();
+  recalcModalTotal();
+  renderAddCabinSuggestion();
+  updateModalAvailInfo();
 }
 
 function calcNights(){
@@ -2716,8 +2829,9 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     recalcModalTotal();
     updateModalAvailInfo(ci);
+    renderAddCabinSuggestion();
   });
-  document.getElementById('m-checkout').addEventListener('change', recalcModalTotal);
+  document.getElementById('m-checkout').addEventListener('change', () => { recalcModalTotal(); renderAddCabinSuggestion(); });
 
   // ESC closes modal
   document.addEventListener('keydown', e => {
