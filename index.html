@@ -2107,17 +2107,22 @@ function updateModalAvailInfo(ymd) {
 }
 
 
-// Check if cabin is free for ALL nights in a check-in → check-out period
+// Check if cabin is free for ALL nights — with simple memoization
+const _periodFreeCache = {};
 function isCabinFreeForPeriod(cabinId, ciYmd, coYmd) {
+  const key = cabinId + '|' + ciYmd + '|' + coYmd;
+  if (_periodFreeCache[key] !== undefined) return _periodFreeCache[key];
   const [cy, cm, cd] = ciYmd.split('-').map(Number);
   const [oy, om, od] = coYmd.split('-').map(Number);
-  const from = new Date(cy, cm-1, cd);
-  const to   = new Date(oy, om-1, od);
-  const nights = Math.round((to - from) / 864e5);
+  const nights = Math.round((new Date(oy,om-1,od) - new Date(cy,cm-1,cd)) / 864e5);
   for (let d = 0; d < nights; d++) {
     const check = new Date(cy, cm-1, cd + d);
-    if (isCabinBookedOn(cabinId, toLocalYMD(check))) return false;
+    if (isCabinBookedOn(cabinId, toLocalYMD(check))) {
+      _periodFreeCache[key] = false;
+      return false;
+    }
   }
+  _periodFreeCache[key] = true;
   return true;
 }
 
@@ -2346,6 +2351,9 @@ Maksājuma mērķis: ${resNum}`;
     const c = CABINS.find(x => x.id === id);
     return { id, name: t('cabin'+id+'_name'), price: c.price, guests: ST.perCabin[id].guests };
   });
+  // NOTE: bank details are in cabinSummary (→ summary field)
+  // and in Edge Function as hardcoded fallbacks.
+  // Do NOT add bank_iban etc. — those columns don't exist in the table.
   const reservationRow = {
     reservation_nr: resNum,
     guest_name: name,
@@ -2357,12 +2365,7 @@ Maksājuma mērķis: ${resNum}`;
     cabins: cabinsForEmail,
     summary: cabinSummary,
     notes: notes || null,
-    total_price: total,
-    prepayment_30: prepay30,
-    bank_iban: BANK.iban,
-    bank_swift: BANK.swift,
-    bank_recipient: BANK.recipient,
-    bank_name: BANK.bank
+    total_price: total
   };
 
   try {
@@ -2510,6 +2513,7 @@ async function loadBookings(){
       throw error;
     }
     ST.bookings = data || [];
+    Object.keys(_periodFreeCache).forEach(k => delete _periodFreeCache[k]);
     console.log('✅ Ielādētas', ST.bookings.length, 'rezervācijas');
     if (ST.bookings.length === 0) {
       console.log('ℹ️ Nav nevienas aktīvas rezervācijas (vai RLS bloķē SELECT)');
