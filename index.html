@@ -2091,17 +2091,61 @@ function shiftCheckin(delta) {
   updateModalAvailInfo(newYmd);
 }
 
+// Returns {canBook, requestedNights, maxNights, extraAfter}
+function getAvailInfo(cabinId, ciYmd, coYmd) {
+  if (!ciYmd) return null;
+  const [cy, cm, cd] = ciYmd.split('-').map(Number);
+  // Max consecutive nights available from check-in
+  let maxNights = 0;
+  for (let d = 0; d < 90; d++) {
+    const check = new Date(cy, cm-1, cd + d);
+    if (isCabinBookedOn(cabinId, toLocalYMD(check))) break;
+    maxNights = d + 1;
+  }
+  if (!coYmd || ciYmd >= coYmd) return { canBook: maxNights > 0, maxNights, requestedNights: 0 };
+  const [oy, om, od] = coYmd.split('-').map(Number);
+  const requestedNights = Math.round((new Date(oy,om-1,od) - new Date(cy,cm-1,cd)) / 864e5);
+  const canBook = requestedNights <= maxNights;
+  // How many more nights free AFTER checkout
+  let extraAfter = 0;
+  if (canBook) {
+    for (let d = 0; d < 30; d++) {
+      const check = new Date(oy, om-1, od + d);
+      if (isCabinBookedOn(cabinId, toLocalYMD(check))) break;
+      extraAfter = d;
+    }
+  }
+  return { canBook, requestedNights, maxNights, extraAfter };
+}
+
+function availBadgeEx(cabinId, ciYmd, coYmd) {
+  const info = getAvailInfo(cabinId, ciYmd, coYmd);
+  if (!info) return '';
+  if (!info.requestedNights) {
+    // No checkout yet — show basic availability
+    if (!info.canBook) return `<span style="color:var(--coral);font-size:.73rem;font-weight:600">🔴 ${t('avail_free_in').replace('{d}','?')}</span>`;
+    const key = info.maxNights >= 30 ? 'avail_for_max' : 'avail_for';
+    return `<span style="color:var(--moss);font-size:.73rem;font-weight:600">🟢 ${t(key).replace('{d}', info.maxNights >= 30 ? '30' : info.maxNights)}</span>`;
+  }
+  if (info.canBook) {
+    const extra = info.extraAfter >= 30 ? '30+' : info.extraAfter;
+    const extraTxt = info.extraAfter > 0 ? ` · ${t('avail_for').replace('{d}', extra)} ${t('free')}` : '';
+    return `<span style="color:var(--moss);font-size:.73rem;font-weight:600">✅ ${t('avail_today_free')} ${info.requestedNights} naktis${extraTxt}</span>`;
+  } else {
+    return `<span style="color:var(--coral);font-size:.73rem;font-weight:600">❌ Nevar · maks. ${info.maxNights} naktis</span>`;
+  }
+}
+
 function updateModalAvailInfo(ymd) {
   const el = document.getElementById('modal-avail-info');
   if (!el) return;
-  const dateToCheck = ymd || document.getElementById('m-checkin').value;
-  if (!dateToCheck || ST.modalCabins.length === 0) { el.innerHTML = ''; return; }
+  const ci = ymd || document.getElementById('m-checkin').value;
+  const co = document.getElementById('m-checkout').value;
+  if (!ci || ST.modalCabins.length === 0) { el.innerHTML = ''; return; }
   const rows = ST.modalCabins.map(id => {
     const multi = ST.modalCabins.length > 1;
-    const nameTag = multi
-      ? `<span style="color:var(--text-light);font-size:.72rem">${t('cabin'+id+'_name')}: </span>`
-      : '';
-    return `<div class="avail-info-row">${nameTag}${availBadge(id, dateToCheck)}</div>`;
+    const nameTag = multi ? `<span style="color:var(--text-light);font-size:.72rem">${t('cabin'+id+'_name')}: </span>` : '';
+    return `<div class="avail-info-row">${nameTag}${availBadgeEx(id, ci, co)}</div>`;
   }).join('');
   el.innerHTML = rows;
 }
@@ -2133,31 +2177,43 @@ function renderAddCabinSuggestion() {
   const co = document.getElementById('m-checkout').value;
   if (!ci || !co || ci >= co) { el.innerHTML = ''; return; }
 
-  // Cabins free for the whole period, not already selected
-  const available = CABINS.filter(c =>
-    !ST.modalCabins.includes(c.id) &&
-    isCabinFreeForPeriod(c.id, ci, co)
+  // Primary cabin (index 0) stays fixed; extras are index 1+
+  const primaryId = ST.modalCabins[0];
+  const extraIds  = ST.modalCabins.slice(1);
+
+  // All other cabins (not the primary) — show both added and available
+  const otherCabins = CABINS.filter(c => c.id !== primaryId);
+  const hasAnyCabin = otherCabins.some(c =>
+    extraIds.includes(c.id) || isCabinFreeForPeriod(c.id, ci, co)
   );
-  const alreadyExtra = ST.modalCabins.slice(1); // cabins added via this feature
+  if (!hasAnyCabin) { el.innerHTML = ''; return; }
 
-  if (available.length === 0 && alreadyExtra.length === 0) { el.innerHTML = ''; return; }
-
-  const hint = t('add_cabin_avail').replace('{n}', available.length);
+  const freeCount = otherCabins.filter(c => !extraIds.includes(c.id) && isCabinFreeForPeriod(c.id, ci, co)).length;
+  const hint = t('add_cabin_avail').replace('{n}', freeCount);
 
   el.innerHTML = `
     <div style="background:linear-gradient(135deg,rgba(94,138,96,.07),rgba(200,136,42,.05));border:1.5px solid rgba(94,138,96,.4);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.12em;color:var(--moss);margin-bottom:.3rem">${t('add_cabin_title')}</div>
       <div style="font-size:.78rem;color:var(--text-light);margin-bottom:.65rem;line-height:1.5">${hint}<br><span style="font-size:.72rem">${t('add_cabin_hint')}</span></div>
-      ${available.map(c => `
-        <label style="display:flex;align-items:center;gap:.7rem;padding:.5rem .7rem;border:1.5px solid rgba(0,0,0,.08);border-radius:8px;margin:.25rem 0;background:white;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor='var(--moss)'" onmouseout="this.style.borderColor='rgba(0,0,0,.08)'">
-          <input type="checkbox" style="width:17px;height:17px;accent-color:var(--moss);flex-shrink:0" onchange="toggleExtraCabin(${c.id}, this.checked)">
-          <div style="flex:1;min-width:0">
-            <div style="font-weight:600;font-size:.85rem;color:var(--navy)">${t('cabin'+c.id+'_name')}</div>
-            <div style="font-size:.72rem;color:var(--text-light)">${t(c.type==='lux'?'type_lux':c.type==='family'?'type_family':'type_double')} · ${c.price}€/${t('per_night')} · ${availBadge(c.id, ci)}</div>
-          </div>
-        </label>
-      `).join('')}
-      ${alreadyExtra.length > 0 ? `<div style="font-size:.74rem;color:var(--moss);margin-top:.4rem">✓ ${alreadyExtra.map(id=>t('cabin'+id+'_name')).join(', ')} — ${t('add_cabin_added')}</div>` : ''}
+      ${otherCabins.map(c => {
+        const isAdded   = extraIds.includes(c.id);
+        const isFree    = isCabinFreeForPeriod(c.id, ci, co);
+        const disabled  = !isAdded && !isFree;
+        const bdrColor  = isAdded ? 'var(--moss)' : disabled ? 'rgba(0,0,0,.05)' : 'rgba(0,0,0,.1)';
+        const bg        = isAdded ? 'rgba(94,138,96,.07)' : disabled ? 'rgba(0,0,0,.02)' : 'white';
+        return `
+          <label style="display:flex;align-items:center;gap:.7rem;padding:.55rem .7rem;border:1.5px solid ${bdrColor};border-radius:8px;margin:.25rem 0;background:${bg};cursor:${disabled?'not-allowed':'pointer'};opacity:${disabled?.45:1}">
+            <input type="checkbox" style="width:17px;height:17px;accent-color:var(--moss);flex-shrink:0"
+              ${isAdded?'checked':''}
+              ${disabled?'disabled':''}
+              onchange="toggleExtraCabin(${c.id}, this.checked)">
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:600;font-size:.85rem;color:var(--navy)">${t('cabin'+c.id+'_name')}${isAdded?` <span style="color:var(--moss);font-size:.72rem">✓</span>`:''}</div>
+              <div style="font-size:.72rem;color:var(--text-light)">${t(c.type==='lux'?'type_lux':c.type==='family'?'type_family':'type_double')} · ${c.price}€/${t('per_night')}${disabled?' · <span style="color:var(--coral)">'+t('booked')+'</span>':''}</div>
+            </div>
+          </label>
+        `;
+      }).join('')}
     </div>
   `;
 }
@@ -2748,6 +2804,8 @@ function selectDateFromCalendar(ymd){
       document.getElementById('m-checkout').value = nextYmd;
       document.getElementById('m-checkout').min = nextYmd;
       recalcModalTotal();
+      updateModalAvailInfo(ymd);
+      renderAddCabinSuggestion();
     }, 100);
   } else {
     // Navigation between days: modal already open — set dates immediately, NO focus, scroll to top
