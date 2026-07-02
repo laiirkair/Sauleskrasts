@@ -302,6 +302,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   .find-us-nav-btns{flex-direction:column;align-items:stretch}
   .nav-map-btn{justify-content:center}
 }
+
+/* ─── MODAL DAY-NAV MINI BUTTONS ─────────────────────────────────── */
+.day-nav-mini{width:34px;height:38px;flex-shrink:0;background:var(--sand);border:1.5px solid rgba(0,0,0,.1);border-radius:6px;cursor:pointer;font-size:1rem;color:var(--navy);transition:all .2s;display:flex;align-items:center;justify-content:center;font-weight:700}
+.day-nav-mini:hover{background:var(--navy);color:white;border-color:var(--navy)}
+.avail-info-row{display:flex;align-items:center;gap:.4rem;padding:.35rem .6rem;border-radius:6px;background:rgba(0,0,0,.03);font-size:.78rem;flex-wrap:wrap}
 /* ─── CONTACT ─────────────────────────────────────────────────────── */
 #contact{background:var(--sand-light);padding:5.5rem 0}
 .contact-inner{max-width:680px;margin:0 auto;padding:0 2rem;text-align:center}
@@ -819,13 +824,19 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" data-i18n="checkin">Ierašanās</label>
-                <input type="date" class="form-input" id="m-checkin">
+                <div style="display:flex;gap:.35rem;align-items:center">
+                  <button type="button" class="day-nav-mini" onclick="shiftCheckin(-1)" aria-label="Iepriekšējā diena">←</button>
+                  <input type="date" class="form-input" id="m-checkin" style="flex:1;min-width:0">
+                  <button type="button" class="day-nav-mini" onclick="shiftCheckin(1)" aria-label="Nākamā diena">→</button>
+                </div>
               </div>
               <div class="form-group">
                 <label class="form-label" data-i18n="checkout">Izbraukšana</label>
                 <input type="date" class="form-input" id="m-checkout">
               </div>
             </div>
+            <!-- Availability info for selected check-in date -->
+            <div id="modal-avail-info"></div>
             <div id="modal-guests-area"></div>
           </div>
         </div>
@@ -1896,6 +1907,7 @@ function refreshModalContent(){
   renderModalBedlinen();
   renderModalExtras();
   recalcModalTotal();
+  updateModalAvailInfo();
 
   // i18n labels in static elements
   document.querySelectorAll('#cabin-modal [data-i18n]').forEach(el => {
@@ -2019,6 +2031,47 @@ function changeExtraQty(cabinId, exId, delta){
 }
 
 // ───── PRICE CALCULATION ────────────────────────────────────────────
+
+function shiftCheckin(delta) {
+  const input = document.getElementById('m-checkin');
+  let baseYmd = input.value;
+  if (!baseYmd) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    baseYmd = toLocalYMD(today);
+  }
+  const [y, m, d] = baseYmd.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  date.setDate(date.getDate() + delta);
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (date < today) return;
+  const newYmd = toLocalYMD(date);
+  input.value = newYmd;
+  // Update checkout min
+  const next = new Date(y, m - 1, d);
+  next.setDate(date.getDate() + 1);
+  const nextYmd = toLocalYMD(next);
+  document.getElementById('m-checkout').min = nextYmd;
+  const co = document.getElementById('m-checkout');
+  if (!co.value || co.value <= newYmd) co.value = nextYmd;
+  recalcModalTotal();
+  updateModalAvailInfo(newYmd);
+}
+
+function updateModalAvailInfo(ymd) {
+  const el = document.getElementById('modal-avail-info');
+  if (!el) return;
+  const dateToCheck = ymd || document.getElementById('m-checkin').value;
+  if (!dateToCheck || ST.modalCabins.length === 0) { el.innerHTML = ''; return; }
+  const rows = ST.modalCabins.map(id => {
+    const multi = ST.modalCabins.length > 1;
+    const nameTag = multi
+      ? `<span style="color:var(--text-light);font-size:.72rem">${t('cabin'+id+'_name')}: </span>`
+      : '';
+    return `<div class="avail-info-row">${nameTag}${availBadge(id, dateToCheck)}</div>`;
+  }).join('');
+  el.innerHTML = rows;
+}
+
 function calcNights(){
   const ci = document.getElementById('m-checkin').value;
   const co = document.getElementById('m-checkout').value;
@@ -2662,6 +2715,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (!co.value || co.value <= ci) co.value = nextYmd;
     }
     recalcModalTotal();
+    updateModalAvailInfo(ci);
   });
   document.getElementById('m-checkout').addEventListener('change', recalcModalTotal);
 
