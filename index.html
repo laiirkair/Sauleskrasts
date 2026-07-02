@@ -44,10 +44,8 @@
   "email": "antra.sila@gmail.com",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Bākas iela 10",
     "addressLocality": "Ragaciems",
     "addressRegion": "Tukuma novads",
-    "postalCode": "LV-3118",
     "addressCountry": "LV"
   },
   "geo": {
@@ -279,6 +277,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .info-item h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--navy);margin-bottom:.35rem;font-weight:600}
 .info-item p{font-size:.8rem;color:var(--text-light);line-height:1.6}
 
+
+/* ─── FIND US ─────────────────────────────────────────────────────── */
+#find-us{background:var(--sand-light);padding:5.5rem 0}
+.find-us-inner{max-width:900px;margin:0 auto;padding:0 2rem}
+.find-us-desc{font-size:.95rem;line-height:1.85;color:var(--text);max-width:680px;margin:1.2rem auto 2rem;text-align:center}
+.find-us-map{border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:1.5rem;line-height:0}
+.find-us-map iframe{width:100%;height:360px;border:none;display:block}
+.find-us-info{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.find-us-info-box{background:white;border-radius:10px;padding:1rem 1.2rem;box-shadow:var(--shadow)}
+.find-us-info-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.find-us-info-val{font-size:.88rem;color:var(--navy);font-weight:500;line-height:1.5}
+.find-us-nav-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.nav-map-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:40px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .25s;border:none;cursor:pointer}
+.nav-map-btn--gmaps{background:#4285F4;color:white}
+.nav-map-btn--gmaps:hover{background:#3367D6;transform:translateY(-2px)}
+.nav-map-btn--waze{background:#33CCFF;color:var(--navy)}
+.nav-map-btn--waze:hover{background:#00BBEE;transform:translateY(-2px)}
+.nav-map-btn--apple{background:var(--navy);color:white}
+.nav-map-btn--apple:hover{background:var(--navy-dark);transform:translateY(-2px)}
+@media(max-width:640px){
+  .find-us-info{grid-template-columns:1fr}
+  .find-us-map iframe{height:260px}
+  .find-us-nav-btns{flex-direction:column;align-items:stretch}
+  .nav-map-btn{justify-content:center}
+}
 /* ─── CONTACT ─────────────────────────────────────────────────────── */
 #contact{background:var(--sand-light);padding:5.5rem 0}
 .contact-inner{max-width:680px;margin:0 auto;padding:0 2rem;text-align:center}
@@ -528,6 +551,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
     <li><a href="#gallery" data-i18n="nav_gallery">Galerija</a></li>
     <li><a href="#availability" data-i18n="nav_availability">Pieejamība</a></li>
+    <li><a href="#find-us" data-i18n="find_us_eyebrow">Kā mūs atrast</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
     <li><a href="noteikumi.html" data-i18n="nav_terms">Noteikumi</a></li>
     <li>
@@ -681,6 +705,53 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 </section>
 
 <!-- CONTACT -->
+<!-- FIND US -->
+<section id="find-us">
+  <div class="find-us-inner">
+    <div class="section-header">
+      <p class="section-eyebrow" data-i18n="find_us_eyebrow">Kā mūs atrast</p>
+      <h2 class="section-title" data-i18n="find_us_title">Atrašanās <em>vieta</em></h2>
+    </div>
+    <p class="find-us-desc" data-i18n="find_us_desc">Kempings Saules Krasts var lepoties ar ērtu piekļūšanu pie smilšainās Rīgas jūras līča pludmales. Mūsu teritorija atrodas nost no ceļa burzmas un trokšņiem — tajā valda miers, Jūra un klusums.</p>
+
+    <div class="find-us-map">
+      <iframe
+        src="https://maps.google.com/maps?q=57.027500,23.495583&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Saules Krasts kempinga atrašanās vieta">
+      </iframe>
+    </div>
+
+    <div class="find-us-info">
+      <div class="find-us-info-box">
+        <div class="find-us-info-label" data-i18n="find_us_location">Atrašanās vieta</div>
+        <div class="find-us-info-val">📍 Ragaciems<br><span style="color:var(--text-light);font-size:.82rem">Tukuma novads, Latvija<br>Pie Rīgas jūras līča</span></div>
+      </div>
+      <div class="find-us-info-box">
+        <div class="find-us-info-label" data-i18n="find_us_gps">GPS koordinātes</div>
+        <div class="find-us-info-val" style="font-family:monospace;font-size:.84rem">
+          57°01′39.0″N<br>23°29′44.1″E<br>
+          <span style="color:var(--text-light);font-size:.75rem">57.027500, 23.495583</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="find-us-nav-btns">
+      <a href="https://www.google.com/maps/dir/?api=1&destination=57.027500,23.495583" target="_blank" rel="noopener" class="nav-map-btn nav-map-btn--gmaps">
+        🗺️ <span data-i18n="nav_gmaps">Google Maps</span>
+      </a>
+      <a href="https://waze.com/ul?ll=57.027500,23.495583&navigate=yes" target="_blank" rel="noopener" class="nav-map-btn nav-map-btn--waze">
+        🚗 <span data-i18n="nav_waze">Waze</span>
+      </a>
+      <a href="https://maps.apple.com/?daddr=57.027500,23.495583" target="_blank" rel="noopener" class="nav-map-btn nav-map-btn--apple">
+        🍎 <span data-i18n="nav_apple">Apple Maps</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
 <section id="contact">
   <div class="contact-inner">
     <div class="section-header">
@@ -818,7 +889,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     <div class="footer-logo"><img src="logo.png" alt="Saules Krasts"></div>
     <ul class="footer-links">
       <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
+      <li><a href="#find-us" data-i18n="find_us_eyebrow">Kā mūs atrast</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Kontakti</a></li>
       <li><a href="noteikumi.html" data-i18n="nav_terms">Noteikumi</a></li>
       <li><a href="privatuma-politika.html">Privātuma politika</a></li>
     </ul>
@@ -937,6 +1009,15 @@ lv: {
   cabin_price:"Mājiņa", nights:"naktis", bedlinen_line:"Gultasveļa",
   bedlinen_removed:"Gultasveļa (noņemta)",
   success_title:"✅ Pieteikums saņemts!", new_booking:"Aizvērt",
+  find_us_eyebrow:"Kā mūs atrast",
+  find_us_title:"Atrašanās <em>vieta</em>",
+  find_us_desc:"Kempings Saules Krasts var lepoties ar ērtu piekļūšanu pie smilšainās Rīgas jūras līča pludmales. Mūsu teritorija atrodas nost no ceļa burzmas un trokšņiem — tajā valda miers, Jūra un klusums.",
+  find_us_location:"Atrašanās vieta",
+  find_us_gps:"GPS koordinātes",
+  find_us_nav:"Navigācija",
+  nav_gmaps:"Google Maps",
+  nav_waze:"Waze",
+  nav_apple:"Apple Maps",
   contact_eyebrow:"Kontakti", contact_title:"Jautājumi? <em>Sazinieties!</em>",
   contact_addr:"Ragaciems, Engures novads, Latvija<br>Atbildam ātrāk WhatsApp 🟢",
   call_btn:"📞 +371 29388788", wa_btn:"💬 WhatsApp", email_btn:"✉️ E-pasts",
@@ -1066,6 +1147,15 @@ en: {
   cabin_price:"Cabin", nights:"nights", bedlinen_line:"Bed linen",
   bedlinen_removed:"Bed linen (removed)",
   success_title:"✅ Request received!", new_booking:"Close",
+  find_us_eyebrow:"How to find us",
+  find_us_title:"Our <em>location</em>",
+  find_us_desc:"Saules Krasts campsite boasts easy access to the sandy shores of the Gulf of Riga. Our grounds lie away from road noise and bustle — here, peace, the Sea and silence prevail.",
+  find_us_location:"Location",
+  find_us_gps:"GPS coordinates",
+  find_us_nav:"Navigation",
+  nav_gmaps:"Google Maps",
+  nav_waze:"Waze",
+  nav_apple:"Apple Maps",
   contact_eyebrow:"Contact", contact_title:"Questions? <em>Get in touch!</em>",
   contact_addr:"Ragaciems, Engure District, Latvia<br>We respond faster on WhatsApp 🟢",
   call_btn:"📞 +371 29388788", wa_btn:"💬 WhatsApp", email_btn:"✉️ Email",
@@ -1195,6 +1285,15 @@ lt: {
   cabin_price:"Namelis", nights:"naktys", bedlinen_line:"Patalynė",
   bedlinen_removed:"Patalynė (pašalinta)",
   success_title:"✅ Užklausa gauta!", new_booking:"Uždaryti",
+  find_us_eyebrow:"Kaip mus rasti",
+  find_us_title:"Mūsų <em>vieta</em>",
+  find_us_desc:"Kempingas Saules Krasts gali pasigirti patogiu priėjimu prie smėlėto Rygos įlankos paplūdimio. Mūsų teritorija yra atokiau nuo kelio triukšmo ir šurmulio — čia viešpatauja ramybė, Jūra ir tyla.",
+  find_us_location:"Vieta",
+  find_us_gps:"GPS koordinatės",
+  find_us_nav:"Navigacija",
+  nav_gmaps:"Google Maps",
+  nav_waze:"Waze",
+  nav_apple:"Apple Maps",
   contact_eyebrow:"Kontaktai", contact_title:"Klausimai? <em>Susisiekite!</em>",
   contact_addr:"Ragaciems, Engurės rajonas, Latvija<br>Greičiau atsakome WhatsApp 🟢",
   call_btn:"📞 +371 29388788", wa_btn:"💬 WhatsApp", email_btn:"✉️ El. paštas",
@@ -1324,6 +1423,15 @@ ru: {
   cabin_price:"Домик", nights:"ночей", bedlinen_line:"Бельё",
   bedlinen_removed:"Бельё (убрано)",
   success_title:"✅ Заявка получена!", new_booking:"Закрыть",
+  find_us_eyebrow:"Как нас найти",
+  find_us_title:"Наше <em>расположение</em>",
+  find_us_desc:"Кемпинг Saules Krasts может похвастаться удобным доступом к песчаному пляжу Рижского залива. Наша территория находится вдали от дорожного шума и суеты — здесь царят покой, Море и тишина.",
+  find_us_location:"Местоположение",
+  find_us_gps:"GPS координаты",
+  find_us_nav:"Навигация",
+  nav_gmaps:"Google Maps",
+  nav_waze:"Waze",
+  nav_apple:"Apple Maps",
   contact_eyebrow:"Контакты", contact_title:"Вопросы? <em>Свяжитесь!</em>",
   contact_addr:"Рагациемс, Энгурский край, Латвия<br>Быстрее отвечаем в WhatsApp 🟢",
   call_btn:"📞 +371 29388788", wa_btn:"💬 WhatsApp", email_btn:"✉️ Эл. почта",
