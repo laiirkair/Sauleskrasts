@@ -1057,6 +1057,12 @@ lv: {
   err_no_phone:"Ievadiet tālruņa numuru.",
   err_no_dates:"Ievadiet ierašanās un izbraukšanas datumus.",
   err_dates:"Izbraukšanai jābūt pēc ierašanās.",
+  err_dates_unavailable:"❌ Izvēlētie datumi nav pieejami. Lūdzu mainiet datumus.",
+  avail_can_book:"✅ Var rezervēt — {n} naktis",
+  avail_also_free:"brīva vēl {n} naktis",
+  avail_cannot:"❌ Nevar rezervēt",
+  avail_max:"Maks. pieejams: {n} naktis",
+  avail_checking:"⏳ Pārbauda pieejamību...",
   err_fail:"Kļūda. Lūdzu sazinieties: +371 29388788",
   nav_terms:"Noteikumi",
   pick_cabins_first:"Vispirms izvēlieties mājiņas augstāk ☝",
@@ -1201,6 +1207,12 @@ en: {
   err_no_phone:"Enter your phone number.",
   err_no_dates:"Enter check-in and check-out dates.",
   err_dates:"Check-out must be after check-in.",
+  err_dates_unavailable:"❌ Selected dates are not available. Please choose different dates.",
+  avail_can_book:"✅ Available — {n} nights",
+  avail_also_free:"{n} more nights free",
+  avail_cannot:"❌ Not available",
+  avail_max:"Max. available: {n} nights",
+  avail_checking:"⏳ Checking availability...",
   err_fail:"Error. Please contact us: +371 29388788",
   nav_terms:"Terms",
   pick_cabins_first:"First select cabins above ☝",
@@ -1345,6 +1357,12 @@ lt: {
   err_no_phone:"Įveskite telefono numerį.",
   err_no_dates:"Įveskite atvykimo ir išvykimo datas.",
   err_dates:"Išvykimas turi būti po atvykimo.",
+  err_dates_unavailable:"❌ Pasirinktos datos neprieinamos. Pasirinkite kitas datas.",
+  avail_can_book:"✅ Galima rezervuoti — {n} naktis",
+  avail_also_free:"dar {n} naktys laisvos",
+  avail_cannot:"❌ Negalima rezervuoti",
+  avail_max:"Maks. prieinamos: {n} naktys",
+  avail_checking:"⏳ Tikrinama prieinamumas...",
   err_fail:"Klaida. Susisiekite: +371 29388788",
   nav_terms:"Taisyklės",
   pick_cabins_first:"Pirmiausia pasirinkite namelius aukščiau ☝",
@@ -1489,6 +1507,12 @@ ru: {
   err_no_phone:"Введите номер телефона.",
   err_no_dates:"Введите даты заезда и выезда.",
   err_dates:"Дата выезда должна быть позже заезда.",
+  err_dates_unavailable:"❌ Выбранные даты недоступны. Пожалуйста, выберите другие даты.",
+  avail_can_book:"✅ Доступно — {n} ночей",
+  avail_also_free:"ещё {n} ночей свободно",
+  avail_cannot:"❌ Недоступно",
+  avail_max:"Макс. доступно: {n} ночей",
+  avail_checking:"⏳ Проверка доступности...",
   err_fail:"Ошибка. Свяжитесь: +371 29388788",
   nav_terms:"Правила",
   pick_cabins_first:"Сначала выберите домики выше ☝",
@@ -2122,17 +2146,25 @@ function availBadgeEx(cabinId, ciYmd, coYmd) {
   const info = getAvailInfo(cabinId, ciYmd, coYmd);
   if (!info) return '';
   if (!info.requestedNights) {
-    // No checkout yet — show basic availability
-    if (!info.canBook) return `<span style="color:var(--coral);font-size:.73rem;font-weight:600">🔴 ${t('avail_free_in').replace('{d}','?')}</span>`;
-    const key = info.maxNights >= 30 ? 'avail_for_max' : 'avail_for';
-    return `<span style="color:var(--moss);font-size:.73rem;font-weight:600">🟢 ${t(key).replace('{d}', info.maxNights >= 30 ? '30' : info.maxNights)}</span>`;
+    // No checkout yet — show basic availability from check-in
+    if (!info.canBook) {
+      return `<span style="color:var(--coral);font-size:.73rem;font-weight:600">
+        🔴 ${t('avail_cannot')}</span>`;
+    }
+    const n = info.maxNights >= 30 ? '30+' : info.maxNights;
+    return `<span style="color:var(--moss);font-size:.73rem;font-weight:600">
+      🟢 ${t('avail_for').replace('{d}', n)}</span>`;
   }
   if (info.canBook) {
+    const canBookTxt = t('avail_can_book').replace('{n}', info.requestedNights);
     const extra = info.extraAfter >= 30 ? '30+' : info.extraAfter;
-    const extraTxt = info.extraAfter > 0 ? ` · ${t('avail_for').replace('{d}', extra)} ${t('free')}` : '';
-    return `<span style="color:var(--moss);font-size:.73rem;font-weight:600">✅ ${t('avail_today_free')} ${info.requestedNights} naktis${extraTxt}</span>`;
+    const extraTxt = info.extraAfter > 0
+      ? ` · <span style="color:var(--text-light)">${t('avail_also_free').replace('{n}', extra)}</span>` : '';
+    return `<span style="color:var(--moss);font-size:.78rem;font-weight:600">${canBookTxt}${extraTxt}</span>`;
   } else {
-    return `<span style="color:var(--coral);font-size:.73rem;font-weight:600">❌ Nevar · maks. ${info.maxNights} naktis</span>`;
+    const cannotTxt = t('avail_cannot');
+    const maxTxt = t('avail_max').replace('{n}', info.maxNights);
+    return `<span style="color:var(--coral);font-size:.78rem;font-weight:600">${cannotTxt} · ${maxTxt}</span>`;
   }
 }
 
@@ -2246,6 +2278,41 @@ function toggleExtraCabin(cabinId, checked) {
   updateModalAvailInfo();
 }
 
+
+// Check if ALL selected cabins are free for the full period
+// Updates submit button state and shows overall status
+function checkAllCabinsAvailable() {
+  const ci = document.getElementById('m-checkin').value;
+  const co = document.getElementById('m-checkout').value;
+  const btn = document.getElementById('modal-submit-btn');
+  const errEl = document.getElementById('modal-error');
+  if (!ci || !co || ci >= co || ST.modalCabins.length === 0) {
+    if (btn) btn.disabled = false;
+    return true;
+  }
+  const conflicts = ST.modalCabins.filter(id => !isCabinFreeForPeriod(id, ci, co));
+  if (conflicts.length > 0) {
+    if (errEl) {
+      errEl.textContent = t('err_dates_unavailable');
+      errEl.classList.add('visible');
+    }
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = '.45';
+      btn.style.cursor = 'not-allowed';
+    }
+    return false;
+  } else {
+    if (errEl) errEl.classList.remove('visible');
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.style.cursor = '';
+    }
+    return true;
+  }
+}
+
 function calcNights(){
   const ci = document.getElementById('m-checkin').value;
   const co = document.getElementById('m-checkout').value;
@@ -2316,6 +2383,13 @@ async function submitModalBooking(){
   errEl.classList.remove('visible');
 
   if (ST.modalCabins.length === 0) return showErr(t('err_no_cabin'));
+  // Block if dates are not available for any selected cabin
+  if (ci && co && ci < co) {
+    const conflicts = ST.modalCabins.filter(id => !isCabinFreeForPeriod(id, ci, co));
+    if (conflicts.length > 0) {
+      return showErr(t('err_dates_unavailable'));
+    }
+  }
   if (!name)  return showErr(t('err_no_name'));
   if (!email || !email.includes('@')) return showErr(t('err_no_email'));
   if (!phone) return showErr(t('err_no_phone'));
@@ -2892,8 +2966,9 @@ window.addEventListener('DOMContentLoaded', () => {
     recalcModalTotal();
     updateModalAvailInfo(ci);
     renderAddCabinSuggestion();
+    checkAllCabinsAvailable();
   });
-  document.getElementById('m-checkout').addEventListener('change', () => { recalcModalTotal(); renderAddCabinSuggestion(); });
+  document.getElementById('m-checkout').addEventListener('change', () => { recalcModalTotal(); updateModalAvailInfo(); renderAddCabinSuggestion(); checkAllCabinsAvailable(); });
 
   // ESC closes modal
   document.addEventListener('keydown', e => {
