@@ -278,6 +278,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .info-item p{font-size:.8rem;color:var(--text-light);line-height:1.6}
 
 
+
+/* ─── GOOGLE REVIEWS ────────────────────────────────────────────────── */
+#reviews{background:var(--white);padding:5rem 0}
+#reviews .section-eyebrow{color:var(--gold)}
+.reviews-overall{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin:1.5rem 0 2.5rem;flex-wrap:wrap}
+.reviews-score{font-family:"Bebas Neue",sans-serif;font-size:4rem;color:var(--navy);line-height:1}
+.reviews-meta{text-align:left}
+.reviews-stars{color:#F4B400;font-size:1.4rem;letter-spacing:.05rem}
+.reviews-count{font-size:.82rem;color:var(--text-light);margin-top:.2rem}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;max-width:1000px;margin:0 auto;padding:0 2rem}
+.review-card{background:var(--sand-light);border-radius:12px;padding:1.3rem 1.4rem;border:1px solid rgba(0,0,0,.06);display:flex;flex-direction:column;gap:.7rem}
+.review-header{display:flex;align-items:center;gap:.8rem}
+.review-avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;font-family:"Bebas Neue",sans-serif;font-size:1.2rem;flex-shrink:0}
+.review-author{font-weight:600;font-size:.88rem;color:var(--navy)}
+.review-date{font-size:.72rem;color:var(--text-light)}
+.review-stars{color:#F4B400;font-size:.9rem;letter-spacing:.05rem}
+.review-text{font-size:.84rem;line-height:1.7;color:var(--text);flex:1}
+.review-google{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:var(--text-light);margin-top:auto}
+.review-google svg{width:14px;height:14px}
+.reviews-cta{text-align:center;margin-top:2.5rem}
+.reviews-cta a{display:inline-flex;align-items:center;gap:.5rem;color:var(--text-light);font-size:.82rem;text-decoration:none;border:1px solid rgba(0,0,0,.12);padding:.6rem 1.3rem;border-radius:30px;transition:all .2s}
+.reviews-cta a:hover{background:var(--navy);color:white;border-color:var(--navy)}
+.reviews-loading{text-align:center;color:var(--text-light);font-size:.9rem;padding:2rem}
+@media(max-width:640px){.reviews-grid{grid-template-columns:1fr}.reviews-score{font-size:3rem}}
 /* ─── FIND US ─────────────────────────────────────────────────────── */
 #find-us{background:var(--sand-light);padding:5.5rem 0}
 .find-us-inner{max-width:900px;margin:0 auto;padding:0 2rem}
@@ -576,6 +600,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   <a href="index.html" class="nav-logo"><img src="logo.png" alt="Saules Krasts"></a>
   <ul class="nav-links">
     <li><a href="#cabins" data-i18n="nav_cabins">Mājiņas</a></li>
+    <li><a href="#reviews">⭐</a></li>
     <li><a href="#gallery" data-i18n="nav_gallery">Galerija</a></li>
     <li><a href="#availability" data-i18n="nav_availability">Pieejamība</a></li>
     <li><a href="#find-us" data-i18n="find_us_eyebrow">Kā mūs atrast</a></li>
@@ -675,6 +700,29 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         <div class="cal-legend-item" style="color:var(--text-light)"><span data-i18n="leg_hover">Uzejiet ar peli vai pieskarieties dienai detaļām</span></div>
       </div>
     </div>
+  </div>
+</section>
+
+
+<!-- GOOGLE REVIEWS -->
+<section id="reviews">
+  <div class="section-header">
+    <p class="section-eyebrow" data-i18n="reviews_eyebrow">Ko saka mūsu viesi</p>
+    <h2 class="section-title" data-i18n="reviews_title">Atsauksmes no <em>Google</em></h2>
+  </div>
+  <div id="reviews-overall" class="reviews-overall" style="display:none">
+    <div class="reviews-score" id="reviews-score">—</div>
+    <div class="reviews-meta">
+      <div class="reviews-stars" id="reviews-stars">★★★★★</div>
+      <div class="reviews-count" id="reviews-count"></div>
+    </div>
+  </div>
+  <div class="reviews-loading" id="reviews-loading">⏳ Ielādē atsauksmes...</div>
+  <div class="reviews-grid" id="reviews-grid"></div>
+  <div class="reviews-cta">
+    <a href="https://search.google.com/local/reviews?placeid=ChIJoyAm-gXl7kYRBy29-Mqd6zo" target="_blank" rel="noopener" data-i18n="reviews_all">
+      Visas atsauksmes Google →
+    </a>
   </div>
 </section>
 
@@ -1058,7 +1106,7 @@ lv: {
   extras_hint:"Izvēlieties papildus pakalpojumus — katru var pasūtīt līdz 2 vienībām uz mājiņu. Ja būs vajadzīgs vairāk, varēs piereģistrēties uz vietas.",
   e_grill_name:"Grila īre", e_grill_desc:"Ogļu grils ar restēm · maksa par diennakti",
   e_coal_name:"Ogles 10 L", e_coal_desc:"Kvalitatīvas ogles grilam (10 L)",
-  e_umbrella_name:"Saulessarga īre", e_umbrella_desc:"Liels pludmales saulessargs · maksa par diennakti",
+  e_umbrella_name:"Saulessarga īre", e_umbrella_desc:"Pludmales saulessargs · maksa par diennakti",
   e_chair_name:"Piepūšamais atpūtas krēsls", e_chair_desc:"Piepūšams atpūtas krēsls 170×85 cm ar palikni kājām · maksa par diennakti",
   checkin:"Ierašanās", checkout:"Izbraukšana", guests_label:"Viesu skaits",
   name_label:"Vārds, Uzvārds *", phone_label:"Tālrunis *", email_label:"E-pasts *",
@@ -1138,6 +1186,10 @@ lv: {
   terms_full_link:"📄 Pilni lietošanas noteikumi",
   nav_availability:"Pieejamība",
   nav_gallery:"Galerija",
+  reviews_eyebrow:"Ko saka mūsu viesi",
+  reviews_title:"Atsauksmes no <em>Google</em>",
+  reviews_write:"Atstāt atsauksmi Google",
+  reviews_all:"Visas atsauksmes Google",
   gallery_eyebrow:"Mirkļi un noskaņas",
   gallery_title:"Saules Krasts <em>caur gadalaiku</em>",
   gallery_hint:"Saullēkti, saulrieti, Jūra un tās noskaņas — kā tas izskatās dzīvē.",
@@ -1208,7 +1260,7 @@ en: {
   extras_hint:"Choose extras — up to 2 of each per cabin. If you need more, additional items can be booked on-site.",
   e_grill_name:"Grill hire", e_grill_desc:"Charcoal grill with grate · price per day",
   e_coal_name:"Charcoal 10 L", e_coal_desc:"Quality charcoal (10 L)",
-  e_umbrella_name:"Beach umbrella", e_umbrella_desc:"Large beach umbrella · price per day",
+  e_umbrella_name:"Beach umbrella", e_umbrella_desc:"Beach umbrella · price per day",
   e_chair_name:"Inflatable lounger", e_chair_desc:"Inflatable lounger 170×85 cm with footrest · price per day",
   checkin:"Check-in", checkout:"Check-out", guests_label:"Number of guests",
   name_label:"Full name *", phone_label:"Phone *", email_label:"Email *",
@@ -1288,6 +1340,10 @@ en: {
   terms_full_link:"📄 Full terms and conditions",
   nav_availability:"Availability",
   nav_gallery:"Gallery",
+  reviews_eyebrow:"What our guests say",
+  reviews_title:"Reviews from <em>Google</em>",
+  reviews_write:"Write a Google review",
+  reviews_all:"All reviews on Google",
   gallery_eyebrow:"Moments & Moods",
   gallery_title:"Saules Krasts <em>through the seasons</em>",
   gallery_hint:"Sunrises, sunsets, the Sea and its atmosphere — as it looks in real life.",
@@ -1358,7 +1414,7 @@ lt: {
   extras_hint:"Pasirinkite papildomas paslaugas — iki 2 vnt. vienam nameliui. Jei reikės daugiau, galima rezervuoti vietoje.",
   e_grill_name:"Grilio nuoma", e_grill_desc:"Anglių grilis su grotelėmis · mokestis per parą",
   e_coal_name:"Anglys 10 L", e_coal_desc:"Kokybingos anglys (10 L)",
-  e_umbrella_name:"Skėčio nuoma", e_umbrella_desc:"Didelis paplūdimio skėtis · mokestis per parą",
+  e_umbrella_name:"Skėčio nuoma", e_umbrella_desc:"Paplūdimio skėtis · mokestis per parą",
   e_chair_name:"Pripučiamas gultas", e_chair_desc:"Pripučiamas gultas 170×85 cm su kojų atrama · mokestis per parą",
   checkin:"Atvykimas", checkout:"Išvykimas", guests_label:"Svečių skaičius",
   name_label:"Vardas, Pavardė *", phone_label:"Telefonas *", email_label:"El. paštas *",
@@ -1438,6 +1494,10 @@ lt: {
   terms_full_link:"📄 Pilnos naudojimo sąlygos",
   nav_availability:"Prieinamumas",
   nav_gallery:"Galerija",
+  reviews_eyebrow:"Ką sako mūsų svečiai",
+  reviews_title:"Atsiliepimai iš <em>Google</em>",
+  reviews_write:"Palikti atsiliepimą Google",
+  reviews_all:"Visi atsiliepimai Google",
   gallery_eyebrow:"Akimirkos ir nuotaikos",
   gallery_title:"Saules Krasts <em>per sezonus</em>",
   gallery_hint:"Saulėtekiai, saulėlydžiai, Jūra ir jos nuotaikos — kaip tai atrodo iš tikrųjų.",
@@ -1508,7 +1568,7 @@ ru: {
   extras_hint:"Выберите дополнения — до 2 шт. каждого на домик. Если нужно больше, можно заказать на месте.",
   e_grill_name:"Аренда гриля", e_grill_desc:"Угольный гриль с решёткой · оплата за сутки",
   e_coal_name:"Уголь 10 л", e_coal_desc:"Качественный уголь (10 л)",
-  e_umbrella_name:"Аренда пляжного зонта", e_umbrella_desc:"Большой пляжный зонт · оплата за сутки",
+  e_umbrella_name:"Аренда пляжного зонта", e_umbrella_desc:"Пляжный зонт · оплата за сутки",
   e_chair_name:"Надувной шезлонг", e_chair_desc:"Надувной шезлонг 170×85 см с подставкой для ног · оплата за сутки",
   checkin:"Заезд", checkout:"Выезд", guests_label:"Количество гостей",
   name_label:"Имя, Фамилия *", phone_label:"Телефон *", email_label:"Эл. почта *",
@@ -1588,6 +1648,10 @@ ru: {
   terms_full_link:"📄 Полные условия использования",
   nav_availability:"Доступность",
   nav_gallery:"Галерея",
+  reviews_eyebrow:"Что говорят наши гости",
+  reviews_title:"Отзывы из <em>Google</em>",
+  reviews_write:"Оставить отзыв в Google",
+  reviews_all:"Все отзывы в Google",
   gallery_eyebrow:"Моменты и настроения",
   gallery_title:"Saules Krasts <em>сквозь сезоны</em>",
   gallery_hint:"Рассветы, закаты, Море и его атмосфера — как это выглядит в жизни.",
@@ -3196,6 +3260,94 @@ document.addEventListener('keydown', e => {
 });
 
 window.addEventListener('DOMContentLoaded', loadGallery);
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// GOOGLE REVIEWS — automātiska ielāde
+// Ievadiet savu Google Maps API atslēgu zemāk:
+const GOOGLE_MAPS_API_KEY = ''; // ← IEVADIET API ATSLĒGU ŠEIT
+const PLACE_ID = 'ChIJoyAm-gXl7kYRBy29-Mqd6zo';
+const REVIEW_LINK = 'https://search.google.com/local/reviews?placeid=ChIJoyAm-gXl7kYRBy29-Mqd6zo';
+// ═══════════════════════════════════════════════════════════
+
+function renderStars(n) {
+  return '★'.repeat(n) + '☆'.repeat(5 - n);
+}
+
+async function loadGoogleReviews() {
+  const grid = document.getElementById('reviews-grid');
+  const loading = document.getElementById('reviews-loading');
+  const overall = document.getElementById('reviews-overall');
+
+  if (!GOOGLE_MAPS_API_KEY) {
+    // API atslēga nav ievadīta — rāda instrukciju
+    loading.innerHTML = `<div style="color:var(--text-light);font-size:.82rem;padding:1rem 2rem;max-width:500px;margin:0 auto;line-height:1.8;background:rgba(200,136,42,.06);border-radius:10px;border:1px solid rgba(200,136,42,.2)">
+      📋 Lai rādītu Google atsauksmes, pievienojiet API atslēgu failā index.html.<br>
+      Meklējiet: <strong>GOOGLE_MAPS_API_KEY = ''</strong>
+    </div>`;
+    return;
+  }
+
+  try {
+    // Google Places API New
+    const url = `https://places.googleapis.com/v1/places/${PLACE_ID}?fields=rating,userRatingCount,reviews&languageCode=${LANG||'lv'}&key=${GOOGLE_MAPS_API_KEY}`;
+    const resp = await fetch(url, {
+      headers: { 'X-Goog-FieldMask': 'rating,userRatingCount,reviews' }
+    });
+    if (!resp.ok) throw new Error(resp.status);
+    const data = await resp.json();
+
+    loading.style.display = 'none';
+
+    // Overall rating
+    if (data.rating) {
+      document.getElementById('reviews-score').textContent = data.rating.toFixed(1);
+      document.getElementById('reviews-stars').textContent = renderStars(Math.round(data.rating));
+      document.getElementById('reviews-count').textContent = `${data.userRatingCount || ''} atsauksmes · Google`;
+      overall.style.display = 'flex';
+    }
+
+    // Individual reviews
+    const reviews = (data.reviews || []).filter(r => r.text?.text);
+    if (reviews.length === 0) {
+      grid.innerHTML = '<div class="reviews-loading" style="color:var(--text-light)">Atsauksmes drīz parādīsies...</div>';
+      return;
+    }
+
+    grid.innerHTML = reviews.map(r => {
+      const name = r.authorAttribution?.displayName || 'Viesis';
+      const initial = name.charAt(0).toUpperCase();
+      const stars = r.rating || 5;
+      const text = r.text?.text || '';
+      const time = r.relativePublishTimeDescription || '';
+      const colors = ['#1C2E4A','#5E8A60','#C8882A','#8B5E8A','#2E7D9E'];
+      const color = colors[name.charCodeAt(0) % colors.length];
+      return `
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar" style="background:${color}">${initial}</div>
+            <div>
+              <div class="review-author">${name}</div>
+              <div class="review-date">${time}</div>
+            </div>
+          </div>
+          <div class="review-stars">${renderStars(stars)}</div>
+          <div class="review-text">${text}</div>
+          <div class="review-google">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Google
+          </div>
+        </div>`;
+    }).join('');
+
+  } catch(err) {
+    console.warn('Reviews:', err);
+    loading.innerHTML = '<div style="color:var(--text-light);font-size:.82rem">Atsauksmes īslaicīgi nav pieejamas.</div>';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', loadGoogleReviews);
 </script>
 
 </body>
