@@ -264,12 +264,10 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
       <div class="gallery-toolbar-left">
         <div class="gal-stat" id="gal-stat">Ielādē bildes...</div>
       </div>
-      <label class="upload-btn" for="file-input" style="cursor:pointer">
+      <label class="upload-btn" style="cursor:pointer">
         ＋ Pievienot bildi
+        <input type="file" id="file-input" accept="image/*" style="display:none" onchange="prepareUpload(event)">
       </label>
-      <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp"
-        style="position:fixed;top:-200px;left:-200px;width:1px;height:1px;opacity:0"
-        onchange="prepareUpload(this.files)">
     </div>
 
     <div class="upload-progress" id="upload-progress">
@@ -644,132 +642,57 @@ let _pendingFile = null;
 let _pendingB64 = null;
 let _pendingExt = null;
 
-function prepareUpload(eventOrFiles){
-  var files = eventOrFiles && eventOrFiles.target ? eventOrFiles.target.files : eventOrFiles;
-  if(!files||files.length===0)return;
-  const file = files[0];
-  // Reset input NOW so user can re-select same file later
-  setTimeout(function(){ 
-    try{ document.getElementById('file-input').value=''; }catch(e){}
-  }, 100);
-  _pendingExt  = (file.name.split('.').pop()||'jpg').toLowerCase();
-  _pendingFile = file;
-  _pendingB64  = null;
+function prepareUpload(evt){
+  var file = evt && evt.target && evt.target.files && evt.target.files[0];
+  if(!file){return;}
+  _pendingExt = (file.name.split('.').pop()||'jpg').toLowerCase();
+  _pendingB64 = null;
 
-  // Read file with FileReader — must start in same sync tick as user gesture
-  const reader = new FileReader();
-
+  var reader = new FileReader();
   reader.onerror = function(){
-    showToast('Kļūda lasot failu. Mēģini izvēlēties vēlreiz.', true);
-    document.getElementById('file-input').value = '';
+    showToast('Nevar nolasīt failu. Mēģini vēlreiz.', true);
+    try{evt.target.value='';}catch(e){}
   };
-
-  reader.onload = function(ev){
-    // ev.target.result = "data:image/jpeg;base64,XXXX..."
-    const dataUrl = ev.target.result;
-    _pendingB64 = dataUrl.split(',')[1];
-
+  reader.onload = function(e){
+    _pendingB64 = e.target.result.split(',')[1];
     // Show preview
-    try { document.getElementById('naming-preview').src = dataUrl; } catch(e){}
-
-    // Pre-fill name from original filename
-    const baseName = (file.name||'bilde')
-      .replace(/\.[^.]+$/, '')
-      .replace(/[^a-z0-9]/gi, '-')
-      .toLowerCase()
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-    document.getElementById('naming-input').value = baseName;
+    var prev = document.getElementById('naming-preview');
+    if(prev) prev.src = e.target.result;
+    // Suggest name
+    var base = file.name.replace(/\.[^.]+$/,'').replace(/[^a-z0-9]/gi,'-').toLowerCase().replace(/-+/g,'-').replace(/^-|-$/g,'');
+    var inp = document.getElementById('naming-input');
+    if(inp){ inp.value = base; }
     updateNamingPreview();
-    document.getElementById('naming-overlay').classList.add('open');
-    setTimeout(function(){
-      const inp = document.getElementById('naming-input');
-      if(inp){ inp.focus(); inp.select(); }
-    }, 200);
+    // Open modal
+    var ov = document.getElementById('naming-overlay');
+    if(ov) ov.classList.add('open');
+    setTimeout(function(){if(inp){inp.focus();inp.select();}}, 200);
+    // Reset so same file can be picked again
+    try{evt.target.value='';}catch(e){}
   };
-
-  // Start reading — this is the key: call readAsDataURL in the SAME tick
   reader.readAsDataURL(file);
-  try{if(eventOrFiles&&eventOrFiles.target)eventOrFiles.target.value="";}catch(e){}
 }
 
-
-async function confirmNaming(){
-  if(!_pendingFile) return;
-  const val = document.getElementById('naming-input').value.trim();
-  if(!val) return;
-  const ext = _pendingExt || (_pendingFile ? _pendingFile.name.split('.').pop().toLowerCase() : 'jpg');
-  const newName = 'gallery-' + val + '.' + ext;
-
-  // Check for duplicate
-  if(galleryFiles.some(f => f.name === newName)){
-    showToast('⚠️ Šāds nosaukums jau eksistē!', true);
-    return;
-  }
-
-  closeNaming();
-
-  const prog = document.getElementById('upload-progress');
-  const bar  = document.getElementById('progress-bar');
-  const txt  = document.getElementById('progress-text');
-  const title= document.getElementById('progress-title');
-  prog.classList.add('show');
-  title.textContent = 'Augšupielādē...';
-  bar.style.width = '30%';
-  txt.textContent = newName;
-
-  try{
-    if(!_pendingB64) throw new Error('Attēls nav sagatavots. Mēģini vēlreiz.');
-    const b64 = _pendingB64;
-    bar.style.width = '70%';
-    await ghPut(newName, b64, null, 'Admin: pievienota bilde ' + newName);
-    bar.style.width = '100%';
-    title.textContent = '✅ Augšupielādēts!';
-    txt.textContent = newName;
-    showToast('✅ ' + newName + ' pievienota!');
-  }catch(e){
-    showToast('Kļūda: ' + e.message, true);
-  }
-  setTimeout(()=>{prog.classList.remove('show');bar.style.width='0%';}, 1500);
-  _pendingFile = null;
-  await loadGallery();
+function updateNamingPreview(){
+  var val=document.getElementById('naming-input').value.trim();
+  var ext=_pendingExt||'jpg';
+  var full=val?('gallery-'+val+'.'+ext).toLowerCase():'gallery-';
+  var el=document.getElementById('naming-full-name');
+  if(el)el.innerHTML='Faila nosaukums: <strong style="color:var(--navy)">'+full+'</strong>';
+  var wrap=document.getElementById('naming-input-wrap');
+  var btn=document.getElementById('naming-confirm-btn');
+  var valid=val.length>0&&/^[a-z0-9_-]+$/i.test(val);
+  if(wrap)wrap.style.borderColor=val.length===0?'rgba(0,0,0,.1)':valid?'var(--moss)':'var(--coral)';
+  if(btn)btn.disabled=!valid;
 }
 
-async function fileToBase64(file){
-  try {
-    // Primary method: arrayBuffer (best mobile support)
-    const buf = await file.arrayBuffer();
-    const bytes = new Uint8Array(buf);
-    let binary = '';
-    const chunkSize = 8192;
-    for(let i = 0; i < bytes.length; i += chunkSize){
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
-    }
-    return btoa(binary);
-  } catch(e) {
-    // Fallback: FileReader
-    return new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload  = () => res(r.result.split(',')[1]);
-      r.onerror = () => rej(new Error('Nevar nolasīt failu. Mēģini vēlreiz.'));
-      r.readAsDataURL(file);
-    });
-  }
+function closeNaming(){
+  var ov=document.getElementById('naming-overlay');
+  if(ov)ov.classList.remove('open');
+  _pendingB64=null;_pendingExt=null;
+  try{document.getElementById('file-input').value='';}catch(e){}
 }
 
-/* ── DELETE ── */
-async function deleteItem(idx){
-  const f=galleryFiles[idx];
-  if(!confirm('Dzēst "'+f.name+'"? To nevarēs atjaunot.'))return;
-  try{
-    const info=await ghGet(f.name);
-    await ghDelete(f.name,info.sha,'Admin: dzēsta bilde '+f.name);
-    showToast('🗑 '+f.name+' dzēsta');
-    await loadGallery();
-  }catch(e){showToast('Kļūda dzēšot: '+e.message,true);}
-}
-
-/* ── RENAME ── */
 function openRename(idx){
   renameTarget=idx;
   const f=galleryFiles[idx];
@@ -894,4 +817,29 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-</html>
+</html>async function confirmNaming(){
+  if(!_pendingB64){showToast('Izvēlies attēlu vispirms.',true);return;}
+  var val=document.getElementById('naming-input').value.trim();
+  if(!val)return;
+  var newName=('gallery-'+val+'.'+(_pendingExt||'jpg')).toLowerCase();
+  if(galleryFiles.some(function(f){return f.name===newName;})){showToast('Šāds nosaukums jau eksistē!',true);return;}
+  var b64=_pendingB64;
+  _pendingB64=null;
+  document.getElementById('naming-overlay').classList.remove('open');
+  var pw=document.getElementById('upload-progress'),pb=document.getElementById('progress-bar'),pt=document.getElementById('progress-title');
+  if(pw)pw.classList.add('show');if(pt)pt.textContent='Augšupielādē '+newName;if(pb)pb.style.width='40%';
+  try{
+    if(pb)pb.style.width='70%';
+    await ghPut(newName,b64,null,'Admin: pievienota bilde '+newName);
+    if(pb)pb.style.width='100%';if(pt)pt.textContent='Augšupielādēts!';
+    showToast('✅ '+newName+' pievienota!');
+  }catch(e){showToast('Kļūda: '+e.message,true);}
+  setTimeout(function(){if(pw)pw.classList.remove('show');if(pb)pb.style.width='0%';},1500);
+  await loadGallery();
+}
+
+function closeNaming(){
+  document.getElementById('naming-overlay').classList.remove('open');
+  _pendingB64=null;_pendingExt=null;
+  try{document.getElementById('file-input').value='';}catch(e){}
+}
