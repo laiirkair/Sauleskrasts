@@ -643,70 +643,49 @@ let _pendingFile = null;
 let _pendingB64 = null;
 let _pendingExt = null;
 
-async function prepareUpload(files){
+function prepareUpload(files){
   if(!files||files.length===0)return;
   const file = files[0];
-
-  // ── Nolasām failu UZREIZ kamēr tas vēl pieejams ──
-  showToast('⏳ Sagatavo attēlu...');
-  try {
-    // Read to base64 immediately — before any async gaps
-    const buf = await file.arrayBuffer();
-    const bytes = new Uint8Array(buf);
-    let binary = '';
-    for(let i = 0; i < bytes.length; i += 8192){
-      binary += String.fromCharCode(...bytes.subarray(i, Math.min(i+8192, bytes.length)));
-    }
-    _pendingB64  = btoa(binary);
-    _pendingExt  = file.name.split('.').pop().toLowerCase() || 'jpg';
-    _pendingFile = file; // keep reference for name suggestion only
-  } catch(e) {
-    showToast('Kļūda lasot failu: ' + e.message, true);
-    document.getElementById('file-input').value = '';
-    return;
-  }
-
-  // Show preview directly from base64
-  try {
-    document.getElementById('naming-preview').src = 'data:image/' + _pendingExt + ';base64,' + _pendingB64;
-  } catch(e){ /* preview not critical */ }
-
-  // Pre-fill name
-  const baseName = (_pendingFile.name||'bilde')
-    .replace(/\.[^.]+$/, '')
-    .replace(/[^a-z0-9]/gi, '-')
-    .toLowerCase()
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-  document.getElementById('naming-input').value = baseName;
-  updateNamingPreview();
-  document.getElementById('naming-overlay').classList.add('open');
-  setTimeout(() => {
-    const inp = document.getElementById('naming-input');
-    inp.focus(); inp.select();
-  }, 150);
-}
-
-function updateNamingPreview(){
-  const val = document.getElementById('naming-input').value.trim();
-  const ext = _pendingFile ? _pendingFile.name.split('.').pop().toLowerCase() : 'jpg';
-  const fullName = val ? 'gallery-' + val + '.' + ext : 'gallery-';
-  document.getElementById('naming-full-name').innerHTML = 'Faila nosaukums: <strong style="color:var(--navy)">' + fullName + '</strong>';
-  const wrap = document.getElementById('naming-input-wrap');
-  const btn = document.getElementById('naming-confirm-btn');
-  const valid = val.length > 0 && /^[a-z0-9-_]+$/i.test(val);
-  wrap.style.borderColor = val.length === 0 ? 'rgba(0,0,0,.1)' : valid ? 'var(--moss)' : 'var(--coral)';
-  btn.disabled = !valid;
-}
-
-function closeNaming(){
-  document.getElementById('naming-overlay').classList.remove('open');
-  _pendingFile = null;
+  _pendingExt  = (file.name.split('.').pop()||'jpg').toLowerCase();
+  _pendingFile = file;
   _pendingB64  = null;
-  _pendingExt  = null;
-  const inp = document.getElementById('file-input');
-  if(inp) inp.value = '';
+
+  // Read file with FileReader — must start in same sync tick as user gesture
+  const reader = new FileReader();
+
+  reader.onerror = function(){
+    showToast('Kļūda lasot failu. Mēģini izvēlēties vēlreiz.', true);
+    document.getElementById('file-input').value = '';
+  };
+
+  reader.onload = function(ev){
+    // ev.target.result = "data:image/jpeg;base64,XXXX..."
+    const dataUrl = ev.target.result;
+    _pendingB64 = dataUrl.split(',')[1];
+
+    // Show preview
+    try { document.getElementById('naming-preview').src = dataUrl; } catch(e){}
+
+    // Pre-fill name from original filename
+    const baseName = (file.name||'bilde')
+      .replace(/\.[^.]+$/, '')
+      .replace(/[^a-z0-9]/gi, '-')
+      .toLowerCase()
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+    document.getElementById('naming-input').value = baseName;
+    updateNamingPreview();
+    document.getElementById('naming-overlay').classList.add('open');
+    setTimeout(function(){
+      const inp = document.getElementById('naming-input');
+      if(inp){ inp.focus(); inp.select(); }
+    }, 200);
+  };
+
+  // Start reading — this is the key: call readAsDataURL in the SAME tick
+  reader.readAsDataURL(file);
 }
+
 
 async function confirmNaming(){
   if(!_pendingFile) return;
