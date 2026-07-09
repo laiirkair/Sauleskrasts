@@ -495,6 +495,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
 /* ─── RESPONSIVE ──────────────────────────────────────────────────── */
 @media (max-width:768px){
   nav{padding:.8rem 1.2rem}
+  .nav-logo img{height:52px}
   .nav-links{display:none}
   .nav-hamburger{display:flex}
   nav.mobile-open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);padding:1.3rem 2rem;gap:1rem;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 8px 24px rgba(0,0,0,.1)}
@@ -655,10 +656,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:768px){
   footer{padding:2.8rem 0}
   .footer-inner{flex-direction:column;align-items:center;text-align:center;gap:1.7rem}
-  .footer-logo img{height:38px}
-  .footer-links{flex-wrap:wrap;justify-content:center;gap:.9rem 1.5rem}
-  .footer-links a{font-size:.84rem;padding:.15rem 0}
-  .footer-social{justify-content:center}
+  .footer-logo img{height:48px}
+  .footer-links{flex-direction:column;align-items:center;gap:.65rem}
+  .footer-links a{font-size:.86rem;padding:.2rem 0;letter-spacing:.04em}
+  .footer-social{justify-content:center;gap:.8rem}
+  .footer-social .social-icon{width:40px;height:40px}
   .footer-copy{font-size:.74rem;line-height:1.7;padding:0 1.2rem}
 }
 
@@ -749,6 +751,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
   </div>
 
+  <!-- Cabin cards grid - rendered by JS -->
+  <div class="cabins-grid" id="cabins-grid"></div>
+
   <!-- Multi-select bar -->
   <div class="multi-select-bar" id="multi-select-bar">
     <div class="multi-select-hint">
@@ -761,9 +766,36 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
   </div>
 
-  <!-- Cabin cards grid - rendered by JS -->
-  <div class="cabins-grid" id="cabins-grid"></div>
 </section>
+<!-- GOOGLE REVIEWS -->
+<section id="reviews">
+  <div class="section-header">
+    <p class="section-eyebrow" data-i18n="reviews_eyebrow">Ko saka mūsu viesi</p>
+    <h2 class="section-title" data-i18n="reviews_title">Atsauksmes no <em>Google</em></h2>
+  </div>
+  <div id="reviews-overall" class="reviews-overall" style="display:none">
+    <div class="reviews-score" id="reviews-score">—</div>
+    <div class="reviews-meta">
+      <div class="reviews-stars" id="reviews-stars">★★★★★</div>
+      <div class="reviews-count" id="reviews-count"></div>
+    </div>
+  </div>
+  <div class="reviews-loading" id="reviews-loading"></div>
+  <div class="reviews-grid" id="reviews-grid"></div>
+
+  <!-- Elfsight Google Reviews -->
+  <script src="https://elfsightcdn.com/platform.js" async></script>
+  <div class="elfsight-app-fd872fb6-7181-4de4-82a0-d96b064890fa" data-elfsight-app-lazy style="max-width:1000px;margin:0 auto;padding:0 2rem"></div>
+  <div class="reviews-cta">
+    <a href="https://search.google.com/local/reviews?placeid=ChIJoyAm-gXl7kYRBy29-Mqd6zo" target="_blank" rel="noopener" data-i18n="reviews_all">
+      Visas atsauksmes Google →
+    </a>
+  </div>
+</section>
+
+
+
+
 
 <!-- AVAILABILITY CALENDAR -->
 <section id="availability">
@@ -788,33 +820,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         <div class="cal-legend-item" style="color:var(--text-light)"><span data-i18n="leg_hover">Uzejiet ar peli vai pieskarieties dienai detaļām</span></div>
       </div>
     </div>
-  </div>
-</section>
-
-
-<!-- GOOGLE REVIEWS -->
-<section id="reviews">
-  <div class="section-header">
-    <p class="section-eyebrow" data-i18n="reviews_eyebrow">Ko saka mūsu viesi</p>
-    <h2 class="section-title" data-i18n="reviews_title">Atsauksmes no <em>Google</em></h2>
-  </div>
-  <div id="reviews-overall" class="reviews-overall" style="display:none">
-    <div class="reviews-score" id="reviews-score">—</div>
-    <div class="reviews-meta">
-      <div class="reviews-stars" id="reviews-stars">★★★★★</div>
-      <div class="reviews-count" id="reviews-count"></div>
-    </div>
-  </div>
-  <div class="reviews-loading" id="reviews-loading"></div>
-  <div class="reviews-grid" id="reviews-grid"></div>
-
-  <!-- Elfsight Google Reviews -->
-  <script src="https://elfsightcdn.com/platform.js" async></script>
-  <div class="elfsight-app-fd872fb6-7181-4de4-82a0-d96b064890fa" data-elfsight-app-lazy style="max-width:1000px;margin:0 auto;padding:0 2rem"></div>
-  <div class="reviews-cta">
-    <a href="https://search.google.com/local/reviews?placeid=ChIJoyAm-gXl7kYRBy29-Mqd6zo" target="_blank" rel="noopener" data-i18n="reviews_all">
-      Visas atsauksmes Google →
-    </a>
   </div>
 </section>
 
