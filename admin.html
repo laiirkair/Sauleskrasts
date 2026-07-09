@@ -264,6 +264,10 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
       <div class="gallery-toolbar-left">
         <div class="gal-stat" id="gal-stat">Ielādē bildes...</div>
       </div>
+      <button class="upload-btn" id="save-order-btn" onclick="saveOrderToGitHub()"
+        style="display:none;background:var(--gold)">
+        💾 Saglabāt secību
+      </button>
       <label class="upload-btn" style="cursor:pointer;display:inline-flex;align-items:center;gap:.5rem">
         ＋ Pievienot bildi
         <input type="file" id="file-input" accept="image/*"
@@ -621,7 +625,7 @@ function renderGalleryGrid(){
     const caption=f.name.replace(/^gallery-/i,'').replace(/[-_]/g,' ').replace(/\.(jpg|jpeg|png|webp)$/i,'').replace(/\s+\d+$/,'').trim();
     const imgUrl='https://raw.githubusercontent.com/'+GH_REPO+'/'+GH_BRANCH+'/'+f.name+'?t='+Date.now();
     return `<div class="gal-item" draggable="true" data-idx="${i}" data-name="${f.name}"
-        ondragstart="dragStart(event,${i})" ondragover="dragOver(event)" ondrop="dropItem(event,${i})" ondragleave="dragLeave(event)">
+        ondragstart="dragStart(event,${i})" ondragover="dragOver(event)" ondrop="dropItem(event,${i})" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
       <div class="gal-img-wrap">
         <img src="${imgUrl}" alt="${caption}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100%\' height=\'100%\' fill=\'%23f0ebe0\'/><text x=\'50%\' y=\'50%\' text-anchor=\'middle\' dominant-baseline=\'middle\' fill=\'%23aaa\' font-size=\'12\'>Nav bildes</text></svg>'">
         <div class="gal-order-badge">${i+1}</div>
@@ -642,6 +646,7 @@ function renderGalleryGrid(){
 
 /* ── UPLOAD ── */
 let _pendingB64 = null;
+let _orderChanged = false;
 let _pendingExt = null;
 
 function prepareUpload(event) {
@@ -715,7 +720,7 @@ async function confirmNaming() {
   const val = document.getElementById('naming-input').value.trim();
   if (!val) return;
   const ext     = _pendingExt || 'jpg';
-  const newName = 'gallery-' + val + '.' + ext;
+  const newName = ('gallery-' + val + '.' + ext).toLowerCase();
 
   if (galleryFiles.some(function(f){ return f.name === newName; })) {
     showToast('Šāds nosaukums jau eksistē!', true);
@@ -761,6 +766,61 @@ async function fileToBase64(file) {
   });
 }
 
+/* ── TOUCH DRAG (mobile) ── */
+var _touchDragSrc=null, _touchDragEl=null, _touchClone=null;
+function initTouchDrag(){
+  document.getElementById('gallery-grid-admin').addEventListener('touchstart',function(e){
+    var item=e.target.closest('.gal-item');
+    if(!item)return;
+    if(e.target.closest('.gal-act-btn'))return; // don't interfere with buttons
+    _touchDragSrc=parseInt(item.dataset.idx);
+    _touchDragEl=item;
+    // Create visual clone
+    _touchClone=item.cloneNode(true);
+    _touchClone.style.cssText='position:fixed;z-index:9999;opacity:.85;pointer-events:none;width:'+item.offsetWidth+'px;border:2px solid var(--gold);border-radius:12px;transition:none';
+    document.body.appendChild(_touchClone);
+    item.classList.add('dragging');
+  },{passive:true});
+
+  document.getElementById('gallery-grid-admin').addEventListener('touchmove',function(e){
+    if(_touchDragSrc===null||!_touchClone)return;
+    e.preventDefault();
+    var t=e.touches[0];
+    _touchClone.style.left=(t.clientX-_touchClone.offsetWidth/2)+'px';
+    _touchClone.style.top=(t.clientY-_touchClone.offsetHeight/2)+'px';
+    // Highlight target
+    document.querySelectorAll('.gal-item').forEach(function(el){el.classList.remove('drag-over');});
+    var el=document.elementFromPoint(t.clientX,t.clientY);
+    var target=el && el.closest('.gal-item');
+    if(target && target!==_touchDragEl) target.classList.add('drag-over');
+  },{passive:false});
+
+  document.getElementById('gallery-grid-admin').addEventListener('touchend',function(e){
+    if(_touchDragSrc===null)return;
+    if(_touchClone){_touchClone.remove();_touchClone=null;}
+    document.querySelectorAll('.gal-item').forEach(function(el){el.classList.remove('dragging','drag-over');});
+    var t=e.changedTouches[0];
+    var el=document.elementFromPoint(t.clientX,t.clientY);
+    var target=el && el.closest('.gal-item');
+    if(target && _touchDragEl && target!==_touchDragEl){
+      var toIdx=parseInt(target.dataset.idx);
+      var fromIdx=_touchDragSrc;
+      _touchDragSrc=null; _touchDragEl=null;
+      if(!isNaN(toIdx) && !isNaN(fromIdx)){
+        var moved=galleryFiles.splice(fromIdx,1)[0];
+        galleryFiles.splice(toIdx,0,moved);
+        _orderChanged=true;
+        renderGalleryGrid();
+        var btn=document.getElementById('save-order-btn');
+        if(btn) btn.style.display='inline-flex';
+        showToast('↕ Jauda secība — nospied "Saglabāt secību"');
+      }
+    } else {
+      _touchDragSrc=null; _touchDragEl=null;
+    }
+  },{passive:true});
+}
+
 /* ── DELETE ── */
 async function deleteItem(idx){
   const f=galleryFiles[idx];
@@ -804,57 +864,106 @@ async function confirmRename(){
 document.getElementById('rename-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmRename();if(e.key==='Escape')closeRename();});
 
 /* ── MOVE (secība ar prefiksiem) ── */
-async function moveItem(idx,dir){
-  const newIdx=idx+dir;
+function moveItem(idx,dir){
+  var newIdx=idx+dir;
   if(newIdx<0||newIdx>=galleryFiles.length)return;
-  // Swap in array
-  [galleryFiles[idx],galleryFiles[newIdx]]=[galleryFiles[newIdx],galleryFiles[idx]];
-  // Rename both files to reflect new order using numeric prefix
-  // We use 01-, 02- style prefix after "gallery-"
-  showToast('⏳ Saglabā secību...');
+  // Swap in local array only
+  var tmp=galleryFiles[idx];
+  galleryFiles[idx]=galleryFiles[newIdx];
+  galleryFiles[newIdx]=tmp;
+  _orderChanged=true;
+  renderGalleryGrid();
+  // Show save button
+  var btn=document.getElementById('save-order-btn');
+  if(btn) btn.style.display='inline-flex';
+}
+
+async function saveOrderToGitHub(){
+  var btn=document.getElementById('save-order-btn');
+  if(btn){ btn.textContent='⏳ Saglabā...'; btn.disabled=true; }
+  showToast('⏳ Saglabā secību GitHub...');
   try{
     await renumberGallery();
-    showToast('✅ Secība saglabāta');
+    _orderChanged=false;
+    showToast('✅ Secība saglabāta!');
+    if(btn){ btn.style.display='none'; btn.textContent='💾 Saglabāt secību'; btn.disabled=false; }
     await loadGallery();
-  }catch(e){showToast('Kļūda: '+e.message,true);await loadGallery();}
+  }catch(e){
+    showToast('Kļūda: '+e.message,true);
+    if(btn){ btn.textContent='💾 Saglabāt secību'; btn.disabled=false; }
+    await loadGallery();
+  }
 }
 
 async function renumberGallery(){
-  // Build new names with 2-digit numeric prefix
   for(let i=0;i<galleryFiles.length;i++){
     const f=galleryFiles[i];
     const ext=f.name.split('.').pop().toLowerCase();
-    // Strip existing numeric prefix if any (e.g. "gallery-01-beach" → "beach")
-    const base=f.name.replace(/^gallery-\d+-/,'').replace(/^gallery-/,'').replace(/\.[^.]+$/,'');
-    const newName=GALLERY_PFX+String(i+1).padStart(2,'0')+'-'+base+'.'+ext;
-    if(newName!==f.name){
-      const info=await ghGet(f.name);
-      await ghPut(newName,info.content.replace(/\n/g,''),null,'Admin: secības numurs '+f.name+' → '+newName);
-      await ghDelete(f.name,info.sha,'Admin: noņemts vecais fails pēc atkārtotas numerācijas');
-      galleryFiles[i]={...f,name:newName};
+    const base=f.name
+      .replace(/^gallery-\d+-/,'')
+      .replace(/^gallery-/,'')
+      .replace(/\.[^.]+$/,'');
+    const newName=(GALLERY_PFX+String(i+1).padStart(2,'0')+'-'+base+'.'+ext).toLowerCase();
+    if(newName===f.name) continue;
+    try {
+      // 1. Get file content + SHA
+      const info = await ghGet(f.name);
+      const content = info.content.replace(/
+/g,'');
+      const oldSha  = info.sha;
+      // 2. Upload new name
+      await ghPut(newName, content, null, 'Admin: secība '+f.name+' → '+newName);
+      // 3. Get fresh SHA of OLD file before deleting
+      //    (SHA did not change — we uploaded to NEW path, old still exists)
+      await ghDelete(f.name, oldSha, 'Admin: dzēsts '+f.name+' pēc pārsaukšanas');
+      galleryFiles[i]={...f, name:newName};
+    } catch(err) {
+      console.error('renumber error', f.name, err);
+      throw new Error('Kļūda pārsaucot "'+f.name+'": '+err.message);
     }
   }
 }
 
 /* ── DRAG & DROP ── */
-function dragStart(e,idx){dragSrc=idx;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
-function dragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';e.currentTarget.closest('.gal-item').classList.add('drag-over');}
-function dragLeave(e){e.currentTarget.closest('.gal-item').classList.remove('drag-over');}
-async function dropItem(e,idx){
+function dragStart(e,idx){
+  dragSrc=idx;
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.setData('text/plain', idx);
+}
+function dragOver(e){
   e.preventDefault();
-  document.querySelectorAll('.gal-item').forEach(el=>{el.classList.remove('dragging','drag-over');});
-  if(dragSrc===null||dragSrc===idx)return;
-  // Reorder array
-  const moved=galleryFiles.splice(dragSrc,1)[0];
-  galleryFiles.splice(idx,0,moved);
-  dragSrc=null;
+  e.dataTransfer.dropEffect='move';
+  var item=e.currentTarget.closest('.gal-item');
+  if(item) item.classList.add('drag-over');
+}
+function dragLeave(e){
+  var item=e.currentTarget.closest('.gal-item');
+  if(item) item.classList.remove('drag-over');
+}
+function dragEnd(e){
+  document.querySelectorAll('.gal-item').forEach(function(el){
+    el.classList.remove('dragging','drag-over');
+  });
+}
+function dropItem(e,toIdx){
+  e.preventDefault();
+  e.stopPropagation();
+  document.querySelectorAll('.gal-item').forEach(function(el){
+    el.classList.remove('dragging','drag-over');
+  });
+  var fromIdx = dragSrc;
+  dragSrc = null;
+  if(fromIdx===null || fromIdx===toIdx) return;
+  // Reorder LOCAL array only — no GitHub calls yet
+  var moved = galleryFiles.splice(fromIdx,1)[0];
+  galleryFiles.splice(toIdx,0,moved);
+  _orderChanged = true;
   renderGalleryGrid();
-  showToast('⏳ Saglabā secību...');
-  try{
-    await renumberGallery();
-    showToast('✅ Secība saglabāta');
-    await loadGallery();
-  }catch(e2){showToast('Kļūda: '+e2.message,true);await loadGallery();}
+  // Show save button
+  var btn = document.getElementById('save-order-btn');
+  if(btn) btn.style.display='inline-flex';
+  showToast('↕ Jauda secība — nospied "Saglabāt secību"');
 }
 
 /* ── HELPERS ── */
