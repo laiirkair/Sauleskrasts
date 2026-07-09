@@ -384,8 +384,6 @@ function checkLogin(){
   initApp(hasGallery);
 }
 function logout(){localStorage.removeItem('sk_admin');localStorage.removeItem('sk_gallery');localStorage.removeItem('sk_pat');location.reload();}
-document.getElementById('pwd-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
-
 /* ── TABS ── */
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['bookings','gallery'][i]===name));
@@ -861,7 +859,7 @@ async function confirmRename(){
     await loadGallery();
   }catch(e){showToast('Kļūda pārsaucot: '+e.message,true);}
 }
-document.getElementById('rename-input').addEventListener('keydown',e=>{if(e.key==='Enter')confirmRename();if(e.key==='Escape')closeRename();});
+
 
 /* ── MOVE (secība ar prefiksiem) ── */
 function moveItem(idx,dir){
@@ -988,6 +986,13 @@ window.addEventListener('DOMContentLoaded',()=>{
   } else {
     document.getElementById('pwd-input').focus();
   }
+  // Keydown listeners — safe here because DOM is ready
+  var pwdInp = document.getElementById('pwd-input');
+  if(pwdInp) pwdInp.addEventListener('keydown', function(e){ if(e.key==='Enter') checkLogin(); });
+  var renInp = document.getElementById('rename-input');
+  if(renInp) renInp.addEventListener('keydown', function(e){ if(e.key==='Enter') confirmRename(); if(e.key==='Escape') closeRename(); });
+  var namInp = document.getElementById('naming-input');
+  if(namInp) namInp.addEventListener('keydown', function(e){ if(e.key==='Enter') confirmNaming(); if(e.key==='Escape') closeNaming(); });
 });
 </script>
 </body>
