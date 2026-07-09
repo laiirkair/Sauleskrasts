@@ -315,15 +315,17 @@ function toast(msg, err){
 
 // ── GITHUB API ─────────────────────────────────────────
 function ghFetch(path, opts){
-  var url = 'https://api.github.com/repos/'+GH_REPO+'/contents/'+encodeURIComponent(path)
-    + (opts && opts.method ? '' : '?ref='+GH_BRANCH);
+  var url = 'https://api.github.com/repos/'+GH_REPO+'/contents/'+(path?encodeURIComponent(path):'')
+    + '?ref='+GH_BRANCH;
   var headers = {
     'Authorization': 'Bearer '+GH_TOKEN,
     'Accept': 'application/vnd.github.v3+json',
     'User-Agent': 'saules-krasts-admin'
   };
   if(opts && opts.body) headers['Content-Type'] = 'application/json';
-  return fetch(url, Object.assign({headers:headers}, opts || {}))
+  var fetchOpts = {method:(opts&&opts.method)||'GET', headers:headers};
+  if(opts && opts.body) fetchOpts.body = opts.body;
+  return fetch(url, fetchOpts)
     .then(function(r){
       if(!r.ok) return r.json().then(function(e){ throw new Error(e.message||r.status); });
       return r.json();
@@ -546,11 +548,7 @@ function saveStatus(id){
 // ── GALLERY ────────────────────────────────────────────
 function loadGallery(){
   $('gal-grid').innerHTML='<div style="padding:2rem;color:var(--text-light);font-size:.88rem"><span class="spinner"></span>Ielādē...</div>';
-  ghFetch('', {method:'GET', headers:{
-    'Authorization':'Bearer '+GH_TOKEN,
-    'Accept':'application/vnd.github.v3+json',
-    'User-Agent':'admin'
-  }})
+  ghGet('')
   .then(function(files){
     galFiles = files.filter(function(f){
       return f.type==='file' && f.name.toLowerCase().startsWith('gallery-') && /\.(jpg|jpeg|png|webp)$/i.test(f.name);
