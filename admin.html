@@ -264,10 +264,10 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
       <div class="gallery-toolbar-left">
         <div class="gal-stat" id="gal-stat">Ielādē bildes...</div>
       </div>
-      <label class="upload-btn" id="upload-label">
+      <button class="upload-btn" id="upload-label" onclick="document.getElementById('file-input').click()">
         ＋ Pievienot bildi
-        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" onchange="prepareUpload(this.files)">
-      </label>
+      </button>
+      <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px" onchange="prepareUpload(this.files)">
     </div>
 
     <div class="upload-progress" id="upload-progress">
@@ -646,12 +646,15 @@ function prepareUpload(files){
   _pendingFile = files[0];
   document.getElementById('upload-label').querySelector('input').value='';
 
-  // Show preview
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('naming-preview').src = e.target.result;
-  };
-  reader.readAsDataURL(_pendingFile);
+  // Show preview — use createObjectURL (fastest, best mobile support)
+  try {
+    const previewUrl = URL.createObjectURL(_pendingFile);
+    const previewImg = document.getElementById('naming-preview');
+    previewImg.src = previewUrl;
+    previewImg.onload = () => URL.revokeObjectURL(previewUrl);
+  } catch(e) {
+    document.getElementById('naming-preview').style.display = 'none';
+  }
 
   // Pre-fill with sanitized original name (without extension)
   const baseName = _pendingFile.name
@@ -685,6 +688,9 @@ function updateNamingPreview(){
 function closeNaming(){
   document.getElementById('naming-overlay').classList.remove('open');
   _pendingFile = null;
+  // Reset input so same file can be selected again
+  const inp = document.getElementById('file-input');
+  if(inp) inp.value = '';
 }
 
 async function confirmNaming(){
@@ -727,13 +733,26 @@ async function confirmNaming(){
   await loadGallery();
 }
 
-function fileToBase64(file){
-  return new Promise((res,rej)=>{
-    const r=new FileReader();
-    r.onload=()=>res(r.result.split(',')[1]);
-    r.onerror=rej;
-    r.readAsDataURL(file);
-  });
+async function fileToBase64(file){
+  try {
+    // Primary method: arrayBuffer (best mobile support)
+    const buf = await file.arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    let binary = '';
+    const chunkSize = 8192;
+    for(let i = 0; i < bytes.length; i += chunkSize){
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
+    return btoa(binary);
+  } catch(e) {
+    // Fallback: FileReader
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload  = () => res(r.result.split(',')[1]);
+      r.onerror = () => rej(new Error('Nevar nolasīt failu. Mēģini vēlreiz.'));
+      r.readAsDataURL(file);
+    });
+  }
 }
 
 /* ── DELETE ── */
