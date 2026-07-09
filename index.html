@@ -3260,6 +3260,19 @@ async function loadGallery() {
   if (!grid) return;
   grid.innerHTML = '<div class="gallery-empty" style="color:rgba(255,255,255,.25)">⏳ Ielādē bildes...</div>';
   try {
+    // Try gallery-order.json first for custom order
+    let orderedNames = null;
+    try {
+      const orderResp = await fetch(
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/gallery-order.json`,
+        { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+      );
+      if (orderResp.ok) {
+        const orderData = await orderResp.json();
+        orderedNames = JSON.parse(atob(orderData.content.replace(/\n/g, '')));
+      }
+    } catch(e) { /* no order file - fall back to alphabetical */ }
+
     const resp = await fetch(
       `https://api.github.com/repos/${GITHUB_REPO}/contents/`,
       { headers: { 'Accept': 'application/vnd.github.v3+json' } }
@@ -3267,21 +3280,32 @@ async function loadGallery() {
     if (!resp.ok) throw new Error(resp.status);
     const files = await resp.json();
 
-    const imageFiles = files
-      .filter(f =>
-        f.type === 'file' &&
-        f.name.toLowerCase().startsWith(GALLERY_PREFIX) &&
-        /\.(jpg|jpeg|png|webp|gif)$/i.test(f.name)
-      )
-      .sort((a, b) => a.name.localeCompare(b.name));
+    const imageMap = {};
+    files.filter(f =>
+      f.type === 'file' &&
+      f.name.toLowerCase().startsWith(GALLERY_PREFIX) &&
+      /\.(jpg|jpeg|png|webp)$/i.test(f.name)
+    ).forEach(f => { imageMap[f.name] = f; });
+
+    let imageFiles;
+    if (orderedNames) {
+      // Use order from gallery-order.json, skip missing files
+      imageFiles = orderedNames
+        .filter(name => imageMap[name])
+        .map(name => imageMap[name]);
+      // Add any new files not in order file
+      Object.values(imageMap).forEach(f => {
+        if (!orderedNames.includes(f.name)) imageFiles.push(f);
+      });
+    } else {
+      imageFiles = Object.values(imageMap).sort((a,b) => a.name.localeCompare(b.name));
+    }
 
     if (imageFiles.length === 0) {
       grid.innerHTML = `<div class="gallery-empty" style="color:rgba(255,255,255,.45);padding:3rem 2rem;text-align:center;line-height:2">
         🌅 Galerija ir gatava!<br>
         <span style="font-size:.82rem;color:rgba(255,255,255,.35)">
-          Augšupielādējiet bildes blakus index.html.<br>
-          Nosaukums jāsāk ar <strong style="color:var(--gold)">gallery-</strong><br>
-          Piemērs: <strong style="color:var(--gold-light)">gallery-saulleksts-01.jpg</strong>
+          Augšupielādējiet bildes admin panelī.
         </span>
       </div>`;
       return;
@@ -3291,9 +3315,9 @@ async function loadGallery() {
       src: '/' + f.name,
       caption: f.name
         .replace(new RegExp('^' + GALLERY_PREFIX, 'i'), '')
+        .replace(/^\d+-/, '')
         .replace(/[-_]/g, ' ')
-        .replace(/\.(jpg|jpeg|png|webp|gif)$/i, '')
-        .replace(/\s+\d+$/, '')
+        .replace(/\.(jpg|jpeg|png|webp)$/i, '')
         .trim()
     }));
 
