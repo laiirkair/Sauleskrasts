@@ -742,33 +742,31 @@ async function moveItem(idx,dir){
 async function saveOrderToGitHub(){
   var btn=document.getElementById('save-order-btn');
   if(btn){btn.textContent='⏳ Saglabā...';btn.disabled=true;}
-  showToast('⏳ Saglabā secību...');
   try{
-    await renumberGallery();
+    await saveOrderJson();
     if(btn){btn.style.display='none';btn.textContent='💾 Saglabāt secību';btn.disabled=false;}
     showToast('✅ Secība saglabāta!');
-    await loadGallery();
   }catch(e){
     showToast('Kļūda: '+e.message,true);
     if(btn){btn.textContent='💾 Saglabāt secību';btn.disabled=false;}
   }
 }
 
+async function saveOrderJson(){
+  // Save order to gallery-order.json — NO file renames, no corruption risk
+  const order = galleryFiles.map(function(f){return f.name;});
+  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(order, null, 2))));
+  // Get current SHA of gallery-order.json (needed for update)
+  var sha = null;
+  try {
+    const info = await ghGet('gallery-order.json');
+    sha = info.sha;
+  } catch(e) { /* file doesn't exist yet - that's ok */ }
+  await ghPut('gallery-order.json', b64, sha, 'Admin: atjaunināta galerijas secība');
+}
+
 async function renumberGallery(){
-  // Build new names with 2-digit numeric prefix
-  for(let i=0;i<galleryFiles.length;i++){
-    const f=galleryFiles[i];
-    const ext=f.name.split('.').pop().toLowerCase();
-    // Strip existing numeric prefix if any (e.g. "gallery-01-beach" → "beach")
-    const base=f.name.replace(/^gallery-\d+-/,'').replace(/^gallery-/,'').replace(/\.[^.]+$/,'');
-    const newName=GALLERY_PFX+String(i+1).padStart(2,'0')+'-'+base+'.'+ext;
-    if(newName!==f.name){
-      const info=await ghGet(f.name);
-      await ghPut(newName,info.content.replace(/\n/g,''),null,'Admin: secības numurs '+f.name+' → '+newName);
-      await ghDelete(f.name,info.sha,'Admin: noņemts vecais fails pēc atkārtotas numerācijas');
-      galleryFiles[i]={...f,name:newName};
-    }
-  }
+  await saveOrderJson();
 }
 
 /* ── DRAG & DROP ── */
