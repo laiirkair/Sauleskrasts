@@ -3518,5 +3518,100 @@ window.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 
+
+<script>
+/* ══════════ MOBILĀ "ATPAKAĻ" POGA — 2 problēmu risinājums ══════════
+   1. Uznirstošais logs aizveras ar "atpakaļ" (nevis izmet no lapas)
+   2. Ja esi lapas vidū un pavelc "atpakaļ" — atgriežas uz sākumu,
+      nevis izmet no lapas pilnībā
+   ══════════════════════════════════════════════════════════════════ */
+(function() {
+
+  // ── Stāvokļu definīcija ─────────────────────────────────────────
+  // Lapai ielādējoties, iegrūžam 2 ierakstus vēsturē:
+  // [ārējā lapa] → [lapa-sākums] → [lapa-tagad]  (pašreizējais)
+  // Tā "atpakaļ" vispirms iet uz "lapa-sākums", nevis uz ārējo lapu.
+
+  function setupHistory() {
+    // Pirmais ieraksts: lapa sākumā (rezerves slānis)
+    history.replaceState({ sk: 'base' }, '');
+    // Otrais ieraksts: pašreizējais stāvoklis
+    history.pushState({ sk: 'top' }, '');
+  }
+
+  // ── Modāļa atvēršana — pievienojam vēstures ierakstu ───────────
+  // Pārtverams openModal un closeModal funkcijas
+  window.addEventListener('DOMContentLoaded', function() {
+    setupHistory();
+
+    var origOpen  = window.openModal;
+    var origClose = window.closeModal;
+
+    window.openModal = function() {
+      origOpen && origOpen.apply(this, arguments);
+      // Iegrūžam "modal-open" stāvokli — "atpakaļ" to izņems
+      history.pushState({ sk: 'modal' }, '');
+    };
+
+    window.closeModal = function() {
+      origClose && origClose.apply(this, arguments);
+      // Ja vēsturē ir modal ieraksts, to noņemam
+      if (history.state && history.state.sk === 'modal') {
+        history.back();
+      }
+    };
+  });
+
+  // ── Apstrādājam "atpakaļ" pogu ──────────────────────────────────
+  window.addEventListener('popstate', function(e) {
+    var state = e.state || {};
+
+    // Gadījums 1: modal bija atvērts → aizver to
+    var modal = document.getElementById('cabin-modal');
+    if (modal && modal.classList.contains('open')) {
+      // Aizver modāli BEZ history.back() (tas jau notika)
+      var origClose = window._closeModalDirect;
+      if (origClose) origClose();
+      else {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      // Atjauno "top" stāvokli lai nākamais "atpakaļ" strādā pareizi
+      history.pushState({ sk: 'top' }, '');
+      return;
+    }
+
+    // Gadījums 2: esam "top" stāvoklī → ritina uz sākumu
+    if (state.sk === 'top' || state.sk === 'base') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Atjauno "top" lai nākamais "atpakaļ" atkal ritina uz sākumu
+      // (lietotājam jāpavelk 2x lai izietu no lapas — tā ir normāla uzvedība)
+      history.pushState({ sk: 'top' }, '');
+      return;
+    }
+  });
+
+  // ── Saglabājam tīru closeModal referenci ────────────────────────
+  window.addEventListener('DOMContentLoaded', function() {
+    var orig = window.closeModal;
+    window._closeModalDirect = function() {
+      var modal = document.getElementById('cabin-modal');
+      if (modal) modal.classList.remove('open');
+      document.body.style.overflow = '';
+      // Reset modal form state
+      var formArea = document.getElementById('modal-form-area');
+      var success  = document.getElementById('modal-success');
+      var err      = document.getElementById('modal-error');
+      var btn      = document.getElementById('modal-submit-btn');
+      if (formArea) formArea.style.display = '';
+      if (success)  success.classList.remove('visible');
+      if (err)      err.classList.remove('visible');
+      if (btn)      { btn.disabled = false; btn.innerHTML = '<span>' + (window.t ? window.t('submit_btn') : 'Nosūtīt') + '</span>'; }
+    };
+  });
+
+})();
+</script>
+
 </body>
 </html>
