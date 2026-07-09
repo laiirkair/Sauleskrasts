@@ -752,24 +752,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
   </div>
 
-  <!-- Cabin cards grid - rendered by JS -->
-  <div class="cabins-grid" id="cabins-grid"></div>
 
-  <!-- Multi-select bar -->
-  <div class="multi-select-bar" id="multi-select-bar">
-    <div class="multi-select-hint">
-      <div class="multi-select-icon" id="multi-icon">☑</div>
-      <div class="multi-select-info" id="multi-select-info"></div>
-    </div>
-    <div class="multi-select-actions">
-      <button class="btn-multi-secondary" id="multi-clear-btn" onclick="clearSelection()"></button>
-      <button class="btn-multi" id="multi-book-btn" onclick="openMultiBookingModal()"></button>
-    </div>
-  </div>
 
-</section>
-<!-- GOOGLE REVIEWS -->
-<section id="reviews">
+
+<div id="reviews" style="padding:3rem 0 2rem;background:var(--sand-light)">
   <div class="section-header">
     <p class="section-eyebrow" data-i18n="reviews_eyebrow">Ko saka mūsu viesi</p>
     <h2 class="section-title" data-i18n="reviews_title">Atsauksmes no <em>Google</em></h2>
@@ -792,10 +778,24 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       Visas atsauksmes Google →
     </a>
   </div>
+</div>
+
+  <!-- Cabin cards grid - rendered by JS -->
+  <div class="cabins-grid" id="cabins-grid"></div>
+
+  <!-- Multi-select bar -->
+  <div class="multi-select-bar" id="multi-select-bar">
+    <div class="multi-select-hint">
+      <div class="multi-select-icon" id="multi-icon">☑</div>
+      <div class="multi-select-info" id="multi-select-info"></div>
+    </div>
+    <div class="multi-select-actions">
+      <button class="btn-multi-secondary" id="multi-clear-btn" onclick="clearSelection()"></button>
+      <button class="btn-multi" id="multi-book-btn" onclick="openMultiBookingModal()"></button>
+    </div>
+  </div>
+
 </section>
-
-
-
 
 
 <!-- AVAILABILITY CALENDAR -->
