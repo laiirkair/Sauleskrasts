@@ -50,8 +50,8 @@
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": 57.052,
-    "longitude": 23.124
+    "latitude": 57.0275,
+    "longitude": 23.4956
   },
   "image": "https://sauleskrasts.lv/saules_krasts_kempings_ragaciems_atputa_pie_juras_lux_1.jpg",
   "priceRange": "55€ – 75€",
@@ -501,7 +501,7 @@ footer{background:var(--navy-dark);padding:2.2rem 0}
   .hero-content{padding:0 1.4rem 4rem}
   .form-row{grid-template-columns:1fr}
   .modal-cols{grid-template-columns:1fr}
-  .footer-inner{flex-direction:column;align-items:flex-start}
+  .footer-inner{flex-direction:column;align-items:center;text-align:center;gap:1.7rem}
   .multi-select-bar{flex-direction:column;align-items:stretch}
   .multi-select-actions{justify-content:stretch}
   .multi-select-actions .btn-multi{flex:1}
@@ -586,6 +586,82 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:480px){
   .gallery-grid{grid-template-columns:1fr}
 }
+
+/* ═══════════════════════════ LAIKAPSTĀKĻU LOGRĪKS ═══════════════════════════ */
+.weather-widget{position:fixed;top:84px;right:1.4rem;z-index:150;display:flex;align-items:center;gap:.85rem;padding:.7rem .95rem .7rem .7rem;background:rgba(15,29,48,.62);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid rgba(232,168,74,.28);border-radius:18px;box-shadow:0 10px 34px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.06);color:#fff;min-width:186px;opacity:0;transform:translateY(-10px);transition:opacity .5s ease,transform .5s ease;cursor:default}
+.weather-widget.ready{opacity:1;transform:none}
+.weather-widget:hover{border-color:rgba(232,168,74,.5)}
+.ww-scene{position:relative;width:56px;height:56px;flex-shrink:0;border-radius:13px;overflow:hidden;background:linear-gradient(160deg,#2b4a70,#16283f)}
+.ww-scene.day{background:linear-gradient(160deg,#5a8fbf,#2b4a70)}
+.ww-scene.night{background:linear-gradient(160deg,#1b2c48,#0c1626)}
+.ww-sun{position:absolute;top:50%;left:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#FFE39A,#F5A623 70%);box-shadow:0 0 14px 3px rgba(245,166,35,.65);animation:wwPulse 3.2s ease-in-out infinite}
+.ww-sun::before{content:'';position:absolute;inset:-9px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 12%,rgba(255,214,120,.9) 12% 14%,transparent 14% 25%,rgba(255,214,120,.9) 25% 27%,transparent 27% 37%,rgba(255,214,120,.9) 37% 39%,transparent 39% 50%,rgba(255,214,120,.9) 50% 52%,transparent 52% 62%,rgba(255,214,120,.9) 62% 64%,transparent 64% 75%,rgba(255,214,120,.9) 75% 77%,transparent 77% 87%,rgba(255,214,120,.9) 87% 89%,transparent 89% 100%);-webkit-mask:radial-gradient(circle,transparent 11px,#000 11px);mask:radial-gradient(circle,transparent 11px,#000 11px);animation:wwSpin 22s linear infinite}
+@keyframes wwSpin{to{transform:rotate(360deg)}}
+@keyframes wwPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.ww-moon{position:absolute;top:50%;left:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#EAF2FF;box-shadow:0 0 12px 2px rgba(210,226,255,.5),inset -7px -3px 0 -1px #1b2c48;animation:wwPulse 5s ease-in-out infinite}
+.ww-star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.85;animation:wwTwinkle 2.4s ease-in-out infinite}
+.ww-star:nth-child(2){top:10px;left:12px;animation-delay:.2s}
+.ww-star:nth-child(3){top:16px;right:9px;animation-delay:.9s}
+.ww-star:nth-child(4){bottom:12px;left:15px;animation-delay:1.5s}
+@keyframes wwTwinkle{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}
+.ww-cloud{position:absolute;width:26px;height:10px;background:#eef3f8;border-radius:10px;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.ww-cloud::before{content:'';position:absolute;top:-7px;left:5px;width:12px;height:12px;background:#eef3f8;border-radius:50%}
+.ww-cloud::after{content:'';position:absolute;top:-5px;left:13px;width:9px;height:9px;background:#eef3f8;border-radius:50%}
+.ww-cloud.c-main{bottom:16px;left:14px;animation:wwDrift 5s ease-in-out infinite}
+.ww-cloud.c-back{top:9px;left:8px;transform:scale(.62);opacity:.55;background:#cdd8e4;animation:wwDrift 7s ease-in-out infinite reverse}
+.ww-cloud.c-back::before,.ww-cloud.c-back::after{background:#cdd8e4}
+.ww-cloud.c-grey,.ww-cloud.c-grey::before,.ww-cloud.c-grey::after{background:#b9c4d1}
+@keyframes wwDrift{0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
+.ww-drop{position:absolute;bottom:2px;width:2px;height:7px;border-radius:2px;background:#8fc4e8;opacity:0;animation:wwRain 1s linear infinite}
+.ww-drop:nth-child(1){left:18px;animation-delay:0s}
+.ww-drop:nth-child(2){left:26px;animation-delay:.35s}
+.ww-drop:nth-child(3){left:34px;animation-delay:.7s}
+@keyframes wwRain{0%{transform:translateY(-8px);opacity:0}30%{opacity:.9}100%{transform:translateY(10px);opacity:0}}
+.ww-flake{position:absolute;top:24px;width:4px;height:4px;border-radius:50%;background:#fff;opacity:0;animation:wwSnow 2.4s linear infinite}
+.ww-flake:nth-child(1){left:18px;animation-delay:0s}
+.ww-flake:nth-child(2){left:27px;animation-delay:.8s}
+.ww-flake:nth-child(3){left:36px;animation-delay:1.5s}
+@keyframes wwSnow{0%{transform:translate(0,-6px);opacity:0}25%{opacity:1}100%{transform:translate(3px,16px);opacity:0}}
+.ww-bolt{position:absolute;bottom:6px;left:50%;margin-left:-4px;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:11px solid #FFD24A;opacity:0;animation:wwFlash 2.6s ease-out infinite;filter:drop-shadow(0 0 4px rgba(255,210,74,.8))}
+@keyframes wwFlash{0%,58%,64%,100%{opacity:0}60%{opacity:1}62%{opacity:.3}}
+.ww-fog{position:absolute;left:6px;right:6px;height:3px;border-radius:3px;background:rgba(224,232,240,.75);animation:wwFogMove 4s ease-in-out infinite}
+.ww-fog:nth-child(1){top:22px}
+.ww-fog:nth-child(2){top:30px;animation-delay:.6s}
+.ww-fog:nth-child(3){top:38px;animation-delay:1.2s}
+@keyframes wwFogMove{0%,100%{transform:translateX(-4px);opacity:.5}50%{transform:translateX(4px);opacity:.9}}
+.ww-info{display:flex;flex-direction:column;gap:1px;line-height:1.15;min-width:0}
+.ww-temp{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:.02em;display:flex;align-items:baseline;gap:.15rem}
+.ww-temp sup{font-size:.85rem;color:var(--gold-light);top:-.4em;position:relative}
+.ww-cond{font-size:.78rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.ww-loc{font-size:.66rem;color:rgba(255,255,255,.62);letter-spacing:.02em;display:flex;align-items:center;gap:.2rem}
+.ww-extra{display:flex;flex-direction:column;gap:.28rem;padding-left:.7rem;margin-left:.15rem;border-left:1px solid rgba(255,255,255,.14)}
+.ww-chip{font-size:.64rem;color:rgba(255,255,255,.72);display:flex;align-items:center;gap:.28rem;white-space:nowrap}
+.ww-chip b{color:#fff;font-weight:600}
+.ww-live{position:absolute;top:.5rem;right:.6rem;width:6px;height:6px;border-radius:50%;background:var(--moss);animation:wwLive 2s ease-out infinite}
+@keyframes wwLive{0%{box-shadow:0 0 0 0 rgba(94,138,96,.6)}70%{box-shadow:0 0 0 7px rgba(94,138,96,0)}100%{box-shadow:0 0 0 0 rgba(94,138,96,0)}}
+@media(max-width:768px){
+  .weather-widget{top:68px;right:.7rem;left:auto;min-width:0;padding:.5rem .7rem;gap:.6rem}
+  .ww-extra{display:none}
+  .ww-scene{width:46px;height:46px}
+  .ww-temp{font-size:1.4rem}
+  .ww-cond{max-width:96px;font-size:.72rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .weather-widget,.ww-sun,.ww-sun::before,.ww-moon,.ww-star,.ww-cloud,.ww-drop,.ww-flake,.ww-bolt,.ww-fog,.ww-live{animation:none!important}
+  .weather-widget{opacity:1;transform:none}
+}
+
+/* ═══════════════════════════ FOOTER MOBILAIS SKATS ═══════════════════════════ */
+@media(max-width:768px){
+  footer{padding:2.8rem 0}
+  .footer-inner{flex-direction:column;align-items:center;text-align:center;gap:1.7rem}
+  .footer-logo img{height:38px}
+  .footer-links{flex-wrap:wrap;justify-content:center;gap:.9rem 1.5rem}
+  .footer-links a{font-size:.84rem;padding:.15rem 0}
+  .footer-social{justify-content:center}
+  .footer-copy{font-size:.74rem;line-height:1.7;padding:0 1.2rem}
+}
+
 </style>
 </head>
 <body>
@@ -620,6 +696,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     <span></span><span></span><span></span>
   </button>
 </nav>
+<!-- LAIKAPSTĀKĻU LOGRĪKS -->
+<div class="weather-widget" id="weather-widget" role="status" aria-live="polite" aria-label="Laikapstākļi Ragaciemā">
+  <span class="ww-live" title="Reāllaikā"></span>
+  <div class="ww-scene" id="ww-scene"></div>
+  <div class="ww-info">
+    <div class="ww-temp"><span id="ww-temp">--</span><sup>°C</sup></div>
+    <div class="ww-cond" id="ww-cond">—</div>
+    <div class="ww-loc">📍 <span id="ww-loc">Ragaciems</span></div>
+  </div>
+  <div class="ww-extra" id="ww-extra"></div>
+</div>
+
 
 <main>
 <!-- HERO -->
@@ -717,8 +805,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       <div class="reviews-count" id="reviews-count"></div>
     </div>
   </div>
-  <div class="reviews-loading" id="reviews-loading">⏳ Ielādē atsauksmes...</div>
+  <div class="reviews-loading" id="reviews-loading"></div>
   <div class="reviews-grid" id="reviews-grid"></div>
+
+  <!-- Elfsight Google Reviews -->
+  <script src="https://elfsightcdn.com/platform.js" async></script>
+  <div class="elfsight-app-fd872fb6-7181-4de4-82a0-d96b064890fa" data-elfsight-app-lazy style="max-width:1000px;margin:0 auto;padding:0 2rem"></div>
   <div class="reviews-cta">
     <a href="https://search.google.com/local/reviews?placeid=ChIJoyAm-gXl7kYRBy29-Mqd6zo" target="_blank" rel="noopener" data-i18n="reviews_all">
       Visas atsauksmes Google →
@@ -3280,14 +3372,9 @@ async function loadGoogleReviews() {
   const loading = document.getElementById('reviews-loading');
   const overall = document.getElementById('reviews-overall');
 
-  if (!GOOGLE_MAPS_API_KEY) {
-    // API atslēga nav ievadīta — rāda instrukciju
-    loading.innerHTML = `<div style="color:var(--text-light);font-size:.82rem;padding:1rem 2rem;max-width:500px;margin:0 auto;line-height:1.8;background:rgba(200,136,42,.06);border-radius:10px;border:1px solid rgba(200,136,42,.2)">
-      📋 Lai rādītu Google atsauksmes, pievienojiet API atslēgu failā index.html.<br>
-      Meklējiet: <strong>GOOGLE_MAPS_API_KEY = ''</strong>
-    </div>`;
-    return;
-  }
+  // Google Reviews API nav konfigurēta — atsauksmes rāda manuāli zemāk
+  loading.style.display = 'none';
+  if (!GOOGLE_MAPS_API_KEY) { return; }
 
   try {
     // Google Places API New
@@ -3348,6 +3435,81 @@ async function loadGoogleReviews() {
 }
 
 window.addEventListener('DOMContentLoaded', loadGoogleReviews);
+</script>
+
+
+<script>
+/* ══════════ LAIKAPSTĀKĻU LOGRĪKS — Open-Meteo (bez API atslēgas) ══════════
+   Ragaciems: 57.0275, 23.4956 · valoda seko lapas LV/EN/LT/RU pārslēgam    */
+const WW = { lat:57.0275, lon:23.4956, refreshMin:15, lang:'lv', last:null };
+const WW_TR = {
+  lv:{loc:'Ragaciems',feels:'Jūtas',ms:'m/s',codes:{0:'Skaidrs',1:'Gandrīz skaidrs',2:'Daļēji mākoņains',3:'Apmācies',45:'Migla',48:'Migla',51:'Smidzina',53:'Smidzina',55:'Stipri smidzina',56:'Ledains lietutiņš',57:'Ledains lietutiņš',61:'Neliels lietus',63:'Lietus',65:'Stiprs lietus',66:'Ledains lietus',67:'Ledains lietus',71:'Neliels sniegs',73:'Sniegs',75:'Stiprs sniegs',77:'Sniega graudi',80:'Lietusgāzes',81:'Lietusgāzes',82:'Spēcīgas lietusgāzes',85:'Sniega gāzes',86:'Sniega gāzes',95:'Pērkona negaiss',96:'Negaiss ar krusu',99:'Spēcīgs negaiss'}},
+  en:{loc:'Ragaciems',feels:'Feels',ms:'m/s',codes:{0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Fog',51:'Drizzle',53:'Drizzle',55:'Dense drizzle',56:'Freezing drizzle',57:'Freezing drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',66:'Freezing rain',67:'Freezing rain',71:'Light snow',73:'Snow',75:'Heavy snow',77:'Snow grains',80:'Rain showers',81:'Rain showers',82:'Violent showers',85:'Snow showers',86:'Snow showers',95:'Thunderstorm',96:'Thunderstorm, hail',99:'Severe thunderstorm'}},
+  lt:{loc:'Ragaciems',feels:'Jaučiama',ms:'m/s',codes:{0:'Giedra',1:'Beveik giedra',2:'Mažai debesuota',3:'Debesuota',45:'Rūkas',48:'Rūkas',51:'Dulksna',53:'Dulksna',55:'Tiršta dulksna',56:'Ledininė dulksna',57:'Ledininė dulksna',61:'Nedidelis lietus',63:'Lietus',65:'Smarkus lietus',66:'Ledininis lietus',67:'Ledininis lietus',71:'Nedidelis sniegas',73:'Sniegas',75:'Smarkus sniegas',77:'Sniego kruopos',80:'Liūtys',81:'Liūtys',82:'Smarkios liūtys',85:'Sniego krituliai',86:'Sniego krituliai',95:'Perkūnija',96:'Perkūnija su kruša',99:'Stipri perkūnija'}},
+  ru:{loc:'Рагациемс',feels:'Ощущается',ms:'м/с',codes:{0:'Ясно',1:'Малооблачно',2:'Переменная облачность',3:'Пасмурно',45:'Туман',48:'Туман',51:'Морось',53:'Морось',55:'Сильная морось',56:'Ледяная морось',57:'Ледяная морось',61:'Небольшой дождь',63:'Дождь',65:'Сильный дождь',66:'Ледяной дождь',67:'Ледяной дождь',71:'Небольшой снег',73:'Снег',75:'Сильный снег',77:'Снежная крупа',80:'Ливень',81:'Ливень',82:'Сильный ливень',85:'Снегопад',86:'Снегопад',95:'Гроза',96:'Гроза с градом',99:'Сильная гроза'}}
+};
+const WW_PRIVACY={lv:'Privātuma politika',en:'Privacy policy',lt:'Privatumo politika',ru:'Политика конфиденциальности'};
+function wwPack(){return WW_TR[WW.lang]||WW_TR.en}
+function wwCond(code){return wwPack().codes[code]||WW_TR.en.codes[code]||'—'}
+function wwType(code,isDay){
+  if(code===0)return isDay?'sun':'moon';
+  if(code===1||code===2)return isDay?'partly-day':'partly-night';
+  if(code===3)return 'cloudy';
+  if(code===45||code===48)return 'fog';
+  if((code>=51&&code<=57)||(code>=61&&code<=67)||(code>=80&&code<=82))return 'rain';
+  if((code>=71&&code<=77)||code===85||code===86)return 'snow';
+  if(code>=95)return 'thunder';
+  return 'cloudy';
+}
+function wwBuild(type){
+  const cl='<div class="ww-cloud c-main"></div>',cb='<div class="ww-cloud c-back"></div>';
+  const dr='<div class="ww-drop"></div><div class="ww-drop"></div><div class="ww-drop"></div>';
+  const fl='<div class="ww-flake"></div><div class="ww-flake"></div><div class="ww-flake"></div>';
+  const fg='<div class="ww-fog"></div><div class="ww-fog"></div><div class="ww-fog"></div>';
+  const bl='<div class="ww-bolt"></div>',sun='<div class="ww-sun"></div>';
+  const moon='<div class="ww-moon"></div><span class="ww-star"></span><span class="ww-star"></span><span class="ww-star"></span>';
+  const cg=cl.replace('c-main','c-main c-grey');
+  const m={sun:{c:'day',h:sun},moon:{c:'night',h:moon},'partly-day':{c:'day',h:sun+cl},'partly-night':{c:'night',h:moon+cl},
+    cloudy:{c:'day',h:cb+cg},rain:{c:'day',h:cg+dr},snow:{c:'day',h:cg+fl},thunder:{c:'night',h:cg+bl+dr},fog:{c:'day',h:cb+fg}};
+  return m[type]||m.cloudy;
+}
+async function wwLoad(){
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+WW.lat+'&longitude='+WW.lon+'&current=temperature_2m,apparent_temperature,relative_humidity_2m,is_day,weather_code,wind_speed_10m&wind_speed_unit=ms&timezone=Europe%2FRiga');
+    if(!r.ok)throw new Error(r.status);
+    WW.last=(await r.json()).current;wwRender();
+  }catch(e){console.warn('Laikapstākļi:',e);const w=document.getElementById('weather-widget');if(w)w.style.display='none';}
+}
+function wwRender(){
+  const c=WW.last;if(!c)return;
+  const s=wwBuild(wwType(c.weather_code,c.is_day===1));
+  const el=document.getElementById('ww-scene');el.className='ww-scene '+s.c;el.innerHTML=s.h;
+  document.getElementById('ww-temp').textContent=Math.round(c.temperature_2m);
+  document.getElementById('ww-cond').textContent=wwCond(c.weather_code);
+  document.getElementById('ww-loc').textContent=wwPack().loc;
+  document.getElementById('ww-extra').innerHTML=
+    '<span class="ww-chip">🌡 '+wwPack().feels+' <b>'+Math.round(c.apparent_temperature)+'°</b></span>'+
+    '<span class="ww-chip">💨 <b>'+Math.round(c.wind_speed_10m)+'</b> '+wwPack().ms+'</span>'+
+    '<span class="ww-chip">💧 <b>'+c.relative_humidity_2m+'%</b></span>';
+  document.getElementById('weather-widget').classList.add('ready');
+}
+function wwFooter(){
+  document.querySelectorAll('a[href="privatuma-politika.html"]').forEach(function(a){
+    a.textContent=WW_PRIVACY[WW.lang]||WW_PRIVACY.en;
+  });
+}
+window.addEventListener('DOMContentLoaded',function(){
+  WW.lang=(document.documentElement.lang||navigator.language||'lv').slice(0,2);
+  if(!WW_TR[WW.lang])WW.lang='en';
+  wwFooter();wwLoad();
+  setInterval(wwLoad,WW.refreshMin*60*1000);
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var l=btn.dataset.lang;
+      if(l&&WW_TR[l]){WW.lang=l;wwRender();wwFooter();}
+    });
+  });
+});
 </script>
 
 </body>
