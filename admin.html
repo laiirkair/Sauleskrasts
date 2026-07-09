@@ -815,9 +815,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   var ni=document.getElementById('naming-input');
   if(ni) ni.addEventListener('keydown',function(e){if(e.key==='Enter')confirmNaming();if(e.key==='Escape')closeNaming();});
 });
-</script>
-</body>
-</html>async function confirmNaming(){
+
+async function confirmNaming(){
   if(!_pendingB64){showToast('Izvēlies attēlu vispirms.',true);return;}
   var val=document.getElementById('naming-input').value.trim();
   if(!val)return;
@@ -843,3 +842,6 @@ function closeNaming(){
   _pendingB64=null;_pendingExt=null;
   try{document.getElementById('file-input').value='';}catch(e){}
 }
+</script>
+</body>
+</html>
