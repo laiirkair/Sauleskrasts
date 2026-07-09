@@ -7,73 +7,55 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --sand:#F5EDD6;--sand-light:#FAF5E9;
-  --navy:#1C2E4A;--navy-dark:#0F1D30;
-  --gold:#C8882A;--gold-light:#E8A84A;
-  --sea:#5A8FA3;--moss:#5E8A60;--coral:#C84A3A;
-  --white:#FAFAF8;--text:#2C3540;--text-light:#5A6570;
-  --shadow:0 4px 24px rgba(28,46,74,.10);
-  --shadow-lg:0 12px 48px rgba(28,46,74,.16);
-}
+:root{--sand:#F5EDD6;--sand-light:#FAF5E9;--navy:#1C2E4A;--navy-dark:#0F1D30;--gold:#C8882A;--gold-light:#E8A84A;--moss:#5E8A60;--coral:#C84A3A;--white:#FAFAF8;--text:#2C3540;--text-light:#5A6570;--shadow:0 4px 24px rgba(28,46,74,.10);--shadow-lg:0 12px 48px rgba(28,46,74,.16)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
 body{font-family:"Inter",sans-serif;color:var(--text);background:var(--navy-dark);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-/* LOGIN */
 #login-screen{position:fixed;inset:0;z-index:1000;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;padding:2rem}
 .login-box{background:var(--white);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:380px;box-shadow:var(--shadow-lg);text-align:center}
 .login-logo{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;color:var(--navy);margin-bottom:.3rem}
 .login-logo em{font-style:italic;color:var(--gold)}
 .login-sub{font-size:.8rem;color:var(--text-light);margin-bottom:1.5rem;letter-spacing:.05em;text-transform:uppercase}
-.login-input{width:100%;padding:.85rem 1rem;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:inherit;font-size:1rem;color:var(--text);margin-bottom:.8rem;transition:border-color .2s;background:var(--sand-light)}
+.login-input{width:100%;padding:.85rem 1rem;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:inherit;font-size:1rem;color:var(--text);margin-bottom:.8rem;background:var(--sand-light)}
 .login-input:focus{outline:none;border-color:var(--gold)}
-.login-btn{width:100%;padding:.9rem;background:var(--navy);color:white;border:none;border-radius:10px;font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s}
+.login-btn{width:100%;padding:.9rem;background:var(--navy);color:white;border:none;border-radius:10px;font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer}
 .login-btn:hover{background:var(--gold)}
+.login-hint{font-size:.7rem;color:var(--text-light);margin-bottom:.8rem;line-height:1.4;text-align:left}
 .login-error{color:var(--coral);font-size:.82rem;margin-top:.7rem;display:none}
 
-/* APP */
 #app{display:none;min-height:100vh;background:var(--sand-light)}
 header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3)}
 .header-title{font-family:"Cormorant Garamond",serif;font-size:1.3rem;font-weight:300;color:white}
 .header-title em{font-style:italic;color:var(--gold-light)}
-.header-right{display:flex;align-items:center;gap:.8rem}
-.logout-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-size:.75rem;padding:.35rem .8rem;border-radius:6px;cursor:pointer;transition:all .2s;font-family:inherit}
-.logout-btn:hover{background:var(--coral);border-color:var(--coral);color:white}
+.logout-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-size:.75rem;padding:.35rem .8rem;border-radius:6px;cursor:pointer;font-family:inherit}
+.logout-btn:hover{background:var(--coral);color:white}
 
-/* TABS */
-.tabs{display:flex;gap:0;background:var(--navy-dark);padding:0 1.5rem}
+.tabs{display:flex;background:var(--navy-dark);padding:0 1.5rem}
 .tab-btn{padding:.85rem 1.6rem;background:none;border:none;color:rgba(255,255,255,.45);font-family:inherit;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
-.tab-btn:hover{color:rgba(255,255,255,.75)}
 .tab-btn.active{color:var(--gold-light);border-bottom-color:var(--gold)}
 
-/* TAB PANELS */
 .tab-panel{display:none;padding:1.5rem;max-width:1300px;margin:0 auto}
 .tab-panel.active{display:block}
 
-/* CALENDAR LAYOUT */
 .cal-layout{display:grid;grid-template-columns:1fr 380px;gap:1.5rem}
 @media(max-width:900px){.cal-layout{grid-template-columns:1fr}}
 
-/* TODAY CARD */
 .today-card{background:linear-gradient(135deg,var(--navy),#263d5e);border-radius:16px;padding:1.2rem 1.4rem;margin-bottom:1.5rem;color:white}
 .today-label{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.4rem;font-weight:600}
 .today-stats{display:flex;gap:1rem;flex-wrap:wrap}
-.today-stat{text-align:center}
 .today-stat-num{font-family:"Bebas Neue",sans-serif;font-size:1.9rem;line-height:1;color:white}
 .today-stat-lbl{font-size:.62rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.07em}
 
-/* CALENDAR */
 .cal-card{background:white;border-radius:16px;padding:1.5rem;box-shadow:var(--shadow)}
 .cal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;gap:.8rem}
 .cal-month-label{font-family:"Cormorant Garamond",serif;font-size:1.4rem;color:var(--navy);font-weight:500;text-align:center;flex:1;text-transform:capitalize}
 .cal-nav{background:var(--sand-light);border:1px solid rgba(0,0,0,.08);color:var(--navy);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
-.cal-nav:hover{background:var(--gold);border-color:var(--gold);color:white}
+.cal-nav:hover{background:var(--gold);color:white}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .cal-wd{text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.07em;color:var(--text-light);padding:.35rem 0;text-transform:uppercase}
 .cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:.3rem;border-radius:8px;background:var(--sand-light);border:1.5px solid transparent;cursor:pointer;transition:all .18s;position:relative}
-.cal-day:hover{border-color:var(--gold);background:rgba(200,136,42,.07);transform:translateY(-1px)}
-.cal-day.active{border-color:var(--gold);background:rgba(200,136,42,.12);box-shadow:0 2px 10px rgba(200,136,42,.2)}
+.cal-day:hover{border-color:var(--gold);background:rgba(200,136,42,.07)}
+.cal-day.active{border-color:var(--gold);background:rgba(200,136,42,.12)}
 .cal-day.empty{background:transparent;cursor:default;pointer-events:none}
 .cal-day.past{opacity:.35}
 .cal-day.today .day-n{color:var(--gold);font-weight:800}
@@ -86,12 +68,11 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
 .leg-item{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:var(--text-light)}
 .leg-dot{width:8px;height:8px;border-radius:50%}
 
-/* DETAIL PANEL */
 .detail-panel{display:flex;flex-direction:column;gap:1rem}
 .no-selection{background:white;border-radius:16px;padding:2rem;text-align:center;color:var(--text-light);font-size:.88rem;box-shadow:var(--shadow)}
 .no-selection .icon{font-size:2.5rem;margin-bottom:.8rem;display:block}
+.no-bookings{background:var(--sand-light);border-radius:10px;padding:1.2rem;text-align:center;color:var(--text-light);font-size:.84rem;border:1.5px dashed rgba(0,0,0,.1)}
 
-/* BOOKING CARD */
 .booking-card{background:white;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
 .booking-card-head{padding:.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
 .bc-cabin{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:.06em;color:white}
@@ -102,7 +83,7 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
 .booking-card-body{padding:1rem 1.1rem}
 .info-row{display:flex;align-items:flex-start;gap:.7rem;padding:.4rem 0;border-bottom:1px solid rgba(0,0,0,.05)}
 .info-row:last-child{border-bottom:none}
-.info-icon{font-size:.95rem;flex-shrink:0;width:20px;text-align:center;margin-top:.1rem}
+.info-icon{font-size:.95rem;flex-shrink:0;width:20px;text-align:center}
 .info-content{flex:1;min-width:0}
 .info-label{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-light);margin-bottom:.15rem}
 .info-val{font-size:.86rem;color:var(--navy);font-weight:500;word-break:break-word;line-height:1.4}
@@ -123,112 +104,96 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
 .status-save{padding:.3rem .75rem;background:var(--gold);color:white;border:none;border-radius:7px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit}
 .status-save:hover{background:var(--navy)}
 .status-saved{color:var(--moss);font-size:.72rem;font-weight:600;display:none}
-.no-bookings{background:var(--sand-light);border-radius:10px;padding:1.2rem;text-align:center;color:var(--text-light);font-size:.84rem;border:1.5px dashed rgba(0,0,0,.1)}
 .res-nr{font-family:"Bebas Neue",sans-serif;font-size:.78rem;letter-spacing:.1em;color:rgba(255,255,255,.5)}
 
-/* GALLERY TAB */
+/* GALLERY */
 .gallery-toolbar{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.gallery-toolbar-left{flex:1;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
-.gal-stat{font-size:.82rem;color:var(--text-light)}
-.gal-stat strong{color:var(--navy);font-weight:700}
 .upload-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.4rem;background:var(--moss);color:white;border:none;border-radius:30px;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:all .2s}
-.upload-btn:hover{background:var(--navy);transform:translateY(-1px)}
-.upload-btn:disabled{opacity:.5;cursor:not-allowed}
-#file-input{display:none}
+.upload-btn:hover{background:var(--navy)}
+.save-order-btn{background:var(--gold);display:none}
+.save-order-btn:hover{background:var(--navy)}
+.gal-stat{font-size:.82rem;color:var(--text-light);flex:1}
+.gal-stat strong{color:var(--navy)}
 
-.gallery-grid-admin{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+.gallery-grid-admin{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
 @media(max-width:600px){.gallery-grid-admin{grid-template-columns:repeat(2,1fr);gap:.7rem}}
 
-.gal-item{background:white;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .2s;position:relative}
+.gal-item{background:white;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:all .2s;position:relative;cursor:grab;user-select:none}
 .gal-item:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
-.gal-item.dragging{opacity:.4;border:2px dashed var(--gold)}
-.gal-item.drag-over{border:2px solid var(--gold);background:rgba(200,136,42,.05)}
+.gal-item.dragging{opacity:.4;cursor:grabbing}
+.gal-item.drag-over{outline:3px solid var(--gold);outline-offset:-3px}
 .gal-img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--sand)}
-.gal-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.gal-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;pointer-events:none}
 .gal-item:hover .gal-img-wrap img{transform:scale(1.04)}
-.gal-order-badge{position:absolute;top:.4rem;left:.4rem;background:rgba(28,46,74,.8);color:var(--gold-light);font-family:"Bebas Neue",sans-serif;font-size:.9rem;padding:.15rem .5rem;border-radius:6px;letter-spacing:.05em}
-.gal-actions-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;gap:.5rem;opacity:0;transition:opacity .2s}
-.gal-item:hover .gal-actions-overlay{opacity:1}
-.gal-act-btn{width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .15s;backdrop-filter:blur(4px)}
-.gal-act-btn:hover{transform:scale(1.15)}
-.btn-delete{background:rgba(200,74,58,.85);color:white}
-.btn-rename{background:rgba(255,255,255,.85);color:var(--navy)}
-.btn-move-up{background:rgba(200,136,42,.85);color:white}
-.btn-move-down{background:rgba(200,136,42,.65);color:white}
+.gal-order{position:absolute;top:.4rem;left:.4rem;background:rgba(28,46,74,.8);color:var(--gold-light);font-family:"Bebas Neue",sans-serif;font-size:.9rem;padding:.1rem .45rem;border-radius:5px}
+.gal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;gap:.5rem;opacity:0;transition:opacity .2s}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-btn{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;background:rgba(255,255,255,.9);color:var(--navy);transition:all .15s}
+.gal-btn:hover{transform:scale(1.15)}
+.gal-btn.del{background:rgba(200,74,58,.9);color:white}
+.gal-btn.ren{background:rgba(255,255,255,.9);color:var(--navy)}
+.gal-footer{padding:.5rem .7rem}
+.gal-caption{font-size:.75rem;color:var(--navy);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gal-fname{font-size:.65rem;color:var(--text-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.gal-item-footer{padding:.6rem .75rem}
-.gal-filename{font-size:.72rem;color:var(--text-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
-.gal-caption{font-size:.78rem;color:var(--navy);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.progress-wrap{background:white;border-radius:12px;padding:1rem 1.2rem;box-shadow:var(--shadow);margin-bottom:1rem;display:none}
+.progress-wrap.show{display:block}
+.progress-title{font-size:.8rem;font-weight:600;color:var(--navy);margin-bottom:.5rem}
+.progress-bar-bg{background:var(--sand-light);border-radius:20px;height:8px;overflow:hidden}
+.progress-bar{height:100%;background:var(--moss);border-radius:20px;transition:width .3s;width:0}
 
-/* RENAME MODAL */
-.rename-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
-.rename-overlay.open{opacity:1;pointer-events:all}
-#naming-input-wrap:focus-within{border-color:var(--gold)!important}
-.rename-box{background:white;border-radius:16px;padding:1.8rem;width:100%;max-width:400px;box-shadow:var(--shadow-lg)}
-.rename-title{font-family:"Cormorant Garamond",serif;font-size:1.4rem;color:var(--navy);margin-bottom:1rem;font-weight:400}
-.rename-input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;font-family:inherit;font-size:.9rem;color:var(--text);margin-bottom:.4rem;transition:border-color .2s}
-.rename-input:focus{outline:none;border-color:var(--gold)}
-.rename-hint{font-size:.72rem;color:var(--text-light);margin-bottom:1rem;line-height:1.5}
-.rename-actions{display:flex;gap:.7rem;justify-content:flex-end}
+.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal-box{background:white;border-radius:16px;padding:1.8rem;width:100%;max-width:400px;box-shadow:var(--shadow-lg)}
+.modal-title{font-family:"Cormorant Garamond",serif;font-size:1.4rem;color:var(--navy);margin-bottom:1rem;font-weight:400}
+.modal-preview{aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--sand);margin-bottom:.8rem}
+.modal-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.prefix-wrap{display:flex;align-items:center;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;overflow:hidden;margin-bottom:.3rem}
+.prefix-wrap:focus-within{border-color:var(--gold)}
+.prefix-label{padding:.75rem .8rem;background:var(--sand-light);color:var(--gold);font-weight:700;font-size:.88rem;border-right:1.5px solid rgba(0,0,0,.1);flex-shrink:0;font-family:monospace}
+.modal-input{flex:1;padding:.75rem .8rem;border:none;font-family:inherit;font-size:.9rem;color:var(--text);outline:none;min-width:0}
+.modal-fullname{font-size:.7rem;color:var(--text-light);margin-bottom:.4rem}
+.modal-hint{font-size:.72rem;color:var(--text-light);margin-bottom:1rem;line-height:1.5}
+.modal-actions{display:flex;gap:.7rem;justify-content:flex-end}
 .btn-cancel{padding:.6rem 1.2rem;background:var(--sand-light);color:var(--text);border:1px solid rgba(0,0,0,.1);border-radius:8px;font-family:inherit;font-size:.84rem;cursor:pointer}
-.btn-confirm{padding:.6rem 1.4rem;background:var(--gold);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer}
-.btn-confirm:hover{background:var(--navy)}
+.btn-ok{padding:.6rem 1.4rem;background:var(--gold);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer}
+.btn-ok:hover{background:var(--navy)}
+.btn-ok:disabled{opacity:.4;cursor:not-allowed}
 
-/* UPLOAD PROGRESS */
-.upload-progress{background:white;border-radius:12px;padding:1rem 1.2rem;box-shadow:var(--shadow);margin-bottom:1rem;display:none}
-.upload-progress.show{display:block}
-.progress-title{font-size:.8rem;font-weight:600;color:var(--navy);margin-bottom:.6rem}
-.progress-bar-wrap{background:var(--sand-light);border-radius:20px;height:8px;overflow:hidden;margin-bottom:.4rem}
-.progress-bar{height:100%;background:var(--moss);border-radius:20px;transition:width .3s;width:0%}
-.progress-text{font-size:.72rem;color:var(--text-light)}
-
-/* SPINNER & TOAST */
-.loading{text-align:center;padding:3rem;color:var(--text-light);font-size:.88rem}
-.spinner{display:inline-block;width:20px;height:20px;border:2.5px solid rgba(28,46,74,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
-@keyframes spin{to{transform:rotate(360deg)}}
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:.7rem 1.4rem;border-radius:10px;font-size:.82rem;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1}
-
-@media(max-width:600px){
-  .tab-btn{padding:.7rem .9rem;font-size:.74rem;letter-spacing:.04em}
-  .tab-panel{padding:1rem}
-  header{padding:.8rem 1rem}
-  .today-stat-num{font-size:1.5rem}
-}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">Saules <em>Krasts</em></div>
     <div class="login-sub">Administratora panelis</div>
-    <input type="password" class="login-input" id="pwd-input" placeholder="Parole" autocomplete="current-password">
-    <div style="position:relative;margin-bottom:.8rem">
-      <input type="password" class="login-input" id="pat-input" placeholder="GitHub token (neobligāts — galerijas rediģēšanai)" autocomplete="off" style="margin-bottom:0;font-size:.82rem;padding:.75rem 1rem">
-      <div style="font-size:.7rem;color:var(--text-light);margin-top:.35rem;line-height:1.4;text-align:left">Bez tokena: tikai rezervācijas · Ar tokenu: arī galerija</div>
-    </div>
-    <button class="login-btn" onclick="checkLogin()">Ieiet →</button>
+    <input type="password" class="login-input" id="pwd" placeholder="Parole">
+    <input type="password" class="login-input" id="pat" placeholder="GitHub token (neobligāts — galerijas rediģēšanai)" style="font-size:.82rem">
+    <div class="login-hint">Bez tokena: tikai rezervācijas · Ar tokenu: arī galerija</div>
+    <button class="login-btn" id="login-btn">Ieiet →</button>
     <div class="login-error" id="login-error">Nepareiza parole</div>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <header>
     <div class="header-title">Saules <em>Krasts</em> · Admin</div>
-    <div class="header-right">
-      <button class="logout-btn" onclick="logout()">Iziet</button>
+    <div style="display:flex;align-items:center;gap:.8rem">
+      <span id="access-badge" style="font-size:.68rem;padding:.2rem .6rem;border-radius:12px;border:1px solid;font-weight:600"></span>
+      <button class="logout-btn" id="logout-btn">Iziet</button>
     </div>
   </header>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('bookings')">📅 Rezervācijas</button>
-    <button class="tab-btn" onclick="switchTab('gallery')">🖼 Galerija</button>
+    <button class="tab-btn active" data-tab="bookings">📅 Rezervācijas</button>
+    <button class="tab-btn" data-tab="gallery" id="gallery-tab" style="display:none">🖼 Galerija</button>
   </div>
 
-  <!-- BOOKINGS TAB -->
   <div class="tab-panel active" id="tab-bookings">
     <div class="cal-layout">
       <div>
@@ -238,9 +203,9 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
         </div>
         <div class="cal-card">
           <div class="cal-top">
-            <button class="cal-nav" onclick="changeMonth(-1)">←</button>
-            <div class="cal-month-label" id="cal-month-label"></div>
-            <button class="cal-nav" onclick="changeMonth(1)">→</button>
+            <button class="cal-nav" id="cal-prev">←</button>
+            <div class="cal-month-label" id="cal-month"></div>
+            <button class="cal-nav" id="cal-next">→</button>
           </div>
           <div class="cal-grid" id="cal-grid"></div>
           <div class="cal-legend">
@@ -250,85 +215,58 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
         </div>
       </div>
       <div class="detail-panel" id="detail-panel">
-        <div class="no-selection">
-          <span class="icon">📅</span>
-          Uzspiedi uz dienas kalendārā,<br>lai redzētu rezervācijas
-        </div>
+        <div class="no-selection"><span class="icon">📅</span>Uzspiedi uz dienas kalendārā</div>
       </div>
     </div>
   </div>
 
-  <!-- GALLERY TAB -->
   <div class="tab-panel" id="tab-gallery">
     <div class="gallery-toolbar">
-      <div class="gallery-toolbar-left">
-        <div class="gal-stat" id="gal-stat">Ielādē bildes...</div>
-      </div>
-      <button class="upload-btn" id="save-order-btn" onclick="saveOrderToGitHub()"
-        style="display:none;background:var(--gold)">
-        💾 Saglabāt secību
-      </button>
-      <label class="upload-btn" style="cursor:pointer;display:inline-flex;align-items:center;gap:.5rem">
+      <div class="gal-stat" id="gal-stat">—</div>
+      <button class="upload-btn save-order-btn" id="save-order-btn">💾 Saglabāt secību</button>
+      <label class="upload-btn" style="cursor:pointer">
         ＋ Pievienot bildi
-        <input type="file" id="file-input" accept="image/*"
-          style="display:none"
-          onchange="prepareUpload(event)">
+        <input type="file" id="file-input" accept="image/*" style="display:none">
       </label>
     </div>
-
-    <div class="upload-progress" id="upload-progress">
-      <div class="progress-title" id="progress-title">Augšupielādē...</div>
-      <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
-      <div class="progress-text" id="progress-text"></div>
+    <div class="progress-wrap" id="prog-wrap">
+      <div class="progress-title" id="prog-title">Augšupielādē...</div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="prog-bar"></div></div>
     </div>
-
-    <div id="gallery-grid-admin" class="gallery-grid-admin">
-      <div class="loading"><span class="spinner"></span>Ielādē...</div>
-    </div>
+    <div class="gallery-grid-admin" id="gal-grid"></div>
   </div>
 </div>
 
-<!-- NAMING MODAL (pirms augšupielādes) -->
-<div class="rename-overlay" id="naming-overlay">
-  <div class="rename-box">
-    <div class="rename-title">🖼 Nosaukums attēlam</div>
-    <div style="margin-bottom:.8rem">
-      <div style="font-size:.72rem;color:var(--text-light);margin-bottom:.5rem">Priekšskatījums:</div>
-      <div id="naming-preview-wrap" style="aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--sand);margin-bottom:.8rem;max-height:180px">
-        <img id="naming-preview" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
-      </div>
+<!-- UPLOAD MODAL -->
+<div class="modal-bg" id="upload-modal">
+  <div class="modal-box">
+    <div class="modal-title">🖼 Nosaukums attēlam</div>
+    <div class="modal-preview"><img id="upload-preview" src="" alt=""></div>
+    <div class="prefix-wrap">
+      <span class="prefix-label">gallery-</span>
+      <input type="text" class="modal-input" id="upload-name" placeholder="saulleksts-vakars">
     </div>
-    <div style="display:flex;align-items:center;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;overflow:hidden;margin-bottom:.4rem;transition:border-color .2s" id="naming-input-wrap">
-      <span style="padding:.75rem .8rem;background:var(--sand-light);color:var(--gold);font-weight:700;font-size:.88rem;border-right:1.5px solid rgba(0,0,0,.1);flex-shrink:0;font-family:monospace">gallery-</span>
-      <input type="text" class="rename-input" id="naming-input" placeholder="saulleksts-vakars" autocomplete="off"
-        style="border:none;border-radius:0;margin-bottom:0;flex:1;min-width:0"
-        oninput="updateNamingPreview()">
-    </div>
-    <div style="font-size:.7rem;color:var(--text-light);margin-bottom:.25rem" id="naming-full-name">Faila nosaukums: <strong>gallery-</strong></div>
-    <div class="rename-hint" style="margin-bottom:1rem">
-      Lietojiet tikai <strong>burtus</strong>, <strong>ciparus</strong> un <strong>defisi</strong>.<br>
-      Piemēri: <code>saulleksts-julijā</code> · <code>majina-nr5-terasa</code> · <code>pludmale-vakars</code>
-    </div>
-    <div class="rename-actions">
-      <button class="btn-cancel" onclick="closeNaming()">Atcelt</button>
-      <button class="btn-confirm" id="naming-confirm-btn" onclick="confirmNaming()" disabled>Augšupielādēt →</button>
+    <div class="modal-fullname" id="upload-fullname">Faila nosaukums: <strong>gallery-</strong></div>
+    <div class="modal-hint">Tikai burti, cipari un defise. Piemērs: <code>pludmale-vakars</code></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="upload-cancel">Atcelt</button>
+      <button class="btn-ok" id="upload-ok" disabled>Augšupielādēt →</button>
     </div>
   </div>
 </div>
 
 <!-- RENAME MODAL -->
-<div class="rename-overlay" id="rename-overlay">
-  <div class="rename-box">
-    <div class="rename-title">✏️ Pārsaukt attēlu</div>
-    <input type="text" class="rename-input" id="rename-input" placeholder="nosaukums">
-    <div class="rename-hint">
-      Ievadi tikai aprakstu bez "gallery-" — tas tiks pievienots automātiski.<br>
-      Piemērs: <strong>saulleksts-vakars</strong> → fails: <strong>gallery-saulleksts-vakars.jpg</strong><br>
-      Lietojiet tikai burtus, ciparus un defisi.
+<div class="modal-bg" id="rename-modal">
+  <div class="modal-box">
+    <div class="modal-title">✏️ Pārsaukt attēlu</div>
+    <div class="prefix-wrap">
+      <span class="prefix-label">gallery-</span>
+      <input type="text" class="modal-input" id="rename-name" placeholder="nosaukums">
     </div>
-    <div class="rename-actions">
-      <button class="btn-cancel" onclick="closeRename()">Atcelt</button>
-      <button class="btn-confirm" onclick="confirmRename()">Saglabāt</button>
+    <div class="modal-hint">Tikai burti, cipari un defise.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="rename-cancel">Atcelt</button>
+      <button class="btn-ok" id="rename-ok">Saglabāt</button>
     </div>
   </div>
 </div>
@@ -336,663 +274,482 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
 <div class="toast" id="toast"></div>
 
 <script>
-/* CONFIG */
-const PASS        = 'VissIzdosies#2026';
-const GH_TOKEN    = ''; // Tokenu ievada pieteikšanās brīdī — netiek glabāts failā
-const GH_REPO     = 'laiirkair/Sauleskrasts';
-const GH_BRANCH   = 'main';
-const GALLERY_PFX = 'gallery-';
-const SB_URL      = 'https://kkpwxygfihxyzhrfvqim.supabase.co';
-const SB_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrcHd4eWdmaWh4eXpocmZ2cWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTA3MjksImV4cCI6MjA5Njc2NjcyOX0.6DSU-vtKHs20GKVxZaMATRhMh1KStzO4v_IqKWwmzv0';
+// ═══════════════════════════════════════════════════════
+// SAULES KRASTS ADMIN — pilnīgi pārrakstīts 2026-07
+// ═══════════════════════════════════════════════════════
+var PASS    = 'VissIzdosies#2026';
+var SB_URL  = 'https://kkpwxygfihxyzhrfvqim.supabase.co';
+var SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrcHd4eWdmaWh4eXpocmZ2cWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTA3MjksImV4cCI6MjA5Njc2NjcyOX0.6DSU-vtKHs20GKVxZaMATRhMh1KStzO4v_IqKWwmzv0';
+var GH_REPO = 'laiirkair/Sauleskrasts';
+var GH_BRANCH = 'main';
 
-const CABINS = [
-  {id:1,name:'Majiņa Nr. 1',type:'family',color:'#2d5a3d'},
-  {id:2,name:'Majiņa Nr. 2',type:'family',color:'#2d5a3d'},
-  {id:3,name:'Majiņa Nr. 3',type:'double',color:'#2e5a7a'},
-  {id:4,name:'Majiņa Nr. 4',type:'double',color:'#2e5a7a'},
-  {id:5,name:'Majiņa Nr. 5',type:'lux',   color:'#7a5a1a'},
+var CABINS = [
+  {id:1,name:'Majiņa Nr.1',type:'family',color:'#2d5a3d'},
+  {id:2,name:'Majiņa Nr.2',type:'family',color:'#2d5a3d'},
+  {id:3,name:'Majiņa Nr.3',type:'double',color:'#2e5a7a'},
+  {id:4,name:'Majiņa Nr.4',type:'double',color:'#2e5a7a'},
+  {id:5,name:'Majiņa Nr.5',type:'lux',color:'#7a5a1a'}
 ];
-const EXTRA_NAMES = {grill:'🔥 Grils',coal:'⚫ Ogles',umbrella:'⛱ Saulessargs',chair:'🪑 Krēsls'};
-const MONTHS = ['Janvāris','Februāris','Marts','Aprīlis','Maijs','Jūnijs','Jūlijs','Augusts','Septembris','Oktobris','Novembris','Decembris'];
-const WDAYS  = ['Pr','Ot','Tr','Ce','Pk','Se','Sv'];
+var EXTRA_NAMES = {grill:'🔥 Grils',coal:'⚫ Ogles',umbrella:'⛱ Saulessargs',chair:'🪑 Krēsls'};
+var MONTHS = ['Janvāris','Februāris','Marts','Aprīlis','Maijs','Jūnijs','Jūlijs','Augusts','Septembris','Oktobris','Novembris','Decembris'];
+var WDAYS = ['Pr','Ot','Tr','Ce','Pk','Se','Sv'];
 
-let sb, bookings=[], calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedDate=null;
-let galleryFiles=[], renameTarget=null, dragSrc=null;
+// State
+var sb, GH_TOKEN = '';
+var bookings = [];
+var calYear = new Date().getFullYear(), calMonth = new Date().getMonth(), selDate = null;
+var galFiles = [], orderChanged = false, dragSrc = null, renameIdx = null;
+var pendingB64 = null, pendingExt = null;
 
-/* ── LOGIN ── */
-function checkLogin(){
-  const pwd = document.getElementById('pwd-input').value;
-  const pat = document.getElementById('pat-input').value.trim();
+// ── UTILS ──────────────────────────────────────────────
+function $(id){ return document.getElementById(id); }
+function toYMD(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function toast(msg, err){
+  var t = $('toast');
+  t.textContent = msg;
+  t.style.background = err ? '#C84A3A' : '#2d5a3d';
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3500);
+}
+
+// ── GITHUB API ─────────────────────────────────────────
+function ghFetch(path, opts){
+  var url = 'https://api.github.com/repos/'+GH_REPO+'/contents/'+encodeURIComponent(path)
+    + (opts && opts.method ? '' : '?ref='+GH_BRANCH);
+  var headers = {
+    'Authorization': 'Bearer '+GH_TOKEN,
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'saules-krasts-admin'
+  };
+  if(opts && opts.body) headers['Content-Type'] = 'application/json';
+  return fetch(url, Object.assign({headers:headers}, opts || {}))
+    .then(function(r){
+      if(!r.ok) return r.json().then(function(e){ throw new Error(e.message||r.status); });
+      return r.json();
+    });
+}
+function ghGet(path){ return ghFetch(path, {method:'GET'}); }
+function ghPut(path, b64, sha, msg){
+  var body = {message:msg, content:b64, branch:GH_BRANCH};
+  if(sha) body.sha = sha;
+  return ghFetch(path, {method:'PUT', body:JSON.stringify(body)});
+}
+function ghDel(path, sha, msg){
+  return ghFetch(path, {method:'DELETE', body:JSON.stringify({message:msg,sha:sha,branch:GH_BRANCH})});
+}
+
+// ── LOGIN ──────────────────────────────────────────────
+function doLogin(){
+  var pwd = $('pwd').value;
+  var pat = $('pat').value.trim();
   if(pwd !== PASS){
-    document.getElementById('login-error').style.display='block';
-    document.getElementById('pwd-input').value='';
-    document.getElementById('pwd-input').focus();
+    $('login-error').style.display = 'block';
+    $('pwd').value = '';
+    $('pwd').focus();
     return;
   }
-  // Password correct — determine access level
-  const hasGallery = pat.length > 10;
+  var hasGallery = pat.length > 10;
+  GH_TOKEN = pat;
   localStorage.setItem('sk_admin','1');
+  localStorage.setItem('sk_gallery', hasGallery ? '1' : '0');
+  if(hasGallery) localStorage.setItem('sk_pat', pat);
+  else localStorage.removeItem('sk_pat');
+  showApp(hasGallery);
+}
+function doLogout(){
+  localStorage.removeItem('sk_admin');
+  localStorage.removeItem('sk_gallery');
+  localStorage.removeItem('sk_pat');
+  location.reload();
+}
+function showApp(hasGallery){
+  $('login-screen').style.display = 'none';
+  $('app').style.display = 'block';
+  var badge = $('access-badge');
   if(hasGallery){
-    localStorage.setItem('sk_gallery','1');
-    localStorage.setItem('sk_pat', pat);
+    $('gallery-tab').style.display = '';
+    badge.textContent = '🔑 PILNA PIEKĻUVE';
+    badge.style.cssText = 'font-size:.68rem;padding:.2rem .6rem;border-radius:12px;border:1px solid var(--gold);font-weight:600;background:rgba(200,136,42,.2);color:var(--gold-light)';
   } else {
-    localStorage.removeItem('sk_gallery');
-    localStorage.removeItem('sk_pat');
+    badge.textContent = '📋 REZERVĀCIJAS';
+    badge.style.cssText = 'font-size:.68rem;padding:.2rem .6rem;border-radius:12px;border:1px solid rgba(255,255,255,.2);font-weight:600;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)';
   }
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').style.display='block';
-  initApp(hasGallery);
+  initBookings();
 }
-function logout(){localStorage.removeItem('sk_admin');localStorage.removeItem('sk_gallery');localStorage.removeItem('sk_pat');location.reload();}
-/* ── TABS ── */
+
+// ── TABS ───────────────────────────────────────────────
 function switchTab(name){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['bookings','gallery'][i]===name));
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  if(name==='gallery' && galleryFiles.length===0) loadGallery();
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(function(p){
+    p.classList.toggle('active', p.id === 'tab-'+name);
+  });
+  if(name === 'gallery' && galFiles.length === 0) loadGallery();
 }
 
-/* ── INIT ── */
-async function initApp(hasGallery){
-  // Show/hide gallery tab based on access level
-  const galTab = document.querySelector('.tab-btn[onclick*="gallery"]');
-  if(galTab){
-    if(hasGallery){
-      galTab.style.display='';
-      // Update GH_TOKEN from session if available
-      const storedPat = localStorage.getItem('sk_pat');
-      if(storedPat) window._GH_TOKEN = storedPat;
-    } else {
-      galTab.style.display='none';
-    }
-  }
-  // Show access level badge
-  const badge = document.querySelector('.header-right');
-  if(badge){
-    const level = hasGallery
-      ? '<span style="font-size:.68rem;background:rgba(200,136,42,.2);border:1px solid var(--gold);color:var(--gold-light);padding:.2rem .6rem;border-radius:12px;font-weight:600">🔑 PILNA PIEKĻUVE</span>'
-      : '<span style="font-size:.68rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);padding:.2rem .6rem;border-radius:12px;font-weight:600">📋 REZERVĀCIJAS</span>';
-    badge.innerHTML = level + badge.innerHTML;
-  }
+// ── BOOKINGS ───────────────────────────────────────────
+function initBookings(){
   sb = window.supabase.createClient(SB_URL, SB_KEY);
-  await loadBookings();
-  renderTodayStats();
-  renderCalendar();
+  sb.from('bookings').select('*').order('checkin_date')
+    .then(function(res){
+      bookings = res.data || [];
+      renderToday();
+      renderCal();
+    }).catch(function(e){ toast('Kļūda: '+e.message, true); });
 }
-
-/* ── BOOKINGS DATA ── */
-async function loadBookings(){
-  try{
-    const {data,error}=await sb.from('bookings').select('*').order('checkin_date',{ascending:true});
-    if(error)throw error;
-    bookings=data||[];
-  }catch(e){showToast('Kļūda ielādējot rezervācijas: '+e.message,true);}
+function bookedOn(ymd){
+  return bookings.filter(function(b){
+    return b.checkin_date<=ymd && b.checkout_date>ymd && b.status!=='cancelled';
+  });
 }
-function bookingsOnDate(ymd){return bookings.filter(b=>b.checkin_date<=ymd&&b.checkout_date>ymd&&b.status!=='cancelled');}
-function isCabinBooked(cabinId,ymd){return bookings.some(b=>b.cabin_id===cabinId&&b.checkin_date<=ymd&&b.checkout_date>ymd&&b.status!=='cancelled');}
-
-/* ── TODAY STATS ── */
-function renderTodayStats(){
-  const today=toYMD(new Date());
-  const onDate=bookingsOnDate(today);
-  const checkins=bookings.filter(b=>b.checkin_date===today&&b.status!=='cancelled').length;
-  const checkouts=bookings.filter(b=>b.checkout_date===today&&b.status!=='cancelled').length;
-  const pending=bookings.filter(b=>b.status==='pending').length;
-  const d=new Date();
-  document.getElementById('today-label').textContent=d.toLocaleDateString('lv-LV',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById('today-stats').innerHTML=`
-    <div class="today-stat"><div class="today-stat-num">${onDate.length}</div><div class="today-stat-lbl">Aizņemtas</div></div>
-    <div class="today-stat"><div class="today-stat-num">${5-onDate.length}</div><div class="today-stat-lbl">Brīvas</div></div>
-    <div class="today-stat"><div class="today-stat-num" style="color:var(--gold-light)">${checkins}</div><div class="today-stat-lbl">Ierodas</div></div>
-    <div class="today-stat"><div class="today-stat-num" style="color:rgba(255,255,255,.55)">${checkouts}</div><div class="today-stat-lbl">Izbrauc</div></div>
-    <div class="today-stat"><div class="today-stat-num" style="color:#E8A84A">${pending}</div><div class="today-stat-lbl">Gaida</div></div>`;
+function cabinBooked(id,ymd){
+  return bookings.some(function(b){
+    return b.cabin_id===id && b.checkin_date<=ymd && b.checkout_date>ymd && b.status!=='cancelled';
+  });
 }
-
-/* ── CALENDAR ── */
-function changeMonth(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
-function renderCalendar(){
-  document.getElementById('cal-month-label').textContent=MONTHS[calMonth]+' '+calYear;
-  const today=new Date();today.setHours(0,0,0,0);
-  let firstDow=new Date(calYear,calMonth,1).getDay();
+function renderToday(){
+  var today = toYMD(new Date());
+  var on = bookedOn(today);
+  var ci = bookings.filter(function(b){return b.checkin_date===today&&b.status!=='cancelled';}).length;
+  var co = bookings.filter(function(b){return b.checkout_date===today&&b.status!=='cancelled';}).length;
+  var pend = bookings.filter(function(b){return b.status==='pending';}).length;
+  $('today-label').textContent = new Date().toLocaleDateString('lv-LV',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  $('today-stats').innerHTML =
+    stat(on.length,'Aizņemtas')+stat(5-on.length,'Brīvas','var(--moss)')+
+    stat(ci,'Ierodas','var(--gold-light)')+stat(co,'Izbrauc','rgba(255,255,255,.5)')+
+    stat(pend,'Gaida','#E8A84A');
+}
+function stat(n,lbl,col){
+  return '<div class="today-stat"><div class="today-stat-num"'+(col?' style="color:'+col+'"':'')+'>'+n+'</div><div class="today-stat-lbl">'+lbl+'</div></div>';
+}
+var calY=new Date().getFullYear(), calM=new Date().getMonth(), selD=null;
+function renderCal(){
+  $('cal-month').textContent = MONTHS[calM]+' '+calY;
+  var today=new Date();today.setHours(0,0,0,0);
+  var firstDow=new Date(calY,calM,1).getDay();
   firstDow=firstDow===0?6:firstDow-1;
-  const dim=new Date(calYear,calMonth+1,0).getDate();
-  let html=WDAYS.map(d=>'<div class="cal-wd">'+d+'</div>').join('');
-  for(let i=0;i<firstDow;i++)html+='<div class="cal-day empty"></div>';
-  for(let day=1;day<=dim;day++){
-    const ymd=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    const date=new Date(calYear,calMonth,day);
-    const isPast=date<today,isToday=date.getTime()===today.getTime(),isActive=ymd===selectedDate;
-    let dots='';
-    CABINS.forEach(c=>{dots+='<div class="d-dot '+(isCabinBooked(c.id,ymd)?'d-booked':'d-free')+'" title="'+c.name+'"></div>';});
-    const cls=['cal-day',isPast?'past':'',isToday?'today':'',isActive?'active':''].filter(Boolean).join(' ');
-    html+=`<div class="${cls}" onclick="selectDate('${ymd}')"><div class="day-n">${day}</div><div class="day-dots">${dots}</div></div>`;
+  var dim=new Date(calY,calM+1,0).getDate();
+  var h=WDAYS.map(function(d){return '<div class="cal-wd">'+d+'</div>';}).join('');
+  for(var i=0;i<firstDow;i++) h+='<div class="cal-day empty"></div>';
+  for(var day=1;day<=dim;day++){
+    var ymd=calY+'-'+pad(calM+1)+'-'+pad(day);
+    var date=new Date(calY,calM,day);
+    var isPast=date<today,isToday=date.getTime()===today.getTime(),isActive=ymd===selD;
+    var dots='';
+    CABINS.forEach(function(c){
+      dots+='<div class="d-dot '+(cabinBooked(c.id,ymd)?'d-booked':'d-free')+'"></div>';
+    });
+    var cls='cal-day'+(isPast?' past':'')+(isToday?' today':'')+(isActive?' active':'');
+    h+='<div class="'+cls+'"'+(isPast?'':' onclick="selDate(''+ymd+'')"')+'>'+
+      '<div class="day-n">'+day+'</div>'+
+      (isPast?'':'<div class="day-dots">'+dots+'</div>')+
+      '</div>';
   }
-  document.getElementById('cal-grid').innerHTML=html;
+  $('cal-grid').innerHTML=h;
 }
-function selectDate(ymd){selectedDate=ymd;renderCalendar();renderDetail(ymd);}
-
-/* ── DETAIL ── */
+function selDate(ymd){
+  selD=ymd;
+  renderCal();
+  renderDetail(ymd);
+}
 function renderDetail(ymd){
-  const panel=document.getElementById('detail-panel');
-  const dateStr=new Date(ymd+'T00:00:00').toLocaleDateString('lv-LV',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const onDate=bookingsOnDate(ymd);
-  const freeIds=CABINS.filter(c=>!isCabinBooked(c.id,ymd)).map(c=>c.id);
-  const checkins=bookings.filter(b=>b.checkin_date===ymd&&b.status!=='cancelled').length;
-  const checkouts=bookings.filter(b=>b.checkout_date===ymd&&b.status!=='cancelled').length;
-
-  let html=`
-    <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--navy);font-weight:400">${dateStr}</div>
-    <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-      <div style="background:white;border-radius:10px;padding:.6rem .9rem;flex:1;text-align:center;box-shadow:var(--shadow);min-width:70px">
-        <div style="font-family:'Bebas Neue';font-size:1.5rem;color:var(--coral)">${onDate.length}</div>
-        <div style="font-size:.62rem;color:var(--text-light);text-transform:uppercase">Aizņemtas</div>
-      </div>
-      <div style="background:white;border-radius:10px;padding:.6rem .9rem;flex:1;text-align:center;box-shadow:var(--shadow);min-width:70px">
-        <div style="font-family:'Bebas Neue';font-size:1.5rem;color:var(--moss)">${freeIds.length}</div>
-        <div style="font-size:.62rem;color:var(--text-light);text-transform:uppercase">Brīvas</div>
-      </div>
-      <div style="background:white;border-radius:10px;padding:.6rem .9rem;flex:1;text-align:center;box-shadow:var(--shadow);min-width:70px">
-        <div style="font-family:'Bebas Neue';font-size:1.5rem;color:var(--gold)">${checkins}</div>
-        <div style="font-size:.62rem;color:var(--text-light);text-transform:uppercase">Ierodas</div>
-      </div>
-      <div style="background:white;border-radius:10px;padding:.6rem .9rem;flex:1;text-align:center;box-shadow:var(--shadow);min-width:70px">
-        <div style="font-family:'Bebas Neue';font-size:1.5rem;color:var(--text-light)">${checkouts}</div>
-        <div style="font-size:.62rem;color:var(--text-light);text-transform:uppercase">Izbrauc</div>
-      </div>
-    </div>`;
-
-  if(freeIds.length>0){
-    html+=`<div style="background:rgba(94,138,96,.08);border:1px solid rgba(94,138,96,.2);border-radius:12px;padding:.8rem 1rem">
-      <div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);margin-bottom:.4rem">✅ Brīvās mājiņas</div>
-      <div style="display:flex;flex-wrap:wrap;gap:.35rem">
-        ${freeIds.map(id=>`<span style="background:white;border:1px solid rgba(94,138,96,.25);border-radius:7px;padding:.2rem .6rem;font-size:.76rem;color:var(--navy);font-weight:500">#${id}</span>`).join('')}
-      </div></div>`;
+  var panel=$('detail-panel');
+  var ds=new Date(ymd+'T00:00:00').toLocaleDateString('lv-LV',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var on=bookedOn(ymd);
+  var free=CABINS.filter(function(c){return !cabinBooked(c.id,ymd);});
+  var ci=bookings.filter(function(b){return b.checkin_date===ymd&&b.status!=='cancelled';}).length;
+  var co=bookings.filter(function(b){return b.checkout_date===ymd&&b.status!=='cancelled';}).length;
+  var h='<div style="font-family:Cormorant Garamond,serif;font-size:1.15rem;color:var(--navy)">'+ds+'</div>';
+  h+='<div style="display:flex;gap:.6rem;flex-wrap:wrap">';
+  h+=sBox(on.length,'Aizņemtas','var(--coral)')+sBox(free.length,'Brīvas','var(--moss)')+sBox(ci,'Ierodas','var(--gold)')+sBox(co,'Izbrauc','var(--text-light)');
+  h+='</div>';
+  if(free.length){
+    h+='<div style="background:rgba(94,138,96,.08);border:1px solid rgba(94,138,96,.2);border-radius:12px;padding:.8rem 1rem">';
+    h+='<div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);margin-bottom:.4rem">✅ Brīvās mājiņas</div>';
+    h+='<div style="display:flex;flex-wrap:wrap;gap:.35rem">';
+    free.forEach(function(c){h+='<span style="background:white;border:1px solid rgba(94,138,96,.25);border-radius:7px;padding:.2rem .6rem;font-size:.76rem;color:var(--navy);font-weight:500">#'+c.id+'</span>';});
+    h+='</div></div>';
   }
-
-  if(onDate.length===0){
-    html+='<div class="no-bookings">Nav rezervāciju šajā datumā</div>';
-  } else {
-    onDate.forEach(b=>{html+=renderBookingCard(b,ymd);});
-  }
-  panel.innerHTML=html;
+  if(!on.length){ h+='<div class="no-bookings">Nav rezervāciju šajā datumā</div>'; }
+  else { on.forEach(function(b){ h+=bCard(b,ymd); }); }
+  panel.innerHTML=h;
+}
+function sBox(n,lbl,col){
+  return '<div style="background:white;border-radius:10px;padding:.6rem .9rem;flex:1;text-align:center;box-shadow:var(--shadow);min-width:70px">'+
+    '<div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;color:'+(col||'var(--navy)')+'">'+n+'</div>'+
+    '<div style="font-size:.62rem;color:var(--text-light);text-transform:uppercase">'+lbl+'</div></div>';
+}
+function bCard(b,ymd){
+  var cab=CABINS.find(function(c){return c.id===b.cabin_id;})||{name:'#'+b.cabin_id,type:'double',color:'#2e5a7a'};
+  var tCls=cab.type==='lux'?'type-lux':cab.type==='family'?'type-family':'type-double';
+  var tLbl=cab.type==='lux'?'⭐ LUX':cab.type==='family'?'Ģimenes':'Divvietīgā';
+  var nights=Math.round((new Date(b.checkout_date)-new Date(b.checkin_date))/864e5);
+  var ex=b.extras||{};
+  var chips=[];
+  if((ex.bedlinen_qty||0)>0) chips.push('<span class="extra-chip chip-bedlinen">🛏 Gultasveļa ×'+ex.bedlinen_qty+'</span>');
+  Object.keys(EXTRA_NAMES).forEach(function(k){if((ex[k]||0)>0) chips.push('<span class="extra-chip chip-yes">'+EXTRA_NAMES[k]+' ×'+ex[k]+'</span>');});
+  if(!chips.length) chips.push('<span class="extra-chip chip-none">Nav ekstra</span>');
+  var notes=(b.notes||'').replace(/^SK-\d{8}-\d{4}\s*\|\s*/,'').trim();
+  var sCls=b.status==='confirmed'?'s-confirmed':b.status==='cancelled'?'s-cancelled':'s-pending';
+  var sLbl=b.status==='confirmed'?'✅ Apstiprināta':b.status==='cancelled'?'❌ Atcelta':'⏳ Gaida';
+  var resNr=((b.notes||'').match(/^(SK-\d{8}-\d{4})/)||[])[1]||'';
+  var isCI=b.checkin_date===ymd;
+  return '<div class="booking-card">'+
+    '<div class="booking-card-head" style="background:'+cab.color+'">'+
+      '<div><div class="bc-cabin">'+cab.name+'</div>'+(resNr?'<div class="res-nr">'+resNr+'</div>':'')+
+      '</div>'+
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:.3rem">'+
+        '<span class="bc-type '+tCls+'">'+tLbl+'</span>'+
+        (isCI?'<span style="font-size:.62rem;background:rgba(94,138,96,.2);color:#8DC490;border:1px solid rgba(94,138,96,.4);border-radius:6px;padding:.12rem .45rem;font-weight:700">📥 IERODAS</span>':'')+
+      '</div>'+
+    '</div>'+
+    '<div class="booking-card-body">'+
+      row('👤','Viesis',b.guest_name+' · '+(b.guest_count||'—')+' pers.')+
+      row('📞','Tālrunis','<a href="tel:'+b.guest_phone+'">'+b.guest_phone+'</a>')+
+      row('✉️','E-pasts','<a href="mailto:'+b.guest_email+'">'+b.guest_email+'</a>')+
+      row('📅','Periods',b.checkin_date+' → '+b.checkout_date+' <span style="color:var(--text-light);font-size:.76rem">('+nights+' naktis)</span>')+
+      row('💶','Kopā','<span style="font-family:Bebas Neue,sans-serif;font-size:1.15rem">'+(b.total_price?b.total_price+'€':'—')+'</span>')+
+      row('🎁','Papildus','<div class="extras-chips">'+chips.join('')+'</div>')+
+      (notes?row('💬','Komentārs','<span style="font-style:italic;color:var(--text-light)">'+notes+'</span>'):'')+
+    '</div>'+
+    '<div class="status-row">'+
+      '<span class="status-badge '+sCls+'">'+sLbl+'</span>'+
+      '<select class="status-select" id="ss-'+b.id+'" onchange="enableSave('+b.id+')">'+
+        '<option value="pending"'+(b.status==='pending'?' selected':'')+'>⏳ Gaida</option>'+
+        '<option value="confirmed"'+(b.status==='confirmed'?' selected':'')+'>✅ Apstiprināta</option>'+
+        '<option value="cancelled"'+(b.status==='cancelled'?' selected':'')+'>❌ Atcelta</option>'+
+      '</select>'+
+      '<button class="status-save" id="sv-'+b.id+'" onclick="saveStatus('+b.id+')" style="display:none">Saglabāt</button>'+
+      '<span id="sd-'+b.id+'" style="color:var(--moss);font-size:.72rem;font-weight:600;display:none">✓ Saglabāts</span>'+
+    '</div>'+
+  '</div>';
+}
+function row(icon,lbl,val){
+  return '<div class="info-row"><div class="info-icon">'+icon+'</div><div class="info-content"><div class="info-label">'+lbl+'</div><div class="info-val">'+val+'</div></div></div>';
+}
+function enableSave(id){$('sv-'+id).style.display='inline-block';$('sd-'+id).style.display='none';}
+function saveStatus(id){
+  var status=$('ss-'+id).value;
+  sb.from('bookings').update({status:status}).eq('id',id)
+    .then(function(){
+      var b=bookings.find(function(x){return x.id===id;});
+      if(b) b.status=status;
+      $('sv-'+id).style.display='none';
+      $('sd-'+id).style.display='inline';
+      toast('✅ Statuss atjaunināts');
+      setTimeout(function(){renderToday();renderCal();if(selD)renderDetail(selD);},800);
+    }).catch(function(e){toast('Kļūda: '+e.message,true);});
 }
 
-function renderBookingCard(b,ymd){
-  const cabin=CABINS.find(c=>c.id===b.cabin_id)||{name:'Mājiņa #'+b.cabin_id,type:'double',color:'#2e5a7a'};
-  const typeCls=cabin.type==='lux'?'type-lux':cabin.type==='family'?'type-family':'type-double';
-  const typeLabel=cabin.type==='lux'?'⭐ LUX':cabin.type==='family'?'Ģimenes':'Divvietīgā';
-  const nights=Math.round((new Date(b.checkout_date)-new Date(b.checkin_date))/864e5);
-  const extras=b.extras||{};
-  const bedlinen=extras.bedlinen_qty>0?extras.bedlinen_qty:0;
-  const extraList=Object.entries(EXTRA_NAMES).filter(([k])=>(extras[k]||0)>0).map(([k,label])=>`<span class="extra-chip chip-yes">${label} ×${extras[k]}</span>`);
-  if(bedlinen>0)extraList.unshift(`<span class="extra-chip chip-bedlinen">🛏 Gultasveļa ×${bedlinen}</span>`);
-  if(extraList.length===0)extraList.push('<span class="extra-chip chip-none">Nav ekstra</span>');
-  const notes=(b.notes||'').replace(/^SK-\d{8}-\d{4}\s*\|\s*/,'').trim();
-  const statusCls=b.status==='confirmed'?'s-confirmed':b.status==='cancelled'?'s-cancelled':'s-pending';
-  const statusLabel=b.status==='confirmed'?'✅ Apstiprināta':b.status==='cancelled'?'❌ Atcelta':'⏳ Gaida';
-  const isCheckin=b.checkin_date===ymd;
-  const resNr=(b.notes||'').match(/^(SK-\d{8}-\d{4})/)?.[1]||'';
-
-  return `<div class="booking-card">
-    <div class="booking-card-head" style="background:${cabin.color}">
-      <div><div class="bc-cabin">${cabin.name}</div>${resNr?`<div class="res-nr">${resNr}</div>`:''}</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.3rem">
-        <span class="bc-type ${typeCls}">${typeLabel}</span>
-        ${isCheckin?'<span style="font-size:.62rem;background:rgba(94,138,96,.2);color:#8DC490;border:1px solid rgba(94,138,96,.4);border-radius:6px;padding:.12rem .45rem;font-weight:700">📥 IERODAS</span>':''}
-      </div>
-    </div>
-    <div class="booking-card-body">
-      <div class="info-row"><div class="info-icon">👤</div><div class="info-content"><div class="info-label">Viesis</div><div class="info-val">${b.guest_name} · ${b.guest_count||'—'} pers.</div></div></div>
-      <div class="info-row"><div class="info-icon">📞</div><div class="info-content"><div class="info-label">Tālrunis</div><div class="info-val"><a href="tel:${b.guest_phone}">${b.guest_phone}</a></div></div></div>
-      <div class="info-row"><div class="info-icon">✉️</div><div class="info-content"><div class="info-label">E-pasts</div><div class="info-val"><a href="mailto:${b.guest_email}">${b.guest_email}</a></div></div></div>
-      <div class="info-row"><div class="info-icon">📅</div><div class="info-content"><div class="info-label">Periods</div><div class="info-val">${b.checkin_date} → ${b.checkout_date} <span style="color:var(--text-light);font-size:.76rem">(${nights} naktis)</span></div></div></div>
-      <div class="info-row"><div class="info-icon">💶</div><div class="info-content"><div class="info-label">Kopā</div><div class="info-val" style="font-family:'Bebas Neue';font-size:1.15rem">${b.total_price?b.total_price+'€':'—'}</div></div></div>
-      <div class="info-row"><div class="info-icon">🎁</div><div class="info-content"><div class="info-label">Papildus</div><div class="extras-chips">${extraList.join('')}</div></div></div>
-      ${notes?`<div class="info-row"><div class="info-icon">💬</div><div class="info-content"><div class="info-label">Komentārs</div><div class="info-val" style="font-style:italic;color:var(--text-light)">${notes}</div></div></div>`:''}
-    </div>
-    <div class="status-row">
-      <span class="status-badge ${statusCls}">${statusLabel}</span>
-      <select class="status-select" id="sel-${b.id}" onchange="enableSave(${b.id})">
-        <option value="pending" ${b.status==='pending'?'selected':''}>⏳ Gaida</option>
-        <option value="confirmed" ${b.status==='confirmed'?'selected':''}>✅ Apstiprināta</option>
-        <option value="cancelled" ${b.status==='cancelled'?'selected':''}>❌ Atcelta</option>
-      </select>
-      <button class="status-save" id="save-${b.id}" onclick="saveStatus(${b.id})" style="display:none">Saglabāt</button>
-      <span class="status-saved" id="saved-${b.id}">✓ Saglabāts</span>
-    </div>
-  </div>`;
+// ── GALLERY ────────────────────────────────────────────
+function loadGallery(){
+  $('gal-grid').innerHTML='<div style="padding:2rem;color:var(--text-light);font-size:.88rem"><span class="spinner"></span>Ielādē...</div>';
+  ghFetch('', {method:'GET', headers:{
+    'Authorization':'Bearer '+GH_TOKEN,
+    'Accept':'application/vnd.github.v3+json',
+    'User-Agent':'admin'
+  }})
+  .then(function(files){
+    galFiles = files.filter(function(f){
+      return f.type==='file' && f.name.toLowerCase().startsWith('gallery-') && /\.(jpg|jpeg|png|webp)$/i.test(f.name);
+    }).sort(function(a,b){return a.name.localeCompare(b.name);});
+    renderGallery();
+  }).catch(function(e){
+    $('gal-grid').innerHTML='<div style="padding:2rem;color:var(--coral)">Kļūda: '+e.message+'</div>';
+  });
 }
-
-function enableSave(id){document.getElementById('save-'+id).style.display='inline-block';document.getElementById('saved-'+id).style.display='none';}
-async function saveStatus(id){
-  const status=document.getElementById('sel-'+id).value;
-  try{
-    const {error}=await sb.from('bookings').update({status}).eq('id',id);
-    if(error)throw error;
-    const b=bookings.find(x=>x.id===id);if(b)b.status=status;
-    document.getElementById('save-'+id).style.display='none';
-    document.getElementById('saved-'+id).style.display='inline';
-    showToast('✅ Statuss atjaunināts');
-    setTimeout(()=>{renderTodayStats();renderCalendar();if(selectedDate)renderDetail(selectedDate);},800);
-  }catch(e){showToast('Kļūda: '+e.message,true);}
-}
-
-/* ── GITHUB API ── */
-async function ghGet(path){
-  const r=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH,{headers:{'Authorization':'Bearer '+(window._GH_TOKEN||GH_TOKEN),'Accept':'application/vnd.github.v3+json'}});
-  if(!r.ok)throw new Error('GitHub API: '+r.status+' '+r.statusText);
-  return r.json();
-}
-async function ghPut(path,content_b64,sha,message){
-  const body={message,content:content_b64,branch:GH_BRANCH};
-  if(sha)body.sha=sha;
-  const r=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{method:'PUT',headers:{'Authorization':'Bearer '+(window._GH_TOKEN||GH_TOKEN),'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok){const err=await r.json();throw new Error(err.message||r.status);}
-  return r.json();
-}
-async function ghDelete(path,sha,message){
-  const r=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{method:'DELETE',headers:{'Authorization':'Bearer '+(window._GH_TOKEN||GH_TOKEN),'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message,sha,branch:GH_BRANCH})});
-  if(!r.ok){const err=await r.json();throw new Error(err.message||r.status);}
-  return r.json();
-}
-
-/* ── GALLERY ── */
-async function loadGallery(){
-  const grid=document.getElementById('gallery-grid-admin');
-  grid.innerHTML='<div class="loading"><span class="spinner"></span>Ielādē bildes no GitHub...</div>';
-  try{
-    const files=await ghGet('');
-    galleryFiles=files
-      .filter(f=>f.type==='file'&&f.name.toLowerCase().startsWith(GALLERY_PFX)&&/\.(jpg|jpeg|png|webp)$/i.test(f.name))
-      .sort((a,b)=>a.name.localeCompare(b.name));
-    renderGalleryGrid();
-  }catch(e){
-    grid.innerHTML='<div class="loading">Kļūda ielādējot: '+e.message+'</div>';
-    showToast('Kļūda: '+e.message,true);
-  }
-}
-
-function renderGalleryGrid(){
-  const grid=document.getElementById('gallery-grid-admin');
-  document.getElementById('gal-stat').innerHTML='<strong>'+galleryFiles.length+'</strong> bildes galerijā';
-  if(galleryFiles.length===0){
-    grid.innerHTML='<div class="loading" style="grid-column:1/-1">Nav nevienas bildes. Pievienojiet pirmo!</div>';
+function renderGallery(){
+  $('gal-stat').innerHTML='<strong>'+galFiles.length+'</strong> bildes';
+  if(!galFiles.length){
+    $('gal-grid').innerHTML='<div style="padding:2rem;color:var(--text-light)">Nav bilžu. Pievienojiet pirmo!</div>';
     return;
   }
-  grid.innerHTML=galleryFiles.map((f,i)=>{
-    const caption=f.name.replace(/^gallery-/i,'').replace(/[-_]/g,' ').replace(/\.(jpg|jpeg|png|webp)$/i,'').replace(/\s+\d+$/,'').trim();
-    const imgUrl='https://raw.githubusercontent.com/'+GH_REPO+'/'+GH_BRANCH+'/'+f.name+'?t='+Date.now();
-    return `<div class="gal-item" draggable="true" data-idx="${i}" data-name="${f.name}"
-        ondragstart="dragStart(event,${i})" ondragover="dragOver(event)" ondrop="dropItem(event,${i})" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
-      <div class="gal-img-wrap">
-        <img src="${imgUrl}" alt="${caption}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100%\' height=\'100%\' fill=\'%23f0ebe0\'/><text x=\'50%\' y=\'50%\' text-anchor=\'middle\' dominant-baseline=\'middle\' fill=\'%23aaa\' font-size=\'12\'>Nav bildes</text></svg>'">
-        <div class="gal-order-badge">${i+1}</div>
-        <div class="gal-actions-overlay">
-          <button class="gal-act-btn btn-move-up" onclick="moveItem(${i},-1);event.stopPropagation()" title="Uz augšu" ${i===0?'style="opacity:.3;pointer-events:none"':''}>↑</button>
-          <button class="gal-act-btn btn-rename" onclick="openRename(${i});event.stopPropagation()" title="Pārsaukt">✏️</button>
-          <button class="gal-act-btn btn-delete" onclick="deleteItem(${i});event.stopPropagation()" title="Dzēst">🗑</button>
-          <button class="gal-act-btn btn-move-down" onclick="moveItem(${i},1);event.stopPropagation()" title="Uz leju" ${i===galleryFiles.length-1?'style="opacity:.3;pointer-events:none"':''}>↓</button>
-        </div>
-      </div>
-      <div class="gal-item-footer">
-        <div class="gal-caption">${caption||'—'}</div>
-        <div class="gal-filename">${f.name}</div>
-      </div>
-    </div>`;
+  $('gal-grid').innerHTML = galFiles.map(function(f,i){
+    var cap=f.name.replace(/^gallery-\d+-/,'').replace(/^gallery-/,'').replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
+    var src='https://raw.githubusercontent.com/'+GH_REPO+'/'+GH_BRANCH+'/'+f.name+'?t='+Date.now();
+    return '<div class="gal-item" draggable="true" data-i="'+i+'" ondragstart="dStart(event,'+i+')" ondragover="dOver(event)" ondrop="dDrop(event,'+i+')" ondragleave="dLeave(event)" ondragend="dEnd()">'+
+      '<div class="gal-img-wrap">'+
+        '<img src="'+src+'" alt="'+cap+'" loading="lazy">'+
+        '<div class="gal-order">'+pad(i+1)+'</div>'+
+        '<div class="gal-overlay">'+
+          '<button class="gal-btn ren" onclick="openRename('+i+');event.stopPropagation()" title="Pārsaukt">✏️</button>'+
+          '<button class="gal-btn del" onclick="delFile('+i+');event.stopPropagation()" title="Dzēst">🗑</button>'+
+        '</div>'+
+      '</div>'+
+      '<div class="gal-footer"><div class="gal-caption">'+cap+'</div><div class="gal-fname">'+f.name+'</div></div>'+
+    '</div>';
   }).join('');
 }
+function dStart(e,i){dragSrc=i;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function dOver(e){e.preventDefault();var t=e.currentTarget.closest('.gal-item');if(t)t.classList.add('drag-over');}
+function dLeave(e){var t=e.currentTarget.closest('.gal-item');if(t)t.classList.remove('drag-over');}
+function dEnd(){document.querySelectorAll('.gal-item').forEach(function(el){el.classList.remove('dragging','drag-over');});}
+function dDrop(e,toI){
+  e.preventDefault();dEnd();
+  if(dragSrc===null||dragSrc===toI){dragSrc=null;return;}
+  var moved=galFiles.splice(dragSrc,1)[0];
+  galFiles.splice(toI,0,moved);
+  dragSrc=null;orderChanged=true;
+  renderGallery();
+  $('save-order-btn').style.display='inline-flex';
+  toast('↕ Pārkārtots — nospied Saglabāt secību');
+}
+async function saveOrder(){
+  var btn=$('save-order-btn');
+  btn.innerHTML='<span class="spinner"></span>Saglabā...';
+  btn.disabled=true;
+  try{
+    for(var i=0;i<galFiles.length;i++){
+      var f=galFiles[i];
+      var ext=f.name.split('.').pop().toLowerCase();
+      var base=f.name.replace(/^gallery-\d+-/,'').replace(/^gallery-/,'').replace(/\.[^.]+$/,'');
+      var newName=('gallery-'+pad(i+1)+'-'+base+'.'+ext).toLowerCase();
+      if(newName!==f.name){
+        var info=await ghGet(f.name);
+        var content=info.content.replace(/
+/g,'');
+        var sha=info.sha;
+        await ghPut(newName,content,null,'Admin: secība '+f.name+' → '+newName);
+        await ghDel(f.name,sha,'Admin: dzēsts '+f.name);
+        galFiles[i]=Object.assign({},f,{name:newName});
+      }
+    }
+    orderChanged=false;
+    btn.style.display='none';
+    btn.innerHTML='💾 Saglabāt secību';
+    btn.disabled=false;
+    toast('✅ Secība saglabāta!');
+    loadGallery();
+  }catch(err){
+    toast('Kļūda: '+err.message,true);
+    btn.innerHTML='💾 Saglabāt secību';
+    btn.disabled=false;
+  }
+}
 
-/* ── UPLOAD ── */
-let _pendingB64 = null;
-let _orderChanged = false;
-let _pendingExt = null;
-
-function prepareUpload(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-
-  _pendingExt = (file.name.split('.').pop() || 'jpg').toLowerCase();
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-    const dataUrl = e.target.result;
-    _pendingB64 = dataUrl.split(',')[1];
-
-    // Preview
-    const img = document.getElementById('naming-preview');
-    if (img) img.src = dataUrl;
-
-    // Suggested name from original filename
-    const base = file.name
-      .replace(/\.[^.]+$/, '')
-      .replace(/[^a-z0-9]/gi, '-')
-      .toLowerCase()
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/, '');
-    const inp = document.getElementById('naming-input');
-    if (inp) { inp.value = base; }
-    updateNamingPreview();
-
-    // Open naming modal
-    const overlay = document.getElementById('naming-overlay');
-    if (overlay) overlay.classList.add('open');
-    setTimeout(function() {
-      if (inp) { inp.focus(); inp.select(); }
-    }, 200);
-
-    // Reset file input so same file can be picked again
-    event.target.value = '';
+// Upload
+function openUploadModal(file){
+  pendingExt=(file.name.split('.').pop()||'jpg').toLowerCase();
+  var suggested=file.name.replace(/\.[^.]+$/,'').replace(/[^a-z0-9]/gi,'-').toLowerCase().replace(/-+/g,'-').replace(/^-|-$/g,'');
+  $('upload-name').value=suggested;
+  updateUploadName();
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    $('upload-preview').src=ev.target.result;
+    pendingB64=ev.target.result.split(',')[1];
+    $('upload-modal').classList.add('open');
+    setTimeout(function(){$('upload-name').focus();$('upload-name').select();},150);
   };
-
-  reader.onerror = function() {
-    showToast('Nevar nolasīt failu. Mēģini vēlreiz.', true);
-    event.target.value = '';
-  };
-
+  reader.onerror=function(){toast('Nevar nolasīt failu.',true);};
   reader.readAsDataURL(file);
 }
-
-function updateNamingPreview() {
-  const val = document.getElementById('naming-input').value.trim();
-  const ext = _pendingExt || 'jpg';
-  const full = val ? 'gallery-' + val + '.' + ext : 'gallery-';
-  const nameEl = document.getElementById('naming-full-name');
-  if (nameEl) nameEl.innerHTML = 'Faila nosaukums: <strong style="color:var(--navy)">' + full + '</strong>';
-  const wrap = document.getElementById('naming-input-wrap');
-  const btn  = document.getElementById('naming-confirm-btn');
-  const valid = val.length > 0 && /^[a-z0-9_-]+$/i.test(val);
-  if (wrap) wrap.style.borderColor = val.length === 0 ? 'rgba(0,0,0,.1)' : valid ? 'var(--moss)' : 'var(--coral)';
-  if (btn)  btn.disabled = !valid;
+function updateUploadName(){
+  var val=$('upload-name').value.trim();
+  var valid=val.length>0&&/^[a-z0-9_-]+$/i.test(val);
+  var full=valid?('gallery-'+val+'.'+pendingExt).toLowerCase():'gallery-';
+  $('upload-fullname').innerHTML='Faila nosaukums: <strong>'+full+'</strong>';
+  $('upload-ok').disabled=!valid;
 }
-
-function closeNaming() {
-  const overlay = document.getElementById('naming-overlay');
-  if (overlay) overlay.classList.remove('open');
-  _pendingB64 = null;
-  _pendingExt = null;
-}
-
-async function confirmNaming() {
-  if (!_pendingB64) { showToast('Izvēlies attēlu vispirms.', true); return; }
-  const val = document.getElementById('naming-input').value.trim();
-  if (!val) return;
-  const ext     = _pendingExt || 'jpg';
-  const newName = ('gallery-' + val + '.' + ext).toLowerCase();
-
-  if (galleryFiles.some(function(f){ return f.name === newName; })) {
-    showToast('Šāds nosaukums jau eksistē!', true);
-    return;
-  }
-
-  // Save b64 locally BEFORE closeNaming() clears it
-  const b64ToUpload = _pendingB64;
-
-  closeNaming();
-
-  const prog  = document.getElementById('upload-progress');
-  const bar   = document.getElementById('progress-bar');
-  const txt   = document.getElementById('progress-text');
-  const title = document.getElementById('progress-title');
-  if (prog)  prog.classList.add('show');
-  if (title) title.textContent = 'Augšupielādē...';
-  if (bar)   bar.style.width = '40%';
-  if (txt)   txt.textContent = newName;
-
-  try {
-    if (bar) bar.style.width = '70%';
-    await ghPut(newName, b64ToUpload, null, 'Admin: pievienota bilde ' + newName);
-    if (bar)   bar.style.width = '100%';
-    if (title) title.textContent = 'Augšupielādēts!';
-    showToast('✅ ' + newName + ' pievienota!');
-  } catch(e) {
-    showToast('Kļūda: ' + e.message, true);
-  }
-  setTimeout(function(){
-    if (prog) prog.classList.remove('show');
-    if (bar)  bar.style.width = '0%';
-  }, 1500);
-  await loadGallery();
-}
-
-async function fileToBase64(file) {
-  return new Promise(function(res, rej) {
-    const r = new FileReader();
-    r.onload  = function(){ res(r.result.split(',')[1]); };
-    r.onerror = function(){ rej(new Error('FileReader kļūda')); };
-    r.readAsDataURL(file);
-  });
-}
-
-/* ── TOUCH DRAG (mobile) ── */
-var _touchDragSrc=null, _touchDragEl=null, _touchClone=null;
-function initTouchDrag(){
-  document.getElementById('gallery-grid-admin').addEventListener('touchstart',function(e){
-    var item=e.target.closest('.gal-item');
-    if(!item)return;
-    if(e.target.closest('.gal-act-btn'))return; // don't interfere with buttons
-    _touchDragSrc=parseInt(item.dataset.idx);
-    _touchDragEl=item;
-    // Create visual clone
-    _touchClone=item.cloneNode(true);
-    _touchClone.style.cssText='position:fixed;z-index:9999;opacity:.85;pointer-events:none;width:'+item.offsetWidth+'px;border:2px solid var(--gold);border-radius:12px;transition:none';
-    document.body.appendChild(_touchClone);
-    item.classList.add('dragging');
-  },{passive:true});
-
-  document.getElementById('gallery-grid-admin').addEventListener('touchmove',function(e){
-    if(_touchDragSrc===null||!_touchClone)return;
-    e.preventDefault();
-    var t=e.touches[0];
-    _touchClone.style.left=(t.clientX-_touchClone.offsetWidth/2)+'px';
-    _touchClone.style.top=(t.clientY-_touchClone.offsetHeight/2)+'px';
-    // Highlight target
-    document.querySelectorAll('.gal-item').forEach(function(el){el.classList.remove('drag-over');});
-    var el=document.elementFromPoint(t.clientX,t.clientY);
-    var target=el && el.closest('.gal-item');
-    if(target && target!==_touchDragEl) target.classList.add('drag-over');
-  },{passive:false});
-
-  document.getElementById('gallery-grid-admin').addEventListener('touchend',function(e){
-    if(_touchDragSrc===null)return;
-    if(_touchClone){_touchClone.remove();_touchClone=null;}
-    document.querySelectorAll('.gal-item').forEach(function(el){el.classList.remove('dragging','drag-over');});
-    var t=e.changedTouches[0];
-    var el=document.elementFromPoint(t.clientX,t.clientY);
-    var target=el && el.closest('.gal-item');
-    if(target && _touchDragEl && target!==_touchDragEl){
-      var toIdx=parseInt(target.dataset.idx);
-      var fromIdx=_touchDragSrc;
-      _touchDragSrc=null; _touchDragEl=null;
-      if(!isNaN(toIdx) && !isNaN(fromIdx)){
-        var moved=galleryFiles.splice(fromIdx,1)[0];
-        galleryFiles.splice(toIdx,0,moved);
-        _orderChanged=true;
-        renderGalleryGrid();
-        var btn=document.getElementById('save-order-btn');
-        if(btn) btn.style.display='inline-flex';
-        showToast('↕ Jauda secība — nospied "Saglabāt secību"');
-      }
-    } else {
-      _touchDragSrc=null; _touchDragEl=null;
-    }
-  },{passive:true});
-}
-
-/* ── DELETE ── */
-async function deleteItem(idx){
-  const f=galleryFiles[idx];
-  if(!confirm('Dzēst "'+f.name+'"? To nevarēs atjaunot.'))return;
+async function doUpload(){
+  if(!pendingB64){toast('Izvēlies attēlu.',true);return;}
+  var val=$('upload-name').value.trim();
+  var newName=('gallery-'+val+'.'+pendingExt).toLowerCase();
+  if(galFiles.some(function(f){return f.name===newName;})){toast('Šāds nosaukums jau eksistē!',true);return;}
+  $('upload-modal').classList.remove('open');
+  var pw=$('prog-wrap'),pb=$('prog-bar'),pt=$('prog-title');
+  pw.classList.add('show');pt.textContent='Augšupielādē '+newName;pb.style.width='40%';
   try{
-    const info=await ghGet(f.name);
-    await ghDelete(f.name,info.sha,'Admin: dzēsta bilde '+f.name);
-    showToast('🗑 '+f.name+' dzēsta');
-    await loadGallery();
-  }catch(e){showToast('Kļūda dzēšot: '+e.message,true);}
-}
-
-/* ── RENAME ── */
-function openRename(idx){
-  renameTarget=idx;
-  const f=galleryFiles[idx];
-  const caption=f.name.replace(/^gallery-/i,'').replace(/\.[^.]+$/,'');
-  document.getElementById('rename-input').value=caption;
-  document.getElementById('rename-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('rename-input').select(),100);
-}
-function closeRename(){document.getElementById('rename-overlay').classList.remove('open');renameTarget=null;}
-async function confirmRename(){
-  if(renameTarget===null)return;
-  const f=galleryFiles[renameTarget];
-  const newCaption=document.getElementById('rename-input').value.trim().replace(/[^a-z0-9-_]/gi,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase();
-  if(!newCaption){showToast('Ievadi nosaukumu!',true);return;}
-  const ext=f.name.split('.').pop().toLowerCase();
-  const newName=GALLERY_PFX+newCaption+'.'+ext;
-  if(newName===f.name){closeRename();return;}
-  closeRename();
-  try{
-    // Get file content, upload with new name, delete old
-    const info=await ghGet(f.name);
-    await ghPut(newName,info.content.replace(/\n/g,''),null,'Admin: pārsaukta bilde: '+f.name+' → '+newName);
-    await ghDelete(f.name,info.sha,'Admin: dzēsts vecais fails pārsaukšanas laikā');
-    showToast('✅ Pārsaukts uz '+newName);
-    await loadGallery();
-  }catch(e){showToast('Kļūda pārsaucot: '+e.message,true);}
-}
-
-
-/* ── MOVE (secība ar prefiksiem) ── */
-function moveItem(idx,dir){
-  var newIdx=idx+dir;
-  if(newIdx<0||newIdx>=galleryFiles.length)return;
-  // Swap in local array only
-  var tmp=galleryFiles[idx];
-  galleryFiles[idx]=galleryFiles[newIdx];
-  galleryFiles[newIdx]=tmp;
-  _orderChanged=true;
-  renderGalleryGrid();
-  // Show save button
-  var btn=document.getElementById('save-order-btn');
-  if(btn) btn.style.display='inline-flex';
-}
-
-async function saveOrderToGitHub(){
-  var btn=document.getElementById('save-order-btn');
-  if(btn){ btn.textContent='⏳ Saglabā...'; btn.disabled=true; }
-  showToast('⏳ Saglabā secību GitHub...');
-  try{
-    await renumberGallery();
-    _orderChanged=false;
-    showToast('✅ Secība saglabāta!');
-    if(btn){ btn.style.display='none'; btn.textContent='💾 Saglabāt secību'; btn.disabled=false; }
-    await loadGallery();
+    pb.style.width='70%';
+    await ghPut(newName,pendingB64,null,'Admin: pievienota bilde '+newName);
+    pb.style.width='100%';pt.textContent='✅ Augšupielādēts!';
+    toast('✅ '+newName+' pievienota!');
+    pendingB64=null;
+    setTimeout(function(){pw.classList.remove('show');pb.style.width='0';},1500);
+    loadGallery();
   }catch(e){
-    showToast('Kļūda: '+e.message,true);
-    if(btn){ btn.textContent='💾 Saglabāt secību'; btn.disabled=false; }
-    await loadGallery();
+    toast('Kļūda: '+e.message,true);
+    pw.classList.remove('show');pb.style.width='0';
   }
 }
 
-async function renumberGallery(){
-  for(let i=0;i<galleryFiles.length;i++){
-    const f=galleryFiles[i];
-    const ext=f.name.split('.').pop().toLowerCase();
-    const base=f.name
-      .replace(/^gallery-\d+-/,'')
-      .replace(/^gallery-/,'')
-      .replace(/\.[^.]+$/,'');
-    const newName=(GALLERY_PFX+String(i+1).padStart(2,'0')+'-'+base+'.'+ext).toLowerCase();
-    if(newName===f.name) continue;
-    try {
-      // 1. Get file content + SHA
-      const info = await ghGet(f.name);
-      const content = info.content.replace(/
-/g,'');
-      const oldSha  = info.sha;
-      // 2. Upload new name
-      await ghPut(newName, content, null, 'Admin: secība '+f.name+' → '+newName);
-      // 3. Get fresh SHA of OLD file before deleting
-      //    (SHA did not change — we uploaded to NEW path, old still exists)
-      await ghDelete(f.name, oldSha, 'Admin: dzēsts '+f.name+' pēc pārsaukšanas');
-      galleryFiles[i]={...f, name:newName};
-    } catch(err) {
-      console.error('renumber error', f.name, err);
-      throw new Error('Kļūda pārsaucot "'+f.name+'": '+err.message);
-    }
-  }
+// Delete
+async function delFile(i){
+  if(!confirm('Dzēst "'+galFiles[i].name+'"?'))return;
+  try{
+    var info=await ghGet(galFiles[i].name);
+    await ghDel(galFiles[i].name,info.sha,'Admin: dzēsta bilde '+galFiles[i].name);
+    toast('🗑 Dzēsts!');loadGallery();
+  }catch(e){toast('Kļūda: '+e.message,true);}
 }
 
-/* ── DRAG & DROP ── */
-function dragStart(e,idx){
-  dragSrc=idx;
-  e.currentTarget.classList.add('dragging');
-  e.dataTransfer.effectAllowed='move';
-  e.dataTransfer.setData('text/plain', idx);
+// Rename
+function openRename(i){
+  renameIdx=i;
+  var base=galFiles[i].name.replace(/^gallery-\d+-/,'').replace(/^gallery-/,'').replace(/\.[^.]+$/,'');
+  $('rename-name').value=base;
+  $('rename-modal').classList.add('open');
+  setTimeout(function(){$('rename-name').focus();$('rename-name').select();},150);
 }
-function dragOver(e){
-  e.preventDefault();
-  e.dataTransfer.dropEffect='move';
-  var item=e.currentTarget.closest('.gal-item');
-  if(item) item.classList.add('drag-over');
+async function doRename(){
+  var val=$('rename-name').value.trim();
+  if(!val||renameIdx===null)return;
+  var f=galFiles[renameIdx];
+  var ext=f.name.split('.').pop().toLowerCase();
+  var numMatch=f.name.match(/^gallery-(\d+)-/);
+  var num=numMatch?numMatch[1]:pad(renameIdx+1);
+  var newName=('gallery-'+num+'-'+val+'.'+ext).toLowerCase();
+  if(newName===f.name){$('rename-modal').classList.remove('open');return;}
+  $('rename-modal').classList.remove('open');
+  try{
+    var info=await ghGet(f.name);
+    await ghPut(newName,info.content.replace(/
+/g,''),null,'Admin: pārsaukts '+f.name+' → '+newName);
+    await ghDel(f.name,info.sha,'Admin: dzēsts '+f.name);
+    toast('✅ Pārsaukts!');loadGallery();
+  }catch(e){toast('Kļūda: '+e.message,true);}
 }
-function dragLeave(e){
-  var item=e.currentTarget.closest('.gal-item');
-  if(item) item.classList.remove('drag-over');
-}
-function dragEnd(e){
-  document.querySelectorAll('.gal-item').forEach(function(el){
-    el.classList.remove('dragging','drag-over');
+
+// ── INIT ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function(){
+  // Login
+  $('login-btn').addEventListener('click', doLogin);
+  $('pwd').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+  $('pat').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+  $('logout-btn').addEventListener('click', doLogout);
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ switchTab(btn.dataset.tab); });
   });
-}
-function dropItem(e,toIdx){
-  e.preventDefault();
-  e.stopPropagation();
-  document.querySelectorAll('.gal-item').forEach(function(el){
-    el.classList.remove('dragging','drag-over');
+
+  // Calendar nav
+  $('cal-prev').addEventListener('click', function(){ calM--; if(calM<0){calM=11;calY--;} renderCal(); });
+  $('cal-next').addEventListener('click', function(){ calM++; if(calM>11){calM=0;calY++;} renderCal(); });
+
+  // Gallery
+  $('save-order-btn').addEventListener('click', saveOrder);
+  $('file-input').addEventListener('change', function(e){
+    var file = e.target.files && e.target.files[0];
+    if(file) openUploadModal(file);
+    e.target.value='';
   });
-  var fromIdx = dragSrc;
-  dragSrc = null;
-  if(fromIdx===null || fromIdx===toIdx) return;
-  // Reorder LOCAL array only — no GitHub calls yet
-  var moved = galleryFiles.splice(fromIdx,1)[0];
-  galleryFiles.splice(toIdx,0,moved);
-  _orderChanged = true;
-  renderGalleryGrid();
-  // Show save button
-  var btn = document.getElementById('save-order-btn');
-  if(btn) btn.style.display='inline-flex';
-  showToast('↕ Jauda secība — nospied "Saglabāt secību"');
-}
+  $('upload-name').addEventListener('input', updateUploadName);
+  $('upload-name').addEventListener('keydown', function(e){ if(e.key==='Enter') doUpload(); if(e.key==='Escape') $('upload-modal').classList.remove('open'); });
+  $('upload-cancel').addEventListener('click', function(){ $('upload-modal').classList.remove('open'); });
+  $('upload-ok').addEventListener('click', doUpload);
+  $('rename-name').addEventListener('keydown', function(e){ if(e.key==='Enter') doRename(); if(e.key==='Escape') $('rename-modal').classList.remove('open'); });
+  $('rename-cancel').addEventListener('click', function(){ $('rename-modal').classList.remove('open'); });
+  $('rename-ok').addEventListener('click', doRename);
 
-/* ── HELPERS ── */
-function toYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function showToast(msg,isErr){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.style.background=isErr?'var(--coral)':'#2d5a3d';
-  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
-}
-
-/* ── AUTO-LOGIN ── */
-window.addEventListener('DOMContentLoaded',()=>{
+  // Auto-login
   if(localStorage.getItem('sk_admin')==='1'){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='block';
-    const hasGallery = localStorage.getItem('sk_gallery')==='1';
-    if(hasGallery){
-      const storedPat = localStorage.getItem('sk_pat');
-      if(storedPat) window._GH_TOKEN = storedPat;
-    }
-    initApp(hasGallery);
-  } else {
-    document.getElementById('pwd-input').focus();
+    var hasG = localStorage.getItem('sk_gallery')==='1';
+    var pat  = localStorage.getItem('sk_pat')||'';
+    GH_TOKEN = pat;
+    showApp(hasG);
   }
-  // Keydown listeners — safe here because DOM is ready
-  var pwdInp = document.getElementById('pwd-input');
-  if(pwdInp) pwdInp.addEventListener('keydown', function(e){ if(e.key==='Enter') checkLogin(); });
-  var renInp = document.getElementById('rename-input');
-  if(renInp) renInp.addEventListener('keydown', function(e){ if(e.key==='Enter') confirmRename(); if(e.key==='Escape') closeRename(); });
-  var namInp = document.getElementById('naming-input');
-  if(namInp) namInp.addEventListener('keydown', function(e){ if(e.key==='Enter') confirmNaming(); if(e.key==='Escape') closeNaming(); });
 });
 </script>
 </body>
