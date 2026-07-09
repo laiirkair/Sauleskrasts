@@ -602,10 +602,26 @@ async function loadGallery(){
   const grid=document.getElementById('gallery-grid-admin');
   grid.innerHTML='<div class="loading"><span class="spinner"></span>Ielādē bildes no GitHub...</div>';
   try{
-    const files=await ghGet('');
-    galleryFiles=files
-      .filter(f=>f.type==='file'&&f.name.toLowerCase().startsWith(GALLERY_PFX)&&/\.(jpg|jpeg|png|webp)$/i.test(f.name))
-      .sort((a,b)=>a.name.localeCompare(b.name));
+    // Load files and order simultaneously
+    const [files, orderData] = await Promise.all([
+      ghGet(''),
+      ghGet('gallery-order.json').catch(()=>null)
+    ]);
+
+    const imageMap = {};
+    files.filter(f=>f.type==='file'&&f.name.toLowerCase().startsWith(GALLERY_PFX)&&/\.(jpg|jpeg|png|webp)$/i.test(f.name))
+      .forEach(f=>{ imageMap[f.name]=f; });
+
+    if(orderData && orderData.content){
+      // Apply saved order
+      const order = JSON.parse(atob(orderData.content.replace(/\n/g,'')));
+      galleryFiles = order.filter(name=>imageMap[name]).map(name=>imageMap[name]);
+      // Append any new files not in order yet
+      Object.values(imageMap).forEach(f=>{ if(!order.includes(f.name)) galleryFiles.push(f); });
+    } else {
+      galleryFiles = Object.values(imageMap).sort((a,b)=>a.name.localeCompare(b.name));
+    }
+
     renderGalleryGrid();
   }catch(e){
     grid.innerHTML='<div class="loading">Kļūda ielādējot: '+e.message+'</div>';
