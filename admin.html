@@ -373,6 +373,8 @@ function checkLogin(){
     localStorage.removeItem('sk_gallery');
     localStorage.removeItem('sk_pat');
   }
+  // Set token immediately so API calls work right away
+  if(hasGallery) window._GH_TOKEN = pat;
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
   initApp(hasGallery);
