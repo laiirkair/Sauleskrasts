@@ -264,6 +264,10 @@ header{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:cente
       <div class="gallery-toolbar-left">
         <div class="gal-stat" id="gal-stat">Ielādē bildes...</div>
       </div>
+      <button class="upload-btn" id="save-order-btn" onclick="saveOrderToGitHub()"
+        style="display:none;background:var(--gold)">
+        💾 Saglabāt secību
+      </button>
       <label class="upload-btn" style="cursor:pointer">
         ＋ Pievienot bildi
         <input type="file" id="file-input" accept="image/*" style="display:none" onchange="prepareUpload(event)">
@@ -725,18 +729,17 @@ async function confirmRename(){
 
 /* ── MOVE (secība ar prefiksiem) ── */
 async function moveItem(idx,dir){
-  const newIdx=idx+dir;
+  var newIdx=idx+dir;
   if(newIdx<0||newIdx>=galleryFiles.length)return;
-  // Swap in array
-  [galleryFiles[idx],galleryFiles[newIdx]]=[galleryFiles[newIdx],galleryFiles[idx]];
-  // Rename both files to reflect new order using numeric prefix
-  // We use 01-, 02- style prefix after "gallery-"
+  var tmp=galleryFiles[idx];
+  galleryFiles[idx]=galleryFiles[newIdx];
+  galleryFiles[newIdx]=tmp;
+  renderGalleryGrid();
   showToast('⏳ Saglabā secību...');
   try{
-    await renumberGallery();
-    showToast('✅ Secība saglabāta');
-    await loadGallery();
-  }catch(e){showToast('Kļūda: '+e.message,true);await loadGallery();}
+    await saveOrderJson();
+    showToast('✅ Secība saglabāta!');
+  }catch(e){showToast('Kļūda: '+e.message,true);}
 }
 
 async function saveOrderToGitHub(){
@@ -834,6 +837,15 @@ async function confirmNaming(){
     showToast('✅ '+newName+' pievienota!');
   }catch(e){showToast('Kļūda: '+e.message,true);}
   setTimeout(function(){if(pw)pw.classList.remove('show');if(pb)pb.style.width='0%';},1500);
+  // Update gallery-order.json to include new file at end
+  try{
+    const order = galleryFiles.map(function(f){return f.name;});
+    order.push(newName);
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(order,null,2))));
+    var sha = null;
+    try{const info=await ghGet('gallery-order.json');sha=info.sha;}catch(e){}
+    await ghPut('gallery-order.json',b64,sha,'Admin: pievienota bilde '+newName);
+  }catch(e){console.warn('order.json update failed:',e);}
   await loadGallery();
 }
 
