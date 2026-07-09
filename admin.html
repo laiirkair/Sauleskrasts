@@ -640,24 +640,39 @@ function renderGalleryGrid(){
 
 /* ── UPLOAD ── */
 let _pendingFile = null;
+let _pendingB64 = null;
+let _pendingExt = null;
 
-function prepareUpload(files){
+async function prepareUpload(files){
   if(!files||files.length===0)return;
-  _pendingFile = files[0];
-  document.getElementById('upload-label').querySelector('input').value='';
+  const file = files[0];
 
-  // Show preview — use createObjectURL (fastest, best mobile support)
+  // ── Nolasām failu UZREIZ kamēr tas vēl pieejams ──
+  showToast('⏳ Sagatavo attēlu...');
   try {
-    const previewUrl = URL.createObjectURL(_pendingFile);
-    const previewImg = document.getElementById('naming-preview');
-    previewImg.src = previewUrl;
-    previewImg.onload = () => URL.revokeObjectURL(previewUrl);
+    // Read to base64 immediately — before any async gaps
+    const buf = await file.arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    let binary = '';
+    for(let i = 0; i < bytes.length; i += 8192){
+      binary += String.fromCharCode(...bytes.subarray(i, Math.min(i+8192, bytes.length)));
+    }
+    _pendingB64  = btoa(binary);
+    _pendingExt  = file.name.split('.').pop().toLowerCase() || 'jpg';
+    _pendingFile = file; // keep reference for name suggestion only
   } catch(e) {
-    document.getElementById('naming-preview').style.display = 'none';
+    showToast('Kļūda lasot failu: ' + e.message, true);
+    document.getElementById('file-input').value = '';
+    return;
   }
 
-  // Pre-fill with sanitized original name (without extension)
-  const baseName = _pendingFile.name
+  // Show preview directly from base64
+  try {
+    document.getElementById('naming-preview').src = 'data:image/' + _pendingExt + ';base64,' + _pendingB64;
+  } catch(e){ /* preview not critical */ }
+
+  // Pre-fill name
+  const baseName = (_pendingFile.name||'bilde')
     .replace(/\.[^.]+$/, '')
     .replace(/[^a-z0-9]/gi, '-')
     .toLowerCase()
@@ -668,8 +683,7 @@ function prepareUpload(files){
   document.getElementById('naming-overlay').classList.add('open');
   setTimeout(() => {
     const inp = document.getElementById('naming-input');
-    inp.focus();
-    inp.select();
+    inp.focus(); inp.select();
   }, 150);
 }
 
@@ -688,7 +702,8 @@ function updateNamingPreview(){
 function closeNaming(){
   document.getElementById('naming-overlay').classList.remove('open');
   _pendingFile = null;
-  // Reset input so same file can be selected again
+  _pendingB64  = null;
+  _pendingExt  = null;
   const inp = document.getElementById('file-input');
   if(inp) inp.value = '';
 }
@@ -697,7 +712,7 @@ async function confirmNaming(){
   if(!_pendingFile) return;
   const val = document.getElementById('naming-input').value.trim();
   if(!val) return;
-  const ext = _pendingFile.name.split('.').pop().toLowerCase();
+  const ext = _pendingExt || (_pendingFile ? _pendingFile.name.split('.').pop().toLowerCase() : 'jpg');
   const newName = 'gallery-' + val + '.' + ext;
 
   // Check for duplicate
@@ -718,7 +733,8 @@ async function confirmNaming(){
   txt.textContent = newName;
 
   try{
-    const b64 = await fileToBase64(_pendingFile);
+    if(!_pendingB64) throw new Error('Attēls nav sagatavots. Mēģini vēlreiz.');
+    const b64 = _pendingB64;
     bar.style.width = '70%';
     await ghPut(newName, b64, null, 'Admin: pievienota bilde ' + newName);
     bar.style.width = '100%';
