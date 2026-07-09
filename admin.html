@@ -722,6 +722,9 @@ async function confirmNaming() {
     return;
   }
 
+  // Save b64 locally BEFORE closeNaming() clears it
+  const b64ToUpload = _pendingB64;
+
   closeNaming();
 
   const prog  = document.getElementById('upload-progress');
@@ -735,7 +738,7 @@ async function confirmNaming() {
 
   try {
     if (bar) bar.style.width = '70%';
-    await ghPut(newName, _pendingB64, null, 'Admin: pievienota bilde ' + newName);
+    await ghPut(newName, b64ToUpload, null, 'Admin: pievienota bilde ' + newName);
     if (bar)   bar.style.width = '100%';
     if (title) title.textContent = 'Augšupielādēts!';
     showToast('✅ ' + newName + ' pievienota!');
