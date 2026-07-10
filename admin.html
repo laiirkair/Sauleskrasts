@@ -727,20 +727,35 @@ function closeRename(){document.getElementById('rename-overlay').classList.remov
 async function confirmRename(){
   if(renameTarget===null)return;
   const f=galleryFiles[renameTarget];
-  const newCaption=document.getElementById('rename-input').value.trim().replace(/[^a-z0-9-_]/gi,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase();
+  const newCaption=document.getElementById('rename-input').value.trim()
+    .replace(/[^a-z0-9-_]/gi,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase();
   if(!newCaption){showToast('Ievadi nosaukumu!',true);return;}
   const ext=f.name.split('.').pop().toLowerCase();
-  const newName=GALLERY_PFX+newCaption+'.'+ext;
+  // Keep the numeric prefix if exists
+  const numMatch=f.name.match(/^gallery-(\d+)-/);
+  const prefix=numMatch?'gallery-'+numMatch[1]+'-':'gallery-';
+  const newName=(prefix+newCaption+'.'+ext).toLowerCase();
   if(newName===f.name){closeRename();return;}
   closeRename();
+  showToast('⏳ Pārsauc...');
   try{
-    // Get file content, upload with new name, delete old
+    // Use download_url to get binary content (avoids base64 corruption)
     const info=await ghGet(f.name);
-    await ghPut(newName,info.content.replace(/\n/g,''),null,'Admin: pārsaukta bilde: '+f.name+' → '+newName);
-    await ghDelete(f.name,info.sha,'Admin: dzēsts vecais fails pārsaukšanas laikā');
-    showToast('✅ Pārsaukts uz '+newName);
+    const dlResp=await fetch(info.download_url);
+    const blob=await dlResp.arrayBuffer();
+    const bytes=new Uint8Array(blob);
+    let binary='';
+    for(let i=0;i<bytes.length;i+=8192)
+      binary+=String.fromCharCode(...bytes.subarray(i,Math.min(i+8192,bytes.length)));
+    const b64=btoa(binary);
+    await ghPut(newName,b64,null,'Admin: pārsaukts '+f.name+' → '+newName);
+    await ghDelete(f.name,info.sha,'Admin: dzēsts '+f.name+' pēc pārsaukšanas');
+    // Update order.json with new name
+    galleryFiles[renameTarget]=Object.assign({},f,{name:newName});
+    await saveOrderJson();
+    showToast('✅ Pārsaukts!');
     await loadGallery();
-  }catch(e){showToast('Kļūda pārsaucot: '+e.message,true);}
+  }catch(e){showToast('Kļūda: '+e.message,true);}
 }
 
 /* ── MOVE (secība ar prefiksiem) ── */
@@ -782,6 +797,21 @@ async function saveOrderJson(){
     sha = info.sha;
   } catch(e) { /* file doesn't exist yet - that's ok */ }
   await ghPut('gallery-order.json', b64, sha, 'Admin: atjaunināta galerijas secība');
+}
+
+async function deleteItem(idx){
+  const f=galleryFiles[idx];
+  if(!confirm('Dzēst "'+f.name+'"? To nevarēs atjaunot.'))return;
+  showToast('⏳ Dzēš...');
+  try{
+    const info=await ghGet(f.name);
+    await ghDelete(f.name,info.sha,'Admin: dzēsta bilde '+f.name);
+    // Remove from order.json too
+    galleryFiles.splice(idx,1);
+    await saveOrderJson();
+    showToast('🗑 Dzēsts!');
+    await loadGallery();
+  }catch(e){showToast('Kļūda dzēšot: '+e.message,true);}
 }
 
 async function renumberGallery(){
